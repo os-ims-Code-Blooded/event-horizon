@@ -12,7 +12,7 @@ module.exports = {
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ["*", ".ts", ".tsx", ".js"],
     // Add support for TypeScripts fully qualified ESM imports.
     extensionAlias: {
      ".js": [".js", ".ts"],
@@ -24,8 +24,21 @@ module.exports = {
   plugins: [new HTMLWebPackPlugin()],
   module: {
     rules: [
-      // all files with a `.ts`, `.cts`, `.mts` or `.tsx` extension will be handled by `ts-loader`
-      { test: /\.([cm]?ts|tsx)$/, loader: "ts-loader", exclude: "/node_modules/", use: {loader: 'babel-loader', options: {presets: ['@babel/core', '@babel/preset-env', '@babel/preset-typescript']}} }
+      {
+        test: /\.(?:js|mjs|cjs|ts|tsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            targets: "defaults",
+            presets: [
+                ['@babel/preset-env'],
+                ['@babel/preset-typescript' ],
+                ['@babel/preset-react' ]
+            ],
+          }
+        }
+      }
     ]
   }
 };
