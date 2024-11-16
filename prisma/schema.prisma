@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  google_id String   @unique
+  email     String   @unique
+  name      String?
+
+  User_Games    User_Games[]
+  Round_Actions Round_Actions[]
+  User_Cards    User_Cards[]
+  User_Decks    User_Decks[]
+  Games         Games[]
+}
+
+// for every Game
+// there can be multiple Users
+// there can be multiple Rounds
+model Games {
+  id         Int       @id @default(autoincrement())
+  start_date DateTime  @default(now())
+  end_date   DateTime?
+  victor     User?     @relation(fields: [victor_id], references: [id])
+  victor_id  Int?
+
+  User_Games    User_Games[]
+  Rounds        Rounds[]
+  Round_Actions Round_Actions[]
+}
+
+// User_Games associates a Game with a User
+// there can be multiple Users for a Game
+// there can be multiple Games for a User
+model User_Games {
+  id        Int    @id @default(autoincrement())
+  game      Games  @relation(fields: [game_id], references: [id])
+  user      User   @relation(fields: [user_id], references: [id])
+  game_id   Int
+  user_id   Int
+  deck_name String
+}
+
+// Rounds associates a Round with a specific Game
+// there can be many Rounds for one Game
+// there will not be many Games for one Round
+model Rounds {
+  id            Int             @id @default(autoincrement())
+  game          Games           @relation(fields: [game_id], references: [id])
+  game_id       Int
+  start_date    DateTime        @default(now())
+  end_date      DateTime?
+  Round_Actions Round_Actions[]
+}
+
+// Round Actions are associated with a specific Round
+// Multiple Round Actions (generally two) are associated with a Round
+// By proxy, Round Actions are associated with a Game (Rounds reference a Game)
+model Round_Actions {
+  id       Int    @id @default(autoincrement())
+  user     User   @relation(fields: [user_id], references: [id])
+  game     Games  @relation(fields: [game_id], references: [id])
+  round    Rounds @relation(fields: [round_id], references: [id])
+  user_id  Int
+  game_id  Int
+  round_id Int
+}
+
+// Theoretically immutable; we create actions here
+// They exist only in database to prevent cheaters from providing invalid action
+model Actions {
+  id     Int     @id @default(autoincrement())
+  action String?
+  damage Int?    @default(0)
+  armor  Int?    @default(0)
+}
+
+// Theoretically immutable; we create cards and assign them to relationships in User_Cards when earned
+model Cards {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  name            String
+  description     String?
+  damage          Int?
+  armor           Int?
+  image_url       String
+  User_Cards      User_Cards[]
+  User_Deck_Cards User_Deck_Cards[]
+}
+
+// Many Users can have many Cards
+// This table is a reflection of such, showing the relationship
+model User_Cards {
+  id       Int      @id @default(autoincrement())
+  earnedAt DateTime @default(now())
+  user     User     @relation(fields: [user_id], references: [id])
+  card     Cards    @relation(fields: [card_id], references: [id])
+  user_id  Int
+  card_id  Int
+}
+
+// Users can build card decks from the cards assigned in User_Cards
+model User_Decks {
+  id               Int               @id @default(autoincrement())
+  user             User              @relation(fields: [user_id], references: [id])
+  user_id          Int
+  deck_name        String
+  User_Decks_Cards User_Deck_Cards[]
+}
+
+model User_Deck_Cards {
+  id      Int        @id @default(autoincrement())
+  deck    User_Decks @relation(fields: [deck_id], references: [id])
+  card    Cards      @relation(fields: [card_id], references: [id])
+  deck_id Int
+  card_id Int
+}
