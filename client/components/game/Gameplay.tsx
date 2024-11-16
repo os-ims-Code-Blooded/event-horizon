@@ -16,6 +16,7 @@ export default function Gameplay (){
 
 
   const joinSession = () =>{
+  console.log("SESSION ID", session)
     if (session !== ""){
       socket.emit("join_session", session)
     }
@@ -42,6 +43,7 @@ export default function Gameplay (){
     <div className='bg-amber-600 margin-left: 15px'>
       <h1>live gameplay</h1>
       <input placeholder='session id' onChange={(e)=>{setSession(e.target.value)}}></input>
+      <button onClick={joinSession}>join session</button>
       <br></br>
       <br></br>
       <input className='margin-left: 15px' placeholder='message' onChange={(e)=> setMessage(e.target.value)}/>

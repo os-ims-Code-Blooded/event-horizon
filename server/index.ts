@@ -13,8 +13,8 @@ dotenv.config();
 //start express instance
 const app = express();
 
-// const PORT: String = process.env.PORT;
-// const CLIENT_URL = process.env.CLIENT_URL;
+const PORT: String = process.env.PORT;
+const CLIENT_URL = process.env.CLIENT_URL;
 
 
 ////////// ROUTERS //////////////////
@@ -44,17 +44,29 @@ const io = new Server(server, {
 //when the server establishes a connection, it shall do the following:
 io.on('connection', (socket)=>{
   console.log(`user connected: ${socket.id}`)
+
+
+  //listening for a join room event
+  socket.on('join_session', data=>{
+    console.log("SESSION DATA", data)
+    //connects the socket object to the incoming room data
+    socket.join(data) 
+  })
+
+
   //if it receives data marked send_message
   socket.on('send_message', (data)=>{
-    console.log(data)
+    console.log("MESSAGE DATA", data)
+
     //it shall re broadcast that message back to the client
-    socket.broadcast.emit("receive_message", data)
+    socket.to(data.session).emit("receive_message", data)
   })
 })
 
 //The http server listens at this port
 server.listen(8080, ()=>{
   console.log("SERVER RUNNING MARATHON")
+  console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
 })
 
 
