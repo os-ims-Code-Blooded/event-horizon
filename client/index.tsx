@@ -1,7 +1,13 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import App from './components/App.tsx'
+import App from './components/App'
 
-const root = createRoot(document.getElementById('app'))
+const rootElement = document.getElementById('app') as HTMLElement;
 
-root.render( <App/>)
+const root = createRoot(rootElement);
+
+if(root) {
+  root.render(<App />)
+} else {
+  <div> Container not found</div>
+}

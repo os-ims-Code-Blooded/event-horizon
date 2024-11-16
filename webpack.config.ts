@@ -1,4 +1,4 @@
-const HTMLWebPackPlugin =  require('html-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
 
@@ -21,7 +21,9 @@ module.exports = {
     }
   },
   watch: true,
-  plugins: [new HTMLWebPackPlugin()],
+  plugins: [new HTMLWebpackPlugin({
+    template: path.resolve(__dirname, 'client', 'index.html')
+  })],
   module: {
     rules: [
       {
