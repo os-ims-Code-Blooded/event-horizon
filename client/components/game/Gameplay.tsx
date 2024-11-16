@@ -6,21 +6,20 @@ import { useState, useEffect } from 'react';
 const socket = io("http://localhost:8080");
 
 
-export default function Gameplay (){
+export default function Gameplay ({ session }){
   //creates react hooks for messages sent and received
   const [message, setMessage] = useState("")
   const [messageReceipt, setMessageReceipt] = useState("")
 
-  //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
-  const [session, setSession] = useState("")
+    // const [session, setSession] = useState("")
 
 
-  const joinSession = () =>{
-  console.log("SESSION ID", session)
-    if (session !== ""){
-      socket.emit("join_session", session)
-    }
-  }
+  // const joinSession = () =>{
+  // console.log("SESSION ID", session)
+  //   if (session !== ""){
+  //     socket.emit("join_session", session)
+  //   }
+  // }
 
 
 
@@ -30,8 +29,11 @@ export default function Gameplay (){
     socket.emit("send_message", { message, session })
   }
 
-  //when the client socket receives a new message, the reveiced message state is updated
+  //when the client socket receives a new message, the received message state is updated
   useEffect(()=>{
+    if (session !== ""){
+          socket.emit("join_session", session)
+        }
     socket.on("receive_message", (data)=>{
       console.log(data.message)
       setMessageReceipt(data.message)
@@ -40,18 +42,35 @@ export default function Gameplay (){
 
   //renders an input a button, and a spot for messages
   return (
-    <div className='bg-amber-600 margin-left: 15px'>
+    <div className='bg-amber-600 pl-4 py-4'>
+
       <h1>live gameplay</h1>
+
+      <canvas className='bg-slate-300' width={480} height={320}>
+
+      </canvas>
+
+      {/* <br></br>
+      <br></br>
       <input placeholder='session id' onChange={(e)=>{setSession(e.target.value)}}></input>
-      <button onClick={joinSession}>join session</button>
+      <button className='bg-blue-700' onClick={joinSession}>join session</button> */}
+
       <br></br>
       <br></br>
+
       <input className='margin-left: 15px' placeholder='message' onChange={(e)=> setMessage(e.target.value)}/>
 
       <button className='bg-green-900' onClick={sendMessage}>send message</button>
 
-      <h1>log:</h1>
-      {messageReceipt}
+        <br></br>
+        <br></br>
+      <div className='bg-slate-300 w-64'>
+
+        <h1>log:</h1>
+        {messageReceipt}
+    
+      </div>
+
     </div>
   )
 }
