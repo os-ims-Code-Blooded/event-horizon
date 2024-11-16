@@ -11,10 +11,23 @@ export default function Gameplay (){
   const [message, setMessage] = useState("")
   const [messageReceipt, setMessageReceipt] = useState("")
 
+  //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
+  const [session, setSession] = useState("")
+
+
+  const joinSession = () =>{
+  console.log("SESSION ID", session)
+    if (session !== ""){
+      socket.emit("join_session", session)
+    }
+  }
+
+
+
   //sends a message over the socket
   const sendMessage = () =>{
     //sends the message state
-    socket.emit("send_message", { message })
+    socket.emit("send_message", { message, session })
   }
 
   //when the client socket receives a new message, the reveiced message state is updated
@@ -29,9 +42,13 @@ export default function Gameplay (){
   return (
     <div className='bg-amber-600 margin-left: 15px'>
       <h1>live gameplay</h1>
+      <input placeholder='session id' onChange={(e)=>{setSession(e.target.value)}}></input>
+      <button onClick={joinSession}>join session</button>
+      <br></br>
+      <br></br>
       <input className='margin-left: 15px' placeholder='message' onChange={(e)=> setMessage(e.target.value)}/>
 
-      <button onClick={sendMessage}>send message</button>
+      <button className='bg-green-900' onClick={sendMessage}>send message</button>
 
       <h1>log:</h1>
       {messageReceipt}
