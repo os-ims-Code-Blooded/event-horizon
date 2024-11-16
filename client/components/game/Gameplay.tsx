@@ -27,9 +27,9 @@ export default function Gameplay (){
 
   //renders an input a button, and a spot for messages
   return (
-    <div>
-      <h1>hellooooo there</h1>
-      <input placeholder='message' onChange={(e)=> setMessage(e.target.value)}/>
+    <div className='bg-amber-600 margin-left: 15px'>
+      <h1>live gameplay</h1>
+      <input className='margin-left: 15px' placeholder='message' onChange={(e)=> setMessage(e.target.value)}/>
 
       <button onClick={sendMessage}>send message</button>
 
