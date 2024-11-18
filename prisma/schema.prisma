@@ -1,8 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+//
+//=====================================================================================
+//-------------------------------------------------------------------------------------
+// If receive error regarding privileges or password during attempts to run this file 
+// or connect to database:
+//
+//  > sudo mysql
+//  > ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+//  > exit;
+//
+// The previous set of commands will set your account settings within mySQL so that
+// your password is set to an empty string. If you do not want to set your password
+// to an empty string, ensure that the password is reflected below.
+//-------------------------------------------------------------------------------------
+//=====================================================================================
+//
 
 generator client {
   provider = "prisma-client-js"
@@ -10,9 +21,11 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_LOCAL_URL")
 }
 
+/// Contains bi-directional friendship with 'friends' and 'friendOf' property
+/// This ensures that there are no duplicate friendships
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -25,6 +38,21 @@ model User {
   User_Cards    User_Cards[]
   User_Decks    User_Decks[]
   Games         Games[]
+
+  friends  Friends[] @relation("UserFriends")
+  friendOf Friends[] @relation("Friendships")
+}
+
+// https://github.com/prisma/prisma/discussions/13214
+model Friends {
+  id        Int @id @default(autoincrement())
+  user_id   Int
+  friend_id Int
+
+  user   User @relation("UserFriends", fields: [user_id], references: [id])
+  friend User @relation("Friendships", fields: [friend_id], references: [id])
+
+  @@unique([user_id, friend_id])
 }
 
 // for every Game
