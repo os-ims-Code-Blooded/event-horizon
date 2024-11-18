@@ -40,6 +40,25 @@ profile.get('/:id', async (req, res) => {
 
 })
 
+profile.get('/', async (req, res) => {
+
+  try {
+
+    const users = await database.user.findMany();
+
+    if (!users){
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(users);
+    }
+
+  } catch (error){
+    console.error(`Error on GET request for all user profiles.`)
+    res.sendStatus(500);
+  }
+
+})
+
 profile.post('/', async (req, res) => {
 
   try {
@@ -115,7 +134,7 @@ profile.patch('/:id', async (req, res) => {
         data: data
       })
 
-      res.send(200).send(user);
+      res.status(200).send(user);
 
     }
 
@@ -124,3 +143,5 @@ profile.patch('/:id', async (req, res) => {
   }
 
 })
+
+export default profile;
