@@ -1,12 +1,16 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import dotenv from "dotenv";
+
+import database from './db/index.ts';
+
 import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
 import { it } from 'node:test';
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
+
 
 //configure dotenv
 dotenv.config();
@@ -24,6 +28,19 @@ const CLIENT_URL = process.env.CLIENT_URL;
 
 ////////// MIDDLEWARE /////////////////
 app.use(express.static(path.resolve(__dirname, '../client/dist/')));
+
+app.listen(PORT, () => {
+    database.$connect()
+        .then((connectionEstablished) => {
+            console.log(`Prisma has connected to the database...`);
+            console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
+        })
+        .catch((error) => {
+            console.error(`Failure on database connection...`)
+        })
+});
+
+app.on('error', (err: any) => console.error('Error', err));
 
 app.use(cors())
 
@@ -105,5 +122,6 @@ server.listen(8080, ()=>{
 //     console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
 // });
 // app.on('error', (err: any) => console.error('Error', err));
+
 
 // export default { app };
