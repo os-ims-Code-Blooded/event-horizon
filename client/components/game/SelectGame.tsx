@@ -19,6 +19,7 @@ export default function SelectGame(){
     //need to be able to check how many players in a game
 
     //needs to iterate the session ids for every two players
+
     setSession("55")
   }
 
@@ -31,8 +32,8 @@ return(
 
   <h1>Choose!</h1>
   <button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
-  <button className='bg-lime-200'>CUSTOMIZE!</button>
-</div>) : (<Gameplay session={session}/>)}
+  <button className='bg-lime-400'>CUSTOMIZE!</button>
+</div>) : (<Gameplay session={session} />)}
 </>
 
 )

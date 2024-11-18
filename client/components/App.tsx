@@ -6,7 +6,7 @@ import LeaderBoard from './leaderboard/Leaderboard.tsx';
 import UserCards from './cards/UserCards.tsx';
 
 export default function App (){
-
+  console.log("APP COMPONENT!")
   return (
     <div>
       <h1 className='bg-slate-600'>Event Horizon</h1>

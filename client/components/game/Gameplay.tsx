@@ -3,23 +3,30 @@ import { io } from "socket.io-client";
 import { useState, useEffect } from 'react';
 
 //creates front-end socket connection to the server
-const socket = io("http://localhost:8080");
+const socket = io("http://localhost:8080", {
+  withCredentials: true,
+  extraHeaders: {
+    "my-custom-header": "abcd"
+  }
+});
 
 
 export default function Gameplay ({ session }){
+
+  console.log("GAMEPLAY COMPONENT!")
   //creates react hooks for messages sent and received
   const [message, setMessage] = useState("")
-  const [messageReceipt, setMessageReceipt] = useState("")
+  const [messageReceipt, setMessageReceipt] = useState([])
 
     // const [session, setSession] = useState("")
 
 
-  // const joinSession = () =>{
-  // console.log("SESSION ID", session)
-  //   if (session !== ""){
-  //     socket.emit("join_session", session)
-  //   }
-  // }
+  const joinSession = () =>{
+  console.log("SESSION ID", session)
+    if (session !== ""){
+      socket.emit("join_session", session)
+    }
+  }
 
 
 
@@ -30,15 +37,21 @@ export default function Gameplay ({ session }){
   }
 
   //when the client socket receives a new message, the received message state is updated
+
+
+
   useEffect(()=>{
     if (session !== ""){
           socket.emit("join_session", session)
         }
+
     socket.on("receive_message", (data)=>{
-      console.log(data.message)
-      setMessageReceipt(data.message)
+      console.log("DATA MESSAGE:", data)
+      setMessageReceipt(data)
     })
   }, [socket])
+
+
 
   //renders an input a button, and a spot for messages
   return (
@@ -67,7 +80,11 @@ export default function Gameplay ({ session }){
       <div className='bg-slate-300 w-64'>
 
         <h1>log:</h1>
-        {messageReceipt}
+        {messageReceipt.map(message=>{
+          return (
+            <h3>{message}</h3>
+          )
+        })}
     
       </div>
 
