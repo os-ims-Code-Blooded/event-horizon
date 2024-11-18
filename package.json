@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "mysql2": "^3.11.4",
     "websocket": "^1.0.35"
   }
 }
