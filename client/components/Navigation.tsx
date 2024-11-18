@@ -13,8 +13,8 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
   switch(view) {
     case 'Dock':
       return (
-        <nav className="p-4 bg-orange-400 text-white flex items-center justify-around">
-          <button onClick={(e) => updateView(e)} name='Dock' className='p-3'>EVENT HORIZON</button>
+        <nav className="p-4 bg-gradient1 text-white flex items-center justify-between space-x-4">
+          <button onClick={(e) => updateView(e)} name='Dock' className='p-3 hover:text-orange-400'>EVENT HORIZON</button>
           {!user && view === 'Dock' && (
             <button
             type="button"
@@ -22,7 +22,7 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
               updateView(e);
               getUser();
             }}
-            className=''
+            className='hover:text-orange-400 p-3'
             name="TitleMenu"
           >
             Sign Up / Login
@@ -30,7 +30,7 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
           )}
           {user && view === 'Dock' && (
             <button type='button' onClick={(e) => updateView(e)} name='TitleMenu'
-              className='hover:bg-gray-600 p-3'
+              className='hover:text-orange-400 p-3'
             >
               Play!
             </button>
@@ -39,22 +39,25 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
             <button type="button" onClick={(e) => {
               updateView(e);
               logOut();
-            }}  className='' name="Dock">Logout</button>
+            }}  className='hover:text-orange-400' name="Dock">Logout</button>
           )}
 
         </nav>
       )
     case 'TitleMenu':
       return (
-        <nav className="p-4 bg-orange-400 text-white flex items-center">
-          <button onClick={(e) => updateView(e)} name='Dock' className='p-3'>EVENT HORIZON</button>
+        <nav className="p-4 bg-gradient1 text-white flex items-center">
+          <button onClick={(e) => updateView(e)} name='Dock' className='p-3 hover:text-orange-400'>EVENT HORIZON</button>
           <ul className="flex ml-auto space-x-4">
             <li>
-              <button type="button" onClick={(e) => updateView(e)}  className='' name="Dock">Home</button>
+              <button type="button" onClick={(e) => updateView(e)}  className='hover:text-orange-400' name="Dock">Home</button>
             </li>
             <li>
              {user && view === 'TitleMenu' && (
-              <button type='button' onClick={(e) => updateView(e)} className='' name='Logout'> Logout</button>
+              <button type='button' onClick={(e) => {
+                updateView(e);
+                logOut();
+              }} className='hover:text-orange-400' name='Dock'> Logout</button>
              )}
 
             </li>
@@ -64,7 +67,7 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
       );
       case 'Instructions':
         return (
-          <nav className="p-4 bg-gray-800 text-white flex items-center">
+          <nav className="p-4 bg-gradient1 text-white flex items-center">
             <button onClick={(e) => updateView(e)} name='Dock'>EVENT HORIZON</button>
             {!user && view === 'Instructions' && (
               <button type="button" onClick={(e) => updateView(e)}  className='' name="Instructions">How To Play</button>

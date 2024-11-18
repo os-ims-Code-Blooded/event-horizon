@@ -7,6 +7,7 @@ import UserCards from './cards/UserCards.tsx';
 import NavigationBar from './Navigation.tsx';
 import Instructions from './Instructions.tsx';
 import TitleMenu from './navigations/TitleMenu.tsx';
+import LandingPage from './LandingPage.tsx';
 
 interface User {
   id: number;
@@ -67,7 +68,7 @@ useEffect(() => {
       return (
           <div>
             <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-            <Instructions logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+            <LandingPage logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
           </div>
         )
     case 'TitleMenu':
@@ -81,7 +82,7 @@ useEffect(() => {
       return (
         <div>
           <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <Instructions logOut={logOut} updateView={updateView} view={view} user={user} />
+          <Instructions logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user} />
         </div>
       )
       case 'Profile':
