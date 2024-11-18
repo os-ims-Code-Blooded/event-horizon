@@ -76,6 +76,7 @@ useEffect(() => {
         <div>
           <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
           <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
+          <SelectGame/>
         </div>
       )
     case 'Instructions':
