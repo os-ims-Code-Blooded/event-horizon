@@ -1,5 +1,4 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-
 const path = require('path');
 
 module.exports = {
@@ -11,9 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, 'client', 'dist')
   },
   resolve: {
-    // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: ["*", ".ts", ".tsx", ".js"],
-    // Add support for TypeScripts fully qualified ESM imports.
     extensionAlias: {
      ".js": [".js", ".ts"],
      ".cjs": [".cjs", ".cts"],
@@ -21,9 +18,11 @@ module.exports = {
     }
   },
   watch: true,
-  plugins: [new HTMLWebpackPlugin({
-    template: path.resolve(__dirname, 'client', 'index.html')
-  })],
+  plugins: [
+    new HTMLWebpackPlugin({
+      template: path.resolve(__dirname, 'client', 'index.html')
+    })
+  ],
   module: {
     rules: [
       {
@@ -40,7 +39,16 @@ module.exports = {
             ],
           }
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, 'client'),
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ],
+      },
     ]
   }
 };
