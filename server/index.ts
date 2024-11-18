@@ -1,10 +1,15 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import dotenv from "dotenv";
+
+import database from './db/index.ts';
+
 import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
-
+import { it } from 'node:test';
+// const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
+// const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
 
 
 //configure dotenv
@@ -23,6 +28,20 @@ const CLIENT_URL = process.env.CLIENT_URL;
 
 ////////// MIDDLEWARE /////////////////
 app.use(express.static(path.resolve(__dirname, '../client/dist/')));
+
+app.listen(PORT, () => {
+    database.$connect()
+        .then((connectionEstablished) => {
+            console.log(`Prisma has connected to the database...`);
+            console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
+        })
+        .catch((error) => {
+            console.error(`Failure on database connection...`)
+        })
+});
+
+app.on('error', (err: any) => console.error('Error', err));
+
 app.use(cors())
 
 //////// WEBSOCKET ///////////////////////////
@@ -40,27 +59,52 @@ const io = new Server(server, {
     credentials: true,
   },
 })
+  //............./////////////...........................
+  //trying some crap out
 
-//when the server establishes a connection, it shall do the following:
+  //............./////////////...........................
+
+
+  let messages : any = [];
+  
+  //when the server establishes a connection, it shall do the following:
+
+
 io.on('connection', (socket)=>{
-  console.log(`user connected: ${socket.id}`)
 
+  console.log(`user connected: ${socket.id}`)
+  // console.log("\n \n**********SOCKET:************ \n \n", socket)
+  let sockId = socket.id
 
   //listening for a join room event
   socket.on('join_session', data=>{
     console.log("SESSION DATA", data)
+
+    console.log(sockId)
+
     //connects the socket object to the incoming room data
-    socket.join(data) 
+    socket.join(data)
+    socket.to(data.session).emit(messages)
   })
 
 
   //if it receives data marked send_message
   socket.on('send_message', (data)=>{
     console.log("MESSAGE DATA", data)
+    console.log("SOCK ID", sockId)
+    messages.push(data.message)
+    console.log("MESSAGEs", messages)
+    //db op
+
 
     //it shall re broadcast that message back to the client
-    socket.to(data.session).emit("receive_message", data)
+    socket.to(data.session).emit("receive_message", messages)
+
   })
+   socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+
 })
 
 //The http server listens at this port
@@ -78,5 +122,6 @@ server.listen(8080, ()=>{
 //     console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
 // });
 // app.on('error', (err: any) => console.error('Error', err));
+
 
 // export default { app };
