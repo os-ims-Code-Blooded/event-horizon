@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import '../style.css';
 import SelectGame from './game/SelectGame.tsx';
 import Profile from './profile/Profile.tsx';
@@ -17,10 +17,10 @@ interface User {
 }
 
 export default function App (){
-
+  console.log('APP RENDER')
 	const [view, setView] = useState<string>('Dock');
   const [user, setUser] = useState<User | null>(null);
-
+  const effectRan = useRef(false);
 
 
   const getUser = () => {
@@ -48,19 +48,18 @@ export default function App (){
       case 'TitleMenu':
         setView('TitleMenu');
       break;
-      case 'Logout':
-        setView('/');
       case 'Instructions':
         setView('Instructions');
+        break;
       case 'Profile':
         setView('Profile');
+        break;
       default:
         console.error('Cannot change View');
 	}
 }
 useEffect(() => {
   setUser(user);
-  console.log('user set')
 })
 
   switch(view){
@@ -75,7 +74,7 @@ useEffect(() => {
       return (
         <div>
           <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
+          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user} getUser={getUser} />
         </div>
       )
     case 'Instructions':
@@ -89,7 +88,7 @@ useEffect(() => {
         return (
           <div>
             <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-
+            <Profile logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
           </div>
         )
   }

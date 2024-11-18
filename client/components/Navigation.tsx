@@ -67,13 +67,23 @@ const NavigationBar: FC<NavProps> = ({logOut, getUser, user, view, updateView })
       );
       case 'Instructions':
         return (
-          <nav className="p-4 bg-gradient1 text-white flex items-center">
-            <button onClick={(e) => updateView(e)} name='Dock'>EVENT HORIZON</button>
+          <nav className="p-4 bg-gradient1 text-white flex items-center justify-between">
+            <button onClick={(e) => updateView(e)} name='Dock' className='hover:text-orange-400'>EVENT HORIZON</button>
             {!user && view === 'Instructions' && (
               <button type="button" onClick={(e) => updateView(e)}  className='' name="Instructions">How To Play</button>
             )}
+            {user && (
+              <button type="button" name="TitleMenu" onClick={(e) => updateView(e)} className='hover:text-orange-400'> Play!</button>
+            )}
           </nav>
         )
+        case 'Profile':
+          return (
+            <nav className="p-4 bg-gradient1 text-white flex items-center space-between">
+              <button onClick={(e) => updateView(e)} name='Dock'>EVENT HORIZON</button>
+              <button type="button" onClick={(e) => updateView(e)}  className='' name="Instructions">How To Play</button>
+            </nav>
+          )
   }
 };
 
