@@ -18,15 +18,16 @@ export default function Gameplay ({ session }){
   const [message, setMessage] = useState("")
   const [messageReceipt, setMessageReceipt] = useState([])
 
+  
     // const [session, setSession] = useState("")
 
 
-  const joinSession = () =>{
-  console.log("SESSION ID", session)
-    if (session !== ""){
-      socket.emit("join_session", session)
-    }
-  }
+  // const joinSession = () =>{
+  // console.log("SESSION ID", session)
+  //   if (session !== ""){
+  //     socket.emit("join_session", session)
+  //   }
+  // }
 
 
 

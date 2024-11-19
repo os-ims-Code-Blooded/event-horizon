@@ -66,6 +66,8 @@ server.listen(PORT, () => {
 
 
   let messages : any = [];
+  let users = []
+  let sessionNum = 0;
   
   //when the server establishes a connection, it shall do the following:
 
@@ -75,16 +77,24 @@ io.on('connection', (socket)=>{
   console.log(`user connected: ${socket.id}`)
   // console.log("\n \n**********SOCKET:************ \n \n", socket)
   let sockId = socket.id
+  users.push(sockId)
 
   //listening for a join room event
   socket.on('join_session', data=>{
     console.log("SESSION DATA", data)
 
-    console.log(sockId)
+    console.log("SOCKET ID:", sockId)
+    console.log("USERS:", users)
+    if (users.length % 2 === 1){
+      socket.join(data)
+      socket.to(data.session).emit(messages)
+
+    } else {
+      socket.join(data)
+      socket.to(data.session).emit(messages)
+    }
 
     //connects the socket object to the incoming room data
-    socket.join(data)
-    socket.to(data.session).emit(messages)
   })
 
 
