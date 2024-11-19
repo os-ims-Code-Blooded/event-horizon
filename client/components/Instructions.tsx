@@ -9,7 +9,6 @@ type InstructionProps = {
 };
 
 const Instructions: FC<InstructionProps> = ({getUser, user, view, updateView, logOut }) => {
-  const title = 'Event Horizon';
 
   return (
     <div className='bg-slate-800 text-white text-center'>
