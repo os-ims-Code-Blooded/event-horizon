@@ -1,26 +1,29 @@
 import React from 'react';
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { useState, useEffect } from 'react';
+import ActionSelect from './ActionSelect';
 
 //creates front-end socket connection to the server
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-  extraHeaders: {
-    "my-custom-header": "abcd"
-  }
-});
+// const socket = io("http://localhost:8080", {
+//   withCredentials: true,
+//   extraHeaders: {
+//     "my-custom-header": "abcd"
+//   }
+// });
 
 
-export default function Gameplay ({ session }){
+export default function Gameplay ({ session, socket }){
 
   console.log("GAMEPLAY COMPONENT!")
   //creates react hooks for messages sent and received
   const [message, setMessage] = useState("")
   const [messageReceipt, setMessageReceipt] = useState([])
 
-  
-    // const [session, setSession] = useState("")
 
+
+
+
+  // const [session, setSession] = useState("")
 
   // const joinSession = () =>{
   // console.log("SESSION ID", session)
@@ -31,16 +34,20 @@ export default function Gameplay ({ session }){
 
 
 
+
+
   //sends a message over the socket
   const sendMessage = () =>{
     //sends the message state
     socket.emit("send_message", { message, session })
   }
 
+
+
+
+
+
   //when the client socket receives a new message, the received message state is updated
-
-
-
   useEffect(()=>{
     if (session !== ""){
           socket.emit("join_session", session)
@@ -51,6 +58,11 @@ export default function Gameplay ({ session }){
       setMessageReceipt(data)
     })
   }, [socket])
+
+
+
+
+
 
 
 
@@ -76,6 +88,11 @@ export default function Gameplay ({ session }){
 
       <button className='bg-green-900' onClick={sendMessage}>send message</button>
 
+        <br></br>
+        <br></br>
+
+        <ActionSelect/>
+        
         <br></br>
         <br></br>
       <div className='bg-slate-300 w-64'>

@@ -66,30 +66,45 @@ server.listen(PORT, () => {
 
 
   let messages : any = [];
-  let users = []
+  let users: any[] = []
   let sessionNum = 0;
+  let players = 0;
   
   //when the server establishes a connection, it shall do the following:
 
 
 io.on('connection', (socket)=>{
 
+
+
   console.log(`user connected: ${socket.id}`)
   // console.log("\n \n**********SOCKET:************ \n \n", socket)
   let sockId = socket.id
+
   users.push(sockId)
+  console.log("USERS:", users)
+
+  players = users.length;
+  console.log("CURRENT PLAYERS CONNECTED:", players)
+
+
 
   //listening for a join room event
   socket.on('join_session', data=>{
-    console.log("SESSION DATA", data)
 
+    console.log("SESSION DATA", data)
     console.log("SOCKET ID:", sockId)
-    console.log("USERS:", users)
+
+
     if (users.length % 2 === 1){
+      console.log("ODD NUMMA")
+
       socket.join(data)
+
       socket.to(data.session).emit(messages)
 
     } else {
+      console.log("EVEN NUMBER")
       socket.join(data)
       socket.to(data.session).emit(messages)
     }
@@ -97,12 +112,14 @@ io.on('connection', (socket)=>{
     //connects the socket object to the incoming room data
   })
 
-
   //if it receives data marked send_message
   socket.on('send_message', (data)=>{
+
     console.log("MESSAGE DATA", data)
     console.log("SOCK ID", sockId)
+
     messages.push(data.message)
+
     console.log("MESSAGEs", messages)
     //db op
 
@@ -111,8 +128,16 @@ io.on('connection', (socket)=>{
     socket.to(data.session).emit("receive_message", messages)
 
   })
+  //when a user disconnects
    socket.on('disconnect', () => {
     console.log('user disconnected');
+
+    users = users.filter(user=>user!==sockId)
+    console.log("USERS:", users)
+
+    players = users.length;
+    console.log("CURRENT PLAYERS CONNECTED:", players)
+
   });
 
 })
