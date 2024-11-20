@@ -10,7 +10,7 @@ type LandingProps = {
 const LandingPage: FC<LandingProps> = ({updateView, view, user, getUser, logOut}) => {
 
   return (
-    <div className='bg-slate-900 flex flex-col items-center justify-center h-screen text-white'>
+    <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center h-screen text-white'>
       <div className='p-5'>
         GAME BIO STUFFS
       </div>

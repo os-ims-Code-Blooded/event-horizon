@@ -8,7 +8,8 @@ import NavigationBar from './Navigation.tsx';
 import Instructions from './Instructions.tsx';
 import TitleMenu from './navigations/TitleMenu.tsx';
 import LandingPage from './LandingPage.tsx';
-
+import UserDecks from './cards/UserDecks.tsx'
+import GameBoard from './game/GameBoard.tsx';
 interface User {
   id: number;
   name: String,
@@ -20,8 +21,14 @@ export default function App (){
   console.log('APP RENDER')
 	const [view, setView] = useState<string>('Dock');
   const [user, setUser] = useState<User | null>(null);
+  // const [isDarkMode, setIsDarkMode] = useState(false);
   const effectRan = useRef(false);
 
+  // dark mode toggle
+  const toggleDarkMode = () => {
+    // setIsDarkMode((prevMode) => !prevMode);
+    document.documentElement.classList.toggle('dark')
+  };
 
   const getUser = () => {
     setUser({
@@ -54,6 +61,11 @@ export default function App (){
       case 'Profile':
         setView('Profile');
         break;
+      case 'Cards':
+        setView('Cards');
+        break;
+      case 'GameBoard':
+        setView('GameBoard');
       default:
         console.error('Cannot change View');
 	}
@@ -66,30 +78,44 @@ useEffect(() => {
     case 'Dock':
       return (
           <div>
-            <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+            <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
             <LandingPage logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
           </div>
         )
     case 'TitleMenu':
       return (
         <div>
-          <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
+          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+          <TitleMenu logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}  />
           <SelectGame/>
         </div>
       )
     case 'Instructions':
       return (
         <div>
-          <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
           <Instructions logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user} />
         </div>
       )
       case 'Profile':
         return (
           <div>
-            <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+            <NavigationBar toggleDarkMode={toggleDarkMode}logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
             <Profile logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
+          </div>
+        )
+      case 'Cards':
+      return (
+        <div>
+          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+          <UserDecks logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
+        </div>
+      )
+      case 'GameBoard':
+        return (
+          <div>
+          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+            <GameBoard />
           </div>
         )
   }
