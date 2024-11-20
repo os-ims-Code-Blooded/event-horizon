@@ -32,6 +32,7 @@ model User {
   google_id String   @unique
   email     String   @unique
   name      String?
+  score     Int      @default(0)
 
   User_Games    User_Games[]
   Round_Actions Round_Actions[]
@@ -59,7 +60,8 @@ model Friends {
 // there can be multiple Users
 // there can be multiple Rounds
 model Games {
-  id         Int       @id @default(autoincrement())
+  id         Int       @id @default(autoincrement()) /// This is used for a socket connection, it is the session ID.
+  status     Boolean   @default(true) /// This indicates if the Game session is still active.
   start_date DateTime  @default(now())
   end_date   DateTime?
   victor     User?     @relation(fields: [victor_id], references: [id])
@@ -125,6 +127,7 @@ model Cards {
   damage          Int?
   armor           Int?
   image_url       String
+  score_required  Int               @default(0)
   User_Cards      User_Cards[]
   User_Deck_Cards User_Deck_Cards[]
 }
