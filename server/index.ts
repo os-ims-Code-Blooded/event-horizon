@@ -8,7 +8,9 @@ import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
 import { it } from 'node:test';
-import profile from './routes/profile.ts';
+import profile from './routes/user/profile.ts';
+import games from './routes/games/games.ts';
+import cards from './routes/cards/cards.ts';
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
 
@@ -30,6 +32,8 @@ const CLIENT_URL = process.env.CLIENT_URL;
 ////////// MIDDLEWARE /////////////////
 app.use(express.json());
 app.use('/profile', profile);
+app.use('/games', games);
+app.use('/cards', cards);
 app.use(express.static(path.resolve(__dirname, '../client/dist/')));
 app.on('error', (err: any) => console.error('Error', err));
 app.use(cors())
