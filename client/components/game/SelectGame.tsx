@@ -2,6 +2,23 @@ import React from 'react';
 import { useState } from 'react';
 import MakeGame from './MakeGame';
 import Gameplay from './Gameplay';
+import axios from 'axios'
+
+////////////////////////////
+import { io } from "socket.io-client";
+////////////////////////////
+
+////////////////////////////
+//creates front-end socket connection to the server
+const socket = io("http://localhost:8080", {
+  withCredentials: true,
+  extraHeaders: {
+    "my-custom-header": "abcd"
+  }
+});
+////////////////////////////
+
+
 
 
 export default function SelectGame(){
@@ -14,6 +31,11 @@ export default function SelectGame(){
   const onClickPlay = () =>{
     setPlayClicked(true)
 
+
+    axios.get('/games')
+    .then((response)=>{
+      setSession(response.data.sessionId)
+    })
     //want to set up a condition to check if there's an available session and otherwise create a new session
 
     //need to be able to check how many players in a game
@@ -26,6 +48,7 @@ export default function SelectGame(){
   const onClickMake = () =>{
 
   }
+
 return(
 <>
 {!playClicked ?  (<div className='bg-red-300'>
@@ -33,7 +56,7 @@ return(
   <h1>Choose!</h1>
   <button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
   <button className='bg-lime-400'>CUSTOMIZE!</button>
-</div>) : (<Gameplay session={session} />)}
+</div>) : (<Gameplay session={session} socket={socket}/>)}
 </>
 
 )
