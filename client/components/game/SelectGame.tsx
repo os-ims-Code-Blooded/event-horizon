@@ -42,7 +42,7 @@ export default function SelectGame(){
 
     //needs to iterate the session ids for every two players
 
-    // setSession("55")
+    setSession("55")
   }
 
   const onClickMake = () =>{

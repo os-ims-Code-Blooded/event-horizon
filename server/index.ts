@@ -82,32 +82,23 @@ io.on('connection', (socket)=>{
   let sockId = socket.id
 
   users.push(sockId)
-  console.log("USERS:", users)
+  // console.log("USERS:", users)
 
   players = users.length;
-  console.log("CURRENT PLAYERS CONNECTED:", players)
+  // console.log("CURRENT PLAYERS CONNECTED:", players)
 
 
 
   //listening for a join room event
   socket.on('join_session', data=>{
 
-    console.log("SESSION DATA", data)
-    console.log("SOCKET ID:", sockId)
-
-
-    if (users.length % 2 === 1){
-      console.log("ODD NUMMA")
+    // console.log("SESSION DATA", data)
+    // console.log("SOCKET ID:", sockId)
 
       socket.join(data)
-
       socket.to(data.session).emit(messages)
 
-    } else {
-      console.log("EVEN NUMBER")
-      socket.join(data)
-      socket.to(data.session).emit(messages)
-    }
+   
 
     //connects the socket object to the incoming room data
   })
@@ -115,12 +106,12 @@ io.on('connection', (socket)=>{
   //if it receives data marked send_message
   socket.on('send_message', (data)=>{
 
-    console.log("MESSAGE DATA", data)
-    console.log("SOCK ID", sockId)
+    // console.log("MESSAGE DATA", data)
+    // console.log("SOCK ID", sockId)
 
     messages.push(data.message)
 
-    console.log("MESSAGEs", messages)
+    // console.log("MESSAGEs", messages)
     //db op
 
 
@@ -128,6 +119,23 @@ io.on('connection', (socket)=>{
     socket.to(data.session).emit("receive_message", messages)
 
   })
+
+
+
+
+  //PLAYER ENDS TURN
+  socket.on('end_turn', data=>{
+
+    console.log("TURN DATA", data)
+
+    socket.to(data.session).emit("receive_turn", data.playerAction, data.cardToPlay)
+
+
+  })
+
+
+
+
   //when a user disconnects
    socket.on('disconnect', () => {
     console.log('user disconnected');
