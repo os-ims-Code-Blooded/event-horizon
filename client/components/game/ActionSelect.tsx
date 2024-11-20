@@ -4,27 +4,28 @@ import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
-export default function ActionSelect({setPlayerAction}){
+export default function ActionSelect({setPlayerAction, setWeaponArmed}){
 
 
   const actionClick = (e) =>{
     console.log("click value", e.target.value)
 
     setPlayerAction(e.target.value)
-    axios.post('/rounds/actions/:action', {
-      action: e.target.value
-    })
-    .then(response=>console.log(response))
-    .catch(err => console.error("failed to post action", err))
+    if (e.target.value === 'load'){
+      setWeaponArmed(true)
+    } else {
+      setWeaponArmed(false)
+    }
+
 
   }
   return(
     <>
-      <div className='flex flex-row gap-3 justify-items-center'>
+      <div className='flex flex-cols gap-3 justify-items-center'>
 
         <button 
         value='block' 
-        className='bg-blue-600 hover:bg-blue-900 text-white font-bold focus:ring-4 focus:ring-blue-300'
+        className=' p-4 bg-blue-600 hover:bg-blue-900 text-white font-bold focus:ring-4 focus:ring-blue-300'
         onClick={(e)=>{actionClick(e)}}
         >SHIELDS
         </button>
@@ -33,7 +34,7 @@ export default function ActionSelect({setPlayerAction}){
 
         <button 
         value='load' 
-        className='bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200'
+        className='p-4 bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200'
         onClick={(e)=>{actionClick(e)}}
         >RE-ARM
         </button>
@@ -42,12 +43,20 @@ export default function ActionSelect({setPlayerAction}){
 
         <button 
         value='shoot' 
-        className='bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
+        className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
         onClick={(e)=>{actionClick(e)}}
         >CANNONS
         </button>
 
       </div>
+
+
+      {/* <div className='justify-items-end'>
+        <button 
+        className='bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 ' 
+        onClick={endTurn}>COMMIT TURN
+        </button>
+      </div> */}
     </>
   )
 }

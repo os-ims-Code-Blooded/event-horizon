@@ -9,11 +9,13 @@ interface CardType {
 
 interface CardProps {
   card: CardType;
+  setCardToPlay: any
 }
 
-const Card: FC<CardProps> = ({ card }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay }) => {
+
   return (
-    <div className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
+    <div onClick={()=>setCardToPlay(card.name)} className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
       <div className="text-center">
         <div>`IMAGE`</div>

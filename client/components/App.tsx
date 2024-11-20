@@ -66,6 +66,10 @@ export default function App (){
         break;
       case 'GameBoard':
         setView('GameBoard');
+        break;
+      case 'SelectGame':
+        setView('SelectGame');
+        break;
       default:
         console.error('Cannot change View');
 	}
@@ -88,10 +92,6 @@ useEffect(() => {
         <div>
           <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
           <TitleMenu logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}  />
-
-          <SelectGame/>
-          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
-          
         </div>
       )
     case 'Instructions':
@@ -120,6 +120,13 @@ useEffect(() => {
           <div>
           <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
             <GameBoard />
+          </div>
+        )
+      case 'SelectGame':
+        return (
+          <div>
+            <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
+            <SelectGame/>
           </div>
         )
   }

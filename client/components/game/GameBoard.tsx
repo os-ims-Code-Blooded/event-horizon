@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
 import Card from './Card';
+import ActionSelect from './ActionSelect';
+// import Gameplay from './Gameplay';
+
 
 interface CardType {
   name: string;
@@ -7,8 +10,25 @@ interface CardType {
   defense: number;
   description: string;
 }
+type GameBoardProp = {
+  session: string;
+  socket: any
+  endTurn: any
+  setPlayerAction: any
+  setCardToPlay: any
+  setWeaponArmed: any
+  hitPoints: number
+}
 
-const GameBoard: FC = ({}) => {
+const GameBoard: FC <GameBoardProp> = ({ 
+  session, 
+  socket, 
+  endTurn, 
+  setPlayerAction, 
+  setCardToPlay, 
+  setWeaponArmed, 
+  hitPoints 
+}) => {
   const playerCards: CardType[] = [
     {
       name: 'Bomba',
@@ -51,6 +71,10 @@ const GameBoard: FC = ({}) => {
     },
   ];
 
+  const armCard = (e) =>{
+    setCardToPlay()
+  }
+
   return (
     <div className='flex-grow flex-col bg-slate-700 dark:bg-black scale-85'>
       <div className='flex flex-row justify-between p-3'>
@@ -85,18 +109,37 @@ const GameBoard: FC = ({}) => {
         </div>
       </div>
       <div className='flex flex-row justify-between p-3'>
-        <div className='flex flex-col justify-between p-3'>
+        <div className='flex flex-col p-3'>
           <div className='text-green-600 font-bold'>USER NAME</div>
           <div className='text-blue-600 font-bold'>USER HP: 100/100</div>
+          <br></br>
+          <br></br>
+
+          <ActionSelect 
+          setPlayerAction={setPlayerAction} 
+          setWeaponArmed={setWeaponArmed}
+          />
         </div>
+
+
         <div className="flex flex-row">
+
               {playerCards.map((card, index) => (
-                <Card key={index} card={card} />
+                <Card 
+                key={index} 
+                card={card} 
+                setCardToPlay={setCardToPlay}
+                />
               ))}
+
         </div>
+
+
         <div>
-         <button className='flex items-end justify-end'>END TURN</button>
+         <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 ' 
+        onClick={endTurn}>COMMIT TURN</button>
         </div>
+
       </div>
     </div>
   )

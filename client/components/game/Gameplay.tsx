@@ -51,10 +51,10 @@ export default function Gameplay ({ session, socket }){
 
 
   //sends a message over the socket
-  const sendMessage = () =>{
-    //sends the message state
-    socket.emit("send_message", { message, session })
-  }
+  // const sendMessage = () =>{
+  //   //sends the message state
+  //   socket.emit("send_message", { message, session })
+  // }
   const endTurn = () =>{
     //sends the message state
     
@@ -72,10 +72,10 @@ export default function Gameplay ({ session, socket }){
           socket.emit("join_session", session)
         }
 
-    socket.on("receive_message", (data)=>{
-      console.log("DATA MESSAGE:", data)
-      setMessageReceipt(data)
-    })
+    // socket.on("receive_message", (data)=>{
+    //   console.log("DATA MESSAGE:", data)
+    //   setMessageReceipt(data)
+    // })
 
     socket.on('receive_turn', (data)=>{
       console.log("PLAYER ACTIONS", data)

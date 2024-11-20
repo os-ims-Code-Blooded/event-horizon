@@ -126,9 +126,12 @@ io.on('connection', (socket)=>{
   //PLAYER ENDS TURN
   socket.on('end_turn', data=>{
 
-    console.log("TURN DATA", data)
+    console.log("TURN DATA", data.cardToPlay)
 
-    socket.to(data.session).emit("receive_turn", data.playerAction, data.cardToPlay)
+    socket.to(data.session).emit("receive_action", data.playerAction)
+    if (data.cardToPlay){
+      socket.to(data.session).emit("receive_card", data.cardToPlay)
+    }
 
 
   })

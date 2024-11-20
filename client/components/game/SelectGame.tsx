@@ -6,6 +6,8 @@ import axios from 'axios'
 
 ////////////////////////////
 import { io } from "socket.io-client";
+import GameBoard from './GameBoard';
+import GameController from './GameController';
 ////////////////////////////
 
 ////////////////////////////
@@ -36,11 +38,6 @@ export default function SelectGame(){
     .then((response)=>{
       setSession(response.data.sessionId)
     })
-    //want to set up a condition to check if there's an available session and otherwise create a new session
-
-    //need to be able to check how many players in a game
-
-    //needs to iterate the session ids for every two players
 
     setSession("55")
   }
@@ -51,12 +48,15 @@ export default function SelectGame(){
 
 return(
 <>
-{!playClicked ?  (<div className='bg-red-300'>
+{!playClicked ?  
+
+(<div className='bg-red-300'>
 
   <h1>Choose!</h1>
   <button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
   <button className='bg-lime-400'>CUSTOMIZE!</button>
-</div>) : (<Gameplay session={session} socket={socket}/>)}
+</div>) : 
+(<GameController session={session} socket={socket}/>)}
 </>
 
 )
