@@ -11,7 +11,7 @@ type InstructionProps = {
 const Instructions: FC<InstructionProps> = ({getUser, user, view, updateView, logOut }) => {
 
   return (
-    <div className='bg-slate-800 text-white text-center'>
+    <div className='h-screen bg-slate-500 dark:bg-black dark:text-white text-black text-center'>
       Instructions
     </div>
   )
