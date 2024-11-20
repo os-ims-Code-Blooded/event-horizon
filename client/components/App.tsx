@@ -70,12 +70,13 @@ useEffect(() => {
             <LandingPage logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
           </div>
         )
-    case 'TitleMenu':
-      return (
-        <div>
+        case 'TitleMenu':
+          return (
+            <div>
           <NavigationBar logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
           <SelectGame/>
+          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
+          
         </div>
       )
     case 'Instructions':
