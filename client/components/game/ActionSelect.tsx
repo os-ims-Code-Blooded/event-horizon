@@ -3,36 +3,38 @@ import axios from 'axios';
 
 
 
-export default function ActionSelect({ 
+export default function ActionSelect({
   playerAction, 
   setPlayerAction, 
   enemyAction,
   setWeaponArmed, 
   setWeaponFired,
-  turnEnded
+  turnEnded,
+  activeLoading,
+  actionClick
 }){
 
 
-  const actionClick = (e) =>{
-    console.log("click value", e.target.value)
+  // const actionClick = (e) =>{
+  //   console.log("click value", e.target.value)
 
-    setPlayerAction(e.target.value)
-    if (e.target.value === 'load'){
-      setWeaponArmed(true)
-    } else {
-      setWeaponArmed(false)
-    }
+  //   setPlayerAction(e.target.value)
 
-    setPlayerAction(e.target.value)
-    if (e.target.value === 'fire'){
-      setWeaponFired(true)
-    } else {
-      setWeaponFired(false)
-    }
+  //   if (e.target.value === 'load'){
+  //     setWeaponArmed(true)
+  //   } else {
+  //     setWeaponArmed(false)
+  //   }
+
+  //   if (e.target.value === 'fire'){
+  //     setWeaponFired(true)
+  //   } else {
+  //     setWeaponFired(false)
+  //   }
 
 
 
-  }
+  // }
   return(
     <>
       <div className='flex flex-cols gap-3 justify-items-center'>
@@ -50,17 +52,32 @@ export default function ActionSelect({
         value='load' 
         className='p-4 bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200'
         onClick={(e)=>{actionClick(e)}}
-        >RE-ARM
+        >ARM
         </button>
 
         <div></div>
 
-        <button 
-        value='shoot' 
-        className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
-        onClick={(e)=>{actionClick(e)}}
-        >CANNONS
-        </button>
+        <>
+          {activeLoading && !turnEnded ?
+
+          <button
+
+          value='shoot'
+          className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
+          >CANNONS
+          </button>
+          
+          :
+
+          <button
+          value='shoot'
+          className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
+          onClick={(e)=>{actionClick(e)}}
+          >CANNONS
+          </button>
+
+          }
+        </>
 
       </div>
       <br></br>

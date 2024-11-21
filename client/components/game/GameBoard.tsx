@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, act } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
 // import Gameplay from './Gameplay';
@@ -17,6 +17,7 @@ type GameBoardProp = {
   playerAction: any
   setPlayerAction: any
   enemyAction: any
+  cardToPlay: any
   setCardToPlay: any
   setWeaponArmed: any
   hitPoints: number
@@ -24,6 +25,9 @@ type GameBoardProp = {
   setWeaponFired: any
   roundNum: number
   turnEnded: any
+  activeLoading: any
+  setActiveLoading: any
+  actionClick: any
 
 }
 
@@ -34,13 +38,17 @@ const GameBoard: FC <GameBoardProp> = ({
   playerAction,
   setPlayerAction,
   enemyAction,
+  cardToPlay,
   setCardToPlay,
   setWeaponArmed,
   setWeaponFired,
   hitPoints,
   enemyHitPoints,
   roundNum,
-  turnEnded
+  turnEnded,
+  activeLoading,
+  setActiveLoading,
+  actionClick
 }) => {
   const playerCards: CardType[] = [
     {
@@ -84,9 +92,6 @@ const GameBoard: FC <GameBoardProp> = ({
     },
   ];
 
-  const armCard = (e) =>{
-    setCardToPlay()
-  }
 
   return (
     <div className='flex-grow flex-col bg-slate-700 dark:bg-black scale-85'>
@@ -118,7 +123,7 @@ const GameBoard: FC <GameBoardProp> = ({
 
 
           <div>
-            <div className='p-20 text-[2rem]'> USERS SELECTED CARD</div>
+            <div className='p-20 text-[2rem]'> USERS SELECTED CARD {cardToPlay}</div>
           </div>
 
 
@@ -141,6 +146,8 @@ const GameBoard: FC <GameBoardProp> = ({
           setWeaponArmed={setWeaponArmed}
           setWeaponFired={setWeaponFired}
           turnEnded={turnEnded}
+          activeLoading={activeLoading}
+          actionClick={actionClick}
           />
         </div>
 
@@ -154,6 +161,7 @@ const GameBoard: FC <GameBoardProp> = ({
                 setCardToPlay={setCardToPlay}
                 setWeaponFired={setWeaponFired}
                 playerAction={playerAction}
+                setActiveLoading={setActiveLoading}
                 />
               ))}
 
@@ -161,8 +169,20 @@ const GameBoard: FC <GameBoardProp> = ({
 
 
         <div>
-         <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 ' 
-        onClick={endTurn}>COMMIT TURN</button>
+          {
+          
+          !turnEnded ? 
+       
+          <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
+         onClick={endTurn}>COMMIT TURN</button>
+
+
+          :
+
+          <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray-500  text-white font-bold'
+          >COMMIT TURN</button>
+
+          }
         </div>
 
       </div>

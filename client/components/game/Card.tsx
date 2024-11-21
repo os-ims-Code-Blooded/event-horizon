@@ -12,16 +12,32 @@ interface CardProps {
   setCardToPlay: any
   setWeaponFired: any
   playerAction: any
+  setActiveLoading: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, setWeaponFired, playerAction }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, setWeaponFired, playerAction, setActiveLoading }) => {
+
+
+
+
+  const cardSelect = (name, attack, defense) =>{
+
+    setCardToPlay(name)
+    setActiveLoading(true)
+
+  }
+
 
   return (
     <>
+
+    {playerAction === 'load' ? 
     
-    {playerAction ? <div
-    onClick={()=>setCardToPlay(card.name)}
-    className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
+    <div
+    onClick={()=>cardSelect(card.name, card.attack, card.defense)}
+
+    className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110"
+    >
 
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
 

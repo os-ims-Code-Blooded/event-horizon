@@ -28,6 +28,8 @@ export default function GameController ({ session, socket }){
   //player selected action of block, load or shoot
   const [playerAction, setPlayerAction] = useState('')
 
+  const [prevAction, setPrevAction] = useState('')
+
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
 
@@ -40,6 +42,9 @@ export default function GameController ({ session, socket }){
   //the enemy's last action
   const [enemyAction, setEnemyAction] = useState('')
 
+  //did the enemy end their turn?
+  const [enemyTurnEnd, setEnemyTurnEnd] = useState(false)
+
   //the enemy's loaded card
   const [enemyCard, setEnemyCard] = useState('')
 
@@ -48,6 +53,9 @@ export default function GameController ({ session, socket }){
 
   //tracks which round we're on
   const [roundNum, setRoundNum] = useState(0)
+
+  
+  const[activeLoading, setActiveLoading] = useState(false)
 
   //has the card been loaded?
   const [weaponArmed, setWeaponArmed] = useState(false)
@@ -60,23 +68,61 @@ export default function GameController ({ session, socket }){
   const endTurn = () =>{
     //sends the message state
     setTurnEnded(true)
-   
-    if (weaponArmed){
-      socket.emit("end_turn", { playerAction, cardToPlay, session })
+    setActiveLoading(false)
 
-    } else {
-      socket.emit("end_turn", { playerAction, session })
+    if (playerAction === "shoot" && weaponArmed){
+
+      socket.emit('shoot_end_turn', {playerAction, cardToPlay, session})
+
+      // setWeaponArmed(false)
+      // setWeaponFired(false)
+      // setCardToPlay(null)
     }
 
-   //request handling
+    if (playerAction === "block"){
+      socket.emit('block_end_turn', {playerAction, session})
+    }
+   
+    if (playerAction === "load"){
+      socket.emit('load_end_turn', {playerAction, cardToPlay, session})
+    }
+
+
+
+    // if (weaponArmed){
+    //   socket.emit("end_turn", { playerAction, cardToPlay, session })
+
+    // } else {
+    //   socket.emit("end_turn", { playerAction, session })
+    // }
+
+   //////REQUEST HANDLING
     // axios.post('/rounds/actions/:action', {
     //   action: playerAction
     // })
     // .then(response=>console.log(response))
     // .catch(err => console.error("failed to post action", err))
     
+
   }
 
+  const actionClick = (e) =>{
+    // console.log("click value", e.target.value)
+
+    setPlayerAction(e.target.value)
+
+    if (e.target.value === 'load'){
+      setWeaponArmed(true)
+    } else {
+      setWeaponArmed(false)
+    }
+
+    if (e.target.value === 'shoot'){
+      setWeaponFired(true)
+    } else {
+      setWeaponFired(false)
+    }
+  }
 
 
 ////////////////LIFECYCLE/////////////////
@@ -89,6 +135,10 @@ export default function GameController ({ session, socket }){
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
       setEnemyAction(data)
+
+      if (enemyAction === 'shoot' && playerAction === 'load'){
+        setHitPoints(hitPoints - 10);
+      }
 
     })
 
@@ -125,6 +175,7 @@ export default function GameController ({ session, socket }){
         endTurn={endTurn}
         setPlayerAction={setPlayerAction}
         playerAction={playerAction}
+        cardToPlay={cardToPlay}
         setCardToPlay={setCardToPlay}
         enemyAction={enemyAction}
         setWeaponArmed={setWeaponArmed}
@@ -133,6 +184,9 @@ export default function GameController ({ session, socket }){
         setWeaponFired={setWeaponFired}
         roundNum={roundNum}
         turnEnded={turnEnded}
+        activeLoading={activeLoading}
+        setActiveLoading={setActiveLoading}
+        actionClick={actionClick}
         />
 
         <div className='flex flex-row gap-3 justify-center place-items-center'>

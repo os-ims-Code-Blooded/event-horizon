@@ -70,7 +70,9 @@ server.listen(PORT, () => {
   let sessionNum = 0;
   let players = 0;
   
-  let gameMoves = {}
+  let roundNum = 0
+  let gameMoves = []
+  let oneUserEndedTurn = true
   
   //when the server establishes a connection, it shall do the following:
 
@@ -105,28 +107,31 @@ io.on('connection', (socket)=>{
     //connects the socket object to the incoming room data
   })
 
-  //if it receives data marked send_message
-  socket.on('send_message', (data)=>{
-
-    // console.log("MESSAGE DATA", data)
-    // console.log("SOCK ID", sockId)
-
-    messages.push(data.message)
-
-    // console.log("MESSAGEs", messages)
-    //db op
-
-
-    //it shall re broadcast that message back to the client
-    socket.to(data.session).emit("receive_message", messages)
-
-  })
-
-
-
-
+  
+  
+  
+  
   //PLAYER ENDS TURN
-  socket.on('end_turn', data=>{
+  // socket.on('end_turn', data=>{
+    
+  //   console.log("ACTION DATA", data.playerAction)
+  //   console.log("CARD DATA", data.cardToPlay)
+
+
+  //   socket.to(data.session).emit("receive_action", data.playerAction)
+
+    
+  //   if (data.cardToPlay){
+  //     socket.in(data.session).emit("receive_card", data.cardToPlay)
+  //   }
+
+
+  // })
+
+
+
+
+  socket.on('shoot_end_turn', data=>{
 
     console.log("ACTION DATA", data.playerAction)
     console.log("CARD DATA", data.cardToPlay)
@@ -134,27 +139,76 @@ io.on('connection', (socket)=>{
     socket.to(data.session).emit("receive_action", data.playerAction)
 
     if (data.cardToPlay){
-      socket.to(data.session).emit("receive_card", data.cardToPlay)
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
     }
-
-
   })
 
+  socket.on('block_end_turn', data=>{
 
+    console.log("ACTION DATA", data.playerAction)
+    console.log("CARD DATA", data.cardToPlay)
 
+    socket.to(data.session).emit("receive_action", data.playerAction)
 
+    if (data.cardToPlay){
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
+    }
+  })
+
+  socket.on('load_end_turn', data=>{
+
+    console.log("ACTION DATA", data.playerAction)
+    console.log("CARD DATA", data.cardToPlay)
+
+    socket.to(data.session).emit("receive_action", data.playerAction)
+
+    if (data.cardToPlay){
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
+    }
+  })
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //////////////////////////////////////////
+  
+    // //if it receives data marked send_message
+    // socket.on('send_message', (data)=>{
+  
+    //   // console.log("MESSAGE DATA", data)
+    //   // console.log("SOCK ID", sockId)
+  
+    //   messages.push(data.message)
+  
+    //   // console.log("MESSAGEs", messages)
+    //   //db op
+  
+  
+    //   //it shall re broadcast that message back to the client
+    //   socket.to(data.session).emit("receive_message", messages)
+  
+    // })
+  
   //when a user disconnects
-   socket.on('disconnect', () => {
+  socket.on('disconnect', () => {
     console.log('user disconnected');
-
+    
     users = users.filter(user=>user!==sockId)
     console.log("USERS:", users)
-
+    
     players = users.length;
     console.log("CURRENT PLAYERS CONNECTED:", players)
-
+    
   });
-
+  
 })
 
 ///////////////////////////////////////////
