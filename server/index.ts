@@ -70,6 +70,8 @@ server.listen(PORT, () => {
   let sessionNum = 0;
   let players = 0;
   
+  let gameMoves = {}
+  
   //when the server establishes a connection, it shall do the following:
 
 
@@ -126,9 +128,11 @@ io.on('connection', (socket)=>{
   //PLAYER ENDS TURN
   socket.on('end_turn', data=>{
 
-    console.log("TURN DATA", data.cardToPlay)
+    console.log("ACTION DATA", data.playerAction)
+    console.log("CARD DATA", data.cardToPlay)
 
     socket.to(data.session).emit("receive_action", data.playerAction)
+
     if (data.cardToPlay){
       socket.to(data.session).emit("receive_card", data.cardToPlay)
     }

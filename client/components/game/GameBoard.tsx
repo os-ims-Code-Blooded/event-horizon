@@ -14,20 +14,33 @@ type GameBoardProp = {
   session: string;
   socket: any
   endTurn: any
+  playerAction: any
   setPlayerAction: any
+  enemyAction: any
   setCardToPlay: any
   setWeaponArmed: any
   hitPoints: number
+  enemyHitPoints: number
+  setWeaponFired: any
+  roundNum: number
+  turnEnded: any
+
 }
 
-const GameBoard: FC <GameBoardProp> = ({ 
-  session, 
-  socket, 
-  endTurn, 
-  setPlayerAction, 
-  setCardToPlay, 
-  setWeaponArmed, 
-  hitPoints 
+const GameBoard: FC <GameBoardProp> = ({
+  session,
+  socket,
+  endTurn,
+  playerAction,
+  setPlayerAction,
+  enemyAction,
+  setCardToPlay,
+  setWeaponArmed,
+  setWeaponFired,
+  hitPoints,
+  enemyHitPoints,
+  roundNum,
+  turnEnded
 }) => {
   const playerCards: CardType[] = [
     {
@@ -79,7 +92,7 @@ const GameBoard: FC <GameBoardProp> = ({
     <div className='flex-grow flex-col bg-slate-700 dark:bg-black scale-85'>
       <div className='flex flex-row justify-between p-3'>
         <div>
-          <div className='p-2'>TIME: 00:00 / ROUND 1</div>
+          <div className='p-2'>TIME: 00:00 / ROUND {roundNum}</div>
         </div>
         <div className="flex flex-row">
           {opponentCards.map((card, index) => (
@@ -89,7 +102,7 @@ const GameBoard: FC <GameBoardProp> = ({
         </div>
         <div>
           <div className='text-red-800 font-bold'>OPPONENT NAME</div>
-          <div className='text-red-600 font-bold'> 100/100 HP</div>
+          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 HP</div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
@@ -97,12 +110,18 @@ const GameBoard: FC <GameBoardProp> = ({
           <div className='justify-center p-20'>USERS SHIP IMAGE</div>
         </div>
         <div className='flex flex-row justify-between h-70'>
+
+
           <div>
             <div className='p-20 text-[2rem]'> OPPONENTS SELECTED CARD </div>
           </div>
+
+
           <div>
             <div className='p-20 text-[2rem]'> USERS SELECTED CARD</div>
           </div>
+
+
         </div>
         <div>
           <div className='p-20'> OPPONENTS SHIP IMAGE</div>
@@ -111,13 +130,17 @@ const GameBoard: FC <GameBoardProp> = ({
       <div className='flex flex-row justify-between p-3'>
         <div className='flex flex-col p-3'>
           <div className='text-green-600 font-bold'>USER NAME</div>
-          <div className='text-blue-600 font-bold'>USER HP: 100/100</div>
+          <div className='text-blue-600 font-bold'>USER HP: {hitPoints}/50</div>
           <br></br>
           <br></br>
 
           <ActionSelect 
+          playerAction={playerAction}
           setPlayerAction={setPlayerAction} 
+          enemyAction={enemyAction}
           setWeaponArmed={setWeaponArmed}
+          setWeaponFired={setWeaponFired}
+          turnEnded={turnEnded}
           />
         </div>
 
@@ -129,6 +152,8 @@ const GameBoard: FC <GameBoardProp> = ({
                 key={index} 
                 card={card} 
                 setCardToPlay={setCardToPlay}
+                setWeaponFired={setWeaponFired}
+                playerAction={playerAction}
                 />
               ))}
 

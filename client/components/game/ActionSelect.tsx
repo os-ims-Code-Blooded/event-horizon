@@ -1,10 +1,16 @@
 import React from 'react';
-
-import { useState, useEffect } from 'react';
-
 import axios from 'axios';
 
-export default function ActionSelect({setPlayerAction, setWeaponArmed}){
+
+
+export default function ActionSelect({ 
+  playerAction, 
+  setPlayerAction, 
+  enemyAction,
+  setWeaponArmed, 
+  setWeaponFired,
+  turnEnded
+}){
 
 
   const actionClick = (e) =>{
@@ -16,6 +22,14 @@ export default function ActionSelect({setPlayerAction, setWeaponArmed}){
     } else {
       setWeaponArmed(false)
     }
+
+    setPlayerAction(e.target.value)
+    if (e.target.value === 'fire'){
+      setWeaponFired(true)
+    } else {
+      setWeaponFired(false)
+    }
+
 
 
   }
@@ -49,7 +63,10 @@ export default function ActionSelect({setPlayerAction, setWeaponArmed}){
         </button>
 
       </div>
-
+      <br></br>
+      <div className=' p-4 bg-white text-black font-bold' >ACTION SELECTED: {playerAction}</div>
+  
+      <div className=' p-4 bg-black text-white font-bold' >ENEMY'S ACTION: {turnEnded ? enemyAction : null}</div>
 
       {/* <div className='justify-items-end'>
         <button 
