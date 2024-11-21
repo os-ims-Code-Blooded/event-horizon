@@ -56,7 +56,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, setWeaponFired, playerAction
     :
 
     <div
-    className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between">
+    className="cursor-not-allowed bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between">
 
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
 

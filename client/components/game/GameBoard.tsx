@@ -37,20 +37,22 @@ type GameBoardProp = {
 const GameBoard: FC <GameBoardProp> = ({
   session,
   socket,
-  endTurn,
   playerAction,
   setPlayerAction,
-  enemyAction,
-  enemyLastAction,
   cardToPlay,
   setCardToPlay,
+  endTurn,
+  turnEnded,
+  hitPoints,
+
+  enemyAction,
+  enemyLastAction,
+  enemyHitPoints,
+  
   weaponArmed,
   setWeaponArmed,
   setWeaponFired,
-  hitPoints,
-  enemyHitPoints,
   roundNum,
-  turnEnded,
   setTurnEnded,
   activeLoading,
   setActiveLoading,
@@ -129,7 +131,16 @@ const GameBoard: FC <GameBoardProp> = ({
 
 
           <div>
-            <div className='p-20 text-[2rem]'> USERS SELECTED CARD {cardToPlay}</div>
+
+            {cardToPlay?
+
+              <div className='p-20 text-[2rem]'>{cardToPlay}</div>
+
+          :
+
+              <div className='p-20 text-[2rem]'> USERS SELECTED CARD </div>
+
+          }
           </div>
 
 

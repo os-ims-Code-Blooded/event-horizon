@@ -184,15 +184,15 @@ export default function GameController ({ session, socket }){
   if (turnEnded && enemyTurnEnd){
     console.log("BOTH TURNS ENDED")
 
-    if (enemyAction === 'load' && playerAction === 'shoot'){
-      setEnemyHitPoints(enemyHitPoints - 10)
-    } else if (enemyAction === 'shoot' && playerAction === 'load'){
-      setHitPoints(hitPoints - 10)
+    if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'shoot'){
+      setEnemyHitPoints(enemyHitPoints - 20)
+    } else if (enemyAction === 'shoot' && (playerAction === 'load' || playerAction === '')){
+      setHitPoints(hitPoints - 20)
     } else if (enemyAction === 'shoot' && playerAction === 'shoot'){
-      setHitPoints(hitPoints - 5)
-      setEnemyHitPoints(enemyHitPoints - 5)
+      setHitPoints(hitPoints - 10)
+      setEnemyHitPoints(enemyHitPoints - 10)
     }
-    
+
     setActiveLoading(false)
     setEnemyLastAction(enemyAction)
     setEnemyAction('')
