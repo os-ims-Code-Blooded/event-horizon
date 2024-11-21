@@ -136,14 +136,12 @@ io.on('connection', (socket)=>{
 
   socket.on('shoot_end_turn', data=>{
 
+
     console.log("ACTION DATA", sockId, data.playerAction)
     console.log("CARD DATA", sockId, data.cardToPlay)
 
-    socket.to(data.session).emit("receive_action", data.playerAction)
 
-    if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
+    socket.to(data.session).emit("receive_action", data.playerAction)
   })
 
 
@@ -164,6 +162,14 @@ io.on('connection', (socket)=>{
     if (data.cardToPlay){
       socket.in(data.session).emit("receive_card", data.cardToPlay)
     }
+  })
+
+
+  socket.on('lame_end_turn', data=>{
+
+    console.log("ACTION DATA", sockId, data.playerAction)
+    socket.to(data.session).emit("receive_action", data.playerAction)
+
   })
 
   // socket.on('end_turn', data=>{

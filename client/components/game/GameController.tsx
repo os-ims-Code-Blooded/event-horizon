@@ -41,6 +41,7 @@ export default function GameController ({ session, socket }){
 
   //the enemy's last action
   const [enemyAction, setEnemyAction] = useState('')
+  const [enemyLastAction, setEnemyLastAction] = useState('')
 
   //did the enemy end their turn?
   const [enemyTurnEnd, setEnemyTurnEnd] = useState(false)
@@ -71,7 +72,7 @@ export default function GameController ({ session, socket }){
     //sends the message state
     // setTurnEnded(true)
 
-    setActiveLoading(false)
+    // setActiveLoading(false)
 
     //emits turn for block
     if (playerAction === "block"){
@@ -83,8 +84,10 @@ export default function GameController ({ session, socket }){
 
 
     //emits turn for shoot
-    if (playerAction === "shoot" && weaponArmed){
+    if (playerAction === "shoot"){
       socket.emit('shoot_end_turn', {playerAction, cardToPlay, session})
+
+
 
       // setWeaponArmed(false)
       // setWeaponFired(false)
@@ -100,6 +103,9 @@ export default function GameController ({ session, socket }){
       socket.emit('load_end_turn', {playerAction, cardToPlay, session})
     }
 
+    if (playerAction === ""){
+      socket.emit('lame_end_turn', playerAction, session)
+    }
 
 
     // if (weaponArmed){
@@ -178,10 +184,15 @@ export default function GameController ({ session, socket }){
   if (turnEnded && enemyTurnEnd){
     console.log("BOTH TURNS ENDED")
     setActiveLoading(false)
+    setEnemyLastAction(enemyAction)
     setEnemyAction('')
     setEnemyTurnEnd(false)
     setTurnEnded(false)
+    if (playerAction === 'shoot'){
+      setCardToPlay(null)
+    }
     setPlayerAction('')
+    
   }
 
 /////////////RENDER////////////////////////
@@ -200,6 +211,7 @@ export default function GameController ({ session, socket }){
         cardToPlay={cardToPlay}
         setCardToPlay={setCardToPlay}
         enemyAction={enemyAction}
+        enemyLastAction={enemyLastAction}
         weaponArmed={weaponArmed}
         setWeaponArmed={setWeaponArmed}
         hitPoints={hitPoints}

@@ -17,6 +17,7 @@ type GameBoardProp = {
   playerAction: any
   setPlayerAction: any
   enemyAction: any
+  enemyLastAction: any
   cardToPlay: any
   setCardToPlay: any
   weaponArmed: any
@@ -40,6 +41,7 @@ const GameBoard: FC <GameBoardProp> = ({
   playerAction,
   setPlayerAction,
   enemyAction,
+  enemyLastAction,
   cardToPlay,
   setCardToPlay,
   weaponArmed,
@@ -146,7 +148,8 @@ const GameBoard: FC <GameBoardProp> = ({
           <ActionSelect 
           playerAction={playerAction}
           setPlayerAction={setPlayerAction} 
-          enemyAction={enemyAction}
+          enemyLastAction={enemyLastAction}
+          cardToPlay={cardToPlay}
           weaponArmed={weaponArmed}
           setWeaponArmed={setWeaponArmed}
           setWeaponFired={setWeaponFired}
@@ -177,12 +180,15 @@ const GameBoard: FC <GameBoardProp> = ({
           {
           
           // !turnEnded || playerAction !== '' ?
-          !turnEnded || (turnEnded && enemyAction)?
+          ((playerAction === 'shoot' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
        
           <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
          onClick={()=>{
           setTurnEnded(true)
           endTurn()
+          if (playerAction === 'fire'){
+
+          }
         }}>COMMIT TURN</button>
 
 
