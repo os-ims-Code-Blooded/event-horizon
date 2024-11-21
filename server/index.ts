@@ -112,15 +112,68 @@ io.on('connection', (socket)=>{
   
   
   //PLAYER ENDS TURN
+
+  socket.on('block_end_turn', data=>{
+
+    console.log("ACTION DATA", sockId, data.playerAction)
+    console.log("CARD DATA", sockId, data.cardToPlay)
+    console.log("TURN ENDED?", sockId, data.turnEnded )
+
+    socket.to(data.session).emit("receive_action", data.playerAction)
+
+    if (data.cardToPlay){
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
+    }
+  })
+
+
+
+
+
+
+
+
+
+  socket.on('shoot_end_turn', data=>{
+
+    console.log("ACTION DATA", sockId, data.playerAction)
+    console.log("CARD DATA", sockId, data.cardToPlay)
+
+    socket.to(data.session).emit("receive_action", data.playerAction)
+
+    if (data.cardToPlay){
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
+    }
+  })
+
+
+
+
+
+
+
+
+
+  socket.on('load_end_turn', data=>{
+
+    console.log("ACTION DATA", sockId, data.playerAction)
+    console.log("CARD DATA", sockId, data.cardToPlay)
+
+    socket.to(data.session).emit("receive_action", data.playerAction)
+
+    if (data.cardToPlay){
+      socket.in(data.session).emit("receive_card", data.cardToPlay)
+    }
+  })
+
   // socket.on('end_turn', data=>{
-    
+
   //   console.log("ACTION DATA", data.playerAction)
   //   console.log("CARD DATA", data.cardToPlay)
 
 
   //   socket.to(data.session).emit("receive_action", data.playerAction)
 
-    
   //   if (data.cardToPlay){
   //     socket.in(data.session).emit("receive_card", data.cardToPlay)
   //   }
@@ -131,53 +184,11 @@ io.on('connection', (socket)=>{
 
 
 
-  socket.on('shoot_end_turn', data=>{
 
-    console.log("ACTION DATA", data.playerAction)
-    console.log("CARD DATA", data.cardToPlay)
 
-    socket.to(data.session).emit("receive_action", data.playerAction)
 
-    if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
-  })
 
-  socket.on('block_end_turn', data=>{
 
-    console.log("ACTION DATA", data.playerAction)
-    console.log("CARD DATA", data.cardToPlay)
-
-    socket.to(data.session).emit("receive_action", data.playerAction)
-
-    if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
-  })
-
-  socket.on('load_end_turn', data=>{
-
-    console.log("ACTION DATA", data.playerAction)
-    console.log("CARD DATA", data.cardToPlay)
-
-    socket.to(data.session).emit("receive_action", data.playerAction)
-
-    if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
-  })
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   //////////////////////////////////////////
   
     // //if it receives data marked send_message

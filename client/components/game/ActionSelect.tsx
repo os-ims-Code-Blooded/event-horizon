@@ -7,6 +7,7 @@ export default function ActionSelect({
   playerAction, 
   setPlayerAction, 
   enemyAction,
+  weaponArmed,
   setWeaponArmed, 
   setWeaponFired,
   turnEnded,
@@ -58,13 +59,13 @@ export default function ActionSelect({
         <div></div>
 
         <>
-          {activeLoading && !turnEnded ?
+          {activeLoading?
 
           <button
 
           value='shoot'
           className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
-          >CANNONS
+          >FIRE
           </button>
           
           :
@@ -73,7 +74,7 @@ export default function ActionSelect({
           value='shoot'
           className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
           onClick={(e)=>{actionClick(e)}}
-          >CANNONS
+          >FIRE
           </button>
 
           }

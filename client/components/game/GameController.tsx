@@ -64,14 +64,26 @@ export default function GameController ({ session, socket }){
   //has the shield been charged?
   const [shieldCharged, setShieldCharged] = useState(false)
   
+
+
  ////////////END TURN/////////////////
   const endTurn = () =>{
     //sends the message state
-    setTurnEnded(true)
+    // setTurnEnded(true)
+
     setActiveLoading(false)
 
-    if (playerAction === "shoot" && weaponArmed){
+    //emits turn for block
+    if (playerAction === "block"){
+      socket.emit('block_end_turn', {playerAction, turnEnded, session})
+    }
 
+
+
+
+
+    //emits turn for shoot
+    if (playerAction === "shoot" && weaponArmed){
       socket.emit('shoot_end_turn', {playerAction, cardToPlay, session})
 
       // setWeaponArmed(false)
@@ -79,10 +91,11 @@ export default function GameController ({ session, socket }){
       // setCardToPlay(null)
     }
 
-    if (playerAction === "block"){
-      socket.emit('block_end_turn', {playerAction, session})
-    }
-   
+
+
+
+
+    //emits turn for load
     if (playerAction === "load"){
       socket.emit('load_end_turn', {playerAction, cardToPlay, session})
     }
@@ -105,13 +118,13 @@ export default function GameController ({ session, socket }){
     
 
   }
-
+///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
     // console.log("click value", e.target.value)
 
     setPlayerAction(e.target.value)
 
-    if (e.target.value === 'load'){
+    if (e.target.value === 'load' && cardToPlay){
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -128,6 +141,7 @@ export default function GameController ({ session, socket }){
 ////////////////LIFECYCLE/////////////////
   //when the client socket receives a new message, the received message state is updated
   useEffect(()=>{
+    
     if (session !== ""){
           socket.emit("join_session", session)
         }
@@ -135,10 +149,11 @@ export default function GameController ({ session, socket }){
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
       setEnemyAction(data)
+      setEnemyTurnEnd(true)
 
-      if (enemyAction === 'shoot' && playerAction === 'load'){
-        setHitPoints(hitPoints - 10);
-      }
+      // if (enemyAction === 'shoot' && playerAction === 'load'){
+      //   setHitPoints(hitPoints - 10);
+      // }
 
     })
 
@@ -148,9 +163,8 @@ export default function GameController ({ session, socket }){
     })
 
 
-
-
-  //for messaging
+    
+    //for messaging
     // socket.on("receive_message", (data)=>{
     //   console.log("DATA MESSAGE:", data)
     //   setMessageReceipt(data)
@@ -159,8 +173,16 @@ export default function GameController ({ session, socket }){
 
   }, [socket])
   
-
-
+  
+  
+  if (turnEnded && enemyTurnEnd){
+    console.log("BOTH TURNS ENDED")
+    setActiveLoading(false)
+    setEnemyAction('')
+    setEnemyTurnEnd(false)
+    setTurnEnded(false)
+    setPlayerAction('')
+  }
 
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
@@ -178,12 +200,14 @@ export default function GameController ({ session, socket }){
         cardToPlay={cardToPlay}
         setCardToPlay={setCardToPlay}
         enemyAction={enemyAction}
+        weaponArmed={weaponArmed}
         setWeaponArmed={setWeaponArmed}
         hitPoints={hitPoints}
         enemyHitPoints={enemyHitPoints}
         setWeaponFired={setWeaponFired}
         roundNum={roundNum}
         turnEnded={turnEnded}
+        setTurnEnded={setTurnEnded}
         activeLoading={activeLoading}
         setActiveLoading={setActiveLoading}
         actionClick={actionClick}
