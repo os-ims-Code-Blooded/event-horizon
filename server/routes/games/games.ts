@@ -3,54 +3,23 @@ import database from '../../db/index.ts';
 
 const games = express.Router();
 
-// used to get all games for user that have a victor specified
-games.get('/:id', async (req, res) => {
-
-  try {
-
-    // find all games associated with a user
-    let userGames = await database.user_Games.findMany({
-      where: {
-        user_id: Number(req.params.id)
-      }
-    })
-
-    // create only an array of game IDs associated with that user
-    const gameIDs = userGames.map((game) => game.game_id);
-
-    // get all games that have been associated with user
-    let games = await database.games.findMany({
-      where: {
-        id: {
-          in: gameIDs,
-        },
-      },
-    });
-
-    // filter games to only include games that have a victor defined
-    games = games.filter((game) => {
-      if (game.victor_id) {
-        return game;
-      }
-    })
-
-    if (games.length === 0) {
-      res.sendStatus(404);          // if games were not found, respond with 404
-    } else {
-      res.status(200).send(games);  // if games were found, respond with 200
-    }
-
-  } catch (error) {
-    console.error(`Error on request for all games associated with user #${req.params.id}.`);
-    res.sendStatus(500);
-  }
-
-})
-
 // used to create a game AND find an existing game
 games.post('/', async (req, res) => {
 
   try {
+
+    // preliminary validation checks
+    const user = await database.user.findFirst({
+      where: {
+        id: Number(req.body.data.user_id),
+      }
+    })
+
+    if (!user){
+      res.sendStatus(400);  // if user invalid, inform client that this is a bad request
+    } else if (!user.selectedDeckId){
+      res.sendStatus(400);  // if no selected deck, inform client that this user cannot play a game
+    }
 
     // first try to find all open games
     const openGames = await database.games.findMany({
@@ -63,6 +32,9 @@ games.post('/', async (req, res) => {
     });
     
     let userHasOpenGame;
+
+    // This section tries to assign a user to an open game, and also includes checks if the user currently has an open game
+    // =============================================================================================================
 
     // filter openGames to create array of only games with one user
     const filteredGames = openGames.filter((game) => {
@@ -91,6 +63,7 @@ games.post('/', async (req, res) => {
       res.status(200).send(userHasOpenGame);
       return;
     }
+    // =============================================================================================================
     
     // if there are no open games
     if (filteredGames.length === 0) {
@@ -101,13 +74,14 @@ games.post('/', async (req, res) => {
       const newGame = await database.games.create({})
 
       // https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries#connect-multiple-records
-      await database.user_Games.create({
+      const addUserToNewGame = await database.user_Games.create({
         data: {
           user: { connect: { id: req.body.data.user_id } },
-          game: { connect: { id: newGame.id } },
-          deck_name: req.body.data.deck_name
+          game: { connect: { id: newGame.id } }
         }
       });
+
+      console.log(addUserToNewGame);
 
       console.log(`Creating new game #${newGame.id} for user #${req.body.data.user_id}.`)
 
@@ -123,7 +97,6 @@ games.post('/', async (req, res) => {
         data: {
           user: { connect: { id: req.body.data.user_id } },
           game: { connect: { id: filteredGames[0].id } },
-          deck_name: req.body.data.deck_name
         }
       });
 
