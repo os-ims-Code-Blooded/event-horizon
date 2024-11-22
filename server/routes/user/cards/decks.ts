@@ -226,7 +226,7 @@ decks.delete('/:id', async (req, res) => {
       res.sendStatus(203);
     }    
 
-    const deleteCardsForDeck = await database.user_Deck_Cards.deleteMany({
+    const removeCardsFromDeck = await database.user_Deck_Cards.deleteMany({
       where: {
         deck_id: Number(req.body.data.deck_id),
       }
