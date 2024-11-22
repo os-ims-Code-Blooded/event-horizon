@@ -1,13 +1,11 @@
 import React, {FC} from 'react';
+import  {Link} from 'react-router-dom';
 
 type LandingProps = {
-  updateView: Function,
-  view: String;
   user: Object | null;
-  getUser: Function;
-  logOut: Function;
+  handleLogin: Function;
 };
-const LandingPage: FC<LandingProps> = ({updateView, view, user, getUser, logOut}) => {
+const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
 
   return (
     <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center h-screen text-white'>
@@ -19,17 +17,14 @@ const LandingPage: FC<LandingProps> = ({updateView, view, user, getUser, logOut}
       </div>
       <div className='justify-items-center flex'>
         {!user && (
-              <button
+              <Link
+              to="/login"
               type="button"
-              onClick={(e) => {
-                updateView(e);
-                getUser();
-              }}
-              className='w-96 py-6 text-2xl p-3 bg-green-500 text-white rounded-lg shadow-lg hover:bg-orange-900'
-              name="TitleMenu"
+              onClick={() => handleLogin()}
+              className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-green-300 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-orange-900'
             >
               Sign Up / Login
-            </button>
+            </Link>
             )}
       </div>
     </div>

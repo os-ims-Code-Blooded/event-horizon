@@ -43,7 +43,6 @@ profile.get('/:id', async (req, res) => {
 profile.get('/', async (req, res) => {
 
   try {
-
     const users = await database.user.findMany();
 
     if (!users){

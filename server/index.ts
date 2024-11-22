@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
+import passport from 'passport';
+import session  from 'express-session';
+import authRouter from './auth/auth.ts';
 import path from 'path';
 import dotenv from "dotenv";
-
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from './db/index.ts';
 
 import http from 'http'
@@ -22,17 +25,80 @@ const app = express();
 const PORT: String = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
 
+////////// MIDDLEWARE /////////////////
+app.use(express.json());
+app.use(express.static(path.resolve(__dirname, '../client/dist/')));
+app.on('error', (err: any) => console.error('Error', err));
+app.use(cors())
+
+
+////////// PASSPORT //////////////////
+
+app.use(session(
+  {
+    secret: process.env.SERVER_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+  }
+));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/', authRouter);
+app.use('/profile', profile);
+
+// Middleware to check if user is authenticated
+const isAuthenticated = (req: any, res: any, next: any) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Not authenticated' });
+};
+
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+
+});
+// app.get('/title-menu', (req, res) => {
+//   // res.json('/title-menu')
+//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+// })
+// app.get('/instructions', (req, res) => {
+//   // res.json('/title-menu')
+//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+// })
+// app.get('/user-profile', (req, res) => {
+//   // res.json('/title-menu')
+//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+// })
+
+// app.get('/user-profile/friends', (req, res) => {
+//   // res.json('/title-menu')
+//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+// })
+app.get('/api/auth-check', (req, res) => {
+  res.json({ isAuthenticated: req.isAuthenticated(), user: req.user });
+});
+
+app.post('/api/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error logging out' });
+    }
+    req.session.destroy((error) => {
+      if (error) {
+        return res.status(500).json({ message: 'Error destroying session' });
+      }
+      res.status(200).json({ message: 'Logged out!' });
+    });
+  });
+});
+
 
 ////////// ROUTERS //////////////////
 
 
 
-////////// MIDDLEWARE /////////////////
-app.use(express.json());
-app.use('/profile', profile);
-app.use(express.static(path.resolve(__dirname, '../client/dist/')));
-app.on('error', (err: any) => console.error('Error', err));
-app.use(cors())
 
 //////// WEBSOCKET ///////////////////////////
 

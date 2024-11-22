@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import '../style.css';
 import SelectGame from './game/SelectGame.tsx';
 import Profile from './profile/Profile.tsx';
@@ -10,6 +11,9 @@ import TitleMenu from './navigations/TitleMenu.tsx';
 import LandingPage from './LandingPage.tsx';
 import UserDecks from './cards/UserDecks.tsx'
 import GameBoard from './game/GameBoard.tsx';
+import Friends from './profile/Friends.tsx';
+import axios from 'axios';
+import { useNavigation, useLocation } from 'react-router-dom';
 interface User {
   id: number;
   name: String,
@@ -18,109 +22,78 @@ interface User {
 }
 
 export default function App (){
-  console.log('APP RENDER')
-	const [view, setView] = useState<string>('Dock');
   const [user, setUser] = useState<User | null>(null);
-  // const [isDarkMode, setIsDarkMode] = useState(false);
-  const effectRan = useRef(false);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   // dark mode toggle
   const toggleDarkMode = () => {
     // setIsDarkMode((prevMode) => !prevMode);
     document.documentElement.classList.toggle('dark')
   };
 
-  const getUser = () => {
-    setUser({
-      id: 1,
-      name: 'Jeremy Hernandez',
-      email: 'jeremy.hernandez504@gmail.com',
-      username: '25th Baam'
-    })
+  const handleLogin = () => {
+    window.location.href = '/login';
   };
 
-  const logOut = () => {
-    setUser(null);
+  const AuthCheck = async (user: any) => {
+    try {
+
+      const response = await axios.get('/api/auth-check');
+      setIsAuthenticated(response.data.isAuthenticated);
+
+      // Fetch user profile if authenticated
+      if (response.data.isAuthenticated) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      setIsAuthenticated(false);
+      throw new Error('Error checking auth', error);
+    }
   };
 
+  useEffect(() => {
+    const user = axios.get('/profile');
+    AuthCheck(user);
+}, []);
 
-  //renderView
-  function updateView(e) {
-
-		switch (e.target.name){
-			case 'Dock':
-        setView('Dock');
-        console.log('View changed to Landing page')
-      break;
-      case 'TitleMenu':
-        setView('TitleMenu');
-      break;
-      case 'Instructions':
-        setView('Instructions');
-        break;
-      case 'Profile':
-        setView('Profile');
-        break;
-      case 'Cards':
-        setView('Cards');
-        break;
-      case 'GameBoard':
-        setView('GameBoard');
-      default:
-        console.error('Cannot change View');
-	}
-}
-useEffect(() => {
-  setUser(user);
-})
-
-  switch(view){
-    case 'Dock':
-      return (
-          <div>
-            <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-            <LandingPage logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
-          </div>
-        )
-
-    case 'TitleMenu':
-      return (
-        <div>
-          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <TitleMenu logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}  />
-
-          <SelectGame/>
-          <TitleMenu logOut={logOut} updateView={updateView} view={view} user={user}  />
-          
-        </div>
-      )
-    case 'Instructions':
-      return (
-        <div>
-          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <Instructions logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user} />
-        </div>
-      )
-      case 'Profile':
-        return (
-          <div>
-            <NavigationBar toggleDarkMode={toggleDarkMode}logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-            <Profile logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
-          </div>
-        )
-      case 'Cards':
-      return (
-        <div>
-          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-          <UserDecks logOut={logOut} getUser={getUser} updateView={updateView} view={view} user={user}/>
-        </div>
-      )
-      case 'GameBoard':
-        return (
-          <div>
-          <NavigationBar toggleDarkMode={toggleDarkMode} logOut={logOut} getUser={getUser} user={user} view={view} updateView={updateView}/>
-            <GameBoard />
-          </div>
-        )
-  }
+  return (
+    <Router>
+      <NavigationBar
+        toggleDarkMode={toggleDarkMode}
+        user={user}
+        handleLogin={handleLogin}
+      />
+      <Routes>
+        <Route
+          path="/"
+          element={<LandingPage user={user} handleLogin={handleLogin}/>}
+        />
+        <Route
+          path="/title-menu"
+          element={isAuthenticated ? <TitleMenu user={user} /> : <Navigate to='/'/>}
+        />
+        <Route
+          path="/instructions"
+          element={<Instructions user={user} />}
+        />
+        <Route
+          path="/user-profile"
+          element={isAuthenticated ? <Profile user={user} /> : <Navigate to='/' />}
+        />
+        <Route
+          path="/cards"
+          element={isAuthenticated ? <UserDecks user={user} /> : <Navigate to='/' />}
+        />
+        <Route
+          path="/game-board"
+          element={isAuthenticated ? <GameBoard /> : <Navigate to='/' />}
+        />
+        <Route
+          path="/user-profile/friends"
+          element={isAuthenticated ? <Friends /> : <Navigate to='/' />}
+        />
+      </Routes>
+    </Router>
+  );
 }

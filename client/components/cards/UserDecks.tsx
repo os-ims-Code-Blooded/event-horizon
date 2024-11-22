@@ -1,11 +1,7 @@
 import React, { FC } from 'react';
 
 type userDeckProps = {
-  updateView: Function;
-  view: string;
   user: Object | null;
-  logOut: Function;
-  getUser: Function;
 };
 
 const UserDecks: FC<userDeckProps> = () => {
