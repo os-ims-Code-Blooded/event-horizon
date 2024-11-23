@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import '../style.css';
 import SelectGame from './game/SelectGame.tsx';
 import Profile from './profile/Profile.tsx';
@@ -13,17 +13,18 @@ import UserDecks from './cards/UserDecks.tsx'
 import GameBoard from './game/GameBoard.tsx';
 import Friends from './profile/Friends.tsx';
 import axios from 'axios';
-import { useNavigation, useLocation } from 'react-router-dom';
 interface User {
   id: number;
-  name: String,
-  email: String,
-  username: String
+  name: String;
+  email: String;
+  username: String;
 }
 
 export default function App (){
   const [user, setUser] = useState<User | null>(null);
+  const [friends, setFriends] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {
     // setIsDarkMode((prevMode) => !prevMode);
@@ -34,6 +35,16 @@ export default function App (){
     window.location.href = '/login';
   };
 
+  const fetchUser = async () => {
+    const fetchedUser = await axios.get('/profile')
+    .then((user) => {
+      AuthCheck(user.data);
+    })
+    .catch((err) => {
+      console.error('Failed to fetch user');
+    });
+  };
+
   const AuthCheck = async (user: any) => {
     try {
 
@@ -42,7 +53,8 @@ export default function App (){
 
       // Fetch user profile if authenticated
       if (response.data.isAuthenticated) {
-        setUser(user);
+        setUser(response.data.user);
+        console.log('user', response.data.user)
       } else {
         setUser(null);
       }
@@ -52,13 +64,41 @@ export default function App (){
     }
   };
 
+  const getFriends = async () => {
+    if(user) {
+      const allFriends = await axios.get(`/friends/${user.id}`)
+        .then((fetchedFriends) => {
+          if(fetchedFriends) {
+            console.log('friends back', friends);
+            const notMe = fetchedFriends.data.filter((friend: any) => friend.id !== user.id);
+            setFriends(notMe);
+          }  else {
+            console.error('Failed to fetch users friends');
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to fetch friends');
+        })
+    } else {
+      return [];
+    }
+  };
+
   useEffect(() => {
-    const user = axios.get('/profile');
-    AuthCheck(user);
+    if(!user) {
+      fetchUser();
+    }
+
+}, [user]);
+
+useEffect(() => {
+  if (user && friends.length === 0) {
+    getFriends();
+  }
 }, []);
 
   return (
-    <Router>
+    <>
       <NavigationBar
         toggleDarkMode={toggleDarkMode}
         user={user}
@@ -90,10 +130,10 @@ export default function App (){
           element={isAuthenticated ? <GameBoard /> : <Navigate to='/' />}
         />
         <Route
-          path="/user-profile/friends"
-          element={isAuthenticated ? <Friends /> : <Navigate to='/' />}
+          path="/friends"
+          element={isAuthenticated ? <Friends user={user} friends={friends}/> : <Navigate to='/' />}
         />
       </Routes>
-    </Router>
+    </>
   );
 }

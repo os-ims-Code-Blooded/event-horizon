@@ -137,3 +137,5 @@ friends.delete('/:id', async (req, res) => {
     res.sendStatus(500);
   }
 })
+
+export default friends;
