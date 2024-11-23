@@ -37,12 +37,14 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
 
 
-  //the enemy's last action
+  //the enemy's current and last actions
   const [enemyAction, setEnemyAction] = useState('')
   const [enemyLastAction, setEnemyLastAction] = useState('')
 
   //did the enemy end their turn?
   const [enemyTurnEnd, setEnemyTurnEnd] = useState(false)
+
+  //is the enemy's weapon armed?
   const [enemyArmed, setEnemyArmed] = useState(false)
 
   //the enemy's loaded card
@@ -60,7 +62,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   //has the card been loaded?
   const [weaponArmed, setWeaponArmed] = useState(false)
 
-  const [cannonFired, setCannonFired] = useState(false)
 
   //for a finished game
   // const [gameOver, setGameOver] = useState(false)
@@ -172,6 +173,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   if (turnEnded && enemyTurnEnd){
 
     console.log("BOTH TURNS ENDED")
+    setRoundNum(roundNum + 1)
 
     //you hit them
     if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
