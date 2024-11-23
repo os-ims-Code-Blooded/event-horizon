@@ -69,9 +69,8 @@ export default function App (){
       const allFriends = await axios.get(`/friends/${user.id}`)
         .then((fetchedFriends) => {
           if(fetchedFriends) {
-            console.log('friends back', friends);
-            const notMe = fetchedFriends.data.filter((friend: any) => friend.id !== user.id);
-            setFriends(notMe);
+            console.log('friends back', fetchedFriends);
+            setFriends(fetchedFriends.data.friends);
           }  else {
             console.error('Failed to fetch users friends');
           }
@@ -95,7 +94,7 @@ useEffect(() => {
   if (user && friends.length === 0) {
     getFriends();
   }
-}, []);
+}, [user]);
 
   return (
     <>
