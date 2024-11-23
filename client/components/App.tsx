@@ -126,7 +126,7 @@ useEffect(() => {
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <GameBoard /> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame /> : <Navigate to='/' />}
         />
         <Route
           path="/friends"
