@@ -25,7 +25,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
     switch (location.pathname) {
       case '/':
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between space-x-4 h-5 sm:grid-cols-2">
+          <nav className="fixed z-10 top-0 w-full p-4 rounded-md bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between space-x-4 h-7 sm:grid-cols-2">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>
@@ -57,7 +57,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       case '/instructions':
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
+          <nav className="fixed top-0 w-full p-4 rounded-md bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-7">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>
@@ -77,7 +77,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       case '/user-profile':
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
+          <nav className="fixed top-0 w-full rounded-md p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-7">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>
@@ -87,6 +87,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             <Link to="/instructions" className="hover:text-orange-400 truncate">
               How To Play
             </Link>
+            <Link to="/" onClick={() => handleLogout()}className='hover:text-orange-400 truncate'>Logout</Link>
             <button onClick={toggleDarkMode} className="hover:text-orange-400">
               🌗
             </button>
@@ -95,7 +96,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       case '/title-menu':
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
+          <nav className="fixed top-0 w-full p-4 rounded-md bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-7">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>
@@ -115,7 +116,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       case '/friends':
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
+          <nav className="fixed top-0 w-full p-4 rounded-md bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-7">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>
@@ -136,7 +137,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       default:
         return (
-          <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
+          <nav className="fixed top-0 w-full p-4 rounded-md bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-7">
             <Link to="/" className="hover:text-orange-400 truncate">
               EVENT HORIZON
             </Link>

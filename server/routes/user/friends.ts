@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import database from '../db/index.ts';
+import database from '../../db/index.ts';
 
 const friends = express.Router();
 
