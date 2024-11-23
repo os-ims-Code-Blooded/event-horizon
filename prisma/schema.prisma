@@ -27,21 +27,24 @@ datasource db {
 /// Contains bi-directional friendship with 'friends' and 'friendOf' property
 /// This ensures that there are no duplicate friendships
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  google_id String   @unique
-  email     String   @unique
-  name      String?
-  score     Int      @default(0)
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  google_id      String   @unique
+  email          String   @unique
+  name           String?
+  score          Int      @default(0)
+  selectedDeckId Int?
 
   User_Games    User_Games[]
   Round_Actions Round_Actions[]
   User_Cards    User_Cards[]
   User_Decks    User_Decks[]
   Games         Games[]
+  friends       Friends[]       @relation("UserFriends")
+  friendOf      Friends[]       @relation("Friendships")
+  selectedDeck  User_Decks?     @relation("SelectedDeck", fields: [selectedDeckId], references: [id])
 
-  friends  Friends[] @relation("UserFriends")
-  friendOf Friends[] @relation("Friendships")
+  @@unique([id, selectedDeckId])
 }
 
 // https://github.com/prisma/prisma/discussions/13214
@@ -50,8 +53,8 @@ model Friends {
   user_id   Int
   friend_id Int
 
-  user   User @relation("UserFriends", fields: [user_id], references: [id])
-  friend User @relation("Friendships", fields: [friend_id], references: [id])
+  user   User @relation("UserFriends", fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  friend User @relation("Friendships", fields: [friend_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@unique([user_id, friend_id])
 }
@@ -64,72 +67,87 @@ model Games {
   status     Boolean   @default(true) /// This indicates if the Game session is still active.
   start_date DateTime  @default(now())
   end_date   DateTime?
-  victor     User?     @relation(fields: [victor_id], references: [id])
   victor_id  Int?
 
   User_Games    User_Games[]
   Rounds        Rounds[]
   Round_Actions Round_Actions[]
+  victor        User?           @relation(fields: [victor_id], references: [id], onUpdate: Cascade, onDelete: SetNull)
 }
 
 // User_Games associates a Game with a User
 // there can be multiple Users for a Game
 // there can be multiple Games for a User
 model User_Games {
-  id        Int    @id @default(autoincrement())
-  game      Games  @relation(fields: [game_id], references: [id])
-  user      User   @relation(fields: [user_id], references: [id])
-  game_id   Int
-  user_id   Int
-  deck_name String
+  id            Int  @id @default(autoincrement())
+  game_id       Int
+  user_id       Int?
+  selected_deck Int?
+
+  game Games @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user User? @relation(fields: [user_id, selected_deck], references: [id, selectedDeckId], onUpdate: Cascade, onDelete: SetNull)
 }
 
 // Rounds associates a Round with a specific Game
 // there can be many Rounds for one Game
 // there will not be many Games for one Round
 model Rounds {
-  id            Int             @id @default(autoincrement())
-  game          Games           @relation(fields: [game_id], references: [id])
-  game_id       Int
-  start_date    DateTime        @default(now())
-  end_date      DateTime?
+  id         Int       @id @default(autoincrement())
+  game_id    Int
+  start_date DateTime  @default(now())
+  end_date   DateTime?
+
   Round_Actions Round_Actions[]
+  game          Games           @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 // Round Actions are associated with a specific Round
 // Multiple Round Actions (generally two) are associated with a Round
 // By proxy, Round Actions are associated with a Game (Rounds reference a Game)
 model Round_Actions {
-  id       Int    @id @default(autoincrement())
-  user     User   @relation(fields: [user_id], references: [id])
-  game     Games  @relation(fields: [game_id], references: [id])
-  round    Rounds @relation(fields: [round_id], references: [id])
+  id       Int @id @default(autoincrement())
   user_id  Int
   game_id  Int
   round_id Int
+
+  user  User   @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  game  Games  @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  round Rounds @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 // Theoretically immutable; we create actions here
 // They exist only in database to prevent cheaters from providing invalid action
 model Actions {
-  id     Int     @id @default(autoincrement())
-  action String?
-  damage Int?    @default(0)
-  armor  Int?    @default(0)
+  id       Int     @id @default(autoincrement())
+  action   String?
+  damage   Int?    @default(0)
+  armor    Int?    @default(0)
+  duration Int?    @default(0)
+  effect   String? @default("")
+
+  // This line is pulling data from the card that was selected
+  card    Cards? @relation(fields: [card_id, damage, armor, duration, effect], references: [id, damage, armor, duration, effect])
+  card_id Int?
 }
 
 // Theoretically immutable; we create cards and assign them to relationships in User_Cards when earned
 model Cards {
-  id              Int               @id @default(autoincrement())
-  createdAt       DateTime          @default(now())
-  name            String
-  description     String?
-  damage          Int?
-  armor           Int?
-  image_url       String
-  score_required  Int               @default(0)
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  name           String
+  description    String?
+  damage         Int?
+  armor          Int?
+  image_url      String?
+  duration       Int?
+  effect         String?
+  score_required Int      @default(0)
+
   User_Cards      User_Cards[]
   User_Deck_Cards User_Deck_Cards[]
+  Actions         Actions[]
+
+  @@unique([id, damage, armor, duration, effect])
 }
 
 // Many Users can have many Cards
@@ -137,25 +155,29 @@ model Cards {
 model User_Cards {
   id       Int      @id @default(autoincrement())
   earnedAt DateTime @default(now())
-  user     User     @relation(fields: [user_id], references: [id])
-  card     Cards    @relation(fields: [card_id], references: [id])
   user_id  Int
   card_id  Int
+
+  user User  @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  card Cards @relation(fields: [card_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 // Users can build card decks from the cards assigned in User_Cards
 model User_Decks {
-  id               Int               @id @default(autoincrement())
-  user             User              @relation(fields: [user_id], references: [id])
-  user_id          Int
-  deck_name        String
+  id        Int    @id @default(autoincrement())
+  user_id   Int
+  deck_name String
+
   User_Decks_Cards User_Deck_Cards[]
+  user             User              @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  selectedByUsers  User[]            @relation("SelectedDeck")
 }
 
 model User_Deck_Cards {
-  id      Int        @id @default(autoincrement())
-  deck    User_Decks @relation(fields: [deck_id], references: [id])
-  card    Cards      @relation(fields: [card_id], references: [id])
+  id      Int @id @default(autoincrement())
   deck_id Int
   card_id Int
+
+  deck User_Decks @relation(fields: [deck_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  card Cards      @relation(fields: [card_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
