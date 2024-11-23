@@ -81,7 +81,7 @@ app.get('/friends', (req, res) => {
 app.get('/api/auth-check', (req, res) => {
   res.json({ isAuthenticated: req.isAuthenticated(), user: req.user });
 });
-app.get('/game-board', (req, res) => {
+app.get('/select-game', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
 
