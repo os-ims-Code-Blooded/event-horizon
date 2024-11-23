@@ -75,7 +75,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
           </nav>
         );
 
-      case '/title-menu/profile':
+      case '/user-profile':
         return (
           <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
             <Link to="/" className="hover:text-orange-400 truncate">
@@ -113,7 +113,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
           </nav>
         );
 
-      case '/title-menu/profile/friends':
+      case '/friends':
         return (
           <nav className="fixed top-0 w-full p-4 bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-5">
             <Link to="/" className="hover:text-orange-400 truncate">
@@ -122,7 +122,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             <Link to="/title-menu" className="hover:text-orange-400 truncate">
               Play!
             </Link>
-            <Link to="/title-menu/profile" className="hover:text-orange-400 truncate">
+            <Link to="/user-profile" className="hover:text-orange-400 truncate">
               Profile
             </Link>
             <Link to="/instructions" className="hover:text-orange-400 truncate">
