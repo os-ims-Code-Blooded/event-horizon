@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios'
 type FriendsProp = {
@@ -6,14 +6,7 @@ type FriendsProp = {
   friends: any;
 }
 const Friends = ({ user, friends }: FriendsProp) => {
-  // const friends = [
-  //   { name: 'Jeremy', wins: 0, losses: 0, totalGames: 0 },
-  //   { name: 'Ben', wins: 0, losses: 0, totalGames: 0 },
-  //   { name: 'Justin', wins: 0, losses: 0, totalGames: 0},
-  // ];
-  if (!user) {
-    return <div>No user logged in</div>;
-  }
+
 
   return (
     <div className="pt-10 flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-md h-screen sm:grid-cols-1">
