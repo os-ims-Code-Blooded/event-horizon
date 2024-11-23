@@ -12,6 +12,8 @@ import cors from 'cors'
 import { Server } from 'socket.io'
 import { it } from 'node:test';
 import profile from './routes/profile.ts';
+import friends from './routes/friends.ts';
+
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
 
@@ -45,6 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', authRouter);
 app.use('/profile', profile);
+app.use('/friends', friends);
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req: any, res: any, next: any) => {
@@ -59,26 +62,28 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 
 });
-// app.get('/title-menu', (req, res) => {
-//   // res.json('/title-menu')
-//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'))
 // })
-// app.get('/instructions', (req, res) => {
-//   // res.json('/title-menu')
-//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-// })
-// app.get('/user-profile', (req, res) => {
-//   // res.json('/title-menu')
-//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-// })
+app.get('/title-menu', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
+app.get('/instructions', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
+app.get('/user-profile', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
+app.get('/friends', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
 
-// app.get('/user-profile/friends', (req, res) => {
-//   // res.json('/title-menu')
-//   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-// })
 app.get('/api/auth-check', (req, res) => {
   res.json({ isAuthenticated: req.isAuthenticated(), user: req.user });
 });
+app.get('/game-board', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
 
 app.post('/api/logout', (req, res) => {
   req.logout((err) => {

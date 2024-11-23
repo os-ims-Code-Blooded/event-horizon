@@ -2,6 +2,7 @@ import React, {FC, useState} from 'react';
 import { Link } from 'react-router-dom';
 type ProfileProps = {
   user: Object | null;
+
 };
 
 const Profile: FC<ProfileProps> = ({user}) => {
@@ -40,8 +41,8 @@ const Profile: FC<ProfileProps> = ({user}) => {
         <div className=''>Image</div>
         <div> Wins: 0 | Losses: 0</div>
         <Link type='button' className="w-96 py-6 text-2xl p-3 bg-blue-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to="cards">Cards</Link >
-        <Link type='button' className="w-96 py-6 text-2xl p-3 bg-green-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to="friends" >Friends</Link >
-        <Link type='button' className="w-96 py-6 text-2xl p-3 bg-gray-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to="user-profile">Settings</Link >
+        <Link type='button' className="w-96 py-6 text-2xl p-3 bg-green-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to="/friends" replace={true}>Friends</Link >
+        <Link type='button' className="w-96 py-6 text-2xl p-3 bg-gray-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to="">Settings</Link >
         <Link type='button' className="w-96 py-6 text-2xl p-3 bg-orange-400 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600" to='customize'>Customize</Link >
       </div>
     </div>
