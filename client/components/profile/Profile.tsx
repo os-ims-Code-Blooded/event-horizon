@@ -26,19 +26,6 @@ const Profile: FC<ProfileProps> = ({user}) => {
       })
   };
 
-  const handleBlur = async (e: any) => {
-    const newName = e.target.textContent;
-    if (newName !== name) {
-      setName(newName);
-      changeName();
-      setIsEditing(false);
-    
-    } else {
-      setIsEditing(false);
-    }
-
-  }
-
   return (
     <div className="bg-slate-800 dark:bg-black dark:text-white text-slate-400 h-screen flex items-center justify-center">
       <div className="flex flex-col items-center space-y-3 text-center">
