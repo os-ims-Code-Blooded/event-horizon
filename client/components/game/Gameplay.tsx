@@ -22,7 +22,7 @@ export default function Gameplay ({ session, socket }){
 
   const [messageReceipt, setMessageReceipt] = useState([])
 
-  //player selected action of block, load or shoot
+  //player selected action of block, load or fire
   const [playerAction, setPlayerAction] = useState('')
 
   //player's remaining hit points

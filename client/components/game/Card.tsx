@@ -10,21 +10,16 @@ interface CardType {
 interface CardProps {
   card: CardType;
   setCardToPlay: any
-  setWeaponFired: any
   playerAction: any
   setActiveLoading: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, setWeaponFired, playerAction, setActiveLoading }) => {
-
-
-
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading }) => {
 
   const cardSelect = (name, attack, defense) =>{
 
     setCardToPlay(name)
     setActiveLoading(true)
-
   }
 
 

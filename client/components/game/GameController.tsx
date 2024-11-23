@@ -1,9 +1,10 @@
 import React from 'react';
 // import { io } from "socket.io-client";
 import { useState, useEffect } from 'react';
-import ActionSelect from './ActionSelect';
+
 import GameBoard from './GameBoard';
-import axios from 'axios';
+import GameOver from './GameOver';
+import Navigation from './../Navigation.tsx'
 
 
 //creates front-end socket connection to the server
@@ -15,7 +16,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -25,19 +26,16 @@ export default function GameController ({ session, socket }){
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
-  //player selected action of block, load or shoot
+  //player selected action of block, load or fire
   const [playerAction, setPlayerAction] = useState('')
-
-  const [prevAction, setPrevAction] = useState('')
-
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
+  //the card the player has just selected
+  const [cardToPlay, setCardToPlay] = useState(null)
 
   //player's remaining hit points
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
 
-  //the card the player has just selected
-  const [cardToPlay, setCardToPlay] = useState(null)
 
   //the enemy's last action
   const [enemyAction, setEnemyAction] = useState('')
@@ -45,6 +43,7 @@ export default function GameController ({ session, socket }){
 
   //did the enemy end their turn?
   const [enemyTurnEnd, setEnemyTurnEnd] = useState(false)
+  const [enemyArmed, setEnemyArmed] = useState(false)
 
   //the enemy's loaded card
   const [enemyCard, setEnemyCard] = useState('')
@@ -55,16 +54,19 @@ export default function GameController ({ session, socket }){
   //tracks which round we're on
   const [roundNum, setRoundNum] = useState(0)
 
-  
+  //is the plater actively loading
   const[activeLoading, setActiveLoading] = useState(false)
 
   //has the card been loaded?
   const [weaponArmed, setWeaponArmed] = useState(false)
-  //has the weapon been fired?
-  const [weaponFired, setWeaponFired] = useState(false)
-  //has the shield been charged?
-  const [shieldCharged, setShieldCharged] = useState(false)
-  
+
+  const [cannonFired, setCannonFired] = useState(false)
+
+  //for a finished game
+  // const [gameOver, setGameOver] = useState(false)
+  // const [gameWinner, setGameWinner] = useState('')
+
+
 
 
  ////////////END TURN/////////////////
@@ -79,24 +81,10 @@ export default function GameController ({ session, socket }){
       socket.emit('block_end_turn', {playerAction, turnEnded, session})
     }
 
-
-
-
-
-    //emits turn for shoot
-    if (playerAction === "shoot"){
-      socket.emit('shoot_end_turn', {playerAction, cardToPlay, session})
-
-
-
-      // setWeaponArmed(false)
-      // setWeaponFired(false)
-      // setCardToPlay(null)
+    //emits turn for fire
+    if (playerAction === "fire"){
+      socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
     }
-
-
-
-
 
     //emits turn for load
     if (playerAction === "load"){
@@ -107,13 +95,6 @@ export default function GameController ({ session, socket }){
       socket.emit('lame_end_turn', playerAction, session)
     }
 
-
-    // if (weaponArmed){
-    //   socket.emit("end_turn", { playerAction, cardToPlay, session })
-
-    // } else {
-    //   socket.emit("end_turn", { playerAction, session })
-    // }
 
    //////REQUEST HANDLING
     // axios.post('/rounds/actions/:action', {
@@ -135,19 +116,13 @@ export default function GameController ({ session, socket }){
     } else {
       setWeaponArmed(false)
     }
-
-    if (e.target.value === 'shoot'){
-      setWeaponFired(true)
-    } else {
-      setWeaponFired(false)
-    }
   }
 
 
 ////////////////LIFECYCLE/////////////////
   //when the client socket receives a new message, the received message state is updated
   useEffect(()=>{
-    
+
     if (session !== ""){
           socket.emit("join_session", session)
         }
@@ -157,10 +132,6 @@ export default function GameController ({ session, socket }){
       setEnemyAction(data)
       setEnemyTurnEnd(true)
 
-      // if (enemyAction === 'shoot' && playerAction === 'load'){
-      //   setHitPoints(hitPoints - 10);
-      // }
-
     })
 
     //UPDATE CARD
@@ -168,50 +139,97 @@ export default function GameController ({ session, socket }){
       setEnemyCard(data)
     })
 
-
-    
-    //for messaging
-    // socket.on("receive_message", (data)=>{
-    //   console.log("DATA MESSAGE:", data)
-    //   setMessageReceipt(data)
-    // })
-
-
+    ////////////for messaging/////////////////////
+    // socket.on("receive_message", (data)=>{   //
+    //   console.log("DATA MESSAGE:", data)     //
+    //   setMessageReceipt(data)                //
+    // })                                       //
+    //////////////////////////////////////////////
   }, [socket])
+
+
+
+  useEffect(()=>{
+     //loss condition
+    if (hitPoints <= 0 && enemyHitPoints > 0){
+     setGameOver(true)
+     setGameWinner("Your opponent ")
+   }
   
+   //win condition
+    else if (hitPoints > 0 && enemyHitPoints <= 0){
+     setGameOver(true)
+     setGameWinner("You ")
+   }
   
-  
+   //draw condition?
+   else if (enemyHitPoints <= 0 && hitPoints <= 0){
+     setGameOver(true)
+   }
+  })
+
+
   if (turnEnded && enemyTurnEnd){
+
     console.log("BOTH TURNS ENDED")
 
-    if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'shoot'){
+    //you hit them
+    if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
       setEnemyHitPoints(enemyHitPoints - 20)
-    } else if (enemyAction === 'shoot' && (playerAction === 'load' || playerAction === '')){
+      setWeaponArmed(false)
+
+      //they hit you
+    } else if (enemyAction === 'fire' && (playerAction === 'load' || playerAction === '')){
       setHitPoints(hitPoints - 20)
-    } else if (enemyAction === 'shoot' && playerAction === 'shoot'){
+
+      //you hit each-other
+    } else if (enemyAction === 'fire' && playerAction === 'fire'){
       setHitPoints(hitPoints - 10)
       setEnemyHitPoints(enemyHitPoints - 10)
     }
-
+    
+    
+    //end of every turn
     setActiveLoading(false)
     setEnemyLastAction(enemyAction)
+
+    if (enemyAction === 'load'){
+      setEnemyArmed(true)
+    }
+    if (enemyAction === 'fire'){
+      setEnemyArmed(false)
+    }
+
     setEnemyAction('')
     setEnemyTurnEnd(false)
     setTurnEnded(false)
-    if (playerAction === 'shoot'){
+
+    //expend ordinance if fired
+    if (playerAction === 'fire'){
       setCardToPlay(null)
     }
+
+    //reset the actions
     setPlayerAction('')
-    
-  }
+
+   
+
+
+
+}
+
+
+
+
 
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div className='bg-amber-600 pl-4 py-4'>
+    <div className='bg-slate-400 pl-4 py-4'>
 
       <h1>TOP-LEVEL GAME CONTROLLER</h1>
 
+      <>
         <GameBoard
         session={session}
         socket={socket}
@@ -220,13 +238,18 @@ export default function GameController ({ session, socket }){
         playerAction={playerAction}
         cardToPlay={cardToPlay}
         setCardToPlay={setCardToPlay}
+
         enemyAction={enemyAction}
         enemyLastAction={enemyLastAction}
+        enemyHitPoints={enemyHitPoints}
+        enemyCard={enemyCard}
+        enemyTurnEnd={enemyTurnEnd}
+        enemyArmed={enemyArmed}
+
         weaponArmed={weaponArmed}
         setWeaponArmed={setWeaponArmed}
         hitPoints={hitPoints}
-        enemyHitPoints={enemyHitPoints}
-        setWeaponFired={setWeaponFired}
+
         roundNum={roundNum}
         turnEnded={turnEnded}
         setTurnEnded={setTurnEnded}
@@ -234,16 +257,7 @@ export default function GameController ({ session, socket }){
         setActiveLoading={setActiveLoading}
         actionClick={actionClick}
         />
-
-        <div className='flex flex-row gap-3 justify-center place-items-center'>
-          
-          <div className=' p-4 bg-purple-900 text-white font-bold' >ACTION SELECTED: {playerAction}</div>
-          
-          <div className=' p-4 bg-orange-600 text-white font-bold' >ENEMY'S ACTION: {enemyAction}</div>
-          
-          <div className=' p-4 bg-cyan-900 text-white font-bold' >ENEMY'S CARD: {turnEnded ? enemyCard : null}</div>
-       
-        </div>
+      </>
 
 
     </div>

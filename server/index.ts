@@ -69,11 +69,11 @@ server.listen(PORT, () => {
   let users: any[] = []
   let sessionNum = 0;
   let players = 0;
-  
+
   let roundNum = 0
   let gameMoves = []
   let oneUserEndedTurn = true
-  
+
   //when the server establishes a connection, it shall do the following:
 
 
@@ -102,15 +102,15 @@ io.on('connection', (socket)=>{
       socket.join(data)
       socket.to(data.session).emit(messages)
 
-   
+
 
     //connects the socket object to the incoming room data
   })
 
-  
-  
-  
-  
+
+
+
+
   //PLAYER ENDS TURN
 
   socket.on('block_end_turn', data=>{
@@ -134,7 +134,7 @@ io.on('connection', (socket)=>{
 
 
 
-  socket.on('shoot_end_turn', data=>{
+  socket.on('fire_end_turn', data=>{
 
 
     console.log("ACTION DATA", sockId, data.playerAction)
@@ -196,36 +196,36 @@ io.on('connection', (socket)=>{
 
 
   //////////////////////////////////////////
-  
+
     // //if it receives data marked send_message
     // socket.on('send_message', (data)=>{
-  
+
     //   // console.log("MESSAGE DATA", data)
     //   // console.log("SOCK ID", sockId)
-  
+
     //   messages.push(data.message)
-  
+
     //   // console.log("MESSAGEs", messages)
     //   //db op
-  
-  
+
+
     //   //it shall re broadcast that message back to the client
     //   socket.to(data.session).emit("receive_message", messages)
-  
+
     // })
-  
+
   //when a user disconnects
   socket.on('disconnect', () => {
     console.log('user disconnected');
-    
+
     users = users.filter(user=>user!==sockId)
     console.log("USERS:", users)
-    
+
     players = users.length;
     console.log("CURRENT PLAYERS CONNECTED:", players)
-    
+
   });
-  
+
 })
 
 ///////////////////////////////////////////

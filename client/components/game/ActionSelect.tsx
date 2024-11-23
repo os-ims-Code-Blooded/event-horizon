@@ -1,42 +1,14 @@
 import React from 'react';
-import axios from 'axios';
-
-
 
 export default function ActionSelect({
   playerAction, 
-  setPlayerAction, 
   enemyLastAction,
   cardToPlay,
-  weaponArmed,
-  setWeaponArmed, 
-  setWeaponFired,
   turnEnded,
   activeLoading,
   actionClick
 }){
 
-
-  // const actionClick = (e) =>{
-  //   console.log("click value", e.target.value)
-
-  //   setPlayerAction(e.target.value)
-
-  //   if (e.target.value === 'load'){
-  //     setWeaponArmed(true)
-  //   } else {
-  //     setWeaponArmed(false)
-  //   }
-
-  //   if (e.target.value === 'fire'){
-  //     setWeaponFired(true)
-  //   } else {
-  //     setWeaponFired(false)
-  //   }
-
-
-
-  // }
   return(
     <>
       <div className='flex flex-cols gap-3 justify-items-center'>
@@ -59,8 +31,6 @@ export default function ActionSelect({
         >SHIELDS
         </button>
       }
-
-
 
         <div></div>
 
@@ -91,7 +61,7 @@ export default function ActionSelect({
 
           <button
 
-          value='shoot'
+          value='fire'
           className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
           >FIRE
           </button>
@@ -99,7 +69,7 @@ export default function ActionSelect({
           :
 
           <button
-          value='shoot'
+          value='fire'
           className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
           onClick={(e)=>{actionClick(e)}}
           >FIRE
@@ -113,12 +83,6 @@ export default function ActionSelect({
   
       <div className=' p-4 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}</div>
 
-      {/* <div className='justify-items-end'>
-        <button 
-        className='bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 ' 
-        onClick={endTurn}>COMMIT TURN
-        </button>
-      </div> */}
     </>
   )
 }

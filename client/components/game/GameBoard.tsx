@@ -16,15 +16,19 @@ type GameBoardProp = {
   endTurn: any
   playerAction: any
   setPlayerAction: any
+
   enemyAction: any
   enemyLastAction: any
+  enemyHitPoints: number
+  enemyCard: any
+  enemyTurnEnd: any
+  enemyArmed: any
+
   cardToPlay: any
   setCardToPlay: any
   weaponArmed: any
   setWeaponArmed: any
   hitPoints: number
-  enemyHitPoints: number
-  setWeaponFired: any
   roundNum: number
   turnEnded: any
   setTurnEnded: any
@@ -48,10 +52,12 @@ const GameBoard: FC <GameBoardProp> = ({
   enemyAction,
   enemyLastAction,
   enemyHitPoints,
+  enemyCard,
+  enemyTurnEnd,
+  enemyArmed,
   
   weaponArmed,
   setWeaponArmed,
-  setWeaponFired,
   roundNum,
   setTurnEnded,
   activeLoading,
@@ -126,7 +132,15 @@ const GameBoard: FC <GameBoardProp> = ({
 
 
           <div>
-            <div className='p-20 text-[2rem]'> OPPONENTS SELECTED CARD </div>
+            {enemyArmed?
+
+              <div className='p-20 text-[2rem]'>ENEMY: ARMED</div>
+
+              :
+
+              <div className='p-20 text-[2rem]'> ENEMY: </div>
+
+            }
           </div>
 
 
@@ -136,9 +150,9 @@ const GameBoard: FC <GameBoardProp> = ({
 
               <div className='p-20 text-[2rem]'>{cardToPlay}</div>
 
-          :
+              :
 
-              <div className='p-20 text-[2rem]'> USERS SELECTED CARD </div>
+              <div className='p-20 text-[2rem]'> SELECTED CARD </div>
 
           }
           </div>
@@ -146,7 +160,7 @@ const GameBoard: FC <GameBoardProp> = ({
 
         </div>
         <div>
-          <div className='p-20'> OPPONENTS SHIP IMAGE</div>
+          <div className='p-20'> OPPONENTS SHIP IMAGE </div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3'>
@@ -158,12 +172,8 @@ const GameBoard: FC <GameBoardProp> = ({
 
           <ActionSelect 
           playerAction={playerAction}
-          setPlayerAction={setPlayerAction} 
           enemyLastAction={enemyLastAction}
           cardToPlay={cardToPlay}
-          weaponArmed={weaponArmed}
-          setWeaponArmed={setWeaponArmed}
-          setWeaponFired={setWeaponFired}
           turnEnded={turnEnded}
           activeLoading={activeLoading}
           actionClick={actionClick}
@@ -175,13 +185,12 @@ const GameBoard: FC <GameBoardProp> = ({
 
               {playerCards.map((card, index) => (
                 <Card 
-                key={index} 
-                card={card} 
-                setCardToPlay={setCardToPlay}
-                setWeaponFired={setWeaponFired}
-                playerAction={playerAction}
-                setActiveLoading={setActiveLoading}
-                />
+                  key={index}
+                  card={card}
+                  setCardToPlay={setCardToPlay}
+                  playerAction={playerAction}
+                  setActiveLoading={setActiveLoading}
+                   />
               ))}
 
         </div>
@@ -191,7 +200,7 @@ const GameBoard: FC <GameBoardProp> = ({
           {
           
           // !turnEnded || playerAction !== '' ?
-          ((playerAction === 'shoot' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
+          ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
        
           <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
          onClick={()=>{
