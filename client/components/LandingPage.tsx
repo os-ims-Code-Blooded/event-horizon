@@ -1,13 +1,11 @@
 import React, {FC} from 'react';
+import  {Link} from 'react-router-dom';
 
 type LandingProps = {
-  updateView: Function,
-  view: String;
   user: Object | null;
-  getUser: Function;
-  logOut: Function;
+  handleLogin: Function;
 };
-const LandingPage: FC<LandingProps> = ({updateView, view, user, getUser, logOut}) => {
+const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
 
   return (
     <>
@@ -24,17 +22,14 @@ const LandingPage: FC<LandingProps> = ({updateView, view, user, getUser, logOut}
         <br></br>
       <div className='justify-items-center flex'>
         {!user && (
-          <button
-          type="button"
-          onClick={(e) => {
-            updateView(e);
-            getUser();
-          }}
-          className='w-96 py-6 text-2xl p-3 bg-green-500 text-white rounded-lg shadow-lg hover:bg-orange-900'
-          name="TitleMenu"
-          >
+              <Link
+              to="/login"
+              type="button"
+              onClick={() => handleLogin()}
+              className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-green-300 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-orange-900'
+            >
               Sign Up / Login
-            </button>
+            </Link>
             )}
       </div>
             <br></br>
