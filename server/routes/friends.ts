@@ -8,52 +8,37 @@ friends.get('/:id', async (req, res) => {
   try {
 
     if (!req.params.id){
+
       res.sendStatus(203);
+      
     } else {
 
-      // finds any friend relationship in the database
-      let friendIDs: any = await database.friends.findMany({
-        where: {
-          OR: [
-            {
-              user_id: Number(req.params.id),
-            },
-            { friend_id: Number(req.params.id)},
-          ],
+      const getFriends = await database.user.findFirst({
+        where: { id: Number(req.params.id) },
+        include: {
+          friends: true,
+          friendOf: true,
         }
       })
+
+      const filterUserFriends = getFriends.friends.map((friend) => friend.friend_id);
+      const filterUserFriendOf = getFriends.friendOf.map((friend) => friend.user_id);
       
-      // reduce the friends found to an array of only friend IDs
-      friendIDs = friendIDs.reduce((accum: any, curr: any) => {
-
-        if (curr.user_id !== req.params.id){
-          accum.push(curr.user_id)
-          return accum;
-        } else if (curr.friend_id !== req.params.id){
-          accum.push(curr.friend_id);
-          return accum;
-        } else {
-          return accum;
-        }
-
-      }, [])
-
-      // return all friends specified in friendIDs
-      const friends = await database.friends.findMany({
-        where: {
-          id: {
-            in: friendIDs,
-          },
-        },
+      const userFriends = await database.user.findMany({
+        where: { id: { in: filterUserFriends } }
       })
 
+      const userFriendsOf = await database.user.findMany({
+        where: { id: { in: filterUserFriendOf } }
+      })
 
-      if (!friends){
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(friends);
+      const preformatResponse: any = {
+        friends: userFriends,
+        followers: userFriendsOf
       }
 
+      if (!friends) { res.sendStatus(404) } 
+      else          { res.status(200).send(preformatResponse) }
     }
 
   } catch (error){
@@ -92,9 +77,9 @@ friends.post('/:id', async (req, res) => {
 // If encounter issue with Axios request, read discussion below.
 // https://masteringjs.io/tutorials/axios/delete-with-body
 friends.delete('/:id', async (req, res) => {
-  
+
   try {
-  
+
     if (!req.params.id){
       console.error(`No primary user designated in DELETE request parameters for friends.`)
       res.sendStatus(203);
@@ -102,7 +87,7 @@ friends.delete('/:id', async (req, res) => {
       console.error(`No secondary user designated in DELETE request body for friends.`)
       res.sendStatus(203);
     } else {
-      
+
       const friends = await database.friends.deleteMany({
         where: {
           AND: [
