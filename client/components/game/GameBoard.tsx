@@ -64,6 +64,7 @@ const GameBoard: FC <GameBoardProp> = ({
   setActiveLoading,
   actionClick
 }) => {
+
   const playerCards: CardType[] = [
     {
       name: 'Bomba',
@@ -84,6 +85,10 @@ const GameBoard: FC <GameBoardProp> = ({
       description: 'Increase Defense Power of your shield',
     },
   ];
+
+  const discards: CardType[] = [
+
+  ]
 
   const opponentCards: CardType[] = [
     {
