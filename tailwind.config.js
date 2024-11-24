@@ -16,6 +16,7 @@ module.exports = {
         // 'spaceship': "url('/event-horizon.png')",
         'gradientlight': 'linear-gradient(164deg, rgba(98,112,161,1) 0%, rgba(208,173,63,1) 28%, rgba(164,55,26,1) 77%, rgba(74,42,105,1) 100%)',
       },
+
     },
   },
   plugins: [],
