@@ -7,6 +7,7 @@ import axios from 'axios'
 import { io } from "socket.io-client";
 import GameController from './GameController';
 import GameOver from './GameOver.tsx';
+import UserDecks from './../cards/UserDecks.tsx'
 ////////////////////////////
 
 ////////////////////////////
@@ -39,7 +40,7 @@ export default function SelectGame(){
 
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
     const [session, setSession] = useState("")
-  
+
 
   const onClickPlay = () =>{
     setPlayClicked(true)
@@ -62,26 +63,29 @@ export default function SelectGame(){
   }
 
 return(
+
 <>
 
 
 {!playClicked?
 
 
-<div className='bg-red-300'>
-  <div className='p-4 justify-items-center flex flex-col items-center'>
+<div className='flex items-center justify-center min-h-screen bg-slate-900 dark:bg-black h-screen'>
+  <div className='p-6 justify-items-center flex flex-col items-center'>
 
+<div className='pt-8'>
 
 <select id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
   <option value="">--select deck--</option>
   {decks.map(deck=>{
     return(
       <option value={deck.name}>{deck.name}</option>
-      
+
 
     )
   })}
-      </select>
+</select>
+  </div>
 
 <br></br>
 
@@ -91,8 +95,8 @@ return(
 <button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
 
 <br></br>
-</> 
- 
+</>
+
 :
 
 <>
@@ -106,13 +110,14 @@ return(
   <div>
 
     {!makeClicked?
-      null
+      
+      <UserDecks user={null}/>
     
       :
-      <div>
+      <div className='flex flex-row p-4'>
   
+        <UserDecks user={null}/>
         <MakeGame/>
-
       </div>
   }
 </div>

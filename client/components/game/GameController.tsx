@@ -3,8 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 import GameBoard from './GameBoard';
-import GameOver from './GameOver';
-import Navigation from './../Navigation.tsx'
+import axios from 'axios';
 
 
 //creates front-end socket connection to the server
@@ -71,7 +70,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
  ////////////END TURN/////////////////
-  const endTurn = () =>{
+  const endTurn = async () =>{
     //sends the message state
     // setTurnEnded(true)
 
@@ -97,12 +96,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     }
 
 
-   //////REQUEST HANDLING
-    // axios.post('/rounds/actions/:action', {
-    //   action: playerAction
-    // })
-    // .then(response=>console.log(response))
-    // .catch(err => console.error("failed to post action", err))
+   /////////// REQUEST HANDLING /////////////////////////
+    await axios.post('/games/rounds', {
+      "data": {
+        'round_id': 1,
+        'user_id': 1,
+        'action': 'load',
+        'card_id': 1
+      }
+    })
+    .then(response=>console.log(response))
+    .catch(err => console.error("failed to post move data", err))
     
 
   }
@@ -227,38 +231,38 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div className='bg-slate-400 pl-4 py-4'>
+    <div className='bg-slate-800 pl-4 py-4'>
 
       <h1>TOP-LEVEL GAME CONTROLLER</h1>
 
       <>
         <GameBoard
-        session={session}
-        socket={socket}
-        endTurn={endTurn}
-        setPlayerAction={setPlayerAction}
-        playerAction={playerAction}
-        cardToPlay={cardToPlay}
-        setCardToPlay={setCardToPlay}
 
-        enemyAction={enemyAction}
-        enemyLastAction={enemyLastAction}
-        enemyHitPoints={enemyHitPoints}
-        enemyCard={enemyCard}
-        enemyTurnEnd={enemyTurnEnd}
-        enemyArmed={enemyArmed}
+          session={session}
+          socket={socket}
+          endTurn={endTurn}
+          setPlayerAction={setPlayerAction}
+          playerAction={playerAction}
+          cardToPlay={cardToPlay}
+          setCardToPlay={setCardToPlay}
 
-        weaponArmed={weaponArmed}
-        setWeaponArmed={setWeaponArmed}
-        hitPoints={hitPoints}
+          enemyAction={enemyAction}
+          enemyLastAction={enemyLastAction}
+          enemyHitPoints={enemyHitPoints}
+          enemyCard={enemyCard}
+          enemyTurnEnd={enemyTurnEnd}
+          enemyArmed={enemyArmed}
 
-        roundNum={roundNum}
-        turnEnded={turnEnded}
-        setTurnEnded={setTurnEnded}
-        activeLoading={activeLoading}
-        setActiveLoading={setActiveLoading}
-        actionClick={actionClick}
-        />
+          weaponArmed={weaponArmed}
+          setWeaponArmed={setWeaponArmed}
+          hitPoints={hitPoints}
+
+          roundNum={roundNum}
+          turnEnded={turnEnded}
+          setTurnEnded={setTurnEnded}
+          activeLoading={activeLoading}
+          setActiveLoading={setActiveLoading}
+          actionClick={actionClick} discard={undefined}        />
       </>
 
 

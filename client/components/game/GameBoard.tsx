@@ -1,4 +1,4 @@
-import React, { FC, act } from 'react';
+import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
 // import Gameplay from './Gameplay';
@@ -35,6 +35,8 @@ type GameBoardProp = {
   activeLoading: any
   setActiveLoading: any
   actionClick: any
+
+  discard: any
 
 }
 
@@ -86,7 +88,8 @@ const GameBoard: FC <GameBoardProp> = ({
     },
   ];
 
-  const discards: CardType[] = [
+  const [playerHand, setPlayerHand] = useState(playerCards)
+  const discardsPile: CardType[] = [
 
   ]
 
@@ -111,17 +114,29 @@ const GameBoard: FC <GameBoardProp> = ({
     },
   ];
 
+const discard = (cardName: any) =>{
+
+
+  // let cardPlayed = 
+
+  playerCards.filter(card=>card.name===cardName)
+
+  setPlayerHand(playerCards.filter(card=>card.name!==cardName))
+
+}
+
 
   return (
-    <div className='flex-grow flex-col bg-slate-700 dark:bg-black scale-85'>
+    <div className='flex-grow flex-col bg-slate-900 dark:bg-black scale-85'>
       <div className='flex flex-row justify-between p-3'>
         <div>
-          <div className='p-2'>TIME: 00:00 / ROUND {roundNum}</div>
+          <div className='p-2 text-white'>TIME: 00:00 / ROUND {roundNum}</div>
         </div>
         <div className="flex flex-row">
           {opponentCards.map((card, index) => (
-          <div className="bg-slate-500 border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between">
-          </div>
+          <img src='https://i.imgur.com/y1g83zB.png' className="rounded-lg shadow-md p-0 m-2 w-45 h-60 flex flex-col items-center justify-between "
+            />
+        
           ))}
         </div>
         <div>
@@ -131,7 +146,7 @@ const GameBoard: FC <GameBoardProp> = ({
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
-          <div className='justify-center p-20'>USERS SHIP IMAGE</div>
+          <div className='justify-center p-20'><img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[-2] scale-y-[2]'/></div>
         </div>
         <div className='flex flex-row justify-between h-70'>
 
@@ -139,11 +154,11 @@ const GameBoard: FC <GameBoardProp> = ({
           <div>
             {enemyArmed?
 
-              <div className='p-20 text-[2rem]'>ENEMY: ARMED</div>
+              <div className='p-20 text-[2rem] text-red-600'>ENEMY: ARMED</div>
 
               :
 
-              <div className='p-20 text-[2rem]'> ENEMY: </div>
+              <div className='p-20 text-[2rem] text-red-600'> ENEMY: </div>
 
             }
           </div>
@@ -153,11 +168,11 @@ const GameBoard: FC <GameBoardProp> = ({
 
             {cardToPlay?
 
-              <div className='p-20 text-[2rem]'>{cardToPlay}</div>
+              <div className='p-20 text-[2rem] text-green-500'>{cardToPlay}</div>
 
               :
 
-              <div className='p-20 text-[2rem]'> SELECTED CARD </div>
+              <div className='p-20 text-[2rem] text-green-500'> SELECTED CARD </div>
 
           }
           </div>
@@ -165,7 +180,7 @@ const GameBoard: FC <GameBoardProp> = ({
 
         </div>
         <div>
-          <div className='p-20'> OPPONENTS SHIP IMAGE </div>
+          <div className='p-20'> <img src='https://i.imgur.com/4paq921.png' className='scale-x-[2] scale-y-[2]'/></div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3'>
@@ -188,14 +203,15 @@ const GameBoard: FC <GameBoardProp> = ({
 
         <div className="flex flex-row">
 
-              {playerCards.map((card, index) => (
-                <Card 
+              {playerHand.map((card, index) => (
+                <Card
+                  discard={discard}
                   key={index}
                   card={card}
                   setCardToPlay={setCardToPlay}
                   playerAction={playerAction}
-                  setActiveLoading={setActiveLoading}
-                   />
+                  setActiveLoading={setActiveLoading} 
+                  playerHand={undefined}                   />
               ))}
 
         </div>

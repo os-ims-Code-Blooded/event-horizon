@@ -9,7 +9,7 @@ export default function GameOver ({
   return(
 <>
     <div className='p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white '>
-      <div className='p-4 justify-items-center flex flex-col items-center'>
+      <div className='p-4 pt-8 justify-items-center flex flex-col items-center'>
         
         <h1 className='text-xl'>GAME OVER BRUV</h1>
         <h1 className='test-lg'>{gameWinner} won</h1>
