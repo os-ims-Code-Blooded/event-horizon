@@ -34,7 +34,7 @@ export default function App (){
   const handleLogin = () => {
     window.location.href = '/login';
   };
-
+  // fetch user
   const fetchUser = async () => {
     const fetchedUser = await axios.get('/profile')
     .then((user) => {
@@ -44,7 +44,7 @@ export default function App (){
       console.error('Failed to fetch user');
     });
   };
-
+  // authenticate user handler
   const AuthCheck = async (user: any) => {
     try {
 
@@ -54,7 +54,6 @@ export default function App (){
       // Fetch user profile if authenticated
       if (response.data.isAuthenticated) {
         setUser(response.data.user);
-        console.log('user', response.data.user)
       } else {
         setUser(null);
       }
@@ -63,13 +62,12 @@ export default function App (){
       throw new Error('Error checking auth', error);
     }
   };
-
+  //retrieves user's friends
   const getFriends = async () => {
     if(user) {
       const allFriends = await axios.get(`/friends/${user.id}`)
         .then((fetchedFriends) => {
           if(fetchedFriends) {
-            console.log('friends back', fetchedFriends);
             setFriends(fetchedFriends.data.friends);
           }  else {
             console.error('Failed to fetch users friends');
@@ -82,19 +80,25 @@ export default function App (){
       return [];
     }
   };
+  // game inv handler?
+  const handleInvite = (friendId: string) => {
+    console.log(`Sending inv to friend ${friendId}`);
+  };
 
+
+  //if no user, fetch user on render
   useEffect(() => {
     if(!user) {
       fetchUser();
     }
 
 }, [user]);
-
-useEffect(() => {
-  if (user && friends.length === 0) {
-    getFriends();
-  }
-}, [user]);
+  // if user, and if users friends isn't set yet
+  useEffect(() => {
+    if (user && friends.length === 0) {
+      getFriends();
+    }
+  }, [user]);
 
   return (
     <>
@@ -130,7 +134,7 @@ useEffect(() => {
         />
         <Route
           path="/friends"
-          element={isAuthenticated ? <Friends user={user} friends={friends}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <Friends user={user} handleInvite={handleInvite} friends={friends}/> : <Navigate to='/' />}
         />
       </Routes>
     </>

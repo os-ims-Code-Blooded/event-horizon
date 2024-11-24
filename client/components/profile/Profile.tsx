@@ -27,7 +27,7 @@ const Profile: FC<ProfileProps> = ({user}) => {
   };
 
   return (
-    <div className="bg-slate-800 dark:bg-black dark:text-white text-slate-400 h-screen flex items-center justify-center">
+    <div className="bg-slate-800 dark:bg-black dark:text-white text-slate-400 min-h-screen h-full flex items-center justify-center pb-5">
       <div className="flex flex-col items-center space-y-3 text-center">
         <h1 className="mb-10">Profile</h1>
 
@@ -54,7 +54,7 @@ const Profile: FC<ProfileProps> = ({user}) => {
           </div>
         ) : (
           <div
-            className="p-2 border rounded focus:outline-none text-white cursor-pointer hover:border-blue-500"
+            className="p-2 anime-pulse border rounded focus:outline-none text-white cursor-pointer hover:border-blue-500"
             onClick={() => setIsEditing(true)}
           >
             {name}

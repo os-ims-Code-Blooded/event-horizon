@@ -9,18 +9,18 @@ const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
 
   return (
     <div className='pt-5 m-1'>
-      <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center h-auto text-white pt-5'>
-          <img className='w-2/3 transform: scale-75' src='https://i.imgur.com/8mBos8V.png'/>
+      <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-white pt-5'>
+          <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/8mBos8V.png'/>
           {user && (
                   <Link
                   to="/title-menu"
                   type="button"
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-red-600 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-orange-900'
+                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
                 >
                   Play!
                 </Link>
                 )}
-        <div className='p-5 w-1/2 font-bold text-justify'>
+        <div className='p-5 w-3/4 font-bold text-justify'>
           {/* <div className='text-4xl text-center'>EVENT HORIZON</div> */}
           <br></br>
           <p>In a not too distant future, warring factions compete to mine powerful yet volatile dark matter crystals to fuel their warp engines for interstellar travel. This practice leads to the frequent formation of singularity events.</p>
@@ -33,7 +33,7 @@ const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
                   to="/login"
                   type="button"
                   onClick={() => handleLogin()}
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-green-300 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-orange-900'
+                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-green-300 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-none hover:bg-emerald-900'
                 >
                   Sign Up / Login
                 </Link>
