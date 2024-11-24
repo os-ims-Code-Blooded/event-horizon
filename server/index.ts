@@ -11,8 +11,8 @@ import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
 import { it } from 'node:test';
-import profile from './routes/profile.ts';
-import friends from './routes/friends.ts';
+import profile from './routes/user/profile.ts';
+import friends from './routes/user/friends.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -152,7 +152,7 @@ io.on('connection', (socket)=>{
 
 
 
-  console.log(`user connected: ${socket.id}`)
+  // console.log(`user connected: ${socket.id}`)
   // console.log("\n \n**********SOCKET:************ \n \n", socket)
   let sockId = socket.id
 
@@ -186,9 +186,9 @@ io.on('connection', (socket)=>{
 
   socket.on('block_end_turn', data=>{
 
-    console.log("ACTION DATA", sockId, data.playerAction)
-    console.log("CARD DATA", sockId, data.cardToPlay)
-    console.log("TURN ENDED?", sockId, data.turnEnded )
+    // console.log("ACTION DATA", sockId, data.playerAction)
+    // console.log("CARD DATA", sockId, data.cardToPlay)
+    // console.log("TURN ENDED?", sockId, data.turnEnded )
 
     socket.to(data.session).emit("receive_action", data.playerAction)
 
@@ -208,8 +208,8 @@ io.on('connection', (socket)=>{
   socket.on('fire_end_turn', data=>{
 
 
-    console.log("ACTION DATA", sockId, data.playerAction)
-    console.log("CARD DATA", sockId, data.cardToPlay)
+    // console.log("ACTION DATA", sockId, data.playerAction)
+    // console.log("CARD DATA", sockId, data.cardToPlay)
 
 
     socket.to(data.session).emit("receive_action", data.playerAction)
@@ -225,8 +225,8 @@ io.on('connection', (socket)=>{
 
   socket.on('load_end_turn', data=>{
 
-    console.log("ACTION DATA", sockId, data.playerAction)
-    console.log("CARD DATA", sockId, data.cardToPlay)
+    // console.log("ACTION DATA", sockId, data.playerAction)
+    // console.log("CARD DATA", sockId, data.cardToPlay)
 
     socket.to(data.session).emit("receive_action", data.playerAction)
 
@@ -238,7 +238,7 @@ io.on('connection', (socket)=>{
 
   socket.on('lame_end_turn', data=>{
 
-    console.log("ACTION DATA", sockId, data.playerAction)
+    // console.log("ACTION DATA", sockId, data.playerAction)
     socket.to(data.session).emit("receive_action", data.playerAction)
 
   })
@@ -287,13 +287,13 @@ io.on('connection', (socket)=>{
 
   //when a user disconnects
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    // console.log('user disconnected');
 
     users = users.filter(user=>user!==sockId)
-    console.log("USERS:", users)
+    // console.log("USERS:", users)
 
     players = users.length;
-    console.log("CURRENT PLAYERS CONNECTED:", players)
+    // console.log("CURRENT PLAYERS CONNECTED:", players)
 
   });
 

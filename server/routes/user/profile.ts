@@ -152,14 +152,14 @@ profile.delete('/:id', async (req, res) => {
 })
 
 profile.patch('/:id', async (req, res) => {
-
+  console.log('req body', req.body);
   try {
     // if no patch specified, indicate nothing received
-    if (!req.body.data){
+    if (!req.body){
       res.sendStatus(203);
     } else {
 
-      const data = req.body.data;
+      const data = req.body;
 
       // find the user, update with whatever was specified
       const user = await database.user.update({
