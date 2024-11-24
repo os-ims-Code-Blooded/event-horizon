@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
 import database from '../../db/index.ts';
+import rounds from './rounds.ts';
 
 const games = express.Router();
+games.use('/rounds', rounds);
 
 // used to create a game AND find an existing game
 games.post('/', async (req, res) => {
