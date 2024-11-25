@@ -84,6 +84,9 @@ app.get('/api/auth-check', (req, res) => {
 app.get('/game-board', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
+app.get('/leaderboard', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
 
 app.post('/api/logout', (req, res) => {
   req.logout((err) => {

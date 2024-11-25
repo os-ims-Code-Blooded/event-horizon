@@ -56,6 +56,30 @@ profile.get('/:id', async (req, res) => {
 
 })
 
+profile.get('/top-scores/:id', async (req, res) => {
+  console.log('REQ', req);
+  try {
+    //find top 10 users sorted by highest score
+    const topUsers = await database.user.findMany({
+      orderBy:
+        {
+          score: 'desc',
+        },
+      take: 10,
+    });
+    console.log('Top users', topUsers);
+    // check if any users are returned
+    if (!topUsers || topUsers.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(topUsers);
+    }
+  } catch (error) {
+    console.error(`Error on GET request for leaderboard: ${error.message}`);
+    res.sendStatus(500);
+  }
+});
+
 profile.get('/', async (req, res) => {
 
   try {
@@ -159,7 +183,6 @@ profile.delete('/:id', async (req, res) => {
 })
 
 profile.patch('/:id', async (req, res) => {
-  console.log('req body', req.body);
   try {
     // if no patch specified, indicate nothing received
     if (!req.body){
@@ -185,5 +208,31 @@ profile.patch('/:id', async (req, res) => {
   }
 
 })
+
+
+// profile search
+profile.get('/users/search', async (req, res) => {
+  const { name } = req.query;
+
+  try {
+    const users = await database.user.findMany({
+      where: {
+        name: {
+          contains: String(name)
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    res.status(200).send(users);
+  } catch (error) {
+    console.error('Error searching for users');
+    res.sendStatus(500);
+  }
+});
+
+
 
 export default profile;
