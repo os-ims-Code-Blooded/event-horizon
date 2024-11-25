@@ -12,26 +12,30 @@ interface CardProps {
   setCardToPlay: any
   playerAction: any
   setActiveLoading: any
+
+  playerHand: any
 }
 
 const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading }) => {
 
-  const cardSelect = (name, attack, defense) =>{
+  const cardSelect = (card: CardType) =>{
 
-    setCardToPlay(name)
+    setCardToPlay([card.name, card.attack, card.defense, card.description])
     setActiveLoading(true)
+   
+
   }
 
 
   return (
     <>
 
-    {playerAction === 'load' ? 
-    
-    <div
-    onClick={()=>cardSelect(card.name, card.attack, card.defense)}
+    {playerAction === 'load' ?
 
-    className="bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110"
+    <div
+    onClick={()=>cardSelect(card)}
+
+    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110"
     >
 
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
