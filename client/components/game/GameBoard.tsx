@@ -135,12 +135,12 @@ const discard = (cardName: any) =>{
   console.log(sampleDeckData)
   
 }
-console.log("PLAYER HAND LENGTH", playerHand.length)
+// console.log("PLAYER HAND LENGTH", playerHand.length)
 
 if (playerHand.length < 3 && sampleDeckData.length > 0){
   shuffle(sampleDeckData)
   let nextCard = [sampleDeckData.pop()]
-  console.log("NEXT CARD", nextCard)
+  // console.log("NEXT CARD", nextCard)
   setPlayerHand(playerHand.concat(nextCard))
 }
 

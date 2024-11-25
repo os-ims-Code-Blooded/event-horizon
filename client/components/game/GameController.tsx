@@ -176,11 +176,11 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   if (turnEnded && enemyTurnEnd){
 
-    console.log("BOTH TURNS ENDED")
+    // console.log("BOTH TURNS ENDED")
     setRoundNum(roundNum + 1)
 
 
-    
+
     //you hit them
     if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
       setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
@@ -189,8 +189,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       if (cardToPlay[2] > 0){
         setHitPoints(hitPoints + cardToPlay[2])
       }
-
-
 
       //they hit you
     } else if (enemyAction === 'fire' && (playerAction === 'load' || playerAction === '')){
@@ -202,17 +200,45 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
+      //they fire, you block
+    } else if(enemyAction === 'fire' && playerAction === 'block'){
+
+      setHitPoints(hitPoints - enemyCard[1]/2)
+
+
+
+
+
+      //you fire, they block
+    }else if(playerAction === 'fire' && enemyAction === 'block'){
+      
+      
+      setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      
+      
+      
+
       //you hit each-other
     } else if (enemyAction === 'fire' && playerAction === 'fire'){
-      setHitPoints(hitPoints - enemyCard[1]/2)
-      setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
 
-      if (cardToPlay[2] > 0){
-        setHitPoints(hitPoints + cardToPlay[2])
+      console.log("CARD TO PLAY", cardToPlay);
+      console.log("ENEMY CARD TO PLAY", enemyCard);
+
+      if(cardToPlay[1] > 0 && enemyCard[1] > 0){
+
+        setHitPoints(hitPoints - enemyCard[1])
+        setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
       }
 
+
+      if (cardToPlay[2] > 0){
+        setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
+      } 
+
+
+
       if (enemyCard[2] > 0){
-        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+        setEnemyHitPoints(enemyHitPoints + enemyCard[2] - cardToPlay[1])
       }
     }
     
