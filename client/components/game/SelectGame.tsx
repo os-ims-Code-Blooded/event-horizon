@@ -46,10 +46,10 @@ export default function SelectGame(){
     setPlayClicked(true)
 
 
-    axios.get('/games')
-    .then((response)=>{
-      setSession(response.data.sessionId)
-    })
+    // axios.get('/games')
+    // .then((response)=>{
+    //   setSession(response.data.sessionId)
+    // })
 
     setSession("55")
   }
@@ -79,7 +79,7 @@ return(
   <option value="">--select deck--</option>
   {decks.map(deck=>{
     return(
-      <option value={deck.name}>{deck.name}</option>
+      <option key={deck.name} value={deck.name}>{deck.name}</option>
 
 
     )

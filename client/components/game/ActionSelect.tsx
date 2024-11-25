@@ -6,7 +6,8 @@ export default function ActionSelect({
   cardToPlay,
   turnEnded,
   activeLoading,
-  actionClick
+  actionClick,
+  
 }){
 
   return(

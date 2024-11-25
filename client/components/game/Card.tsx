@@ -12,17 +12,17 @@ interface CardProps {
   setCardToPlay: any
   playerAction: any
   setActiveLoading: any
-  discard: any
+
   playerHand: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, discard }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading }) => {
 
-  const cardSelect = (card) =>{
+  const cardSelect = (card: CardType) =>{
 
-    setCardToPlay(card.name)
+    setCardToPlay([card.name, card.attack, card.defense, card.description])
     setActiveLoading(true)
-    // discard(name)
+   
 
   }
 
@@ -35,7 +35,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     <div
     onClick={()=>cardSelect(card)}
 
-    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md p-4 m-2 w-45 h-60 flex flex-col items-center justify-between hover:scale-110"
+    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110"
     >
 
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
@@ -55,7 +55,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     :
 
     <div
-    className="cursor-not-allowed bg-white border rounded-lg shadow-md p-4 m-2 w-45 h-60 flex flex-col items-center justify-between">
+    className="cursor-not-allowed bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between">
 
       <h2 className="text-lg font-bold mb-2 text-center">{card.name}</h2>
 

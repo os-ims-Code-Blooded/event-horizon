@@ -97,16 +97,16 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
    /////////// REQUEST HANDLING /////////////////////////
-    await axios.post('/games/rounds', {
-      "data": {
-        'round_id': 1,
-        'user_id': 1,
-        'action': 'load',
-        'card_id': 1
-      }
-    })
-    .then(response=>console.log(response))
-    .catch(err => console.error("failed to post move data", err))
+    // await axios.post('/games/rounds', {
+    //   "data": {
+    //     'round_id': 1,
+    //     'user_id': 1,
+    //     'action': 'load',
+    //     'card_id': 1
+    //   }
+    // })
+    // .then(response=>console.log(response))
+    // .catch(err => console.error("failed to post move data", err))
     
 
   }
@@ -179,19 +179,41 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     console.log("BOTH TURNS ENDED")
     setRoundNum(roundNum + 1)
 
+
+    
     //you hit them
     if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
-      setEnemyHitPoints(enemyHitPoints - 20)
+      setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
       setWeaponArmed(false)
+
+      if (cardToPlay[2] > 0){
+        setHitPoints(hitPoints + cardToPlay[2])
+      }
+
+
 
       //they hit you
     } else if (enemyAction === 'fire' && (playerAction === 'load' || playerAction === '')){
-      setHitPoints(hitPoints - 20)
+      setHitPoints(hitPoints - enemyCard[1])
+
+      if (enemyCard[2] > 0){
+        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+      }
+
+
 
       //you hit each-other
     } else if (enemyAction === 'fire' && playerAction === 'fire'){
-      setHitPoints(hitPoints - 10)
-      setEnemyHitPoints(enemyHitPoints - 10)
+      setHitPoints(hitPoints - enemyCard[1]/2)
+      setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+
+      if (cardToPlay[2] > 0){
+        setHitPoints(hitPoints + cardToPlay[2])
+      }
+
+      if (enemyCard[2] > 0){
+        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+      }
     }
     
     

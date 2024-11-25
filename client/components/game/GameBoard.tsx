@@ -1,6 +1,7 @@
 import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
+import sampleDeckData from './sampleDeckData';
 // import Gameplay from './Gameplay';
 
 
@@ -67,7 +68,7 @@ const GameBoard: FC <GameBoardProp> = ({
   actionClick
 }) => {
 
-  const playerCards: CardType[] = [
+  let playerCards: CardType[] = [
     {
       name: 'Bomba',
       attack: 15,
@@ -89,9 +90,9 @@ const GameBoard: FC <GameBoardProp> = ({
   ];
 
   const [playerHand, setPlayerHand] = useState(playerCards)
-  const discardsPile: CardType[] = [
+  // const [cardToPlay, setCardToPlay] = useState('')
 
-  ]
+
 
   const opponentCards: CardType[] = [
     {
@@ -114,29 +115,55 @@ const GameBoard: FC <GameBoardProp> = ({
     },
   ];
 
+  const shuffle = array =>{
+    for (let i = array.length - 1; i > 0; i--){
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  const phaserCharge: CardType[] = [{
+    name: 'Phaser Charge',
+    attack: 10,
+    defense: 0,
+    description: 'last-resort shield-to-phaser power conversion'
+  }]
+
 const discard = (cardName: any) =>{
 
+  setPlayerHand(playerHand.filter(card=>card.name!==cardName))
+  console.log(sampleDeckData)
+  
+}
+console.log("PLAYER HAND LENGTH", playerHand.length)
 
-  // let cardPlayed = 
-
-  playerCards.filter(card=>card.name===cardName)
-
-  setPlayerHand(playerCards.filter(card=>card.name!==cardName))
-
+if (playerHand.length < 3 && sampleDeckData.length > 0){
+  shuffle(sampleDeckData)
+  let nextCard = [sampleDeckData.pop()]
+  console.log("NEXT CARD", nextCard)
+  setPlayerHand(playerHand.concat(nextCard))
 }
 
+if (playerHand.length === 0){
+  setPlayerHand(phaserCharge)
+}
 
   return (
-    <div className='flex-grow flex-col bg-slate-900 dark:bg-black scale-85'>
+    <>
+    <div className=' z-10 flex-grow flex-col bg-slate-900 dark:bg-black scale-80' >
+    
       <div className='flex flex-row justify-between p-3'>
         <div>
           <div className='p-2 text-white'>TIME: 00:00 / ROUND {roundNum}</div>
         </div>
         <div className="flex flex-row">
           {opponentCards.map((card, index) => (
+
           <img src='https://i.imgur.com/y1g83zB.png' className="rounded-lg shadow-md p-0 m-2 w-45 h-60 flex flex-col items-center justify-between "
+          key={opponentCards[index].name}
             />
-        
+
+
           ))}
         </div>
         <div>
@@ -146,7 +173,7 @@ const discard = (cardName: any) =>{
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
-          <div className='justify-center p-20'><img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[-2] scale-y-[2]'/></div>
+          <div className='justify-center p-20'><img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[-.75] scale-y-[.75]'/></div>
         </div>
         <div className='flex flex-row justify-between h-70'>
 
@@ -168,11 +195,24 @@ const discard = (cardName: any) =>{
 
             {cardToPlay?
 
-              <div className='p-20 text-[2rem] text-green-500'>{cardToPlay}</div>
+    <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
+      <h2 className="text-lg font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+      <div className="text-center">
+        <div>`IMAGE`</div>
+        <p className="text-gray-700 mb-1">
+          <strong>Attack:</strong> {cardToPlay[1]}
+        </p>
+        <p className="text-gray-700 mb-1">
+          <strong>Defense:</strong> {cardToPlay[2]}
+        </p>
+      </div>
+      <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
+    </div>
+
 
               :
 
-              <div className='p-20 text-[2rem] text-green-500'> SELECTED CARD </div>
+              <div className='p-20 text-[2rem] text-green-500'> EMPTY </div>
 
           }
           </div>
@@ -180,7 +220,7 @@ const discard = (cardName: any) =>{
 
         </div>
         <div>
-          <div className='p-20'> <img src='https://i.imgur.com/4paq921.png' className='scale-x-[2] scale-y-[2]'/></div>
+          <div className='p-20'> <img src='https://i.imgur.com/4paq921.png' className='scale-x-[.75] scale-y-[.75]'/></div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3'>
@@ -197,6 +237,7 @@ const discard = (cardName: any) =>{
           turnEnded={turnEnded}
           activeLoading={activeLoading}
           actionClick={actionClick}
+         
           />
         </div>
 
@@ -210,39 +251,53 @@ const discard = (cardName: any) =>{
                   card={card}
                   setCardToPlay={setCardToPlay}
                   playerAction={playerAction}
-                  setActiveLoading={setActiveLoading} 
+                  setActiveLoading={setActiveLoading}
                   playerHand={undefined}                   />
               ))}
 
         </div>
 
+        <div className='flex flex-col p-4'>
+          <div>
+            {
 
-        <div>
-          {
-          
-          // !turnEnded || playerAction !== '' ?
-          ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
-       
-          <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
-         onClick={()=>{
-          setTurnEnded(true)
-          endTurn()
-          if (playerAction === 'fire'){
+            // !turnEnded || playerAction !== '' ?
+            ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
 
+            <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
+          onClick={()=>{
+            setTurnEnded(true)
+            endTurn()
+            if (playerAction === 'fire'){
+                discard(cardToPlay[0])
+            }
+          }}>COMMIT TURN</button>
+
+
+            :
+
+            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray-500  text-white font-bold'
+            >COMMIT TURN</button>
+
+            }
+          </div>
+          <div>
+            {enemyAction?
+            
+              <div className='text-red-600 text-[1rem]' >
+                opponent waiting
+              </div>
+            :
+            
+            null
           }
-        }}>COMMIT TURN</button>
 
-
-          :
-
-          <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray-500  text-white font-bold'
-          >COMMIT TURN</button>
-
-          }
+          </div>
         </div>
 
       </div>
     </div>
+  </>
   )
 };
 
