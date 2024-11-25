@@ -25,7 +25,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
     switch (location.pathname) {
       case '/':
         return (
-          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-orange-300 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between space-x-4 h-10 sm:grid-cols-2">
+          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-yellow-500 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between space-x-4 h-10 sm:grid-cols-2">
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -100,8 +100,8 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
-            <Link to="/" className="hover:text-blue-600  truncate">
-              Menu
+            <Link to="/friends" className="hover:text-blue-600  truncate">
+              Friends
             </Link>
             <button
               className="hover:text-blue-600  truncate"

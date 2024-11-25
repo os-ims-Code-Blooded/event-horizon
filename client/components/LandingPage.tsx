@@ -8,7 +8,7 @@ type LandingProps = {
 const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
 
   return (
-    <div className='pt-5 m-1'>
+    <div className='pt-5 m-1' aria-label="Landing Page">
       <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-white pt-5'>
           <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/8mBos8V.png'/>
           {user && (

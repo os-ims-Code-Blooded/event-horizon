@@ -84,6 +84,26 @@ export default function App (){
   const handleInvite = (friendId: string) => {
     console.log(`Sending inv to friend ${friendId}`);
   };
+  //add friend handler
+  const handleAddFriend = async (friendId: string) => {
+    try {
+      if(user){
+        const addedFriend = await axios.post(`/friends/${user.id}`, {
+          data: {
+            id: friendId
+          }
+        });
+        if(addedFriend) {
+          console.log('added friend', addedFriend);
+          getFriends();
+        } else {
+          console.error('No user logged in');
+        }
+      }
+    } catch (error) {
+      console.error('Error adding friend');
+    }
+  };
 
 
   //if no user, fetch user on render
@@ -133,8 +153,22 @@ export default function App (){
           element={isAuthenticated ? <SelectGame /> : <Navigate to='/' />}
         />
         <Route
+          path="/leaderboard"
+          element={isAuthenticated ? <LeaderBoard /> : <Navigate to='/' />}
+        />
+        <Route
           path="/friends"
-          element={isAuthenticated ? <Friends user={user} handleInvite={handleInvite} friends={friends}/> : <Navigate to='/' />}
+          element={isAuthenticated ?
+            <Friends
+              user={user}
+              handleAddFriend={handleAddFriend}
+              handleInvite={handleInvite}
+              friends={friends}
+              fetchUser={fetchUser}
+              getFriends={getFriends}
+              />
+               :
+             <Navigate to='/'/>}
         />
       </Routes>
     </>

@@ -50,7 +50,6 @@ friends.get('/:id', async (req, res) => {
 
 friends.post('/:id', async (req, res) => {
   try {
-
     if (!req.params.id){
       console.error(`No primary user designated in POST request parameters for friends.`)
       res.sendStatus(203);
@@ -83,7 +82,7 @@ friends.delete('/:id', async (req, res) => {
     if (!req.params.id){
       console.error(`No primary user designated in DELETE request parameters for friends.`)
       res.sendStatus(203);
-    } else if (!req.body.data.id){
+    } else if (!req.body.id){
       console.error(`No secondary user designated in DELETE request body for friends.`)
       res.sendStatus(203);
     } else {
@@ -94,7 +93,7 @@ friends.delete('/:id', async (req, res) => {
             {
               user_id: Number(req.params.id),
             },
-            { friend_id: Number(req.body.data.id)},
+            { friend_id: Number(req.body.id)},
           ],
         }
       })
@@ -103,7 +102,7 @@ friends.delete('/:id', async (req, res) => {
         where: {
           AND: [
             {
-              user_id: Number(req.body.data.id),
+              user_id: Number(req.body.id),
             },
             { friend_id: Number(req.params.id)},
           ],
@@ -113,12 +112,12 @@ friends.delete('/:id', async (req, res) => {
       if (!friends && !friendsOf){
         res.sendStatus(404);
       } else {
-        res.sendStatus(201);
+        res.sendStatus(204);
       }
 
     }
   } catch (error) {
-    console.error(`Error on delete friend #${req.body.data.id} for user #${req.params.id}.`)
+    console.error(`Error on delete friend #${req.body.id} for user #${req.params.id}.`)
     res.sendStatus(500);
   }
 })

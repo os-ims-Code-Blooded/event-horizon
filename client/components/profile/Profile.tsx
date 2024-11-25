@@ -89,9 +89,10 @@ const Profile: FC<ProfileProps> = ({user}) => {
         <Link
           type="button"
           className="w-96 py-6 text-2xl p-3 bg-orange-400 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600"
-          to="customize"
+          to="/leaderboard"
+          replace={true}
         >
-          Customize
+          Leaderboard
         </Link>
       </div>
     </div>
