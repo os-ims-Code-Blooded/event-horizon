@@ -27,6 +27,13 @@ profile.get('/:id', async (req, res) => {
       const user = await database.user.findUnique({
         where: {
           id: Number(req.params.id)
+        }, 
+        include: {
+          friends: true,
+          friendOf: true,
+          Games: true,
+          User_Cards: true,
+          User_Decks: true
         }
       })
 
