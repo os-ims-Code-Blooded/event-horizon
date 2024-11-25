@@ -154,7 +154,7 @@ export default function App (){
         />
         <Route
           path="/leaderboard"
-          element={isAuthenticated ? <LeaderBoard /> : <Navigate to='/' />}
+          element={isAuthenticated ? <LeaderBoard user={user}/> : <Navigate to='/' />}
         />
         <Route
           path="/friends"

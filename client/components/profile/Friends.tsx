@@ -83,7 +83,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
 
   return (
     <div
-      className="pt-10 flex flex-col items-center bg-gray-800 p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
+      className="pt-10 flex flex-col items-center [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="Friends or Search Results"
     >
       <h1 className="text-2xl font-bold text-white mb-4 pt-5">

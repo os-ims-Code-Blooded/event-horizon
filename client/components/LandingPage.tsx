@@ -8,14 +8,14 @@ type LandingProps = {
 const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
 
   return (
-    <div className='pt-5 m-1' aria-label="Landing Page">
-      <div className='bg-slate-900 dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-white pt-5'>
+    <div className='pt-5' aria-label="Landing Page">
+      <div className='[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-white pt-5'>
           <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/8mBos8V.png'/>
           {user && (
                   <Link
                   to="/title-menu"
                   type="button"
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
+                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-white shadow-yellow-300 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
                 >
                   Play!
                 </Link>
@@ -27,7 +27,7 @@ const LandingPage: FC<LandingProps> = ({user, handleLogin}) => {
           <br></br>
           <p>When two ships are caught in the pull of a black hole, the only hope for escape is to try and detonate the other's warp core--if one can create a warp breach, it will trigger a shockwave to propel the surviving ship with enough escape velocity to cross the boundary of the event horizon. The space vessels must inevitably battle, or both shall be pulled into void...</p>
           <br></br>
-          <div className='justify-center justify-items-center flex bg-slate-900'>
+          <div className='justify-center justify-items-center flex bg-transparent'>
             {!user && (
                   <Link
                   to="/login"

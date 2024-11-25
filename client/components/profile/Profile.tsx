@@ -8,7 +8,7 @@ type ProfileProps = {
 };
 
 const Profile: FC<ProfileProps> = ({user}) => {
-  const [name, setName] = useState(user.name || '');
+  const [name, setName] = useState(user.name);
   const [isEditing, setIsEditing] = useState(false);
 
   const changeName = async () => {
@@ -27,7 +27,7 @@ const Profile: FC<ProfileProps> = ({user}) => {
   };
 
   return (
-    <div className="bg-slate-800 dark:bg-black dark:text-white text-slate-400 min-h-screen h-full flex items-center justify-center pb-5">
+    <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:text-white text-slate-400 min-h-screen h-full flex items-center justify-center pb-5">
       <div className="flex flex-col items-center space-y-3 text-center">
         <h1 className="mb-10">Profile</h1>
 

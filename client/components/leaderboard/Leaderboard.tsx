@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
 
-const LeaderBoard = () => {
+const LeaderBoard = ({user}) => {
   const [users, setUsers] = useState([]);
 
   // fetch top 10 users
   const fetchLeaderboard = async () => {
-    try {
-      const response = await axios.get(`/profile/leader-board`);
-      console.log('response leaderboard', response);
+    await axios.get(`/profile/top-scores/${user.id}`)
+      .then((topUsers) => {
+        if(topUsers) {
+          setUsers(topUsers.data);
+        } else {
+          console.error('failed to get users')
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch leaderboard');
+      })
       // if(response.status !== 200) {
       //   console.error('error getting users for leaderboard');
       // } else {
       //     setUsers(response.data);
       // }
-    } catch (error) {
-      console.error('Error fetching leaderboard:', error);
-    }
   };
 
   useEffect(() => {
