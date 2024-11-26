@@ -1,4 +1,5 @@
 import database from "../../../db/index.ts";
+import reviewWinConditions from "./reviewWinConditions.ts";
 
 export default async function generateResponse(newRound: number, prevRound: number) {
 
@@ -14,6 +15,23 @@ export default async function generateResponse(newRound: number, prevRound: numb
       }
     })
 
+    const isResolved = reviewWinConditions(newInfo.Round_Player_Info);
+    let gameOver = null;
+
+    if (isResolved) {
+
+      gameOver = await database.games.update({
+        where: { id: newInfo.game_id},
+        data: { victor: { connect: { id: isResolved} } }
+      });
+
+      await database.rounds.update({
+        where: { id: newRound},
+        data: { end_date: new Date() }
+      })
+
+    }
+
     const prevInfo = await database.rounds.findFirst({
       where: { id: prevRound},
       include: {
@@ -24,10 +42,19 @@ export default async function generateResponse(newRound: number, prevRound: numb
       }
     })
 
-    return {
-      Current: newInfo,
-      Previous: prevInfo
+    if (gameOver) {
+      return {
+        GameComplete: gameOver,
+        Current: newInfo,
+        Previous: prevInfo
+      }
+    } else {
+      return {
+        Current: newInfo,
+        Previous: prevInfo
+      }
     }
+
 
   } catch (error) {
     throw new Error(`Failure to generate response for client.`)
