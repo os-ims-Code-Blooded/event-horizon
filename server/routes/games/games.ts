@@ -94,7 +94,6 @@ games.post('/', async (req, res) => {
 
       console.log(`Game found in database, attempting to add user to game.`)
 
-      // console.log(req.body.data.user_id, req.body.data.deck_name, filteredGames[0])
       const addUserToGame = await database.user_Games.create({
         data: {
           user: { connect: { id: req.body.data.user_id } },
@@ -102,7 +101,31 @@ games.post('/', async (req, res) => {
         }
       });
 
-      console.log(addUserToGame);
+      const initRound = await database.rounds.create({
+        data: { game: { connect: { id: addUserToGame.game_id} } }
+      })
+
+      let allUsers: any = await database.user_Games.findMany({
+        where: { game_id: addUserToGame.game_id },
+        select: { user_id: true}
+      })
+
+      allUsers = allUsers.map((user: any) => user.user_id)
+
+      allUsers.forEach( async (user: any) => {
+
+        try {
+          await database.round_Player_Info.create({
+            data: {
+              user: { connect: { id: user} },
+              round: { connect: { id: initRound.id } }
+            }
+          })
+        } catch (error) {
+          console.error(`Error initializing player information for User #${user}.`)
+          res.sendStatus(500);
+        }
+      })
 
       res.status(200).send(filteredGames[0])
     }
