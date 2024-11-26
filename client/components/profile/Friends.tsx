@@ -127,7 +127,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                   promptDelete(friend.id);
                 }}
               >
-                🗑
+                {currentList === friends ? <div>🗑</div> : ''}
               </button>
               <span className="font-medium">{friend.name || friend.email}</span>
               {!showSearch && (
