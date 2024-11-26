@@ -279,7 +279,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div className='bg-slate-800 pl-4 py-4'>
+    <div >
 
       <h1>TOP-LEVEL GAME CONTROLLER</h1>
 

@@ -150,7 +150,7 @@ if (playerHand.length === 0){
 
   return (
     <>
-    <div className=' z-10 flex-grow flex-col bg-slate-900 dark:bg-black scale-80' >
+    <div className=' z-10 flex-grow flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' >
     
       <div className='flex flex-row justify-between p-3'>
         <div>
@@ -181,11 +181,11 @@ if (playerHand.length === 0){
           <div>
             {enemyArmed?
 
-              <div className='p-20 text-[2rem] text-red-600'>ENEMY: ARMED</div>
+              <div className='p-20 text-[2rem] text-red-600'>ENEMY STATUS: ARMED</div>
 
               :
 
-              <div className='p-20 text-[2rem] text-red-600'> ENEMY: </div>
+              <div className='p-20 text-[2rem] text-red-600'> ENEMY STATUS: </div>
 
             }
           </div>
@@ -212,7 +212,7 @@ if (playerHand.length === 0){
 
               :
 
-              <div className='p-20 text-[2rem] text-green-500'> EMPTY </div>
+              <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
 
           }
           </div>
@@ -237,6 +237,8 @@ if (playerHand.length === 0){
           turnEnded={turnEnded}
           activeLoading={activeLoading}
           actionClick={actionClick}
+          enemyCard={enemyCard}
+          enemyTurnEnd={enemyTurnEnd}
          
           />
         </div>

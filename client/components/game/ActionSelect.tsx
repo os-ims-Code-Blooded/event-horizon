@@ -7,8 +7,12 @@ export default function ActionSelect({
   turnEnded,
   activeLoading,
   actionClick,
+  enemyCard,
+  enemyTurnEnd
   
 }){
+
+
 
   return(
     <>
@@ -82,7 +86,19 @@ export default function ActionSelect({
       <br></br>
       <div className=' p-4 bg-white text-black font-bold' >CURRENT ACTION SELECTED: {playerAction}</div>
   
-      <div className=' p-4 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}</div>
+      <div className=' p-4 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}
+          {enemyCard && enemyLastAction === 'fire' && !enemyTurnEnd ?
+          
+            <>
+            d {enemyCard[0]}
+            </>
+
+          :
+          
+            null
+          }
+
+      </div>
 
     </>
   )
