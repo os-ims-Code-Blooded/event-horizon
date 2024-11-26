@@ -168,13 +168,13 @@ io.on('connection', (socket)=>{
 
 
   //listening for a join room event
-  socket.on('join_session', data=>{
+  socket.on('join_session', (data, user)=>{
 
-    // console.log("SESSION DATA", data)
-    // console.log("SOCKET ID:", sockId)
+    console.log("SESSION DATA", data, user)
+    console.log("SOCKET ID:", sockId)
 
       socket.join(data)
-      socket.to(data.session).emit(messages)
+      socket.to(data.session).emit("receive_opponent", user)
 
 
 

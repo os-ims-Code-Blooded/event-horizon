@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -31,6 +31,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [hitPoints, setHitPoints] = useState(50)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
+
+  const [enemyName, setEnemyName] = useState('')
 
   //player's remaining hit points
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
@@ -128,10 +130,18 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   //when the client socket receives a new message, the received message state is updated
   useEffect(()=>{
 
+    
+    
+    //join session, sends the user object
     if (session !== ""){
-          socket.emit("join_session", session)
-        }
-
+      socket.emit("join_session", session, user)
+    }
+    
+    socket.on('receive_opponent', (data: any)=>{
+      console.log("!opponent data!", data)
+      setEnemyName(data.name)
+    
+    })
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
       setEnemyAction(data)
@@ -151,7 +161,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     // })                                       //
     //////////////////////////////////////////////
   }, [socket])
-
 
 
   useEffect(()=>{
@@ -297,12 +306,15 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
           session={session}
           socket={socket}
+          user={user}
+
           endTurn={endTurn}
           setPlayerAction={setPlayerAction}
           playerAction={playerAction}
           cardToPlay={cardToPlay}
           setCardToPlay={setCardToPlay}
 
+          enemyName={enemyName}
           enemyAction={enemyAction}
           enemyLastAction={enemyLastAction}
           enemyHitPoints={enemyHitPoints}

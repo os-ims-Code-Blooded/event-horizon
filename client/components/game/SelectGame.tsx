@@ -28,7 +28,9 @@ const decks = [
 ]
 
 
-export default function SelectGame(){
+export default function SelectGame({
+  user
+}){
 
   const [playClicked, setPlayClicked] = useState(false)
   const [makeClicked, setMakeClicked] = useState(false)
@@ -138,6 +140,7 @@ return(
 <GameController
 session={session}
 socket={socket}
+user={user}
 setGameOver={setGameOver}
 setGameWinner={setGameWinner}
 />

@@ -14,10 +14,12 @@ interface CardType {
 type GameBoardProp = {
   session: string;
   socket: any
+  user: any
   endTurn: any
   playerAction: any
   setPlayerAction: any
 
+  enemyName: any
   enemyAction: any
   enemyLastAction: any
   enemyHitPoints: number
@@ -44,6 +46,8 @@ type GameBoardProp = {
 const GameBoard: FC <GameBoardProp> = ({
   session,
   socket,
+  user,
+
   playerAction,
   setPlayerAction,
   cardToPlay,
@@ -52,13 +56,14 @@ const GameBoard: FC <GameBoardProp> = ({
   turnEnded,
   hitPoints,
 
+  enemyName,
   enemyAction,
   enemyLastAction,
   enemyHitPoints,
   enemyCard,
   enemyTurnEnd,
   enemyArmed,
-  
+
   weaponArmed,
   setWeaponArmed,
   roundNum,
@@ -147,7 +152,7 @@ if (playerHand.length < 3 && sampleDeckData.length > 0){
 if (playerHand.length === 0){
   setPlayerHand(phaserCharge)
 }
-
+console.log("USER:::", user)
   return (
     <>
     <div className=' z-10 flex-grow flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' >
@@ -167,8 +172,8 @@ if (playerHand.length === 0){
           ))}
         </div>
         <div>
-          <div className='text-red-800 font-bold'>OPPONENT NAME</div>
-          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 HP</div>
+          <div className='text-red-800 font-bold'>{enemyName}</div>
+          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 Hull Integrity</div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
@@ -225,8 +230,8 @@ if (playerHand.length === 0){
       </div>
       <div className='flex flex-row justify-between p-3'>
         <div className='flex flex-col p-3'>
-          <div className='text-green-600 font-bold'>USER NAME</div>
-          <div className='text-blue-600 font-bold'>USER HP: {hitPoints}/50</div>
+          <div className='text-green-600 font-bold'>{user.name}</div>
+          <div className='text-blue-600 font-bold'>Hull Integrity: {hitPoints}/50</div>
           <br></br>
           <br></br>
 
