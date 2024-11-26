@@ -205,6 +205,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       setHitPoints(hitPoints - enemyCard[1]/2)
 
+      if (enemyCard[2] > 0){
+        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+      }
 
 
 
@@ -212,8 +215,14 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       //you fire, they block
     }else if(playerAction === 'fire' && enemyAction === 'block'){
       
-      
-      setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      if (cardToPlay[1] > 0){
+        setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      }
+
+      if (cardToPlay[2] > 0){
+        setHitPoints(hitPoints + cardToPlay[2])
+      } 
+
       
       
       
