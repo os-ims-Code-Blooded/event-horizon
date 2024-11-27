@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -25,6 +25,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
+ 
   //player selected action of block, load or fire
   const [playerAction, setPlayerAction] = useState('')
   //player's remaining hit points
@@ -62,6 +63,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   //has the card been loaded?
   const [weaponArmed, setWeaponArmed] = useState(false)
+
+
 
 
   //for a finished game
@@ -128,6 +131,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 ////////////////LIFECYCLE/////////////////
   //when the client socket receives a new message, the received message state is updated
+  
   useEffect(()=>{
 
     
@@ -144,6 +148,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     })
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
+      console.log("ACTION RECEIVED!!!")
       setEnemyAction(data)
       setEnemyTurnEnd(true)
 
@@ -307,6 +312,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           session={session}
           socket={socket}
           user={user}
+          userDecks={userDecks}
+          deckSelected={deckSelected}
+          handSize={handSize}
 
           endTurn={endTurn}
           setPlayerAction={setPlayerAction}

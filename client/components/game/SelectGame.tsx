@@ -2,12 +2,14 @@ import React from 'react';
 import { useState } from 'react';
 import MakeGame from './MakeGame';
 import axios from 'axios'
+import { useEffect } from 'react';
 
 ////////////////////////////
 import { io } from "socket.io-client";
 import GameController from './GameController';
 import GameOver from './GameOver.tsx';
 import UserDecks from './../cards/UserDecks.tsx'
+import { use } from 'passport';
 ////////////////////////////
 
 ////////////////////////////
@@ -28,40 +30,83 @@ const decks = [
 ]
 
 
+
 export default function SelectGame({
   user
 }){
-
+  
+  
   const [playClicked, setPlayClicked] = useState(false)
   const [makeClicked, setMakeClicked] = useState(false)
-  const [deckSelected, setDeckSelected] = useState('')
+  const [deckSelected, setDeckSelected] = useState([])
+  const [deckWasChosen, setDeckWasChosen] = useState(false)
 
+  const [handSize, setHandSize] = useState(3)
+  
   const [gameOver, setGameOver] = useState(false)
   const [gameWinner, setGameWinner] = useState('')
-
-
+  const [userDecks, setUserDecks] = useState<any[]>([])
+  
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
-    const [session, setSession] = useState("")
+  const [session, setSession] = useState("")
+  
+//////////////////////////////////
+  useEffect(()=>{
 
+    axios.get(`/profile/decks/${user.id}`)
+    .then(response=>{
+      
+      // console.log("USER DECK", response.data)
+  
+      setUserDecks(response.data)})
 
+    .catch(err=>console.error(err))
+  }, [])
+  
+  // console.log("USER DECKSSSS", userDecks)
+//////////////////
   const onClickPlay = () =>{
     setPlayClicked(true)
 
 
-    // axios.get('/games')
-    // .then((response)=>{
-    //   setSession(response.data.sessionId)
-    // })
+    axios.post('/games',
+      {
+        "user_id": user.id
 
-    setSession("55")
+      }
+    )
+    .then((response)=>{
+      // console.log("RESPONSE.DATA", response.data)
+      setSession(response.data.id)
+    })
+    .catch(err=>console.error(err))
+
   }
-
+/////////////////////////////
   const onClickMake = () =>{
     setMakeClicked(true)
   }
-
+////////DECK SELECT///////////////////
   const handleDeckSelect = (e) =>{
-    setDeckSelected(e.target.value)
+
+
+    // console.log("DECK EVENT", userDecks[e.target.value].User_Decks_Cards)
+  
+
+    setDeckSelected(userDecks[e.target.value].User_Decks_Cards)
+    setDeckWasChosen(true)
+
+
+    axios.patch(`/profile/${user.id}`,
+      {
+        selectedDeck: {
+           connect: {
+             id: 1
+            }
+          }
+        })
+
+
   }
 
 return(
@@ -77,21 +122,35 @@ return(
 
 <div className='pt-8'>
 
+
+
 <select id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
   <option value="">--select deck--</option>
-  {decks.map(deck=>{
+
+
+
+
+  {userDecks.map((deck, index)=>{
+    console.log("index", index)
+    
     return(
-      <option key={deck.name} value={deck.name}>{deck.name}</option>
+      <option key={deck.deck_name} value={index}>{deck.deck_name}</option>
 
 
     )
   })}
+
+
+
+
+
+
 </select>
   </div>
 
 <br></br>
 
-  {deckSelected?
+  {deckWasChosen?
 
 <>
 <button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
@@ -143,6 +202,9 @@ socket={socket}
 user={user}
 setGameOver={setGameOver}
 setGameWinner={setGameWinner}
+userDecks={userDecks}
+deckSelected={deckSelected}
+handSize={handSize}
 />
 }
 </>

@@ -9,11 +9,11 @@ games.use('/rounds', rounds);
 games.post('/', async (req, res) => {
 
   try {
-
+    console.log("__req.BODY__", req.body)
     // preliminary validation checks
     const user = await database.user.findFirst({
       where: {
-        id: Number(req.body.data.user_id),
+        id: Number(req.body.user_id),
       }
     })
 
@@ -46,7 +46,7 @@ games.post('/', async (req, res) => {
 
       // filters active games, confirming that you aren't already in one
       const isNotUser = game.User_Games.reduce((accum, curr) => {
-        if (curr.user_id === req.body.data.user_id){
+        if (curr.user_id === req.body.user_id){
           return false;
         } else {
           return accum;
@@ -78,14 +78,14 @@ games.post('/', async (req, res) => {
       // https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries#connect-multiple-records
       const addUserToNewGame = await database.user_Games.create({
         data: {
-          user: { connect: { id: req.body.data.user_id } },
+          user: { connect: { id: req.body.user_id } },
           game: { connect: { id: newGame.id } }
         }
       });
 
       console.log(addUserToNewGame);
 
-      console.log(`Creating new game #${newGame.id} for user #${req.body.data.user_id}.`)
+      console.log(`Creating new game #${newGame.id} for user #${req.body.user_id}.`)
 
       res.status(201).send(newGame);
 
@@ -96,7 +96,7 @@ games.post('/', async (req, res) => {
 
       const addUserToGame = await database.user_Games.create({
         data: {
-          user: { connect: { id: req.body.data.user_id } },
+          user: { connect: { id: req.body.user_id } },
           game: { connect: { id: filteredGames[0].id } },
         }
       });
@@ -132,7 +132,7 @@ games.post('/', async (req, res) => {
 
 
   } catch (error) {
-    console.error(`Error on request for games for user #${req.body.data.user_id}.`)
+    console.error(`Error on request for games for user #${req.body.user_id}.`)
     console.error(error);
     res.sendStatus(500);
   }
@@ -142,7 +142,7 @@ games.post('/', async (req, res) => {
 // used to disable a game, send game ID to end it
 games.patch('/:id', async (req, res) => {
 
-  // req.body.data.user_id represents the victor for a game
+  // req.body.user_id represents the victor for a game
   try {
 
     let victor;
@@ -150,7 +150,7 @@ games.patch('/:id', async (req, res) => {
     if (!req.body.data){
       victor = null;
     } else {
-      victor = Number(req.body.data.user_id);
+      victor = Number(req.body.user_id);
     }
 
     if (victor) {

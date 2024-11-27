@@ -13,6 +13,7 @@ import { Server } from 'socket.io'
 import { it } from 'node:test';
 import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
+import games from './routes/games/games.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/', authRouter);
 app.use('/profile', profile);
 app.use('/friends', friends);
+app.use('/games', games)
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req: any, res: any, next: any) => {
@@ -169,7 +171,7 @@ io.on('connection', (socket)=>{
 
   //listening for a join room event
   socket.on('join_session', (data, user)=>{
-
+    
     console.log("SESSION DATA", data, user)
     console.log("SOCKET ID:", sockId)
 
@@ -189,9 +191,9 @@ io.on('connection', (socket)=>{
 
   socket.on('block_end_turn', data=>{
 
-    // console.log("ACTION DATA", sockId, data.playerAction)
-    // console.log("CARD DATA", sockId, data.cardToPlay)
-    // console.log("TURN ENDED?", sockId, data.turnEnded )
+    console.log("ACTION DATA", sockId, data.playerAction)
+    console.log("CARD DATA", sockId, data.cardToPlay)
+    console.log("TURN ENDED?", sockId, data.turnEnded )
 
     socket.to(data.session).emit("receive_action", data.playerAction)
 
@@ -228,14 +230,14 @@ io.on('connection', (socket)=>{
 
   socket.on('load_end_turn', data=>{
 
-    // console.log("ACTION DATA", sockId, data.playerAction)
-    // console.log("CARD DATA", sockId, data.cardToPlay)
+    console.log("ACTION DATA", sockId, data.playerAction)
+    console.log("CARD DATA", sockId, data.cardToPlay)
 
     socket.to(data.session).emit("receive_action", data.playerAction)
 
     if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
+      socket.to(data.session).emit("receive_card", data.cardToPlay)
+    } 
   })
 
 

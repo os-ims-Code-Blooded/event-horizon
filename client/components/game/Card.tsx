@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 interface CardType {
   name: string;
-  attack: number;
-  defense: number;
+  damage: number;
+  armor: number;
   description: string;
 }
 
@@ -20,13 +20,13 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
 
   const cardSelect = (card: CardType) =>{
 
-    setCardToPlay([card.name, card.attack, card.defense, card.description])
+    setCardToPlay([card.name, card.damage, card.armor, card.description])
     setActiveLoading(true)
    
 
   }
 
-
+// console.log('CAAAAAARD dmg', card.damage)
   return (
     <>
 
@@ -43,10 +43,10 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
       <div className="text-center">
         <div>`IMAGE`</div>
         <p className="text-gray-700 mb-1">
-          <strong>Attack:</strong> {card.attack}
+          <strong>Attack:</strong> {card.damage}
         </p>
         <p className="text-gray-700 mb-1">
-          <strong>Defense:</strong> {card.defense}
+          <strong>Defense:</strong> {card.armor}
         </p>
       </div>
       <p className="text-gray-600 text-sm text-center">{card.description}</p>
@@ -62,10 +62,10 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
       <div className="text-center">
         <div>`IMAGE`</div>
         <p className="text-gray-700 mb-1">
-          <strong>Attack:</strong> {card.attack}
+          <strong>Attack:</strong> {card.damage}
         </p>
         <p className="text-gray-700 mb-1">
-          <strong>Defense:</strong> {card.defense}
+          <strong>Defense:</strong> {card.armor}
         </p>
       </div>
       <p className="text-gray-600 text-sm text-center">{card.description}</p>
