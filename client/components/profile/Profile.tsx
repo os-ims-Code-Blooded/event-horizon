@@ -67,7 +67,8 @@ const Profile: FC<ProfileProps> = ({user}) => {
         <Link
           type="button"
           className="w-96 py-6 text-2xl p-3 bg-purple-1 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-indigo-500"
-          to="cards"
+          to="/cards"
+          replace={true}
         >
           Cards
         </Link>

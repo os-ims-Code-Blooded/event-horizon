@@ -43,9 +43,9 @@ const UserDecks: FC<userDeckProps> = () => {
   ];
 
   return (
-    <div className="bg-indigo-500 flex flex-col items-center">
-      <h1 className="text-white text-2xl font-bold my-4">User's Built Decks</h1>
-      <div className="w-full">
+    <div className="bg-indigo-500 flex flex-col items-center pt-[60px]">
+      <h1 className="text-white text-2xl font-bold my-4 pl-5">User's Built Decks</h1>
+      <div className="w-full pt-10">
         {decks.map((deck, index) => (
           <div
             key={index}
