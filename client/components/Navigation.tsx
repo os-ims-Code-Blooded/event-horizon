@@ -35,7 +35,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             {user ? (
               <>
                 <Link to="/title-menu" className="hover:text-blue-600 truncate">
-                  Play!
+                  PLAY!
                 </Link>
                 <button
                   onClick={() => handleLogout()}
@@ -62,12 +62,9 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
-            <Link to="/instructions" replace className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
             {user && (
               <Link to="/title-menu" className="hover:text-blue-600  truncate">
-                Play!
+                PLAY!
               </Link>
             )}
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
@@ -84,7 +81,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
               EVENT HORIZON
             </Link>
             <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              Play!
+              PLAY!
             </Link>
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
@@ -126,7 +123,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
               EVENT HORIZON
             </Link>
             <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              Play!
+              PLAY!
             </Link>
             <Link to="/user-profile" className="hover:text-blue-600  truncate">
               Profile
