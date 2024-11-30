@@ -1,4 +1,5 @@
 import database from "../../../db/index.ts";
+import updateCardsOnWin from "./updateCardsOnWin.ts";
 
 export default async function reviewWinConditions(players: any) {
 
@@ -27,6 +28,9 @@ export default async function reviewWinConditions(players: any) {
         data: { score: findUserTwo.score + 100}
       })
 
+      await updateCardsOnWin(players[0].user_id);
+      await updateCardsOnWin(players[1].user_id);
+
     // if player one reduced player two's health to 0
     } else if (userTwoHealth <= 0 && userOneHealth > 0) {
 
@@ -44,6 +48,9 @@ export default async function reviewWinConditions(players: any) {
         where: { id: players[1].user_id},
         data: { score: findUserTwo.score + 50}
       })
+
+      await updateCardsOnWin(players[0].user_id);
+      await updateCardsOnWin(players[1].user_id);
 
     // if both player's health is below 0
     } else if (userTwoHealth <= 0 && userOneHealth <= 0) {
@@ -64,7 +71,7 @@ export default async function reviewWinConditions(players: any) {
           where: { id: players[1].user_id},
           data: { score: findUserTwo.score + 50}
         })
-      } else {
+      } else if (victor === players[1].user_id) {
         await database.user.update({
           where: { id: players[0].user_id},
           data: { score: findUserOne.score + 50}
@@ -75,6 +82,9 @@ export default async function reviewWinConditions(players: any) {
           data: { score: findUserTwo.score + 100}
         })
       }
+
+      await updateCardsOnWin(players[0].user_id);
+      await updateCardsOnWin(players[1].user_id);
     }
 
     return victor;
