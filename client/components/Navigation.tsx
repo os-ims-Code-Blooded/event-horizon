@@ -139,6 +139,26 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             </button>
           </nav>
         );
+      case '/leaderboard':
+        return (
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-500 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+            <Link to="/" className="hover:text-blue-600  truncate">
+              EVENT HORIZON
+            </Link>
+            <Link to="/title-menu" className="hover:text-blue-600  truncate">
+              Play!
+            </Link>
+            <Link to="/user-profile" className="hover:text-blue-600  truncate">
+              Profile
+            </Link>
+            <Link to="/instructions" className="hover:text-blue-600  truncate">
+              How To Play
+            </Link>
+            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
+              🌗
+            </button>
+          </nav>
+        );
 
       default:
         return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
 
-const LeaderBoard = ({user}) => {
+const LeaderBoard = ({user, fullScreen=true}) => {
   const [users, setUsers] = useState([]);
 
   // fetch top 10 users
@@ -17,11 +17,6 @@ const LeaderBoard = ({user}) => {
       .catch((err) => {
         console.error('Failed to fetch leaderboard');
       })
-      // if(response.status !== 200) {
-      //   console.error('error getting users for leaderboard');
-      // } else {
-      //     setUsers(response.data);
-      // }
   };
 
   useEffect(() => {
@@ -30,8 +25,12 @@ const LeaderBoard = ({user}) => {
   }, []);
 
   return (
-    <div className='bg-slate-900 text-white dark:text-slate-400 dark:bg-black flex flex-col items-center h-full'>
-      <h1 className='text-2xl font-bold mb-4'>Leader Board</h1>
+    <div
+      className={`${
+        fullScreen ? 'h-screen' : 'h-full'
+      } w-full bg-slate-900 text-white dark:text-slate-400 dark:bg-black flex flex-col items-center`}
+    >
+      <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
       <table className='table-auto border-collapse border border-slate-500'>
         <thead>
           <tr className='bg-slate-700'>
