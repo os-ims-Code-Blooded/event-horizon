@@ -98,6 +98,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white text-center focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            aria-label="Search input"
           />
           <button
             onClick={handleSearch}
@@ -119,6 +120,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                   : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
               }`}
               onClick={() => handleSelectFriend(friend.id)}
+              aria-label={`Friend ${friend.name || friend.email}`}
             >
               <button
                 className="font-red hover:bg-slate-300"
@@ -126,6 +128,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                   e.stopPropagation();
                   promptDelete(friend.id);
                 }}
+                aria-label={`Delete friend ${friend.name || friend.email}`}
               >
                 {currentList === friends ? <div>🗑</div> : ''}
               </button>
@@ -144,6 +147,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                     handleAddFriendClick(friend.id);
                   }}
                   className="ml-4 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  aria-label={`Add friend ${friend.name || friend.email}`}
                 >
                   Add Friend
                 </button>
@@ -159,6 +163,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
           className={`px-4 py-2 rounded ${
             showSearch ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'
           } text-white`}
+          aria-label={showSearch ? 'Back to Friends' : 'Find a New Friend'}
         >
           {showSearch ? 'Back to Friends' : 'Find a New Friend'}
         </button>
@@ -173,6 +178,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
             setSelectedFriendId(null);
           }}
           disabled={!selectedFriendId}
+          aria-label="Invite to play"
         >
           Invite to Play
         </button>
