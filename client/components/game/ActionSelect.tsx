@@ -23,7 +23,7 @@ export default function ActionSelect({
         <button
 
         value='block'
-        className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
+        className='cursor-not-allowed p-4 bg-gray text-white font-bold '
         >SHIELDS
         </button>
 
@@ -44,7 +44,7 @@ export default function ActionSelect({
           <button
 
             value='load'
-            className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
+            className='cursor-not-allowed p-4 bg-gray text-white font-bold '
             >ARM
             </button>
 
@@ -67,7 +67,7 @@ export default function ActionSelect({
           <button
 
           value='fire'
-          className='cursor-not-allowed p-4 bg-gray-500 text-white font-bold '
+          className='cursor-not-allowed p-4 bg-gray text-white font-bold '
           >FIRE
           </button>
 

@@ -87,98 +87,59 @@ const GameBoard: FC <GameBoardProp> = ({
     }
     return array
   }
+  //////////////////////////////////
+  console.log("DECK SELECTED", deckSelected)
 
-  // console.log("DECK SELECTED", userDecks)
+  const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
 
-  // let playerCards = userDecks.filter((deck: { deck_name: any; })=>deck.deck_name === deckSelected)
-
-  // console.log("PLAYER CARDS", playerCards[0].User_Decks_Cards)
-
-  // console.log("DECK SELECTED", deckSelected )
-  // let startingHand: any = []
+  const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 
-  // const shuffledDeck = shuffle(deckSelected)
-  
-  // console.log("SHUFFLED DECK", shuffledDeck)
-  
-  
-  // for (let i = 0; i < handSize; i++){
-  //   startingHand.push(shuffledDeck.pop())
-  // }
-  
-  // console.log("STARTINGHAND", startingHand)
-
-
-  
-
-  // let playerCards: CardType[] = [
-  //   {
-  //     name: 'Bomba',
-  //     attack: 15,
-  //     defense: 0,
-  //     description: 'Increase Attack Power of your bullet',
-  //   },
-  //   {
-  //     name: 'Rocket',
-  //     attack: 20,
-  //     defense: 0,
-  //     description: 'Explosive attack dealing area damage.',
-  //   },
-  //   {
-  //     name: 'Plasma Shield',
-  //     attack: 0,
-  //     defense: 15,
-  //     description: 'Increase Defense Power of your shield',
-  //   },
-  // ];
-
-
-  const [playerHand, setPlayerHand] = useState(deckSelected)
-  // const [cardToPlay, setCardToPlay] = useState('')
-
-
+///////////////////////////////////////////////////////
 
   const opponentCards: CardType[] = [
     {
-      name: 'Laser Beam',
-      attack: 25,
-      defense: 0,
-      description: 'Powerful attack with laser precision.',
+      name: '',
+      damage: 0,
+      armor: 0,
+      description: ''
     },
     {
-      name: 'Energy Shield',
-      attack: 0,
-      defense: 20,
-      description: 'Increases defense against all attacks.',
+      name: '',
+      damage: 0,
+      armor: 0,
+      description: ''
     },
     {
-      name: 'Missile',
-      attack: 30,
-      defense: 0,
-      description: 'A high-damage explosive attack.',
+      name: '',
+      damage: 0,
+      armor: 0,
+      description: ''
     },
   ];
 
+///////// default attack card //////////////////////////////////////////////
 
   const phaserCharge: CardType[] = [{
     name: 'Phaser Charge',
-    attack: 10,
-    defense: 0,
+    damage: 10,
+    armor: 0,
     description: 'last-resort shield-to-phaser power conversion'
   }]
 
+/////////// discard a card /////////////////////////////////////////
 const discard = (cardName: any) =>{
 
   setPlayerHand(playerHand.filter(card=>card.name!==cardName))
-  console.log(sampleDeckData)
   
 }
 // console.log("PLAYER HAND LENGTH", playerHand.length)
 
-if (playerHand.length < 3 && sampleDeckData.length > 0){
-  shuffle(sampleDeckData)
-  let nextCard = [sampleDeckData.pop()]
+/////// check if out of cards //////////////////////////////////////////
+
+if (playerHand.length < 3 && gameDeck.length > 0){
+ 
+  let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
   setPlayerHand(playerHand.concat(nextCard))
 }
@@ -186,7 +147,10 @@ if (playerHand.length < 3 && sampleDeckData.length > 0){
 if (playerHand.length === 0){
   setPlayerHand(phaserCharge)
 }
+
 // console.log("USER:::", user)
+
+//////////////////////////////////////////////////////
   return (
     <>
     <div className=' z-10 flex-grow flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' >
@@ -199,7 +163,7 @@ if (playerHand.length === 0){
           {opponentCards.map((card, index) => (
 
           <img src='https://i.imgur.com/y1g83zB.png' className="rounded-lg shadow-md p-0 m-2 w-45 h-60 flex flex-col items-center justify-between "
-          key={opponentCards[index].name}
+          key={index}
             />
 
 
@@ -291,7 +255,7 @@ if (playerHand.length === 0){
           return(
 
             <Card
-            discard={discard}
+            // discard={discard}
             key={index}
             card={card}
             setCardToPlay={setCardToPlay}
@@ -311,18 +275,25 @@ if (playerHand.length === 0){
             ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
 
             <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
-          onClick={()=>{
+
+          onClick={(e)=>{
+
+            console.log("click")
+
             setTurnEnded(true)
+
             endTurn()
+
             if (playerAction === 'fire'){
                 discard(cardToPlay[0])
             }
+
           }}>COMMIT TURN</button>
 
 
             :
 
-            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray-500  text-white font-bold'
+            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold'
             >COMMIT TURN</button>
 
             }
@@ -349,3 +320,57 @@ if (playerHand.length === 0){
 
 export default GameBoard;
 
+///////////////////////////////////////////////
+
+
+// console.log("DECK SELECTED", userDecks)
+
+// let playerCards = userDecks.filter((deck: { deck_name: any; })=>deck.deck_name === deckSelected)
+
+// console.log("PLAYER CARDS", playerCards[0].User_Decks_Cards)
+
+// console.log("DECK SELECTED", playerCards )
+
+// let startingHand: any = []
+
+
+// const [shuffledDeck, setShuffledDeck] = useState(shuffle(playerCards))
+  // const shuffledDeck = shuffle(deckSelected)
+// const [startingHand, setStartingHand] = useState(shuffledDeck.slice(0, 3))
+  
+  
+  // console.log("SHUFFLED DECK", shuffledDeck)
+  // console.log("startingHand", startingHand)
+  
+  
+  // for (let i = 0; i < handSize; i++){
+  //   startingHand.push(shuffledDeck.pop())
+  // }
+  
+  // console.log("STARTINGHAND", startingHand)
+
+
+  
+
+  // let playerCards: CardType[] = [
+  //   {
+  //     name: 'Bomba',
+  //     attack: 15,
+  //     defense: 0,
+  //     description: 'Increase Attack Power of your bullet',
+  //   },
+  //   {
+  //     name: 'Rocket',
+  //     attack: 20,
+  //     defense: 0,
+  //     description: 'Explosive attack dealing area damage.',
+  //   },
+  //   {
+  //     name: 'Plasma Shield',
+  //     attack: 0,
+  //     defense: 15,
+  //     description: 'Increase Defense Power of your shield',
+  //   },
+  // ];
+
+  // const [cardToPlay, setCardToPlay] = useState('')

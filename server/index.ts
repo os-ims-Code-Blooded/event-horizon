@@ -172,8 +172,8 @@ io.on('connection', (socket)=>{
   //listening for a join room event
   socket.on('join_session', (data, user)=>{
     
-    console.log("SESSION DATA", data, user)
-    console.log("SOCKET ID:", sockId)
+    console.log("*** SESSION DATA", data, user)
+    console.log("*** SOCKET ID:", sockId)
 
       socket.join(data)
       socket.to(data.session).emit("receive_opponent", user)
@@ -193,7 +193,8 @@ io.on('connection', (socket)=>{
 
     console.log("ACTION DATA", sockId, data.playerAction)
     console.log("CARD DATA", sockId, data.cardToPlay)
-    console.log("TURN ENDED?", sockId, data.turnEnded )
+
+
 
     socket.to(data.session).emit("receive_action", data.playerAction)
 
@@ -222,22 +223,24 @@ io.on('connection', (socket)=>{
 
 
 
-
-
-
-
-
-
   socket.on('load_end_turn', data=>{
 
+
+
+    // console.log("DATA", data)
     console.log("ACTION DATA", sockId, data.playerAction)
     console.log("CARD DATA", sockId, data.cardToPlay)
 
-    socket.to(data.session).emit("receive_action", data.playerAction)
+    console.log("TURN ENDED?", sockId, data.turnEnded )
+    console.log("SESSION NO.", data.session)
+
+
+
+    socket.to(data.session).emit("receive_action", data.playerAction, data.turnEnded)
 
     if (data.cardToPlay){
       socket.to(data.session).emit("receive_card", data.cardToPlay)
-    } 
+    }
   })
 
 

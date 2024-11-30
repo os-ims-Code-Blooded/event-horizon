@@ -72,49 +72,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [gameWinner, setGameWinner] = useState('')
 
 
-
-
- ////////////END TURN/////////////////
-  const endTurn = async () =>{
-    //sends the message state
-    // setTurnEnded(true)
-
-    // setActiveLoading(false)
-
-    //emits turn for block
-    if (playerAction === "block"){
-      socket.emit('block_end_turn', {playerAction, turnEnded, session})
-    }
-
-    //emits turn for fire
-    if (playerAction === "fire"){
-      socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
-    }
-
-    //emits turn for load
-    if (playerAction === "load"){
-      socket.emit('load_end_turn', {playerAction, cardToPlay, session})
-    }
-
-    if (playerAction === ""){
-      socket.emit('lame_end_turn', playerAction, session)
-    }
-
-
-   /////////// REQUEST HANDLING /////////////////////////
-    // await axios.post('/games/rounds', {
-    //   "data": {
-    //     'round_id': 1,
-    //     'user_id': 1,
-    //     'action': 'load',
-    //     'card_id': 1
-    //   }
-    // })
-    // .then(response=>console.log(response))
-    // .catch(err => console.error("failed to post move data", err))
-    
-
-  }
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
     // console.log("click value", e.target.value)
@@ -128,36 +85,84 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     }
   }
 
+ ////////////END TURN/////////////////
 
-////////////////LIFECYCLE/////////////////
+
+  const endTurn = async () =>{
+
+ //emits turn for block
+ if (playerAction === "block"){
+  socket.emit('block_end_turn', {playerAction, turnEnded: true, session})
+}
+
+//emits turn for fire
+if (playerAction === "fire"){
+  socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
+}
+
+//emits turn for load
+if (playerAction === "load"){
+  socket.emit('load_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
+}
+
+if (playerAction === ""){
+  socket.emit('lame_end_turn', playerAction, session)
+}
+
+
+    /////////// REQUEST HANDLING /////////////////////////
+
+    // await axios.post('/games/rounds', {
+    //     'data': {
+    //     'round_id': 1,
+    //     'user_id': 1,
+    //     'action': 'load',
+    //     'card_id': 1
+    //   }
+    // })
+    // .then(response=>console.log(response))
+    // .catch(err => console.error("failed to post move data", err))
+
+
+  }
+
+
+  ////////////////LIFECYCLE/////////////////
   //when the client socket receives a new message, the received message state is updated
-  
+
   useEffect(()=>{
 
-    
-    
+ 
     //join session, sends the user object
-    if (session !== ""){
+    if (session){
       socket.emit("join_session", session, user)
     }
     
+
     socket.on('receive_opponent', (data: any)=>{
-      console.log("!opponent data!", data)
+   
       setEnemyName(data.name)
     
+
     })
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
-      console.log("ACTION RECEIVED!!!")
+
       setEnemyAction(data)
       setEnemyTurnEnd(true)
 
     })
 
+
+
     //UPDATE CARD
     socket.on('receive_card', (data)=>{
       setEnemyCard(data)
     })
+
+
+
+
 
     ////////////for messaging/////////////////////
     // socket.on("receive_message", (data)=>{   //
@@ -190,9 +195,10 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   if (turnEnded && enemyTurnEnd){
 
-    // console.log("BOTH TURNS ENDED")
     setRoundNum(roundNum + 1)
 
+    console.log("YOUR CARD", cardToPlay)
+    console.log("ENEMY CARD", enemyCard)
 
 
     //you hit them
@@ -244,8 +250,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       //you hit each-other
     } else if (enemyAction === 'fire' && playerAction === 'fire'){
 
-      console.log("CARD TO PLAY", cardToPlay);
-      console.log("ENEMY CARD TO PLAY", enemyCard);
 
       if(cardToPlay[1] > 0 && enemyCard[1] > 0){
 
@@ -257,7 +261,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       if (cardToPlay[2] > 0){
         setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
       } 
-
 
 
       if (enemyCard[2] > 0){
@@ -339,7 +342,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           setTurnEnded={setTurnEnded}
           activeLoading={activeLoading}
           setActiveLoading={setActiveLoading}
-          actionClick={actionClick} discard={undefined}        />
+          actionClick={actionClick}
+          discard={undefined}        />
       </>
 
 
