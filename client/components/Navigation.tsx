@@ -58,6 +58,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
       case '/instructions':
         return (
           <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -78,6 +79,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
       case '/user-profile':
         return (
           <nav className="fixed top-0 w-full rounded-sm p-4 bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -96,7 +98,9 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       case '/title-menu':
         return (
+
           <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -117,6 +121,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
       case '/friends':
         return (
           <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
