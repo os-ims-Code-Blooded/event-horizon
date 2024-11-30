@@ -150,7 +150,7 @@ export default function App (){
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame /> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame user={user}/> : <Navigate to='/' />}
         />
         <Route
           path="/leaderboard"

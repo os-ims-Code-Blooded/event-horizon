@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -25,12 +25,15 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
+ 
   //player selected action of block, load or fire
   const [playerAction, setPlayerAction] = useState('')
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
+
+  const [enemyName, setEnemyName] = useState('')
 
   //player's remaining hit points
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
@@ -60,6 +63,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   //has the card been loaded?
   const [weaponArmed, setWeaponArmed] = useState(false)
+
+
 
 
   //for a finished game
@@ -126,14 +131,24 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 ////////////////LIFECYCLE/////////////////
   //when the client socket receives a new message, the received message state is updated
+  
   useEffect(()=>{
 
+    
+    
+    //join session, sends the user object
     if (session !== ""){
-          socket.emit("join_session", session)
-        }
-
+      socket.emit("join_session", session, user)
+    }
+    
+    socket.on('receive_opponent', (data: any)=>{
+      console.log("!opponent data!", data)
+      setEnemyName(data.name)
+    
+    })
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
+      console.log("ACTION RECEIVED!!!")
       setEnemyAction(data)
       setEnemyTurnEnd(true)
 
@@ -151,7 +166,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     // })                                       //
     //////////////////////////////////////////////
   }, [socket])
-
 
 
   useEffect(()=>{
@@ -205,6 +219,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       setHitPoints(hitPoints - enemyCard[1]/2)
 
+      if (enemyCard[2] > 0){
+        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+      }
 
 
 
@@ -212,8 +229,14 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       //you fire, they block
     }else if(playerAction === 'fire' && enemyAction === 'block'){
       
-      
-      setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      if (cardToPlay[1] > 0){
+        setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      }
+
+      if (cardToPlay[2] > 0){
+        setHitPoints(hitPoints + cardToPlay[2])
+      } 
+
       
       
       
@@ -279,7 +302,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div className='bg-slate-800 pl-4 py-4'>
+    <div >
 
       <h1>TOP-LEVEL GAME CONTROLLER</h1>
 
@@ -288,12 +311,18 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
           session={session}
           socket={socket}
+          user={user}
+          userDecks={userDecks}
+          deckSelected={deckSelected}
+          handSize={handSize}
+
           endTurn={endTurn}
           setPlayerAction={setPlayerAction}
           playerAction={playerAction}
           cardToPlay={cardToPlay}
           setCardToPlay={setCardToPlay}
 
+          enemyName={enemyName}
           enemyAction={enemyAction}
           enemyLastAction={enemyLastAction}
           enemyHitPoints={enemyHitPoints}

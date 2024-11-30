@@ -7,17 +7,22 @@ import sampleDeckData from './sampleDeckData';
 
 interface CardType {
   name: string;
-  attack: number;
-  defense: number;
+  damage: number;
+  armor: number;
   description: string;
 }
 type GameBoardProp = {
   session: string;
   socket: any
+  user: any
+  userDecks: any
+  deckSelected: any
   endTurn: any
   playerAction: any
   setPlayerAction: any
+  handSize: any
 
+  enemyName: any
   enemyAction: any
   enemyLastAction: any
   enemyHitPoints: number
@@ -44,6 +49,11 @@ type GameBoardProp = {
 const GameBoard: FC <GameBoardProp> = ({
   session,
   socket,
+  user,
+  userDecks,
+  deckSelected,
+  handSize,
+
   playerAction,
   setPlayerAction,
   cardToPlay,
@@ -52,13 +62,14 @@ const GameBoard: FC <GameBoardProp> = ({
   turnEnded,
   hitPoints,
 
+  enemyName,
   enemyAction,
   enemyLastAction,
   enemyHitPoints,
   enemyCard,
   enemyTurnEnd,
   enemyArmed,
-  
+
   weaponArmed,
   setWeaponArmed,
   roundNum,
@@ -67,29 +78,63 @@ const GameBoard: FC <GameBoardProp> = ({
   setActiveLoading,
   actionClick
 }) => {
+  
 
-  let playerCards: CardType[] = [
-    {
-      name: 'Bomba',
-      attack: 15,
-      defense: 0,
-      description: 'Increase Attack Power of your bullet',
-    },
-    {
-      name: 'Rocket',
-      attack: 20,
-      defense: 0,
-      description: 'Explosive attack dealing area damage.',
-    },
-    {
-      name: 'Plasma Shield',
-      attack: 0,
-      defense: 15,
-      description: 'Increase Defense Power of your shield',
-    },
-  ];
+  const shuffle = array =>{
+    for (let i = array.length - 1; i > 0; i--){
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array
+  }
 
-  const [playerHand, setPlayerHand] = useState(playerCards)
+  // console.log("DECK SELECTED", userDecks)
+
+  // let playerCards = userDecks.filter((deck: { deck_name: any; })=>deck.deck_name === deckSelected)
+
+  // console.log("PLAYER CARDS", playerCards[0].User_Decks_Cards)
+
+  // console.log("DECK SELECTED", deckSelected )
+  // let startingHand: any = []
+
+
+  // const shuffledDeck = shuffle(deckSelected)
+  
+  // console.log("SHUFFLED DECK", shuffledDeck)
+  
+  
+  // for (let i = 0; i < handSize; i++){
+  //   startingHand.push(shuffledDeck.pop())
+  // }
+  
+  // console.log("STARTINGHAND", startingHand)
+
+
+  
+
+  // let playerCards: CardType[] = [
+  //   {
+  //     name: 'Bomba',
+  //     attack: 15,
+  //     defense: 0,
+  //     description: 'Increase Attack Power of your bullet',
+  //   },
+  //   {
+  //     name: 'Rocket',
+  //     attack: 20,
+  //     defense: 0,
+  //     description: 'Explosive attack dealing area damage.',
+  //   },
+  //   {
+  //     name: 'Plasma Shield',
+  //     attack: 0,
+  //     defense: 15,
+  //     description: 'Increase Defense Power of your shield',
+  //   },
+  // ];
+
+
+  const [playerHand, setPlayerHand] = useState(deckSelected)
   // const [cardToPlay, setCardToPlay] = useState('')
 
 
@@ -115,12 +160,6 @@ const GameBoard: FC <GameBoardProp> = ({
     },
   ];
 
-  const shuffle = array =>{
-    for (let i = array.length - 1; i > 0; i--){
-      let j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
 
   const phaserCharge: CardType[] = [{
     name: 'Phaser Charge',
@@ -147,10 +186,10 @@ if (playerHand.length < 3 && sampleDeckData.length > 0){
 if (playerHand.length === 0){
   setPlayerHand(phaserCharge)
 }
-
+// console.log("USER:::", user)
   return (
     <>
-    <div className=' z-10 flex-grow flex-col bg-slate-900 dark:bg-black scale-80' >
+    <div className=' z-10 flex-grow flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' >
     
       <div className='flex flex-row justify-between p-3'>
         <div>
@@ -167,8 +206,8 @@ if (playerHand.length === 0){
           ))}
         </div>
         <div>
-          <div className='text-red-800 font-bold'>OPPONENT NAME</div>
-          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 HP</div>
+          <div className='text-red-800 font-bold'>{enemyName}</div>
+          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 Hull Integrity</div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
@@ -181,11 +220,11 @@ if (playerHand.length === 0){
           <div>
             {enemyArmed?
 
-              <div className='p-20 text-[2rem] text-red-600'>ENEMY: ARMED</div>
+              <div className='p-20 text-[2rem] text-red-600'>ENEMY STATUS: ARMED</div>
 
               :
 
-              <div className='p-20 text-[2rem] text-red-600'> ENEMY: </div>
+              <div className='p-20 text-[2rem] text-red-600'> ENEMY STATUS: </div>
 
             }
           </div>
@@ -212,7 +251,7 @@ if (playerHand.length === 0){
 
               :
 
-              <div className='p-20 text-[2rem] text-green-500'> EMPTY </div>
+              <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
 
           }
           </div>
@@ -225,8 +264,8 @@ if (playerHand.length === 0){
       </div>
       <div className='flex flex-row justify-between p-3'>
         <div className='flex flex-col p-3'>
-          <div className='text-green-600 font-bold'>USER NAME</div>
-          <div className='text-blue-600 font-bold'>USER HP: {hitPoints}/50</div>
+          <div className='text-green-600 font-bold'>{user.name}</div>
+          <div className='text-blue-600 font-bold'>Hull Integrity: {hitPoints}/50</div>
           <br></br>
           <br></br>
 
@@ -237,6 +276,8 @@ if (playerHand.length === 0){
           turnEnded={turnEnded}
           activeLoading={activeLoading}
           actionClick={actionClick}
+          enemyCard={enemyCard}
+          enemyTurnEnd={enemyTurnEnd}
          
           />
         </div>
@@ -244,22 +285,27 @@ if (playerHand.length === 0){
 
         <div className="flex flex-row">
 
-              {playerHand.map((card, index) => (
-                <Card
-                  discard={discard}
-                  key={index}
-                  card={card}
-                  setCardToPlay={setCardToPlay}
-                  playerAction={playerAction}
-                  setActiveLoading={setActiveLoading}
-                  playerHand={undefined}                   />
-              ))}
+              {playerHand
+                .map((card, index) => {
+                  // console.log("CAAAARD", card)
+          return(
+
+            <Card
+            discard={discard}
+            key={index}
+            card={card}
+            setCardToPlay={setCardToPlay}
+            playerAction={playerAction}
+            setActiveLoading={setActiveLoading}
+            playerHand={undefined}                   />
+          )
+})}
 
         </div>
 
         <div className='flex flex-col p-4'>
           <div>
-            {
+              {
 
             // !turnEnded || playerAction !== '' ?
             ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?

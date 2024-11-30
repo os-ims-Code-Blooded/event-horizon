@@ -57,7 +57,7 @@ profile.get('/:id', async (req, res) => {
 })
 
 profile.get('/top-scores/:id', async (req, res) => {
-  console.log('REQ', req);
+  // console.log('REQ', req);
   try {
     //find top 10 users sorted by highest score
     const topUsers = await database.user.findMany({
@@ -67,7 +67,7 @@ profile.get('/top-scores/:id', async (req, res) => {
         },
       take: 10,
     });
-    console.log('Top users', topUsers);
+    // console.log('Top users', topUsers);
     // check if any users are returned
     if (!topUsers || topUsers.length === 0) {
       res.sendStatus(404);

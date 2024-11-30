@@ -64,6 +64,9 @@ decks.get('/:id', async (req, res) => {
       const userDecks = await database.user_Decks.findMany({
         where: {
           user_id: Number(req.params.id)
+        },
+        include: {
+          User_Decks_Cards: true
         }
       })
       
@@ -127,7 +130,7 @@ decks.post('/:id', async (req, res) => {
     safetyCheck.forEach( async (card: number) => {
       await database.user_Deck_Cards.create({
         data: {
-          card: {connect: {id: card}},
+          userCards: {connect: {id: card}},
           deck: {connect: {id: createDeck.id}}
         }
       })
@@ -149,7 +152,7 @@ decks.patch('/:id', async (req, res) => {
   ==================================================================================================
   req: {
     body: {               // !!! MUST CHOOSE AT LEAST ONE OPTION OR WILL ENCOUNTER ERROR !!!
-      data: {      
+      data: {
         deck_id:          // REQUIRED: Deck ID that you want to update
         deck_name:        // OPTION: This is the name for the current deck, REQUIRES deck_id too
         delete_cards:     // OPTION: This is an ARRAY of ONLY card IDs that the user wants to delete
@@ -200,7 +203,7 @@ decks.patch('/:id', async (req, res) => {
       safetyCheck.forEach( async (card: number) => {
         await database.user_Deck_Cards.create({
           data: {
-            card: {connect: {id: card}},
+            userCards: {connect: {id: card}},
             deck: {connect: {id: Number(req.body.data.deck_id)}}
           }
         })
