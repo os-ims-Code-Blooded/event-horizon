@@ -66,14 +66,15 @@ const Profile: FC<ProfileProps> = ({user}) => {
         <div> Wins: 0 | Losses: 0</div>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-blue-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600"
-          to="cards"
+          className="w-96 py-6 text-2xl p-3 bg-purple-1 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-indigo-500"
+          to="/cards"
+          replace={true}
         >
           Cards
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-green-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600"
+          className="w-96 py-6 text-2xl p-3 bg-emerald-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-emerald-400"
           to="/friends"
           replace={true}
         >
@@ -81,14 +82,14 @@ const Profile: FC<ProfileProps> = ({user}) => {
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-gray-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600"
+          className="w-96 py-6 text-2xl p-3 bg-gray text-white rounded-lg shadow-md shadow-slate-600 hover:bg-slate-300"
           to=""
         >
           Settings
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-orange-400 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-blue-600"
+          className="w-96 py-6 text-2xl p-3 bg-gold text-white rounded-lg shadow-md shadow-slate-600 hover:bg-none bg-yellow-200"
           to="/leaderboard"
           replace={true}
         >
