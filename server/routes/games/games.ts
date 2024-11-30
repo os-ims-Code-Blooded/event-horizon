@@ -19,8 +19,10 @@ games.post('/', async (req, res) => {
 
     if (!user){
       res.sendStatus(400);  // if user invalid, inform client that this is a bad request
+      return;
     } else if (!user.selectedDeckId){
       res.sendStatus(400);  // if no selected deck, inform client that this user cannot play a game
+      return;
     }
 
     // first try to find all open games
