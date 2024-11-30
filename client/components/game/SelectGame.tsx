@@ -66,21 +66,27 @@ export default function SelectGame({
   // console.log("USER DECKSSSS", userDecks)
 //////////////////
   const onClickPlay = () =>{
-    setPlayClicked(true)
-
-
+    
+    let sesh;
     axios.post('/games',
       {
         "user_id": user.id
-
+        
       }
     )
     .then((response)=>{
-      // console.log("RESPONSE.DATA", response.data)
+
       setSession(response.data.id)
+
+      setPlayClicked(true)
+
+      console.log("***RESPONSE***", response)
+      
+      console.log("RESPONSE.DATA", response.data.id)
+      
     })
     .catch(err=>console.error(err))
-
+    
   }
 /////////////////////////////
   const onClickMake = () =>{
