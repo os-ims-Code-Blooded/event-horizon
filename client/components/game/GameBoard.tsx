@@ -88,8 +88,11 @@ const GameBoard: FC <GameBoardProp> = ({
     return array
   }
   //////////////////////////////////
-  
-  const [playerHand, setPlayerHand] = useState(shuffle(deckSelected).slice(0, 3))
+  console.log("DECK SELECTED", deckSelected)
+
+  const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
+
+  const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 
 ///////////////////////////////////////////////////////
@@ -119,8 +122,8 @@ const GameBoard: FC <GameBoardProp> = ({
 
   const phaserCharge: CardType[] = [{
     name: 'Phaser Charge',
-    attack: 10,
-    defense: 0,
+    damage: 10,
+    armor: 0,
     description: 'last-resort shield-to-phaser power conversion'
   }]
 
@@ -128,16 +131,15 @@ const GameBoard: FC <GameBoardProp> = ({
 const discard = (cardName: any) =>{
 
   setPlayerHand(playerHand.filter(card=>card.name!==cardName))
-  console.log(sampleDeckData)
   
 }
 // console.log("PLAYER HAND LENGTH", playerHand.length)
 
 /////// check if out of cards //////////////////////////////////////////
 
-if (playerHand.length < 3 && sampleDeckData.length > 0){
-  shuffle(sampleDeckData)
-  let nextCard = [sampleDeckData.pop()]
+if (playerHand.length < 3 && gameDeck.length > 0){
+ 
+  let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
   setPlayerHand(playerHand.concat(nextCard))
 }
@@ -291,7 +293,7 @@ if (playerHand.length === 0){
 
             :
 
-            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray-500  text-white font-bold'
+            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold'
             >COMMIT TURN</button>
 
             }

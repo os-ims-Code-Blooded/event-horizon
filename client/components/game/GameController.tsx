@@ -71,7 +71,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [gameOver, setGameOver] = useState(false)
   // const [gameWinner, setGameWinner] = useState('')
 
-console.log("SESSION", session)
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
@@ -89,15 +88,7 @@ console.log("SESSION", session)
  ////////////END TURN/////////////////
 
 
- console.log("TURN ENDED?", turnEnded)
-
   const endTurn = async () =>{
-    
-
-    // setTurnEnded(true)
-    const updatedTurnEnded = true;
-    // setActiveLoading(false)
-
 
  //emits turn for block
  if (playerAction === "block"){
@@ -141,11 +132,6 @@ if (playerAction === ""){
 
   useEffect(()=>{
 
-    if (turnEnded === true){
-      console.log("EFFECT USED")
-
-    }
-
  
     //join session, sends the user object
     if (session){
@@ -154,15 +140,14 @@ if (playerAction === ""){
     
 
     socket.on('receive_opponent', (data: any)=>{
-      console.log("!opponent data!", data)
+   
       setEnemyName(data.name)
     
 
     })
     //UPDATE ACTION
     socket.on('receive_action', (data)=>{
-      console.log("ACTION RECEIVED!!!")
-      console.log("ACTION DATA",data)
+
       setEnemyAction(data)
       setEnemyTurnEnd(true)
 
@@ -208,14 +193,12 @@ if (playerAction === ""){
   })
 
 
-  console.log("TURNS ENDED?", turnEnded, enemyTurnEnd)
-
-
   if (turnEnded && enemyTurnEnd){
 
-    // console.log("BOTH TURNS ENDED")
     setRoundNum(roundNum + 1)
 
+    console.log("YOUR CARD", cardToPlay)
+    console.log("ENEMY CARD", enemyCard)
 
 
     //you hit them
@@ -267,8 +250,6 @@ if (playerAction === ""){
       //you hit each-other
     } else if (enemyAction === 'fire' && playerAction === 'fire'){
 
-      console.log("CARD TO PLAY", cardToPlay);
-      console.log("ENEMY CARD TO PLAY", enemyCard);
 
       if(cardToPlay[1] > 0 && enemyCard[1] > 0){
 
@@ -280,7 +261,6 @@ if (playerAction === ""){
       if (cardToPlay[2] > 0){
         setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
       } 
-
 
 
       if (enemyCard[2] > 0){

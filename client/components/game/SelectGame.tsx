@@ -80,10 +80,10 @@ export default function SelectGame({
 
       setPlayClicked(true)
 
-      console.log("***RESPONSE***", response)
+      // console.log("***RESPONSE***", response)
       
-      console.log("RESPONSE.DATA", response.data.id)
-      
+      // console.log("RESPONSE.DATA", response.data.id)
+
     })
     .catch(err=>console.error(err))
     
@@ -167,7 +167,7 @@ return(
 :
 
 <>
-<button className='cursor-not-allowed bg-gray-500' >PLAY NOW!</button>
+<button className='cursor-not-allowed bg-gray' >PLAY NOW!</button>
 
 <br></br>
 </>
