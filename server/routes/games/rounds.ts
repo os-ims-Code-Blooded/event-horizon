@@ -104,4 +104,38 @@ rounds.post('/', async (req, res) => {
 
 });
 
+rounds.get('/:id', async (req, res) => {
+
+  try {
+
+    let findGameRounds = await database.rounds.findMany({
+      where: { game_id: Number(req.params.id)}
+    })
+
+    if (findGameRounds.length === 0) {
+      console.error(`No round currently exists for game #${req.params.id}.`)
+      res.sendStatus(404);
+      return;
+    } else {
+      let findMostRecent = findGameRounds.reduce( (accum, curr) => {
+        if (curr.id > accum){
+          return curr.id;
+        } else {
+          return accum;
+        }
+      }, 0)
+
+      res.status(200).send({"Most Recent Round": findMostRecent})
+
+    }
+
+  } catch (error) {
+
+    console.error(`Error fetching most recent round for game #${req.params.id}.`)
+    res.sendStatus(500);
+
+  }
+
+})
+
 export default rounds;
