@@ -123,7 +123,7 @@ return(
 {!playClicked?
 
 
-<div className='flex items-center justify-center min-h-screen bg-slate-900 dark:bg-black h-screen'>
+<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-slate-900 dark:bg-black'>
   <div className='p-6 justify-items-center flex flex-col items-center'>
 
 <div className='pt-8'>

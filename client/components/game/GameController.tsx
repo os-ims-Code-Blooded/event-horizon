@@ -305,13 +305,8 @@ if (playerAction === ""){
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div >
-
-      <h1>TOP-LEVEL GAME CONTROLLER</h1>
-
-      <>
+    <div className='h-full w-full'>
         <GameBoard
-
           session={session}
           socket={socket}
           user={user}
@@ -344,9 +339,6 @@ if (playerAction === ""){
           setActiveLoading={setActiveLoading}
           actionClick={actionClick}
           discard={undefined}        />
-      </>
-
-
     </div>
   )
 }

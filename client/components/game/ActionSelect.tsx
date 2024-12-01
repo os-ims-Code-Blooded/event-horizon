@@ -16,22 +16,20 @@ export default function ActionSelect({
 
   return(
     <>
-      <div className='flex flex-cols gap-3 justify-items-center'>
+      <div className='flex flex-cols gap-2 justify-items-center'>
 
       {activeLoading || turnEnded?
 
         <button
 
         value='block'
-        className='cursor-not-allowed p-4 bg-gray text-white font-bold '
+        className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm'
         >SHIELDS
         </button>
-
         :
-
         <button 
         value='block' 
-        className=' p-4 bg-blue-600 hover:bg-blue-900 text-white font-bold focus:ring-4 focus:ring-blue-300'
+        className=' p-4 bg-blue-600 hover:bg-blue-900 text-white font-bold focus:ring-4 focus:ring-blue-300 rounded-sm'
         onClick={(e)=>{actionClick(e)}}
         >SHIELDS
         </button>
@@ -44,7 +42,7 @@ export default function ActionSelect({
           <button
 
             value='load'
-            className='cursor-not-allowed p-4 bg-gray text-white font-bold '
+            className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm '
             >ARM
             </button>
 
@@ -52,7 +50,7 @@ export default function ActionSelect({
 
             <button 
             value='load' 
-            className='p-4 bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200'
+            className='p-4 bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200 rounded-sm'
             onClick={(e)=>{actionClick(e)}}
             >ARM
             </button>
@@ -67,7 +65,7 @@ export default function ActionSelect({
           <button
 
           value='fire'
-          className='cursor-not-allowed p-4 bg-gray text-white font-bold '
+          className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm '
           >FIRE
           </button>
 
@@ -75,7 +73,7 @@ export default function ActionSelect({
 
           <button
           value='fire'
-          className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300'
+          className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300 rounded-sm'
           onClick={(e)=>{actionClick(e)}}
           >FIRE
           </button>
@@ -84,9 +82,9 @@ export default function ActionSelect({
 
       </div>
       <br></br>
-      <div className=' p-4 bg-white text-black font-bold' >CURRENT ACTION SELECTED: {playerAction}</div>
+      <div className=' p-2 bg-white text-black font-bold' >CURRENT ACTION SELECTED: {playerAction}</div>
   
-      <div className=' p-4 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}
+      <div className=' p-2 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}
           {enemyCard && enemyLastAction === 'fire' && !enemyTurnEnd ?
           
             <>
