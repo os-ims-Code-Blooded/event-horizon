@@ -5,12 +5,12 @@ const decks = express.Router();
 
 // enables you to get all card decks for the specified user
 // a specific deck can also be specified in req.body.data
-decks.get('/:id', async (req, res) => {
+decks.get('/:id/:deck_id', async (req, res) => {
 
   try {
 
 
-    if (!req.body.deck_id){
+    if (!req.params.deck_id){
       const allDecksAndCards = await database.user_Decks.findMany({
         where: { user_id: Number(req.params.id) }
       })
@@ -23,7 +23,7 @@ decks.get('/:id', async (req, res) => {
     } else {
 
       const specificDeck = await database.user_Decks.findFirst({
-        where: { id: Number(req.body.deck_id) },
+        where: { id: Number(req.params.deck_id) },
         include: {
           User_Decks_Cards: true
         }
@@ -43,6 +43,33 @@ decks.get('/:id', async (req, res) => {
   }
 
 })
+
+decks.get('/selected-deck/:id', async (req, res) => {
+
+  try {
+
+    const findUserDeck = await database.user.findFirst({
+      where: { id: Number(req.params.id)},
+      include: {
+        selectedDeck: { include: {
+          User_Decks_Cards: true
+        }}
+      }
+    })
+
+    if (!findUserDeck){
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(findUserDeck.selectedDeck);
+    }
+
+  } catch (error) {
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
+    res.sendStatus(500);
+  }
+
+})
+
 
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint
