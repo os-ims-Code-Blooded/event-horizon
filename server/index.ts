@@ -189,72 +189,27 @@ io.on('connection', (socket)=>{
 
   //PLAYER ENDS TURN
 
-  socket.on('block_end_turn', data=>{
+  socket.on('end_turn', data=>{
 
-    console.log("ACTION DATA", sockId, data.playerAction)
-    console.log("CARD DATA", sockId, data.cardToPlay)
-
-
-
-    socket.to(data.session).emit("receive_action", data.playerAction)
-
-    if (data.cardToPlay){
-      socket.in(data.session).emit("receive_card", data.cardToPlay)
-    }
-  })
-
-
-
-
-
-
-
-
-
-  socket.on('fire_end_turn', data=>{
-
-
-    // console.log("ACTION DATA", sockId, data.playerAction)
-    // console.log("CARD DATA", sockId, data.cardToPlay)
+    console.log("ACTION DATA", data.playerAction)
+    console.log("CARD DATA", data.cardToPlay)
 
 
     socket.to(data.session).emit("receive_action", data.playerAction)
-  })
-
-
-
-  socket.on('load_end_turn', data=>{
-
-
-
-    // console.log("DATA", data)
-    console.log("ACTION DATA", sockId, data.playerAction)
-    console.log("CARD DATA", sockId, data.cardToPlay)
-
-    console.log("TURN ENDED?", sockId, data.turnEnded )
-    console.log("SESSION NO.", data.session)
-
-
-
-    socket.to(data.session).emit("receive_action", data.playerAction, data.turnEnded)
 
     if (data.cardToPlay){
       socket.to(data.session).emit("receive_card", data.cardToPlay)
     }
+
+
   })
 
 
-  socket.on('lame_end_turn', data=>{
+  // socket.on('block_end_turn', data=>{
 
-    // console.log("ACTION DATA", sockId, data.playerAction)
-    socket.to(data.session).emit("receive_action", data.playerAction)
+  //   console.log("ACTION DATA", sockId, data.playerAction)
+  //   console.log("CARD DATA", sockId, data.cardToPlay)
 
-  })
-
-  // socket.on('end_turn', data=>{
-
-  //   console.log("ACTION DATA", data.playerAction)
-  //   console.log("CARD DATA", data.cardToPlay)
 
 
   //   socket.to(data.session).emit("receive_action", data.playerAction)
@@ -262,9 +217,49 @@ io.on('connection', (socket)=>{
   //   if (data.cardToPlay){
   //     socket.in(data.session).emit("receive_card", data.cardToPlay)
   //   }
+  // })
 
+
+
+
+
+
+
+
+
+  // socket.on('fire_end_turn', data=>{
+
+
+  //   // console.log("ACTION DATA", sockId, data.playerAction)
+  //   // console.log("CARD DATA", sockId, data.cardToPlay)
+
+
+  //   socket.to(data.session).emit("receive_action", data.playerAction)
+  // })
+
+
+
+  // socket.on('load_end_turn', data=>{
+
+
+
+  //   console.log("DATA", data)
+
+  //   socket.to(data.session).emit("receive_action", data.playerAction, data.turnEnded)
+
+  //   if (data.cardToPlay){
+  //     socket.to(data.session).emit("receive_card", data.cardToPlay)
+  //   }
+  // })
+
+
+  // socket.on('lame_end_turn', data=>{
+
+  //   // console.log("ACTION DATA", sockId, data.playerAction)
+  //   socket.to(data.session).emit("receive_action", data.playerAction)
 
   // })
+
 
 
 

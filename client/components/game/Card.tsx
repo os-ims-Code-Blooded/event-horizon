@@ -26,8 +26,6 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
 
   }
 
-console.log('CAAAAAARD dmg', card.damage)
-
   return (
     <>
 

@@ -60,7 +60,7 @@ export default function ActionSelect({
         <div></div>
 
 
-          {!cardToPlay || activeLoading || turnEnded?
+          {activeLoading || turnEnded?
 
           <button
 
