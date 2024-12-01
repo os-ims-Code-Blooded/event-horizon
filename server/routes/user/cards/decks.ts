@@ -9,32 +9,14 @@ decks.get('/:id', async (req, res) => {
 
   try {
 
-
-    if (!req.body.deck_id){
-      const allDecksAndCards = await database.user_Decks.findMany({
-        where: { user_id: Number(req.params.id) }
-      })
-      
-      if (!allDecksAndCards) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(allDecksAndCards);
-      }
+    const allDecksAndCards = await database.user_Decks.findMany({
+      where: { user_id: Number(req.params.id) }
+    })
+    
+    if (!allDecksAndCards) {
+      res.sendStatus(404);
     } else {
-
-      const specificDeck = await database.user_Decks.findFirst({
-        where: { id: Number(req.body.deck_id) },
-        include: {
-          User_Decks_Cards: true
-        }
-      })
-
-      if (!specificDeck) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(specificDeck);
-      }
-
+      res.status(200).send(allDecksAndCards);
     }
 
   } catch (error) {
@@ -43,6 +25,55 @@ decks.get('/:id', async (req, res) => {
   }
 
 })
+
+decks.get('/specific/:id', async (req, res) => {
+
+  try {
+
+    const specificDeck = await database.user_Decks.findFirst({
+      where: { id: Number(req.params.id) },
+      include: { User_Decks_Cards: true}
+    })
+    
+    if (!specificDeck) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(specificDeck.User_Decks_Cards);
+    }
+
+  } catch (error) {
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
+    res.sendStatus(500);
+  }
+
+})
+
+decks.get('/selected-deck/:id', async (req, res) => {
+
+  try {
+
+    const findUserDeck = await database.user.findFirst({
+      where: { id: Number(req.params.id)},
+      include: {
+        selectedDeck: { include: {
+          User_Decks_Cards: true
+        }}
+      }
+    })
+
+    if (!findUserDeck){
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(findUserDeck.selectedDeck);
+    }
+
+  } catch (error) {
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
+    res.sendStatus(500);
+  }
+
+})
+
 
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint
