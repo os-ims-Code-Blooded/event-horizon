@@ -56,7 +56,7 @@ export default function SelectGame({
     axios.get(`/profile/decks/${user.id}`)
     .then(response=>{
       
-      // console.log("USER DECK", response.data)
+      console.log("USER DECKS", response.data)
   
       setUserDecks(response.data)})
 
@@ -87,32 +87,42 @@ export default function SelectGame({
     .catch(err=>console.error(err))
     
   }
-/////////////////////////////
+
+
+///////// MAKE CUSTOM GAME ////////////////////
   const onClickMake = () =>{
     setMakeClicked(true)
   }
-////////DECK SELECT///////////////////
-  const handleDeckSelect = (e) =>{
 
 
-    // console.log("DECK EVENT", userDecks[e.target.value].User_Decks_Cards)
-  
-
-    setDeckSelected(userDecks[e.target.value].User_Decks_Cards)
-    setDeckWasChosen(true)
+////////  DECK SELECT  ///////////////////
+const handleDeckSelect = (e) =>{
 
 
-    axios.patch(`/profile/${user.id}`,
-      {
-        selectedDeck: {
-           connect: {
-             id: 1
-            }
+  axios.get(`/profile/decks/${user.id}`, {"data": { "deck_id": userDecks[e.target.value].id }})
+    .then((response) => {
+
+      console.log(`Fetching cards for selected deck:`, response);
+
+      const cards = response.data.User_Decks_Cards
+
+      setDeckWasChosen(true)
+      setDeckSelected(cards)
+
+    })
+
+
+  axios.patch(`/profile/${user.id}`,
+    {
+      selectedDeck: {
+         connect: {
+           id: 1
           }
-        })
+        }
+      })
 
 
-  }
+}
 
 return(
 

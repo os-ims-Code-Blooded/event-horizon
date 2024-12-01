@@ -93,7 +93,16 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const endTurn = async () =>{
 
 
-    socket.emit('end_turn', {playerAction, turnEnded: true, cardToPlay, session})
+    socket.emit('end_turn', {
+      "body":{
+        "data": {
+          "round_id": roundNum,
+          "user_id": user.id,
+          "action": playerAction,
+          "card_id": cardToPlay
+      }
+
+    }, session})
 
 
  //emits turn for block
@@ -145,26 +154,30 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     }
     
 
-    socket.on('receive_opponent', (data: any)=>{
+    socket.on('received_rounds_data', (data: any)=>{
+      console.log(data)
+    })
+
+    // socket.on('receive_opponent', (data: any)=>{
    
-      setEnemyName(data.name)
+    //   setEnemyName(data.name)
     
 
-    })
-    //UPDATE ACTION
-    socket.on('receive_action', (data)=>{
+    // })
+    // //UPDATE ACTION
+    // socket.on('receive_action', (data)=>{
 
-      setEnemyAction(data)
-      setEnemyTurnEnd(true)
+    //   setEnemyAction(data)
+    //   setEnemyTurnEnd(true)
 
-    })
+    // })
 
 
 
-    //UPDATE CARD
-    socket.on('receive_card', (data)=>{
-      setEnemyCard(data)
-    })
+    // //UPDATE CARD
+    // socket.on('receive_card', (data)=>{
+    //   setEnemyCard(data)
+    // })
 
 
 
@@ -180,6 +193,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 ///////////////////////////////////////////////////////
   useEffect(()=>{
+
      //loss condition
     if (hitPoints <= 0 && enemyHitPoints > 0){
      setGameOver(true)
@@ -195,6 +209,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
    //draw condition?
    else if (enemyHitPoints <= 0 && hitPoints <= 0){
      setGameOver(true)
+     
    }
   })
 
