@@ -9,76 +9,36 @@ decks.get('/:id', async (req, res) => {
 
   try {
 
-    // if req.body.data exists
-    if (req.body.data){
 
-      // check to see if a deck_name was specified
-      if (!req.body.data.deck_id){
-        res.sendStatus(203);
-      }
-
-      // try to find that deck_name belonging to the user (req.params.id)
-      const specificDeck = await database.user_Decks.findFirst({
-        where: {
-          AND: [
-            {id: Number(req.body.data.deck_id)},
-            {user_id: Number(req.params.id)}
-          ]
-        }
+    if (!req.body.deck_id){
+      const allDecksAndCards = await database.user_Decks.findMany({
+        where: { user_id: Number(req.params.id) }
       })
-
       
-      let cardsInDeck: any = await database.user_Deck_Cards.findMany({
-        where: {
-          deck_id: specificDeck.id
-        }
-      })
-
-      cardsInDeck = cardsInDeck.map((card: any) => card.card_id)
-      
-      const verboseCards = await database.cards.findMany({
-        where: {
-          id: { in: cardsInDeck }
-        }
-      })
-
-      const formattedResponse = {
-        id: specificDeck.id,
-        user_id: specificDeck.user_id,
-        deck_name: specificDeck.deck_name,
-        cards: verboseCards
-      }
-
-      if (!specificDeck){
-        res.sendStatus(404);  // if none found, 404
-      } else if (cardsInDeck.length === 0) {
-        res.status(200).send(specificDeck); // if found, send
+      if (!allDecksAndCards) {
+        res.sendStatus(404);
       } else {
-        res.status(200).send(formattedResponse);
+        res.status(200).send(allDecksAndCards);
       }
-
-    // if no specific deck requested
     } else {
-      
-      // try to get all decks belonging to user
-      const userDecks = await database.user_Decks.findMany({
-        where: {
-          user_id: Number(req.params.id)
-        },
+
+      const specificDeck = await database.user_Decks.findFirst({
+        where: { id: Number(req.body.deck_id) },
         include: {
           User_Decks_Cards: true
         }
       })
-      
-      if (userDecks.length === 0){
-        res.sendStatus(404);  // if none found, 404
+
+      if (!specificDeck) {
+        res.sendStatus(404);
       } else {
-        res.status(200).send(userDecks); // if found, send
+        res.status(200).send(specificDeck);
       }
+
     }
 
   } catch (error) {
-    console.error(`Error on GET card decks for user #${req.params.id}.`);
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
 
