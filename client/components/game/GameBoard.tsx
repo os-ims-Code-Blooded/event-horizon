@@ -92,7 +92,7 @@ const GameBoard: FC <GameBoardProp> = ({
     return array
   }
   //////////////////////////////////
-  console.log("DECK SELECTED", deckSelected)
+  // console.log("DECK SELECTED", deckSelected)
 
   const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
 
@@ -171,18 +171,38 @@ if (playerHand.length === 0){
 
           ))}
         </div>
+
+
+
+
+
         <div className='pt-5 flex-col min-w-60 flex flex-grow'>
           <div className='text-red-800 font-bold'>{enemyName || 'No Player'}</div>
+
+
+
+
+
           <div className="w-full bg-gray-200 rounded-full h-4">
           <div
             className="bg-red-600 h-5 rounded-full text-center justify-items-center text-white text-sm"
             style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
               {`Hull Integrity: ${enemyHitPoints} / 50`}
             </div>
-         
+          <div
+            className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm"
+            style={{ width: `${(enemyArmor / 20) * 100}%` }}>
+              {`Armor: ${enemyArmor} / 20`}
+            </div>
         </div>
+
+
         </div>
       </div>
+
+
+
+
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
           <div className='justify-center z-1 h-50 w-60'>
@@ -237,14 +257,31 @@ if (playerHand.length === 0){
       <div className='flex flex-row justify-between p-3'>
         <div className='flex flex-col p-3'>
           <div className='text-green-600 font-bold'>{user.name}</div>
+
+
+
+
+
           <div className="w-full bg-gray-200 rounded-full h-4">
           <div
             className="bg-blue-600 h-5 rounded-full text-center justify-items-center text-white text-sm"
             style={{ width: `${(hitPoints / 50) * 100}%` }}>
             {`Hull Integrity: ${hitPoints} / 50`}
           </div>
+          <div
+            className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm"
+            style={{ width: `${(armor / 20) * 100}%` }}>
+            {`Armor: ${armor} / 20`}
           </div>
+          </div>
+
+
+
+
           <br></br>
+          <br></br>
+
+
           <ActionSelect 
           playerAction={playerAction}
           enemyLastAction={enemyLastAction}
@@ -290,7 +327,7 @@ if (playerHand.length === 0){
 
           onClick={(e)=>{
 
-            console.log("click")
+            // console.log("click")
 
             setTurnEnded(true)
 
