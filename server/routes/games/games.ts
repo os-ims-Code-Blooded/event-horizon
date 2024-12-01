@@ -168,7 +168,12 @@ games.patch('/:id', async (req, res) => {
       })
 
       console.log(`Game terminated; victor for game session #${req.params.id} is #${victor}.`)
-      res.status(200).send(updateGame);
+      res.status(200).send({ GameComplete: updateGame });
+      /*
+        the idea here is that once this is sent back, the user will emit this from their socket to the room
+        thereby the user has surrendered, they inform the room (and the other user) that the game is over
+        and then everybody is disconnected
+      */
 
     } else {
       const updateGame = await database.games.update({
@@ -182,7 +187,7 @@ games.patch('/:id', async (req, res) => {
       })
       
       console.log(`Game terminated; no victor specified for game session #${req.params.id} upon termination.`);
-      res.status(200).send(updateGame);
+      res.status(200).send({ GameTerminated: updateGame });
     }
 
   } catch (error) {
