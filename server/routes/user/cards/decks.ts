@@ -5,36 +5,40 @@ const decks = express.Router();
 
 // enables you to get all card decks for the specified user
 // a specific deck can also be specified in req.body.data
-decks.get('/:id/:deck_id', async (req, res) => {
+decks.get('/:id', async (req, res) => {
 
   try {
 
-
-    if (!req.params.deck_id){
-      const allDecksAndCards = await database.user_Decks.findMany({
-        where: { user_id: Number(req.params.id) }
-      })
-      
-      if (!allDecksAndCards) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(allDecksAndCards);
-      }
+    const allDecksAndCards = await database.user_Decks.findMany({
+      where: { user_id: Number(req.params.id) }
+    })
+    
+    if (!allDecksAndCards) {
+      res.sendStatus(404);
     } else {
+      res.status(200).send(allDecksAndCards);
+    }
 
-      const specificDeck = await database.user_Decks.findFirst({
-        where: { id: Number(req.params.deck_id) },
-        include: {
-          User_Decks_Cards: true
-        }
-      })
+  } catch (error) {
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
+    res.sendStatus(500);
+  }
 
-      if (!specificDeck) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(specificDeck);
-      }
+})
 
+decks.get('/specific/:id', async (req, res) => {
+
+  try {
+
+    const specificDeck = await database.user_Decks.findFirst({
+      where: { id: Number(req.params.id) },
+      include: { User_Decks_Cards: true}
+    })
+    
+    if (!specificDeck) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(specificDeck.User_Decks_Cards);
     }
 
   } catch (error) {
