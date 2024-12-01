@@ -47,12 +47,14 @@ export default async function generateResponse(newRound: number, prevRound: numb
 
     if (gameOver) {
       return {
+        Success: true,
         GameComplete: gameOver,
         Current: newInfo,
         Previous: prevInfo
       }
     } else {
       return {
+        Success: true,
         Current: newInfo,
         Previous: prevInfo
       }
