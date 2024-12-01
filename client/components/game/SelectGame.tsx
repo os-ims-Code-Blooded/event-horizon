@@ -219,7 +219,7 @@ return(
 <>
 {gameOver?
 <>
-<GameOver gameWinner={gameWinner}/>
+<GameOver gameWinner={gameWinner} user={user}/>
 
 </>
 :
