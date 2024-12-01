@@ -22,7 +22,10 @@ export default async function generateResponse(newRound: number, prevRound: numb
 
       gameOver = await database.games.update({
         where: { id: newInfo.game_id},
-        data: { victor: { connect: { id: isResolved} } }
+        data: { 
+          victor: { connect: { id: isResolved}},
+          end_date: new Date()
+        } 
       });
 
       await database.rounds.update({
@@ -44,12 +47,14 @@ export default async function generateResponse(newRound: number, prevRound: numb
 
     if (gameOver) {
       return {
+        Success: true,
         GameComplete: gameOver,
         Current: newInfo,
         Previous: prevInfo
       }
     } else {
       return {
+        Success: true,
         Current: newInfo,
         Previous: prevInfo
       }
