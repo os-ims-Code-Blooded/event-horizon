@@ -117,6 +117,7 @@ rounds.get('/:id', async (req, res) => {
       res.sendStatus(404);
       return;
     } else {
+      
       let findMostRecent = findGameRounds.reduce( (accum, curr) => {
         if (curr.id > accum){
           return curr.id;
