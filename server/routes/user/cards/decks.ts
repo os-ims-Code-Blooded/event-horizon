@@ -27,6 +27,7 @@ decks.get('/:id', async (req, res) => {
 
 })
 
+// you provide only a deck ID here because a deck is specifically unique to a user (no user ID necessary)
 decks.get('/specific/:id', async (req, res) => {
 
   try {
@@ -205,18 +206,59 @@ decks.patch('/:id', async (req, res) => {
 
     // if we have specified cards to remove for a deck, remove those associations
     if (req.body.data.delete_cards){
+
+      // convert all card IDs supplied for deletion to numbers for database safety
       const safetyCheck = req.body.data.delete_cards.map((card:any) => Number(card));
+
+      // pull all cards for the deck we are modifying
+      const validationPull = await database.user_Deck_Cards.findMany({
+        where: { deck_id: Number(req.body.data.deck_id) },
+        select: { card_id: true }
+      })
+
+      // create an array of only the card IDs from the previous pull
+      let validationCheck = validationPull.map((card:any) => card.card_id);
+
+      validationCheck = validationCheck.reduce((accum, curr) => {
+        // if the deck includes the card that we are deleting
+        if (safetyCheck.includes(curr)){
+          accum.push(curr);
+          return accum;
+        } else {
+          return accum;
+        }
+      }, [])
 
       await database.user_Deck_Cards.deleteMany({
         where: {
-          card_id: { in: safetyCheck},
+          card_id: { in: validationCheck},
           deck_id: Number(req.body.data.deck_id)
         }
       })
     }
 
     if (req.body.data.add_cards){
-      const safetyCheck = req.body.data.add_cards.map((card:any) => Number(card));
+      // convert all card IDs supplied for adding to deck to numbers for database safety
+      let safetyCheck = req.body.data.delete_cards.map((card:any) => Number(card));
+
+      // pull all cards for the deck we are modifying
+      const validationPull = await database.user_Deck_Cards.findMany({
+        where: { deck_id: Number(req.body.data.deck_id) },
+        select: { card_id: true }
+      })
+
+      // create an array of only the card IDs from the previous pull
+      let validationCheck = validationPull.map((card:any) => card.card_id);
+
+      safetyCheck = safetyCheck.reduce((accum: any, curr: any) => {
+        // if the deck does not include the card that we are deleting
+        if (!validationCheck.includes(curr)){
+          accum.push(curr);
+          return accum;
+        } else {
+          return accum;
+        }
+      }, [])
 
       safetyCheck.forEach( async (card: number) => {
         await database.user_Deck_Cards.create({
