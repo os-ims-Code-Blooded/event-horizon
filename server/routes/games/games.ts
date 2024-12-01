@@ -163,7 +163,7 @@ games.patch('/:id', async (req, res) => {
         data: {
           status: false,
           end_date: new Date(),
-          victor_id: victor
+          victor: { connect: { id: victor } }
         }
       })
 
