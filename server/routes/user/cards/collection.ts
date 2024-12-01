@@ -8,25 +8,8 @@ collections.get('/:id', async (req, res) => {
 
   try {
     
-    // find all card IDs associated with the user
-    const userCards = await database.user_Cards.findMany({
-      where: {
-        user_id: Number(req.params.id)
-      }, 
-      select: {
-        card_id: true
-      }
-    })
-
-    // reduce the cards to just an array of card IDs
-    let reduceCards = userCards.map((card) => card.card_id)
-
-    const cards = await database.cards.findMany({
-      where: {
-        id: {
-          in: reduceCards
-        }
-      }
+    const cards = await database.user_Cards.findMany({
+      where: { user_id: Number(req.params.id) }
     })
 
     if (!cards){
