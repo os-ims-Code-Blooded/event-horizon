@@ -65,7 +65,10 @@ decks.get('/specific/:id', async (req, res) => {
       res.sendStatus(404);
     } else {
       res.status(200).send(specificDeck.User_Decks_Cards);
-
+    }
+  } catch(error){
+    res.sendStatus(500);
+  }
 
 })
 
