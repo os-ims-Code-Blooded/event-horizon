@@ -180,6 +180,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
+
+
         
         console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
@@ -255,40 +257,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       }
         
-
-      if (data.GameComplete.status){
+      ////// VICTORY CONDITIONS /////////////
+      if (data.GameComplete.victor_id){
         setGameOver(true)
         setGameWinner(data.GameComplete.victor_id);
+        
 
       }
 
 
 
         })
-        
-    // socket.on('receive_opponent', (data: any)=>{
-   
-    //   setEnemyName(data.name)
-    
-
-    // })
-    // //UPDATE ACTION
-    // socket.on('receive_action', (data)=>{
-
-    //   setEnemyAction(data)
-    //   setEnemyTurnEnd(true)
-
-    // })
-
-
-
-    // //UPDATE CARD
-    // socket.on('receive_card', (data)=>{
-    //   setEnemyCard(data)
-    // })
-
-
-
 
 
     ////////////for messaging/////////////////////
@@ -298,150 +277,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     // })                                       //
     //////////////////////////////////////////////
   }, [socket])
-
-///////////////////////////////////////////////////////
-  useEffect(()=>{
-
-  //    //loss condition
-  //   if (hitPoints <= 0 && enemyHitPoints > 0){
-  //    setGameOver(true)
-  //    setGameWinner("Your opponent ")
-  //  }
-  
-  //  //win condition
-  //   else if (hitPoints > 0 && enemyHitPoints <= 0){
-  //    setGameOver(true)
-  //    setGameWinner("You ")
-  //  }
-  
-  //  //draw condition?
-  //  else if (enemyHitPoints <= 0 && hitPoints <= 0){
-  //    setGameOver(true)
-
-  //  }
-  })
-
-/////////////////////////////////////////////////////
-  if (turnEnded && enemyTurnEnd){
-
-    // setRoundNum(roundNum + 1)
-
-      //  //end of every turn
-      //  setActiveLoading(false)
-      //  setEnemyLastAction(enemyAction)
-   
-      //  if (enemyAction === 'LOAD'){
-      //    setEnemyArmed(true)
-      //  }
-      //  if (enemyAction === 'FIRE'){
-      //    setEnemyArmed(false)
-      //  }
-   
-      //  setEnemyAction('')
-      //  setEnemyTurnEnd(false)
-      //  setTurnEnded(false)
-   
-      //  //expend ordinance if fired
-      //  if (playerAction === 'FIRE'){
-      //    setCardToPlay(null)
-      //  }
-   
-      //  //reset the actions
-      //  setPlayerAction('')
-   
-
-
-
-
-
-
-
-
-    // //you hit them
-    // if ((enemyAction === 'LOAD' || enemyAction === '') && playerAction === 'FIRE'){
-
-
-    //   setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
-
-    //   setWeaponArmed(false)
-
-    //   if (cardToPlay[2] > 0){
-    //     setHitPoints(hitPoints + cardToPlay[2])
-    //   }
-
-
-    //   //they hit you
-    // } else if (enemyAction === 'FIRE' && (playerAction === 'LOAD' || playerAction === '')){
-    //   setHitPoints(hitPoints - enemyCard[1])
-
-    //   if (enemyCard[2] > 0){
-    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2])
-    //   }
-
-
-    //   //they FIRE, you BLOCK
-    // } else if(enemyAction === 'FIRE' && playerAction === 'BLOCK'){
-
-    //   setHitPoints(hitPoints - enemyCard[1]/2)
-
-    //   if (enemyCard[2] > 0){
-    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2])
-    //   }
-
-
-    //   //you FIRE, they BLOCK
-    // }else if(playerAction === 'FIRE' && enemyAction === 'BLOCK'){
-    //   if (cardToPlay){
-
-    //     if (cardToPlay[1] > 0){
-    //       setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
-    //     }
-        
-    //     if (cardToPlay[2] > 0){
-    //       setHitPoints(hitPoints + cardToPlay[2])
-    //     } 
-    //   }
-
-
-
-
-    //   //you hit each-other
-    // } else if (enemyAction === 'FIRE' && playerAction === 'FIRE'){
-
-
-    //   if(cardToPlay[1] > 0 && enemyCard[1] > 0){
-
-    //     setHitPoints(hitPoints - enemyCard[1])
-    //     setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
-    //   }
-
-
-    //   if (cardToPlay[2] > 0){
-    //     setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
-    //   } 
-
-
-    //   if (enemyCard[2] > 0){
-    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2] - cardToPlay[1])
-    //   }
-    // }
-
-
-
-
-
-
-
-
-
-
- 
-   
-
-
-
-}
-
 
 
 

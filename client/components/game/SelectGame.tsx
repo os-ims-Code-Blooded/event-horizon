@@ -112,6 +112,9 @@ export default function SelectGame({
 const handleDeckSelect = (e) =>{
 
 
+
+
+
   axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
     .then((response) => {
 
@@ -136,6 +139,9 @@ const handleDeckSelect = (e) =>{
 
 
 }
+
+
+//////////// RENDER ////////////////////////////
 
 return(
 
