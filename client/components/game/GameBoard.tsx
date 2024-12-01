@@ -24,6 +24,7 @@ type GameBoardProp = {
 
   enemyName: any
   enemyAction: any
+  enemyWaiting: any
   enemyLastAction: any
   enemyHitPoints: number
   enemyArmor: number
@@ -33,11 +34,12 @@ type GameBoardProp = {
 
   cardToPlay: any
   setCardToPlay: any
+  setCardId: any
   weaponArmed: any
   setWeaponArmed: any
   hitPoints: number
   armor: number
-  roundNum: number
+  roundDisplay: number
   turnEnded: any
   setTurnEnded: any
   activeLoading: any
@@ -60,6 +62,7 @@ const GameBoard: FC <GameBoardProp> = ({
   setPlayerAction,
   cardToPlay,
   setCardToPlay,
+  setCardId,
   endTurn,
   turnEnded,
   hitPoints,
@@ -67,6 +70,7 @@ const GameBoard: FC <GameBoardProp> = ({
 
   enemyName,
   enemyAction,
+  enemyWaiting,
   enemyLastAction,
   enemyHitPoints,
   enemyArmor,
@@ -76,13 +80,13 @@ const GameBoard: FC <GameBoardProp> = ({
 
   weaponArmed,
   setWeaponArmed,
-  roundNum,
+  roundDisplay,
   setTurnEnded,
   activeLoading,
   setActiveLoading,
   actionClick
 }) => {
-  
+
 
   const shuffle = array =>{
     for (let i = array.length - 1; i > 0; i--){
@@ -135,7 +139,7 @@ const GameBoard: FC <GameBoardProp> = ({
 const discard = (cardName: any) =>{
 
   setPlayerHand(playerHand.filter(card=>card.name!==cardName))
-  
+
 }
 // console.log("PLAYER HAND LENGTH", playerHand.length)
 
@@ -148,8 +152,8 @@ if (playerHand.length < 3 && gameDeck.length > 0){
   setPlayerHand(playerHand.concat(nextCard))
 }
 
-if (playerHand.length === 0){
-  setPlayerHand(phaserCharge)
+if (playerHand.length < 0){
+  setPlayerHand(playerHand.concat(phaserCharge))
 }
 
 // console.log("USER:::", user)
@@ -159,7 +163,7 @@ if (playerHand.length === 0){
     <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
       <div className='flex flex-row justify-between gap-1 p-1'>
         <div className='pr-4 flex flex-grow'>
-          <div className='pt-10 text-white'>TIME: 00:00 / ROUND {roundNum}</div>
+          <div className='pt-10 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
           {opponentCards.map((card, index) => (
@@ -191,8 +195,8 @@ if (playerHand.length === 0){
             </div>
           <div
             className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm"
-            style={{ width: `${(enemyArmor / 20) * 100}%` }}>
-              {`Armor: ${enemyArmor} / 20`}
+            style={{ width: `${(enemyArmor/100) * 100}%` }}>
+              {`Armor: ${enemyArmor}`}
             </div>
         </div>
 
@@ -229,7 +233,7 @@ if (playerHand.length === 0){
 
             {cardToPlay?
 
-            
+
 
     <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
       <h2 className="text-lg font-bold mb-2 text-center">{cardToPlay[0]}</h2>
@@ -274,8 +278,8 @@ if (playerHand.length === 0){
           </div>
           <div
             className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm"
-            style={{ width: `${(armor / 20) * 100}%` }}>
-            {`Armor: ${armor} / 20`}
+            style={{ width: `${(armor/100) * 100}%` }}>
+            {`Armor: ${armor}`}
           </div>
           </div>
 
@@ -286,7 +290,7 @@ if (playerHand.length === 0){
           <br></br>
 
 
-          <ActionSelect 
+          <ActionSelect
           playerAction={playerAction}
           enemyLastAction={enemyLastAction}
           cardToPlay={cardToPlay}
@@ -295,7 +299,7 @@ if (playerHand.length === 0){
           actionClick={actionClick}
           enemyCard={enemyCard}
           enemyTurnEnd={enemyTurnEnd}
-         
+
           />
         </div>
 
@@ -312,6 +316,7 @@ if (playerHand.length === 0){
             key={index}
             card={card}
             setCardToPlay={setCardToPlay}
+            setCardId={setCardId}
             playerAction={playerAction}
             setActiveLoading={setActiveLoading}
             playerHand={undefined}                   />
@@ -338,7 +343,12 @@ if (playerHand.length === 0){
             endTurn()
 
             if (playerAction === 'FIRE'){
+                setCardToPlay(null)
                 discard(cardToPlay[0])
+            }
+            if (playerAction === "LOAD" && cardToPlay[2]){
+              setCardToPlay(null)
+              discard(cardToPlay[0])
             }
 
           }}>COMMIT TURN</button>
@@ -352,7 +362,7 @@ if (playerHand.length === 0){
             }
           </div>
           <div>
-            {enemyAction?
+            {enemyWaiting?
               <div className='text-red-600 text-[1rem] text-center animate-pulse' >
                 opponent waiting
               </div>

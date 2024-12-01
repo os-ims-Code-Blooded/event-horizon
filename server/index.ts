@@ -196,7 +196,7 @@ io.on('connection', (socket)=>{
     try{
       const response = await gameHandler(data)
 
-      socket.to(data.session).emit('received_rounds_data', response)
+      io.in(data.session).emit('received_rounds_data', response)
 
 
     }

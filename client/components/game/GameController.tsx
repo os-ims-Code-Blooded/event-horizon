@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -33,6 +33,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [armor, setArmor] = useState(20)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
+  const [cardId, setCardId] = useState(null)
 
   const [enemyName, setEnemyName] = useState('')
 
@@ -43,6 +44,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   //the enemy's current and last actions
   const [enemyAction, setEnemyAction] = useState('')
+  const [enemyWaiting, setEnemyWaiting] = useState(false)
   const [enemyLastAction, setEnemyLastAction] = useState('')
 
   //did the enemy end their turn?
@@ -58,7 +60,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [turnEnded, setTurnEnded] = useState(false)
 
   //tracks which round we're on
-  const [roundNum, setRoundNum] = useState(1)
+  
 
   //is the plater actively LOADing
   const[activeLoading, setActiveLoading] = useState(false)
@@ -66,7 +68,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   //has the card been LOADed?
   const [weaponArmed, setWeaponArmed] = useState(false)
 
-
+  const [roundDisplay, setRoundDisplay] = useState(1)
 
 
   //for a finished game
@@ -91,6 +93,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
   const endTurn = async () =>{
+    setRoundDisplay(roundDisplay + 1)
 
 
     socket.emit('end_turn', {
@@ -99,7 +102,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           "round_id": roundNum,
           "user_id": user.id,
           "action": playerAction,
-          "card_id": cardToPlay[4]
+          "card_id": cardId
       }
 
     }, session})
@@ -152,14 +155,117 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     if (session){
       socket.emit("join_session", session, user)
     }
-    
+
 
     socket.on('received_rounds_data', (data: any)=>{
 
+
       console.log("RESPONSE DATA FROM SOCKET", data)
 
-    })
+      
 
+
+
+        // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
+
+
+
+
+
+        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+
+        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+
+        let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+
+        let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+
+        
+        console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
+        
+        console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
+  
+        console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
+        
+        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
+
+
+      if (enemyPrevRound.length > playerPrevRound.length){
+        setEnemyWaiting(true)
+      }
+
+
+
+
+
+        //checks if both players have committed a turn for this round
+        if (playerPrevRound.length === enemyPrevRound.length){
+
+
+
+        setArmor(playerCurrRound[0].armor)
+        setHitPoints(playerCurrRound[0].health)
+
+        setEnemyArmor(enemyCurrRound[0].armor)
+        setEnemyHitPoints(enemyCurrRound[0].health)
+        setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
+
+          console.log("enemyLastAction damage?", enemyPrevRound[enemyPrevRound.length - 1].damage)
+
+        
+        setActiveLoading(false)
+
+
+
+
+        if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+          console.log("HELOOOOOOOO")
+          setEnemyArmed(true)
+        }
+
+
+
+
+        if (enemyLastAction === 'FIRE'){
+          setEnemyArmed(false)
+        }
+
+
+
+
+        setEnemyAction('')
+        setEnemyTurnEnd(false)
+        setTurnEnded(false)
+
+
+        //expend ordinance if fired
+        // if (playerAction === 'FIRE'){
+          //   setCardToPlay(null)
+          // }
+
+          //reset the actions
+
+
+
+
+      setPlayerAction('')
+      setEnemyWaiting(false)
+
+
+
+      }
+        
+
+      if (data.GameComplete.status){
+        setGameOver(true)
+        setGameWinner(data.GameComplete.victor_id);
+
+      }
+
+
+
+        })
+        
     // socket.on('receive_opponent', (data: any)=>{
    
     //   setEnemyName(data.name)
@@ -218,30 +324,30 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 /////////////////////////////////////////////////////
   if (turnEnded && enemyTurnEnd){
 
-    setRoundNum(roundNum + 1)
+    // setRoundNum(roundNum + 1)
 
-       //end of every turn
-       setActiveLoading(false)
-       setEnemyLastAction(enemyAction)
+      //  //end of every turn
+      //  setActiveLoading(false)
+      //  setEnemyLastAction(enemyAction)
    
-       if (enemyAction === 'LOAD'){
-         setEnemyArmed(true)
-       }
-       if (enemyAction === 'FIRE'){
-         setEnemyArmed(false)
-       }
+      //  if (enemyAction === 'LOAD'){
+      //    setEnemyArmed(true)
+      //  }
+      //  if (enemyAction === 'FIRE'){
+      //    setEnemyArmed(false)
+      //  }
    
-       setEnemyAction('')
-       setEnemyTurnEnd(false)
-       setTurnEnded(false)
+      //  setEnemyAction('')
+      //  setEnemyTurnEnd(false)
+      //  setTurnEnded(false)
    
-       //expend ordinance if fired
-       if (playerAction === 'FIRE'){
-         setCardToPlay(null)
-       }
+      //  //expend ordinance if fired
+      //  if (playerAction === 'FIRE'){
+      //    setCardToPlay(null)
+      //  }
    
-       //reset the actions
-       setPlayerAction('')
+      //  //reset the actions
+      //  setPlayerAction('')
    
 
 
@@ -357,9 +463,11 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           playerAction={playerAction}
           cardToPlay={cardToPlay}
           setCardToPlay={setCardToPlay}
+          setCardId={setCardId}
 
           enemyName={enemyName}
           enemyAction={enemyAction}
+          enemyWaiting={enemyWaiting}
           enemyLastAction={enemyLastAction}
           enemyHitPoints={enemyHitPoints}
           enemyArmor={enemyArmor}
@@ -372,7 +480,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           hitPoints={hitPoints}
           armor={armor}
 
-          roundNum={roundNum}
+          roundDisplay={roundDisplay}
           turnEnded={turnEnded}
           setTurnEnded={setTurnEnded}
           activeLoading={activeLoading}
