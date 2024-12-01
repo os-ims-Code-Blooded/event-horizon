@@ -30,6 +30,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [playerAction, setPlayerAction] = useState('')
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
+  const [armor, setArmor] = useState(20)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
 
@@ -37,7 +38,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   //player's remaining hit points
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
-
+  const [enemyArmor, setEnemyArmor] = useState(20)
+  
 
   //the enemy's current and last actions
   const [enemyAction, setEnemyAction] = useState('')
@@ -90,24 +92,28 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   const endTurn = async () =>{
 
+
+    socket.emit('end_turn', {playerAction, turnEnded: true, cardToPlay, session})
+
+
  //emits turn for block
- if (playerAction === "block"){
-  socket.emit('block_end_turn', {playerAction, turnEnded: true, session})
-}
+//  if (playerAction === "block"){
+//   socket.emit('block_end_turn', {playerAction, turnEnded: true, session})
+// }
 
-//emits turn for fire
-if (playerAction === "fire"){
-  socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
-}
+// //emits turn for fire
+// if (playerAction === "fire"){
+//   socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
+// }
 
-//emits turn for load
-if (playerAction === "load"){
-  socket.emit('load_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
-}
+// //emits turn for load
+// if (playerAction === "load"){
+//   socket.emit('load_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
+// }
 
-if (playerAction === ""){
-  socket.emit('lame_end_turn', playerAction, session)
-}
+// if (playerAction === ""){
+//   socket.emit('lame_end_turn', playerAction, session)
+// }
 
 
     /////////// REQUEST HANDLING /////////////////////////
@@ -172,7 +178,7 @@ if (playerAction === ""){
     //////////////////////////////////////////////
   }, [socket])
 
-
+///////////////////////////////////////////////////////
   useEffect(()=>{
      //loss condition
     if (hitPoints <= 0 && enemyHitPoints > 0){
@@ -192,23 +198,43 @@ if (playerAction === ""){
    }
   })
 
-
+/////////////////////////////////////////////////////
   if (turnEnded && enemyTurnEnd){
 
     setRoundNum(roundNum + 1)
 
-    console.log("YOUR CARD", cardToPlay)
-    console.log("ENEMY CARD", enemyCard)
+
+
+
+
+
+
+
 
 
     //you hit them
     if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
+
+
+
+
       setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
+
       setWeaponArmed(false)
 
       if (cardToPlay[2] > 0){
         setHitPoints(hitPoints + cardToPlay[2])
       }
+
+
+
+
+
+
+
+
+
+
 
       //they hit you
     } else if (enemyAction === 'fire' && (playerAction === 'load' || playerAction === '')){
@@ -217,6 +243,14 @@ if (playerAction === ""){
       if (enemyCard[2] > 0){
         setEnemyHitPoints(enemyHitPoints + enemyCard[2])
       }
+
+
+
+
+
+
+
+
 
 
 
@@ -232,20 +266,37 @@ if (playerAction === ""){
 
 
 
+
+
+
+
+
+
+
       //you fire, they block
     }else if(playerAction === 'fire' && enemyAction === 'block'){
-      
-      if (cardToPlay[1] > 0){
-        setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+      if (cardToPlay){
+
+        if (cardToPlay[1] > 0){
+          setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+        }
+        
+        if (cardToPlay[2] > 0){
+          setHitPoints(hitPoints + cardToPlay[2])
+        } 
       }
 
-      if (cardToPlay[2] > 0){
-        setHitPoints(hitPoints + cardToPlay[2])
-      } 
 
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
 
       //you hit each-other
     } else if (enemyAction === 'fire' && playerAction === 'fire'){
@@ -267,8 +318,16 @@ if (playerAction === ""){
         setEnemyHitPoints(enemyHitPoints + enemyCard[2] - cardToPlay[1])
       }
     }
-    
-    
+
+
+
+
+
+
+
+
+
+
     //end of every turn
     setActiveLoading(false)
     setEnemyLastAction(enemyAction)
@@ -324,6 +383,7 @@ if (playerAction === ""){
           enemyAction={enemyAction}
           enemyLastAction={enemyLastAction}
           enemyHitPoints={enemyHitPoints}
+          enemyArmor={enemyArmor}
           enemyCard={enemyCard}
           enemyTurnEnd={enemyTurnEnd}
           enemyArmed={enemyArmed}
@@ -331,6 +391,7 @@ if (playerAction === ""){
           weaponArmed={weaponArmed}
           setWeaponArmed={setWeaponArmed}
           hitPoints={hitPoints}
+          armor={armor}
 
           roundNum={roundNum}
           turnEnded={turnEnded}

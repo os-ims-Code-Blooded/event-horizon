@@ -26,6 +26,7 @@ type GameBoardProp = {
   enemyAction: any
   enemyLastAction: any
   enemyHitPoints: number
+  enemyArmor: number
   enemyCard: any
   enemyTurnEnd: any
   enemyArmed: any
@@ -35,6 +36,7 @@ type GameBoardProp = {
   weaponArmed: any
   setWeaponArmed: any
   hitPoints: number
+  armor: number
   roundNum: number
   turnEnded: any
   setTurnEnded: any
@@ -61,11 +63,13 @@ const GameBoard: FC <GameBoardProp> = ({
   endTurn,
   turnEnded,
   hitPoints,
+  armor,
 
   enemyName,
   enemyAction,
   enemyLastAction,
   enemyHitPoints,
+  enemyArmor,
   enemyCard,
   enemyTurnEnd,
   enemyArmed,

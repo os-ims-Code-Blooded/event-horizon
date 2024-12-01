@@ -67,7 +67,6 @@ export default function SelectGame({
 //////////////////
   const onClickPlay = () =>{
     
-    let sesh;
     axios.post('/games',
       {
         "user_id": user.id
@@ -76,7 +75,7 @@ export default function SelectGame({
     )
     .then((response)=>{
 
-      setSession(response.data.id)
+      setSession('55')
 
       setPlayClicked(true)
 
