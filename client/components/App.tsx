@@ -12,6 +12,7 @@ import LandingPage from './LandingPage.tsx';
 import UserDecks from './cards/UserDecks.tsx'
 import GameBoard from './game/GameBoard.tsx';
 import Friends from './profile/Friends.tsx';
+import CardsPage from './cards/CardsPage.tsx';
 import axios from 'axios';
 interface User {
   id: number;
@@ -146,7 +147,7 @@ export default function App (){
         />
         <Route
           path="/cards"
-          element={isAuthenticated ? <UserDecks user={user} /> : <Navigate to='/' />}
+          element={isAuthenticated ? <CardsPage user={user} /> : <Navigate to='/' />}
         />
         <Route
           path="/game-board"

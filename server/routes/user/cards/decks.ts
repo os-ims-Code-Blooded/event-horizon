@@ -9,32 +9,37 @@ decks.get('/:id', async (req, res) => {
 
   try {
 
-
-    if (!req.body.deck_id){
-      const allDecksAndCards = await database.user_Decks.findMany({
-        where: { user_id: Number(req.params.id) }
-      })
-      
-      if (!allDecksAndCards) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(allDecksAndCards);
-      }
+    const allDecksAndCards = await database.user_Decks.findMany({
+      where: { user_id: Number(req.params.id) }
+    })
+    
+    if (!allDecksAndCards) {
+      res.sendStatus(404);
     } else {
+      res.status(200).send(allDecksAndCards);
+    }
 
-      const specificDeck = await database.user_Decks.findFirst({
-        where: { id: Number(req.body.deck_id) },
-        include: {
-          User_Decks_Cards: true
-        }
-      })
+  } catch (error) {
+    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
+    res.sendStatus(500);
+  }
 
-      if (!specificDeck) {
-        res.sendStatus(404);
-      } else {
-        res.status(200).send(specificDeck);
-      }
+})
 
+// you provide only a deck ID here because a deck is specifically unique to a user (no user ID necessary)
+decks.get('/specific/:id', async (req, res) => {
+
+  try {
+
+    const specificDeck = await database.user_Decks.findFirst({
+      where: { id: Number(req.params.id) },
+      include: { User_Decks_Cards: true}
+    })
+    
+    if (!specificDeck) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(specificDeck.User_Decks_Cards);
     }
 
   } catch (error) {
@@ -122,6 +127,8 @@ decks.patch('/:id', async (req, res) => {
   }
   ==================================================================================================
   */
+  console.log('req.delete_cards', req.body.data.remove_cards);
+
   try {
 
     if (!req.body.data){
@@ -184,20 +191,9 @@ decks.delete('/:id', async (req, res) => {
 
   try {
 
-    if (!req.body.data){
-      console.error(`Error on PATCH card deck for user #${req.params.id}; no 'data' with 'deck_id' property exists on request body.`)
-      res.sendStatus(203);
-    }    
-
-    const removeCardsFromDeck = await database.user_Deck_Cards.deleteMany({
-      where: {
-        deck_id: Number(req.body.data.deck_id),
-      }
-    })
-
     const deleteDeck = await database.user_Decks.delete({
       where: {
-        id: Number(req.body.data.deck_id)
+        id: Number(req.params.id)
       }
     })
 
@@ -209,7 +205,7 @@ decks.delete('/:id', async (req, res) => {
 
 
   } catch (error) {
-    console.error(`Error on DELETE card deck #${req.body.data.deck_id} for user #${req.params.id}.`);
+    console.error(`Error on DELETE card deck #${req.params.id}.`);
     res.sendStatus(500);
   }
 
