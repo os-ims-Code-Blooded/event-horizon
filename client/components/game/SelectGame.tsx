@@ -50,7 +50,8 @@ export default function SelectGame({
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
-
+  
+  const [enemyId, setEnemyId] = useState(null)
   
 //////////////////////////////////
   useEffect(()=>{
@@ -66,7 +67,12 @@ export default function SelectGame({
   }, [])
   
   // console.log("USER DECKSSSS", userDecks)
-//////////////////
+
+
+
+///////////////////////////////////////////
+
+
   const onClickPlay = () =>{
     
     axios.post('/games',
@@ -76,6 +82,11 @@ export default function SelectGame({
       }
     )
     .then((response)=>{
+
+      console.log("!!! user ID", user.id)
+      console.log("***Enemy User***\n", response.data.User_Games.filter(game=>game.user_id!== user.id))
+
+      setEnemyId(response.data.User_Games.filter(game=>game.user_id!== user.id).user_id)
 
       setSession(response.data.id)
 
@@ -240,6 +251,7 @@ userDecks={userDecks}
 deckSelected={deckSelected}
 handSize={handSize}
 roundNum={roundNum}
+enemyId={enemyId}
 />
 }
 </>

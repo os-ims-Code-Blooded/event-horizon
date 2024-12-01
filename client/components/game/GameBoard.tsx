@@ -38,6 +38,7 @@ type GameBoardProp = {
   weaponArmed: any
   setWeaponArmed: any
   hitPoints: number
+  setHitPoints: any
   armor: number
   roundDisplay: number
   turnEnded: any
@@ -47,6 +48,8 @@ type GameBoardProp = {
   actionClick: any
 
   discard: any
+  setSelfDestruct: any
+  selfDestruct: any
 
 }
 
@@ -66,6 +69,7 @@ const GameBoard: FC <GameBoardProp> = ({
   endTurn,
   turnEnded,
   hitPoints,
+  setHitPoints,
   armor,
 
   enemyName,
@@ -84,7 +88,9 @@ const GameBoard: FC <GameBoardProp> = ({
   setTurnEnded,
   activeLoading,
   setActiveLoading,
-  actionClick
+  actionClick,
+  setSelfDestruct,
+  selfDestruct
 }) => {
 
 
@@ -369,10 +375,34 @@ if (playerHand.length < 0){
             :
             null
           }
+          <br></br>
+          <br></br>
+          
+
+          <label className="inline-flex items-center cursor-pointer">
+
+            <input type="checkbox" value={selfDestruct} className="sr-only peer" onClick={setSelfDestruct(!selfDestruct)}/>
+            
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+
+            <span className="ms-3 text-sm font-medium text-white dark:text-white">SELF DESTRUCT SAFETY</span>
+          </label>
+
+          <br></br>
+
+          {selfDestruct?  
+
+          <button onClick={endTurn} className='p-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold focus:ring-4 focus:ring-orange-600 '>SELF DESTRUCT</button>
+
+          :  
+          
+          
+              <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold rounded-sm'
+              >SELF DESTRUCT</button>
+          }
 
           </div>
         </div>
-
       </div>
     </div>
   )
