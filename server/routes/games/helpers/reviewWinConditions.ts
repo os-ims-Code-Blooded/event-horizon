@@ -4,7 +4,7 @@ import updateCardsOnWin from "./updateCardsOnWin.ts";
 export default async function reviewWinConditions(players: any) {
 
   try {
-
+    console.log("^^^ PLAYERS ^^^", players)
     let victor = null;
 
     let userOneHealth = players[0].health;

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 interface CardType {
+  card_id(card_id: any): unknown;
   duration: number;
   id: number;
   name: string;
@@ -12,17 +13,19 @@ interface CardType {
 interface CardProps {
   card: CardType;
   setCardToPlay: any
+  setCardId: any
   playerAction: any
   setActiveLoading: any
 
   playerHand: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId }) => {
 
   const cardSelect = (card: CardType) =>{
 
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
+    setCardId(card.card_id)
     setActiveLoading(true)
    
 

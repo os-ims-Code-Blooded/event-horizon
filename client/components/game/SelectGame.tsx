@@ -44,11 +44,13 @@ export default function SelectGame({
   const [handSize, setHandSize] = useState(3)
   
   const [gameOver, setGameOver] = useState(false)
-  const [gameWinner, setGameWinner] = useState('')
+  const [gameWinner, setGameWinner] = useState(null)
   const [userDecks, setUserDecks] = useState<any[]>([])
   
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
+  const [roundNum, setRoundNum] = useState(1)
+
   
 //////////////////////////////////
   useEffect(()=>{
@@ -83,10 +85,21 @@ export default function SelectGame({
       
       // console.log("RESPONSE.DATA", response.data.id)
 
+      axios.get(`/games/rounds/${response.data.id}`)
+      .then((moreData)=>{
+        console.log(moreData.data)
+        setRoundNum(moreData.data['Most Recent Round'])
+
+      })
+      .catch(err=>console.error(err))
+
     })
     .catch(err=>console.error(err))
     
+
+    
   }
+
 
 
 ///////// MAKE CUSTOM GAME ////////////////////
@@ -97,6 +110,9 @@ export default function SelectGame({
 
 ////////  DECK SELECT  ///////////////////
 const handleDeckSelect = (e) =>{
+
+
+
 
 
   axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
@@ -123,6 +139,9 @@ const handleDeckSelect = (e) =>{
 
 
 }
+
+
+//////////// RENDER ////////////////////////////
 
 return(
 
@@ -206,7 +225,7 @@ return(
 <>
 {gameOver?
 <>
-<GameOver gameWinner={gameWinner}/>
+<GameOver gameWinner={gameWinner} user={user}/>
 
 </>
 :
@@ -220,6 +239,7 @@ setGameWinner={setGameWinner}
 userDecks={userDecks}
 deckSelected={deckSelected}
 handSize={handSize}
+roundNum={roundNum}
 />
 }
 </>
