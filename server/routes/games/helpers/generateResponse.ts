@@ -24,7 +24,8 @@ export default async function generateResponse(newRound: number, prevRound: numb
         where: { id: newInfo.game_id},
         data: { 
           victor: { connect: { id: isResolved}},
-          end_date: new Date()
+          end_date: new Date(),
+          status: false
         } 
       });
 

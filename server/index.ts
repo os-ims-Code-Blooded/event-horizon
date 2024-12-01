@@ -14,6 +14,7 @@ import { it } from 'node:test';
 import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
+import gameHandler from './gameHandler.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -192,20 +193,29 @@ io.on('connection', (socket)=>{
 
   //PLAYER ENDS TURN
 
-  socket.on('end_turn', data=>{
+  socket.on('end_turn', async (data)=>{
 
 
-    
+    try{
+      const response = await gameHandler(data)
 
-    console.log("ACTION DATA", data.playerAction)
-    console.log("CARD DATA", data.cardToPlay)
+      socket.to(data.session).emit('received_rounds_data', response)
 
 
-    socket.to(data.session).emit("receive_action", data.playerAction)
-
-    if (data.cardToPlay){
-      socket.to(data.session).emit("receive_card", data.cardToPlay)
     }
+    catch(err){
+      console.error(err)
+    }
+
+    // console.log("ACTION DATA", data.playerAction)
+    // console.log("CARD DATA", data.cardToPlay)
+
+
+    // socket.to(data.session).emit("receive_action", data.playerAction)
+
+    // if (data.cardToPlay){
+    //   socket.to(data.session).emit("receive_card", data.cardToPlay)
+    // }
 
 
   })
