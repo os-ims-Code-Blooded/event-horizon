@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import database from '../../db/index.ts';
-import createAction from './helpers/createAction.ts';
-import calculateGameState from './helpers/calculateGameState.ts';
-import calculatePlayerState from './helpers/calculatePlayerState.ts';
-import generateResponse from './helpers/generateResponse.ts';
+import database from './db/index.ts';
+import createAction from './routes/games/helpers/createAction.ts';
+import calculateGameState from './routes/games/helpers/calculateGameState.ts';
+import calculatePlayerState from './routes/games/helpers/calculatePlayerState.ts';
+import generateResponse from './routes/games/helpers/generateResponse.ts';
 
 export default async function gameHandler(req: any) {
 
