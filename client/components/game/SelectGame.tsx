@@ -136,7 +136,7 @@ return(
 
 
   {userDecks.map((deck, index)=>{
-    console.log("index", index)
+    // console.log("index", index)
     
     return(
       <option key={deck.deck_name} value={index}>{deck.deck_name}</option>

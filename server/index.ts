@@ -191,6 +191,9 @@ io.on('connection', (socket)=>{
 
   socket.on('end_turn', data=>{
 
+
+    
+
     console.log("ACTION DATA", data.playerAction)
     console.log("CARD DATA", data.cardToPlay)
 
@@ -259,14 +262,6 @@ io.on('connection', (socket)=>{
   //   socket.to(data.session).emit("receive_action", data.playerAction)
 
   // })
-
-
-
-
-
-
-
-
 
 
   //////////////////////////////////////////
