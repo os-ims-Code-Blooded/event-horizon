@@ -26,7 +26,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [messageReceipt, setMessageReceipt] = useState([])
 
  
-  //player selected action of block, load or fire
+  //player selected action of BLOCK, LOAD or FIRE
   const [playerAction, setPlayerAction] = useState('')
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
@@ -51,19 +51,19 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   //is the enemy's weapon armed?
   const [enemyArmed, setEnemyArmed] = useState(false)
 
-  //the enemy's loaded card
+  //the enemy's LOADed card
   const [enemyCard, setEnemyCard] = useState('')
 
   //whether or not player's turn has ended
   const [turnEnded, setTurnEnded] = useState(false)
 
   //tracks which round we're on
-  const [roundNum, setRoundNum] = useState(0)
+  const [roundNum, setRoundNum] = useState(1)
 
-  //is the plater actively loading
+  //is the plater actively LOADing
   const[activeLoading, setActiveLoading] = useState(false)
 
-  //has the card been loaded?
+  //has the card been LOADed?
   const [weaponArmed, setWeaponArmed] = useState(false)
 
 
@@ -80,7 +80,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     setPlayerAction(e.target.value)
 
-    if (e.target.value === 'load' && cardToPlay){
+    if (e.target.value === 'LOAD' && cardToPlay){
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -99,25 +99,25 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           "round_id": roundNum,
           "user_id": user.id,
           "action": playerAction,
-          "card_id": cardToPlay
+          "card_id": cardToPlay[4]
       }
 
     }, session})
 
 
- //emits turn for block
-//  if (playerAction === "block"){
-//   socket.emit('block_end_turn', {playerAction, turnEnded: true, session})
+ //emits turn for BLOCK
+//  if (playerAction === "BLOCK"){
+//   socket.emit('BLOCK_end_turn', {playerAction, turnEnded: true, session})
 // }
 
-// //emits turn for fire
-// if (playerAction === "fire"){
-//   socket.emit('fire_end_turn', {playerAction, cardToPlay, session})
+// //emits turn for FIRE
+// if (playerAction === "FIRE"){
+//   socket.emit('FIRE_end_turn', {playerAction, cardToPlay, session})
 // }
 
-// //emits turn for load
-// if (playerAction === "load"){
-//   socket.emit('load_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
+// //emits turn for LOAD
+// if (playerAction === "LOAD"){
+//   socket.emit('LOAD_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
 // }
 
 // if (playerAction === ""){
@@ -131,7 +131,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     //     'data': {
     //     'round_id': 1,
     //     'user_id': 1,
-    //     'action': 'load',
+    //     'action': 'LOAD',
     //     'card_id': 1
     //   }
     // })
@@ -155,7 +155,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     
 
     socket.on('received_rounds_data', (data: any)=>{
-      console.log(data)
+
+      console.log("RESPONSE DATA FROM SOCKET", data)
+
     })
 
     // socket.on('receive_opponent', (data: any)=>{
@@ -194,23 +196,23 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 ///////////////////////////////////////////////////////
   useEffect(()=>{
 
-     //loss condition
-    if (hitPoints <= 0 && enemyHitPoints > 0){
-     setGameOver(true)
-     setGameWinner("Your opponent ")
-   }
+  //    //loss condition
+  //   if (hitPoints <= 0 && enemyHitPoints > 0){
+  //    setGameOver(true)
+  //    setGameWinner("Your opponent ")
+  //  }
   
-   //win condition
-    else if (hitPoints > 0 && enemyHitPoints <= 0){
-     setGameOver(true)
-     setGameWinner("You ")
-   }
+  //  //win condition
+  //   else if (hitPoints > 0 && enemyHitPoints <= 0){
+  //    setGameOver(true)
+  //    setGameWinner("You ")
+  //  }
   
-   //draw condition?
-   else if (enemyHitPoints <= 0 && hitPoints <= 0){
-     setGameOver(true)
-     
-   }
+  //  //draw condition?
+  //  else if (enemyHitPoints <= 0 && hitPoints <= 0){
+  //    setGameOver(true)
+
+  //  }
   })
 
 /////////////////////////////////////////////////////
@@ -218,6 +220,29 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     setRoundNum(roundNum + 1)
 
+       //end of every turn
+       setActiveLoading(false)
+       setEnemyLastAction(enemyAction)
+   
+       if (enemyAction === 'LOAD'){
+         setEnemyArmed(true)
+       }
+       if (enemyAction === 'FIRE'){
+         setEnemyArmed(false)
+       }
+   
+       setEnemyAction('')
+       setEnemyTurnEnd(false)
+       setTurnEnded(false)
+   
+       //expend ordinance if fired
+       if (playerAction === 'FIRE'){
+         setCardToPlay(null)
+       }
+   
+       //reset the actions
+       setPlayerAction('')
+   
 
 
 
@@ -226,80 +251,74 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-
-    //you hit them
-    if ((enemyAction === 'load' || enemyAction === '') && playerAction === 'fire'){
-
+    // //you hit them
+    // if ((enemyAction === 'LOAD' || enemyAction === '') && playerAction === 'FIRE'){
 
 
+    //   setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
 
-      setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
+    //   setWeaponArmed(false)
 
-      setWeaponArmed(false)
-
-      if (cardToPlay[2] > 0){
-        setHitPoints(hitPoints + cardToPlay[2])
-      }
-
+    //   if (cardToPlay[2] > 0){
+    //     setHitPoints(hitPoints + cardToPlay[2])
+    //   }
 
 
+    //   //they hit you
+    // } else if (enemyAction === 'FIRE' && (playerAction === 'LOAD' || playerAction === '')){
+    //   setHitPoints(hitPoints - enemyCard[1])
+
+    //   if (enemyCard[2] > 0){
+    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+    //   }
 
 
+    //   //they FIRE, you BLOCK
+    // } else if(enemyAction === 'FIRE' && playerAction === 'BLOCK'){
+
+    //   setHitPoints(hitPoints - enemyCard[1]/2)
+
+    //   if (enemyCard[2] > 0){
+    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2])
+    //   }
 
 
+    //   //you FIRE, they BLOCK
+    // }else if(playerAction === 'FIRE' && enemyAction === 'BLOCK'){
+    //   if (cardToPlay){
 
-
-
-
-      //they hit you
-    } else if (enemyAction === 'fire' && (playerAction === 'load' || playerAction === '')){
-      setHitPoints(hitPoints - enemyCard[1])
-
-      if (enemyCard[2] > 0){
-        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
-      }
-
-
-
-
-
-
-
-
-
-
-
-      //they fire, you block
-    } else if(enemyAction === 'fire' && playerAction === 'block'){
-
-      setHitPoints(hitPoints - enemyCard[1]/2)
-
-      if (enemyCard[2] > 0){
-        setEnemyHitPoints(enemyHitPoints + enemyCard[2])
-      }
-
-
-
-
-
-
-
-
-
-
-
-      //you fire, they block
-    }else if(playerAction === 'fire' && enemyAction === 'block'){
-      if (cardToPlay){
-
-        if (cardToPlay[1] > 0){
-          setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
-        }
+    //     if (cardToPlay[1] > 0){
+    //       setEnemyHitPoints(enemyHitPoints - cardToPlay[1]/2)
+    //     }
         
-        if (cardToPlay[2] > 0){
-          setHitPoints(hitPoints + cardToPlay[2])
-        } 
-      }
+    //     if (cardToPlay[2] > 0){
+    //       setHitPoints(hitPoints + cardToPlay[2])
+    //     } 
+    //   }
+
+
+
+
+    //   //you hit each-other
+    // } else if (enemyAction === 'FIRE' && playerAction === 'FIRE'){
+
+
+    //   if(cardToPlay[1] > 0 && enemyCard[1] > 0){
+
+    //     setHitPoints(hitPoints - enemyCard[1])
+    //     setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
+    //   }
+
+
+    //   if (cardToPlay[2] > 0){
+    //     setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
+    //   } 
+
+
+    //   if (enemyCard[2] > 0){
+    //     setEnemyHitPoints(enemyHitPoints + enemyCard[2] - cardToPlay[1])
+    //   }
+    // }
 
 
 
@@ -310,62 +329,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-
-
-
-      //you hit each-other
-    } else if (enemyAction === 'fire' && playerAction === 'fire'){
-
-
-      if(cardToPlay[1] > 0 && enemyCard[1] > 0){
-
-        setHitPoints(hitPoints - enemyCard[1])
-        setEnemyHitPoints(enemyHitPoints - cardToPlay[1])
-      }
-
-
-      if (cardToPlay[2] > 0){
-        setHitPoints(hitPoints + cardToPlay[2] - enemyCard[1])
-      } 
-
-
-      if (enemyCard[2] > 0){
-        setEnemyHitPoints(enemyHitPoints + enemyCard[2] - cardToPlay[1])
-      }
-    }
-
-
-
-
-
-
-
-
-
-
-    //end of every turn
-    setActiveLoading(false)
-    setEnemyLastAction(enemyAction)
-
-    if (enemyAction === 'load'){
-      setEnemyArmed(true)
-    }
-    if (enemyAction === 'fire'){
-      setEnemyArmed(false)
-    }
-
-    setEnemyAction('')
-    setEnemyTurnEnd(false)
-    setTurnEnded(false)
-
-    //expend ordinance if fired
-    if (playerAction === 'fire'){
-      setCardToPlay(null)
-    }
-
-    //reset the actions
-    setPlayerAction('')
-
+ 
    
 
 

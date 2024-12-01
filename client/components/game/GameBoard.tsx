@@ -229,6 +229,8 @@ if (playerHand.length === 0){
 
             {cardToPlay?
 
+            
+
     <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
       <h2 className="text-lg font-bold mb-2 text-center">{cardToPlay[0]}</h2>
       <div className="text-center">
@@ -242,6 +244,8 @@ if (playerHand.length === 0){
       </div>
       <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
     </div>
+
+
               :
 
               <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
@@ -321,7 +325,7 @@ if (playerHand.length === 0){
               {
 
             // !turnEnded || playerAction !== '' ?
-            ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
+            ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
 
             <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
 
@@ -333,7 +337,7 @@ if (playerHand.length === 0){
 
             endTurn()
 
-            if (playerAction === 'fire'){
+            if (playerAction === 'FIRE'){
                 discard(cardToPlay[0])
             }
 

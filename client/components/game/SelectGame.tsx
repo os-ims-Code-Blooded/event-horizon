@@ -75,7 +75,7 @@ export default function SelectGame({
     )
     .then((response)=>{
 
-      setSession('55')
+      setSession(response.data.id)
 
       setPlayClicked(true)
 

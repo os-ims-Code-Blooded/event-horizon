@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 
 interface CardType {
+  duration: number;
+  id: number;
   name: string;
   damage: number;
   armor: number;
@@ -20,7 +22,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
 
   const cardSelect = (card: CardType) =>{
 
-    setCardToPlay([card.name, card.damage, card.armor, card.description])
+    setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
     setActiveLoading(true)
    
 
@@ -29,7 +31,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
   return (
     <>
 
-    {playerAction === 'load' ?
+    {playerAction === 'LOAD' ?
 
     <div
     onClick={()=>cardSelect(card)}

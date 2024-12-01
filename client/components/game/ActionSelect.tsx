@@ -22,13 +22,13 @@ export default function ActionSelect({
 
         <button
 
-        value='block'
+        value='BLOCK'
         className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm'
         >SHIELDS
         </button>
         :
         <button 
-        value='block' 
+        value='BLOCK' 
         className=' p-4 bg-blue-600 hover:bg-blue-900 text-white font-bold focus:ring-4 focus:ring-blue-300 rounded-sm'
         onClick={(e)=>{actionClick(e)}}
         >SHIELDS
@@ -41,7 +41,7 @@ export default function ActionSelect({
 
           <button
 
-            value='load'
+            value='LOAD'
             className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm '
             >ARM
             </button>
@@ -49,7 +49,7 @@ export default function ActionSelect({
             :
 
             <button 
-            value='load' 
+            value='LOAD' 
             className='p-4 bg-yellow-300 hover:bg-yellow-600 text-white font-bold focus:ring-4 focus:ring-yellow-200 rounded-sm'
             onClick={(e)=>{actionClick(e)}}
             >ARM
@@ -64,7 +64,7 @@ export default function ActionSelect({
 
           <button
 
-          value='fire'
+          value='FIRE'
           className='cursor-not-allowed p-4 bg-gray text-white font-bold rounded-sm '
           >FIRE
           </button>
@@ -72,7 +72,7 @@ export default function ActionSelect({
           :
 
           <button
-          value='fire'
+          value='FIRE'
           className='p-4 bg-red-600 hover:bg-red-900 text-white font-bold focus:ring-4 focus:ring-red-300 rounded-sm'
           onClick={(e)=>{actionClick(e)}}
           >FIRE
@@ -85,7 +85,7 @@ export default function ActionSelect({
       <div className=' p-2 bg-white text-black font-bold' >CURRENT ACTION SELECTED: {playerAction}</div>
   
       <div className=' p-2 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}
-          {enemyCard && enemyLastAction === 'fire' && !enemyTurnEnd ?
+          {enemyCard && enemyLastAction === 'FIRE' && !enemyTurnEnd ?
           
             <>
             d {enemyCard[0]}
