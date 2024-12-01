@@ -41,8 +41,11 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        include: path.resolve(__dirname, 'client'),
+        test: /\.css$/i,
+        include: [
+          path.resolve(__dirname, 'client'),
+          path.resolve(__dirname, 'node_modules/react-toastify'),
+        ],
         use: [
           'style-loader',
           'css-loader',

@@ -7,6 +7,7 @@ module.exports = {
     './client/**/*.jsx',
     './client/**/*.ts',
     './client/**/*.tsx',
+    './node_modules/react-toastify/dist/ReactToastify.css',
   ],
   darkMode: 'selector',
   theme: {
