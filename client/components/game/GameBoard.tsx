@@ -152,31 +152,38 @@ if (playerHand.length === 0){
 
 //////////////////////////////////////////////////////
   return (
-    <>
-    <div className=' z-10 flex-grow flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' >
-    
-      <div className='flex flex-row justify-between p-3'>
-        <div>
-          <div className='p-2 text-white'>TIME: 00:00 / ROUND {roundNum}</div>
+    <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
+      <div className='flex flex-row justify-between gap-1 p-1'>
+        <div className='pr-4 flex flex-grow'>
+          <div className='pt-10 text-white'>TIME: 00:00 / ROUND {roundNum}</div>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-center items-center flex-grow">
           {opponentCards.map((card, index) => (
 
-          <img src='https://i.imgur.com/y1g83zB.png' className="rounded-lg shadow-md p-0 m-2 w-45 h-60 flex flex-col items-center justify-between "
+          <img src='https://i.imgur.com/y1g83zB.png' className="scale-[.75] rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
           key={index}
             />
 
 
           ))}
         </div>
-        <div>
-          <div className='text-red-800 font-bold'>{enemyName}</div>
-          <div className='text-red-600 font-bold'> {enemyHitPoints}/50 Hull Integrity</div>
+        <div className='pt-5 flex-col min-w-60 flex flex-grow'>
+          <div className='text-red-800 font-bold'>{enemyName || 'No Player'}</div>
+          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div
+            className="bg-red-600 h-5 rounded-full text-center justify-items-center text-white text-sm"
+            style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
+              {`Hull Integrity: ${enemyHitPoints} / 50`}
+            </div>
+         
+        </div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
-          <div className='justify-center p-20'><img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[-.75] scale-y-[.75]'/></div>
+          <div className='justify-center z-1 h-50 w-60'>
+              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.50] scale-y-[.50]'/>
+            </div>
         </div>
         <div className='flex flex-row justify-between h-70'>
 
@@ -211,28 +218,29 @@ if (playerHand.length === 0){
       </div>
       <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
     </div>
-
-
               :
 
               <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
-
           }
           </div>
-
-
         </div>
         <div>
-          <div className='p-20'> <img src='https://i.imgur.com/4paq921.png' className='scale-x-[.75] scale-y-[.75]'/></div>
+          <div className='z-1 h-50 w-60'>
+            <img src='https://i.imgur.com/4paq921.png' className='scale-x-[.50] scale-y-[.50]'/>
+            </div>
         </div>
       </div>
       <div className='flex flex-row justify-between p-3'>
         <div className='flex flex-col p-3'>
           <div className='text-green-600 font-bold'>{user.name}</div>
-          <div className='text-blue-600 font-bold'>Hull Integrity: {hitPoints}/50</div>
+          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div
+            className="bg-blue-600 h-5 rounded-full text-center justify-items-center text-white text-sm"
+            style={{ width: `${(hitPoints / 50) * 100}%` }}>
+            {`Hull Integrity: ${hitPoints} / 50`}
+          </div>
+          </div>
           <br></br>
-          <br></br>
-
           <ActionSelect 
           playerAction={playerAction}
           enemyLastAction={enemyLastAction}
@@ -293,19 +301,17 @@ if (playerHand.length === 0){
 
             :
 
-            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold'
+            <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold rounded-sm'
             >COMMIT TURN</button>
 
             }
           </div>
           <div>
             {enemyAction?
-            
-              <div className='text-red-600 text-[1rem]' >
+              <div className='text-red-600 text-[1rem] text-center animate-pulse' >
                 opponent waiting
               </div>
             :
-            
             null
           }
 
@@ -314,7 +320,6 @@ if (playerHand.length === 0){
 
       </div>
     </div>
-  </>
   )
 };
 

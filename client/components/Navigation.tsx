@@ -159,7 +159,7 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
 
       default:
         return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
             <Link to="/" className="hover:text-blue-600 truncate">
               EVENT HORIZON
             </Link>
