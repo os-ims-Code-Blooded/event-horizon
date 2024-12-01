@@ -229,6 +229,8 @@ if (playerHand.length === 0){
 
             {cardToPlay?
 
+            
+
     <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
       <h2 className="text-lg font-bold mb-2 text-center">{cardToPlay[0]}</h2>
       <div className="text-center">
@@ -242,6 +244,8 @@ if (playerHand.length === 0){
       </div>
       <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
     </div>
+
+
               :
 
               <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
@@ -321,7 +325,7 @@ if (playerHand.length === 0){
               {
 
             // !turnEnded || playerAction !== '' ?
-            ((playerAction === 'fire' || playerAction === 'block' || (playerAction === 'load' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
+            ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
 
             <button className='p-4 flex items-end justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
 
@@ -333,7 +337,7 @@ if (playerHand.length === 0){
 
             endTurn()
 
-            if (playerAction === 'fire'){
+            if (playerAction === 'FIRE'){
                 discard(cardToPlay[0])
             }
 
@@ -367,56 +371,3 @@ if (playerHand.length === 0){
 export default GameBoard;
 
 ///////////////////////////////////////////////
-
-
-// console.log("DECK SELECTED", userDecks)
-
-// let playerCards = userDecks.filter((deck: { deck_name: any; })=>deck.deck_name === deckSelected)
-
-// console.log("PLAYER CARDS", playerCards[0].User_Decks_Cards)
-
-// console.log("DECK SELECTED", playerCards )
-
-// let startingHand: any = []
-
-
-// const [shuffledDeck, setShuffledDeck] = useState(shuffle(playerCards))
-  // const shuffledDeck = shuffle(deckSelected)
-// const [startingHand, setStartingHand] = useState(shuffledDeck.slice(0, 3))
-  
-  
-  // console.log("SHUFFLED DECK", shuffledDeck)
-  // console.log("startingHand", startingHand)
-  
-  
-  // for (let i = 0; i < handSize; i++){
-  //   startingHand.push(shuffledDeck.pop())
-  // }
-  
-  // console.log("STARTINGHAND", startingHand)
-
-
-  
-
-  // let playerCards: CardType[] = [
-  //   {
-  //     name: 'Bomba',
-  //     attack: 15,
-  //     defense: 0,
-  //     description: 'Increase Attack Power of your bullet',
-  //   },
-  //   {
-  //     name: 'Rocket',
-  //     attack: 20,
-  //     defense: 0,
-  //     description: 'Explosive attack dealing area damage.',
-  //   },
-  //   {
-  //     name: 'Plasma Shield',
-  //     attack: 0,
-  //     defense: 15,
-  //     description: 'Increase Defense Power of your shield',
-  //   },
-  // ];
-
-  // const [cardToPlay, setCardToPlay] = useState('')
