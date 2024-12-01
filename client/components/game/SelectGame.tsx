@@ -99,12 +99,12 @@ export default function SelectGame({
 const handleDeckSelect = (e) =>{
 
 
-  axios.get(`/profile/decks/${user.id}`, {"data": { "deck_id": userDecks[e.target.value].id }})
+  axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
     .then((response) => {
 
       console.log(`Fetching cards for selected deck:`, response);
 
-      const cards = response.data.User_Decks_Cards
+      const cards = response.data
 
       setDeckWasChosen(true)
       setDeckSelected(cards)
@@ -116,7 +116,7 @@ const handleDeckSelect = (e) =>{
     {
       selectedDeck: {
          connect: {
-           id: 1
+           id: userDecks[e.target.value].id
           }
         }
       })
