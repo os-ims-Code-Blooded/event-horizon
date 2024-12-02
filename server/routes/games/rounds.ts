@@ -126,7 +126,14 @@ rounds.get('/:id', async (req, res) => {
         }
       }, 0)
 
-      res.status(200).send({"Most Recent Round": findMostRecent})
+      const mostRecentRPI = await database.round_Player_Info.findMany({
+        where: { round_id: findMostRecent}
+      })
+
+      res.status(200).send({
+        "Most Recent Round": findMostRecent,
+        "Latest Player Info": mostRecentRPI
+      })
 
     }
 
