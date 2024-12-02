@@ -131,6 +131,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       setNewDeckName("");
       setSelectedCards([]);
       fetchDeckCards(selectedDeck);
+      fetchDecks();
       setShowNewDeckModal(false);
     } catch (error) {
       toast.error("Error creating new deck:", error);
