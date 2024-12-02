@@ -110,7 +110,7 @@ const GameBoard: FC <GameBoardProp> = ({
 
   const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
-  console.log("GD", gameDeck, "\nPH", playerHand)
+  // console.log("GD", gameDeck, "\nPH", playerHand)
 
 
 ///////////////////////////////////////////////////////

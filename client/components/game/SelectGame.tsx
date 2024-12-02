@@ -52,6 +52,7 @@ export default function SelectGame({
   const [roundNum, setRoundNum] = useState(1)
   
   const [enemyId, setEnemyId] = useState(null)
+  const [enemyName, setEnemyName] = useState('')
 
   const [roundInfo, setRoundInfo] = useState([])
   
@@ -76,9 +77,16 @@ export default function SelectGame({
     )
     .then((response)=>{
 
-      setEnemyId(response.data.User_Games.filter(game=>game.user_id!== user.id).user_id)
+      console.log(" \n REEEEEEESPONSE.DATA: \n", response.data)
+
+      let idOfEnemy = response.data.User_Games.filter(game=>game.user_id!== user.id).user_id
+      setEnemyId(idOfEnemy)
       setSession(response.data.id)
       setPlayClicked(true)
+
+
+     
+
 
 
       axios.get(`/games/rounds/${response.data.id}`)
@@ -99,6 +107,11 @@ export default function SelectGame({
     })
     .catch(err=>console.error(err))
     
+
+  
+
+    
+
 
     
   }
@@ -240,6 +253,8 @@ roundNum={roundNum}
 setRoundNum={setRoundNum}
 enemyId={enemyId}
 roundInfo={roundInfo}
+enemyName={enemyName}
+setEnemyName={setEnemyName}
 />
 }
 </>

@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum, enemyName, setEnemyName }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -44,7 +44,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [cardToPlay, setCardToPlay] = useState(null)
   const [cardId, setCardId] = useState(null)
 
-  const [enemyName, setEnemyName] = useState('')
+ 
 
   //player's remaining hit points
   const [enemyHitPoints, setEnemyHitPoints] = useState(50)
@@ -82,6 +82,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [selfDestruct, setSelfDestruct] = useState(false)
 
 
+
+
+ 
   //for a finished game
   // const [gameOver, setGameOver] = useState(false)
   // const [gameWinner, setGameWinner] = useState('')
@@ -155,14 +158,30 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   useEffect(()=>{
 
+
  
     //join session, sends the user object
     if (session){
       socket.emit("join_session", session, user, roundNum)
+
       socket.on('round_player_data', data=>{
         console.log("ROUND PLAYER DATA", data)
       })
     }
+
+
+    console.log("ENEMY ID AND NAME", enemyId, enemyName)
+    //sets enemy name
+    if (enemyId && enemyName === ''){
+      axios.get(`/profile/${enemyId}`)
+      .then(userData=>{
+        console.log("USER DATA", userData.data.name)
+        setEnemyName(userData.data.name)
+      })
+      .catch(err=>console.error(err))
+    
+    }
+
 
 
     socket.on('game_over', (data: any)=>{
@@ -174,11 +193,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     socket.on('received_rounds_data', (data: any)=>{
 
 
-      console.log("RESPONSE DATA FROM SOCKET", data.Current.id)
+      // console.log("RESPONSE DATA FROM SOCKET", data.Current.id)
 
       setRoundNum(data.Current.id)
 
-      
+
+
 
 
 
@@ -206,7 +226,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
+        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound[0].action)
+
+
 
         setEnemyLastAction(enemyPrevRound[0].action)
         
@@ -216,6 +238,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       }
 
 
+      if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+        console.log("HELOOOOOOOO")
+        setEnemyArmed(true)
+      }
+
+    
+
+      if (enemyPrevRound[0].action === 'FIRE'){
+        console.log("FIRED!!!")
+        setEnemyArmed(false)
+      }
 
 
       ///////////////////////////////////////////////
@@ -239,16 +272,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-        if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-          // console.log("HELOOOOOOOO")
-          setEnemyArmed(true)
-        }
-
-        console.log("***** ENEMY ACTION", enemyAction)
-
-        if (enemyPrevRound[0].action === 'FIRE'){
-          setEnemyArmed(false)
-        }
 
 
 
