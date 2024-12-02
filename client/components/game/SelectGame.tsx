@@ -14,7 +14,7 @@ import { use } from 'passport';
 
 ////////////////////////////
 //creates front-end socket connection to the server
-const socket = io("http://localhost:8080", {
+const socket = io("http://ec2-18-226-17-160.us-east-2.compute.amazonaws.com:3000", {
   withCredentials: true,
   extraHeaders: {
     "my-custom-header": "abcd"
