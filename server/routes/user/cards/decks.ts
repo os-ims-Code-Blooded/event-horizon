@@ -48,6 +48,7 @@ decks.get('/specific/:id', async (req, res) => {
     console.error(`Error on GET card decks for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
+
 })
 
 decks.get('/selected-deck/:id', async (req, res) => {
@@ -155,7 +156,6 @@ decks.patch('/:id', async (req, res) => {
   }
   ==================================================================================================
   */
-  console.log('req.delete_cards', req.body.data.remove_cards);
 
   try {
 
