@@ -110,6 +110,8 @@ const GameBoard: FC <GameBoardProp> = ({
 
   const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
+  console.log("GD", gameDeck, "\nPH", playerHand)
+
 
 ///////////////////////////////////////////////////////
 
@@ -160,7 +162,7 @@ if (playerHand.length < 3 && gameDeck.length > 0){
   setPlayerHand(playerHand.concat(nextCard))
 }
 
-if (playerHand.length < 0){
+if (playerHand.length <= 0){
   setPlayerHand(playerHand.concat(phaserCharge))
 }
 

@@ -25,7 +25,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
-  console.log("**************", roundInfo[0], "user ID", enemyId)
+  // console.log("**************", roundInfo[0], "user ID", enemyId)
 
   let userRound = roundInfo.filter(round=>round.user_id === user.id)
 
@@ -202,11 +202,13 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         
         // console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
-        // console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
+        console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        // console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
+        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
+
+        setEnemyLastAction(enemyPrevRound[0].action)
         
         
       if (enemyPrevRound.length > playerPrevRound.length){
@@ -216,7 +218,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-
+      ///////////////////////////////////////////////
         //checks if both players have committed a turn for this round
         if (playerPrevRound.length === enemyPrevRound.length){
 
@@ -242,7 +244,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           setEnemyArmed(true)
         }
 
-        if (enemyAction === 'FIRE'){
+        console.log("***** ENEMY ACTION", enemyAction)
+
+        if (enemyPrevRound[0].action === 'FIRE'){
           setEnemyArmed(false)
         }
 
@@ -272,7 +276,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     console.log("data", data)
 
       ////// VICTORY CONDITIONS /////////////
-      if (data.GameComplete.victor_id){
+      if (data.GameComplete){
 
         setGameOver(true)
         setGameWinner(data.GameComplete.victor_id);
