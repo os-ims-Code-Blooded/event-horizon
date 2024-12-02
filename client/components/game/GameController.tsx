@@ -130,12 +130,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   }
 
-
+//////////// END TURN ////////////////////////////////
   const endTurn = async () =>{
 
 
-    ////////// SELF DESTRUCT /////////////////////////////
-   
+////////// SELF DESTRUCT /////////////////////////////
+
 ///////////////////////////////////////////////////
     setRoundDisplay(roundDisplay + 1)
 
@@ -193,21 +193,26 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     socket.on('received_rounds_data', (data: any)=>{
 
 
-      // console.log("RESPONSE DATA FROM SOCKET", data.Current.id)
+  console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-      setRoundNum(data.Current.id)
+  if (data.user_id){
 
+    if (data.user_id !== user.id){
 
+      setEnemyWaiting(true)
 
+    }
+  }
 
+      if (data.Current){
+
+        setRoundNum(data.Current.id)
+      }
 
 
         // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
 
-
-
-
-        if (data.Current.Round_Player_Info){
+        if (data.Current){
 
           let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
           
@@ -233,9 +238,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         setEnemyLastAction(enemyPrevRound[0].action)
         
         
-      if (enemyPrevRound.length > playerPrevRound.length){
-        setEnemyWaiting(true)
-      }
+      // if (enemyPrevRound.length > playerPrevRound.length){
+      //   setEnemyWaiting(true)
+      // }
 
 
       if (enemyPrevRound[enemyPrevRound.length - 1].damage){

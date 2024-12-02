@@ -190,18 +190,18 @@ io.on('connection', (socket)=>{
 
 
 
-      io.in(data.session).emit("round_player_data", async () => {
-        try {
-          console.log("ROUND NUM", roundNum)
-            const mostRecentRPI = await database.round_Player_Info.findMany({
-              where: { round_id: roundNum}
-            })
-            console.log("MOST RECENT RPI", mostRecentRPI)
-            return mostRecentRPI;
-        } catch (error) {
-          console.error(`Error on join session.`)
-        }
-      })
+      // io.in(data.session).emit("round_player_data", async () => {
+      //   try {
+      //     console.log("ROUND NUM", roundNum)
+      //       const mostRecentRPI = await database.round_Player_Info.findMany({
+      //         where: { round_id: roundNum}
+      //       })
+      //       console.log("MOST RECENT RPI", mostRecentRPI)
+      //       return mostRecentRPI;
+      //   } catch (error) {
+      //     console.error(`Error on join session.`)
+      //   }
+      // })
 
 
 

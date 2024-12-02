@@ -40,8 +40,10 @@ export default async function gameHandler(req: any) {
 
       await createAction(req);
       return {
-        "Successful": true,
-        "Message": `Action #1 created for User #${req.body.data.user_id} in Game #${currentRound.game_id} - Round #${currentRound.id}.`
+        "Success": true,
+        "Message": `Action #1 created for User #${req.body.data.user_id} in Game #${currentRound.game_id} - Round #${currentRound.id}.`,
+        "Waiting": true,
+        "user_id": req.body.data.user_id
       }
 
     // else if this is the second (and last) action submitted for a round
