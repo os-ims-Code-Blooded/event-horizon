@@ -149,7 +149,9 @@ games.patch('/:id', async (req, res) => {
 
     let victor;
 
-    if (!req.body.data){
+    console.log("Ending game with following request: ", req.body, req.body.data)
+
+    if (!req.body.user_id){
       victor = null;
     } else {
       victor = Number(req.body.user_id);

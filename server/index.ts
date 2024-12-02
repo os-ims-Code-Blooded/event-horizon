@@ -188,9 +188,7 @@ io.on('connection', (socket)=>{
   })
 
 
-
-
-
+/////////////////////////////////////////////
   //PLAYER ENDS TURN
 
   socket.on('end_turn', async (data)=>{
@@ -207,95 +205,22 @@ io.on('connection', (socket)=>{
       console.error(err)
     }
 
-    // console.log("ACTION DATA", data.playerAction)
-    // console.log("CARD DATA", data.cardToPlay)
+  })
+////////////////////////////////////////
+// PLAYER SELF-DESTRUCTS
+  socket.on('game_over', async (data)=>{
 
+    try{
 
-    // socket.to(data.session).emit("receive_action", data.playerAction)
+      io.in(data.session).emit('game_over', data)
 
-    // if (data.cardToPlay){
-    //   socket.to(data.session).emit("receive_card", data.cardToPlay)
-    // }
-
+    }
+    catch(err){
+      console.error(err)
+    }
 
   })
-
-
-  // socket.on('block_end_turn', data=>{
-
-  //   console.log("ACTION DATA", sockId, data.playerAction)
-  //   console.log("CARD DATA", sockId, data.cardToPlay)
-
-
-
-  //   socket.to(data.session).emit("receive_action", data.playerAction)
-
-  //   if (data.cardToPlay){
-  //     socket.in(data.session).emit("receive_card", data.cardToPlay)
-  //   }
-  // })
-
-
-
-
-
-
-
-
-
-  // socket.on('fire_end_turn', data=>{
-
-
-  //   // console.log("ACTION DATA", sockId, data.playerAction)
-  //   // console.log("CARD DATA", sockId, data.cardToPlay)
-
-
-  //   socket.to(data.session).emit("receive_action", data.playerAction)
-  // })
-
-
-
-  // socket.on('load_end_turn', data=>{
-
-
-
-  //   console.log("DATA", data)
-
-  //   socket.to(data.session).emit("receive_action", data.playerAction, data.turnEnded)
-
-  //   if (data.cardToPlay){
-  //     socket.to(data.session).emit("receive_card", data.cardToPlay)
-  //   }
-  // })
-
-
-  // socket.on('lame_end_turn', data=>{
-
-  //   // console.log("ACTION DATA", sockId, data.playerAction)
-  //   socket.to(data.session).emit("receive_action", data.playerAction)
-
-  // })
-
-
-  //////////////////////////////////////////
-
-    // //if it receives data marked send_message
-    // socket.on('send_message', (data)=>{
-
-    //   // console.log("MESSAGE DATA", data)
-    //   // console.log("SOCK ID", sockId)
-
-    //   messages.push(data.message)
-
-    //   // console.log("MESSAGEs", messages)
-    //   //db op
-
-
-    //   //it shall re broadcast that message back to the client
-    //   socket.to(data.session).emit("receive_message", messages)
-
-    // })
-
+//////////////////////////////////////////
   //when a user disconnects
   socket.on('disconnect', () => {
     // console.log('user disconnected');
