@@ -36,7 +36,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     }
   };
 
-  const fetchDeckCards = async (deckSelected: Deck) => {
+  const fetchDeckCards = async (deckSelected) => {
     try {
       const response = await axios.get(`/profile/decks/specific/${deckSelected.id}`);
       setCards(response.data);
@@ -69,10 +69,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       };
       await axios.patch(`/profile/decks/${user.id}`, payload);
 
-      toast.success("Cards added to deck successfully!");
-      setSelectedCards([]);
       fetchDeckCards(selectedDeck);
+      toast.success("Cards added to deck successfully!");
       fetchDecks();
+      setSelectedCards([]);
+
     } catch (error) {
       toast.error("Error adding cards to deck:", error);
     }
@@ -127,9 +128,9 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         }
       });
       toast.success("Deck created successfully!");
-      fetchDecks();
       setNewDeckName("");
       setSelectedCards([]);
+      fetchDeckCards(selectedDeck);
       setShowNewDeckModal(false);
     } catch (error) {
       toast.error("Error creating new deck:", error);
@@ -189,7 +190,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 className={`relative w-36 h-48 border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer ${
                   selectedCards.includes(card.id)
                     ? "bg-purple-500 border-purple-700"
-                    : "bg-white border-gray-300"
+                    : "bg-white border-slate-300"
                 }`}
               >
                 <div className="font-semibold pb-1">{card.name}</div>
@@ -206,7 +207,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               </div>
             ))
           ) : (
-            <p className="text-gray-300">No cards available.</p>
+            <p className="text-slate-300">No cards available.</p>
           )}
         </div>
       </div>
@@ -230,7 +231,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               </button>
             ))
           ) : (
-            <p className="text-gray-300">No decks available.</p>
+            <p className="text-slate-300">No decks available.</p>
           )}
         </div>
       </div>
@@ -245,7 +246,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
             {cards.map((card) => (
               <div
                 key={card.id}
-                className={`relative w-36 h-48 bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center ${
+                className={`relative w-36 h-48 bg-white border border-slate-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center ${
                   selectedCards.includes(card.id) ? "border-red-500 border-4 animate-pulse" : ""
                 }`}
                 onClick={() => toggleCardSelection(card.id)}
@@ -255,7 +256,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 <div className="pt-4 text-sm">{card.description}</div>
                 <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1">
                   <div className="p-1">
-                    <strong>ATK:</strong> {card.attack || 0}
+                    <strong>ATK:</strong> {card.damage || 0}
                   </div>
                   <div className="p-1">
                     <strong>AMR:</strong> {card.armor || 0}
@@ -286,7 +287,9 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       {selectedDeck && (
         <div className="text-center mt-4 pb-2">
           <button
-            onClick={addCardsToDeck}
+            onClick={() => {
+              addCardsToDeck();
+            }}
             className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-500"
           >
             Add Selected Cards to {selectedDeck.deck_name}
@@ -314,7 +317,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               placeholder="Deck Name"
               value={newDeckName}
               onChange={(e) => setNewDeckName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg mb-4 text-center"
+              className="w-full p-2 border border-slate-300 rounded-lg mb-4 text-center"
             />
             <button
               onClick={createNewDeck}
@@ -324,7 +327,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
             </button>
             <button
               onClick={() => setShowNewDeckModal(false)}
-              className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-gray-300"
+              className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300"
             >
               Cancel
             </button>
