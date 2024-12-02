@@ -215,7 +215,7 @@ decks.patch('/:id', async (req, res) => {
 
     if (req.body.data.add_cards){
       // convert all card IDs supplied for adding to deck to numbers for database safety
-      let safetyCheck = req.body.data.delete_cards.map((card:any) => Number(card));
+      let safetyCheck = req.body.data.add_cards.map((card:any) => Number(card));
 
       // pull all cards for the deck we are modifying
       const validationPull = await database.user_Deck_Cards.findMany({
@@ -225,7 +225,7 @@ decks.patch('/:id', async (req, res) => {
 
       // create an array of only the card IDs from the previous pull
       let validationCheck = validationPull.map((card:any) => card.card_id);
-
+      console.log("***VALIDATION CHECK***", validationCheck)
       safetyCheck = safetyCheck.reduce((accum: any, curr: any) => {
         // if the deck does not include the card that we are deleting
         if (!validationCheck.includes(curr)){
@@ -249,7 +249,7 @@ decks.patch('/:id', async (req, res) => {
     res.sendStatus(200);
 
   } catch (error) {
-    console.error(`Error on PATCH card deck '${req.body.data.deck_name}' for user #${req.params.id}.`);
+    console.error(`Error on PATCH card deck '${req.body.data.deck_name}' for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
 
