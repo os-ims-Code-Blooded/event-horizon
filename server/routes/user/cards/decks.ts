@@ -48,29 +48,6 @@ decks.get('/specific/:id', async (req, res) => {
     console.error(`Error on GET card decks for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
-
-
-})
-
-// you provide only a deck ID here because a deck is specifically unique to a user (no user ID necessary)
-decks.get('/specific/:id', async (req, res) => {
-
-  try {
-
-    const specificDeck = await database.user_Decks.findFirst({
-      where: { id: Number(req.params.id) },
-      include: { User_Decks_Cards: true}
-    })
-    
-    if (!specificDeck) {
-      res.sendStatus(404);
-    } else {
-      res.status(200).send(specificDeck.User_Decks_Cards);
-    }
-  } catch(error){
-    res.sendStatus(500);
-  }
-
 })
 
 decks.get('/selected-deck/:id', async (req, res) => {
@@ -99,7 +76,6 @@ decks.get('/selected-deck/:id', async (req, res) => {
   }
 
 })
-
 
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint
