@@ -173,7 +173,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   }, [user.id]);
 
   return (
-    <div className="justify-items-center pt-10 min-h-screen w-full [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
+    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-full [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
       <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-8">Cards Page</h1>
 
       {/* All Cards Section */}

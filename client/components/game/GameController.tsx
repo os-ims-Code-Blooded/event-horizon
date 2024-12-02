@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -70,6 +70,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   const [roundDisplay, setRoundDisplay] = useState(1)
 
+  const [selfDestruct, setSelfDestruct] = useState(false)
+
 
   //for a finished game
   // const [gameOver, setGameOver] = useState(false)
@@ -93,6 +95,23 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
   const endTurn = async () =>{
+
+
+    ////////// SELF DESTRUCT /////////////////////////////
+    if (selfDestruct){
+
+      axios.patch(`/games/${session.id}`, {
+
+        user_id: enemyId
+
+      })
+      .then(data=>{
+        console.log("GAME OVER DATA", data)
+        // socket.emit('game_over', )
+      }
+      )
+    }
+
     setRoundDisplay(roundDisplay + 1)
 
 
@@ -106,26 +125,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       }
 
     }, session})
-
-
- //emits turn for BLOCK
-//  if (playerAction === "BLOCK"){
-//   socket.emit('BLOCK_end_turn', {playerAction, turnEnded: true, session})
-// }
-
-// //emits turn for FIRE
-// if (playerAction === "FIRE"){
-//   socket.emit('FIRE_end_turn', {playerAction, cardToPlay, session})
-// }
-
-// //emits turn for LOAD
-// if (playerAction === "LOAD"){
-//   socket.emit('LOAD_end_turn', {playerAction, cardToPlay, turnEnded: true, session})
-// }
-
-// if (playerAction === ""){
-//   socket.emit('lame_end_turn', playerAction, session)
-// }
 
 
     /////////// REQUEST HANDLING /////////////////////////
@@ -171,10 +170,11 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
+        if (data.Current.Round_Player_Info){
 
-        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-
-        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+          let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+          
+          let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
         let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
 
@@ -186,12 +186,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
         console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
-  
+        
         console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
         console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
-
-
+        
+        
       if (enemyPrevRound.length > playerPrevRound.length){
         setEnemyWaiting(true)
       }
@@ -224,10 +224,10 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           console.log("HELOOOOOOOO")
           setEnemyArmed(true)
         }
-
-
-
-
+        
+        
+        
+        
         if (enemyLastAction === 'FIRE'){
           setEnemyArmed(false)
         }
@@ -252,23 +252,26 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       setPlayerAction('')
       setEnemyWaiting(false)
+      
+    }
 
-
-
-      }
-        
+    
+    
+    
       ////// VICTORY CONDITIONS /////////////
       if (data.GameComplete.victor_id){
+
         setGameOver(true)
         setGameWinner(data.GameComplete.victor_id);
         
 
       }
-
-
-
-        })
-
+      
+      
+    }
+      
+    })
+    
 
     ////////////for messaging/////////////////////
     // socket.on("receive_message", (data)=>{   //
@@ -313,6 +316,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           weaponArmed={weaponArmed}
           setWeaponArmed={setWeaponArmed}
           hitPoints={hitPoints}
+          setHitPoints={setHitPoints}
           armor={armor}
 
           roundDisplay={roundDisplay}
@@ -321,7 +325,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           activeLoading={activeLoading}
           setActiveLoading={setActiveLoading}
           actionClick={actionClick}
-          discard={undefined}        />
+          discard={undefined}
+          setSelfDestruct={setSelfDestruct}  
+          selfDestruct={selfDestruct}      />
     </div>
   )
 }

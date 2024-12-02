@@ -166,7 +166,7 @@ games.patch('/:id', async (req, res) => {
       /*
         the idea here is that once this is sent back, the user will emit this from their socket to the room
         thereby the user has surrendered, they inform the room (and the other user) that the game is over
-        and then everybody is disconnected...
+        and then everybody is disconnected
       */
 
     } else {
