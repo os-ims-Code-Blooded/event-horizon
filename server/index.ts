@@ -124,10 +124,15 @@ const server = http.createServer(app)
 const io = new Server(server, {
   //some kind of cors options object, idk
   cors: {
-    origin: `${CLIENT_URL}:${PORT}`,
+    origin: `http://localhost:3000`,
     methods: ["GET", "POST"],
     credentials: true,
   },
+  // cors: {
+  //   origin: `${CLIENT_URL}:${PORT}`,
+  //   methods: ["GET", "POST"],
+  //   credentials: true,
+  // },
 })
 //............./////////////...........................
 //trying some crap out

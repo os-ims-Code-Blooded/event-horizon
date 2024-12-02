@@ -4,10 +4,10 @@ import axios from 'axios';
 
 type ProfileProps = {
   user: any;
-
+  fetchUser: Function;
 };
 
-const Profile: FC<ProfileProps> = ({user}) => {
+const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
   const [name, setName] = useState(user.name);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -18,6 +18,7 @@ const Profile: FC<ProfileProps> = ({user}) => {
           console.error('failed to change user name');
         } else {
           setIsEditing(false);
+          fetchUser();
           console.log('nameChanged!', nameChanged);
         }
       })
