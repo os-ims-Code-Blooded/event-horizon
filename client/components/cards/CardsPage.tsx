@@ -10,7 +10,7 @@ type Deck = {
 
 type Card = {
   card_id: any;
-  attack: number;
+  damage: number;
   armor: number;
   image_url: string;
   description: string;
@@ -197,10 +197,10 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 <div className="pt-4 text-sm">{card.description}</div>
                 <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1">
                   <div className="p-1">
-                    <strong>ATK:</strong> {card.attack || 0}
+                    <strong>ATK:</strong> {card.damage}
                   </div>
                   <div className="p-1">
-                    <strong>AMR:</strong> {card.armor || 0}
+                    <strong>AMR:</strong> {card.armor}
                   </div>
                 </div>
               </div>
@@ -307,24 +307,24 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       {/* New Deck Modal */}
       {showNewDeckModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Create New Deck</h2>
+          <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3">
+            <h2 className="text-xl text-center font-bold text-white mb-4">Create New Deck</h2>
             <input
               type="text"
               placeholder="Deck Name"
               value={newDeckName}
               onChange={(e) => setNewDeckName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+              className="w-full p-2 border border-gray-300 rounded-lg mb-4 text-center"
             />
             <button
               onClick={createNewDeck}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500 mr-2"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500 mr-2 pb-2"
             >
               Create Deck
             </button>
             <button
               onClick={() => setShowNewDeckModal(false)}
-              className="px-4 py-2 bg-gray-400 text-black rounded-lg shadow hover:bg-gray-300"
+              className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-gray-300"
             >
               Cancel
             </button>

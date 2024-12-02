@@ -52,27 +52,6 @@ decks.get('/specific/:id', async (req, res) => {
 
 })
 
-// you provide only a deck ID here because a deck is specifically unique to a user (no user ID necessary)
-decks.get('/specific/:id', async (req, res) => {
-
-  try {
-
-    const specificDeck = await database.user_Decks.findFirst({
-      where: { id: Number(req.params.id) },
-      include: { User_Decks_Cards: true}
-    })
-    
-    if (!specificDeck) {
-      res.sendStatus(404);
-    } else {
-      res.status(200).send(specificDeck.User_Decks_Cards);
-    }
-  } catch(error){
-    res.sendStatus(500);
-  }
-
-})
-
 decks.get('/selected-deck/:id', async (req, res) => {
 
   try {
@@ -179,7 +158,6 @@ decks.patch('/:id', async (req, res) => {
   }
   ==================================================================================================
   */
-  console.log('req.delete_cards', req.body.data.remove_cards);
 
   try {
 
