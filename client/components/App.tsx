@@ -147,7 +147,7 @@ export default function App (){
         />
         <Route
           path="/user-profile"
-          element={isAuthenticated ? <Profile user={user} /> : <Navigate to='/' />}
+          element={isAuthenticated ? <Profile user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
         />
         <Route
           path="/cards"
