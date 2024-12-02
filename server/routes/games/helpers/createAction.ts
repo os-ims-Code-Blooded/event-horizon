@@ -11,7 +11,7 @@ export default async function createAction(req: any){
       const findCardCorrelation = await database.user_Cards.findFirst({ where: { id: Number(req.body.data.card_id) }})
 
       const cardDetails = await database.cards.findFirst({ where: { id: findCardCorrelation.card_id}})
-
+      
       const newAction = await database.actions.create({
         data: {
           round:  { connect: { id: req.body.data.round_id}},

@@ -174,13 +174,29 @@ io.on('connection', (socket)=>{
 
 
   //listening for a join room event
-  socket.on('join_session', (data, user)=>{
+  socket.on('join_session', (data, user, roundNum)=>{
     
     console.log("*** SESSION DATA", data, user)
     console.log("*** SOCKET ID:", sockId)
 
       socket.join(data)
+
       socket.to(data.session).emit("receive_opponent", user)
+
+
+
+      io.in(data.session).emit("round_player_data", async () => {
+        try {
+          console.log("ROUND NUM", roundNum)
+            const mostRecentRPI = await database.round_Player_Info.findMany({
+              where: { round_id: roundNum}
+            })
+            console.log("MOST RECENT RPI", mostRecentRPI)
+            return mostRecentRPI;
+        } catch (error) {
+          console.error(`Error on join session.`)
+        }
+      })
 
 
 

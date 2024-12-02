@@ -24,6 +24,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
 
   const cardSelect = (card: CardType) =>{
 
+    console.log("CARD CLICKED: ", card)
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
     setCardId(card.card_id)
     setActiveLoading(true)

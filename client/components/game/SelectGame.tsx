@@ -52,24 +52,17 @@ export default function SelectGame({
   const [roundNum, setRoundNum] = useState(1)
   
   const [enemyId, setEnemyId] = useState(null)
+
+  const [roundInfo, setRoundInfo] = useState([])
   
 //////////////////////////////////
   useEffect(()=>{
-
     axios.get(`/profile/decks/${user.id}`)
     .then(response=>{
-      
-      console.log("USER DECKS", response.data)
-  
       setUserDecks(response.data)})
-
     .catch(err=>console.error(err))
   }, [])
   
-  // console.log("USER DECKSSSS", userDecks)
-
-
-
 ///////////////////////////////////////////
 
 
@@ -83,22 +76,21 @@ export default function SelectGame({
     )
     .then((response)=>{
 
-      console.log("!!! user ID", user.id)
-      console.log("***Enemy User***\n", response.data.User_Games.filter(game=>game.user_id!== user.id))
-
       setEnemyId(response.data.User_Games.filter(game=>game.user_id!== user.id).user_id)
-
       setSession(response.data.id)
-
       setPlayClicked(true)
 
-      // console.log("***RESPONSE***", response)
-      
-      // console.log("RESPONSE.DATA", response.data.id)
 
       axios.get(`/games/rounds/${response.data.id}`)
       .then((moreData)=>{
-        console.log(moreData.data)
+
+        console.log("LATEST ROUND:  ", moreData.data["Latest Player Info"])
+
+
+        setRoundInfo(moreData.data["Latest Player Info"])
+
+
+
         setRoundNum(moreData.data['Most Recent Round'])
 
       })
@@ -122,20 +114,14 @@ export default function SelectGame({
 ////////  DECK SELECT  ///////////////////
 const handleDeckSelect = (e) =>{
 
-
-
-
-
   axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
     .then((response) => {
 
       console.log(`Fetching cards for selected deck:`, response);
-
+      
       const cards = response.data
-
       setDeckWasChosen(true)
       setDeckSelected(cards)
-
     })
 
 
@@ -251,7 +237,9 @@ userDecks={userDecks}
 deckSelected={deckSelected}
 handSize={handSize}
 roundNum={roundNum}
+setRoundNum={setRoundNum}
 enemyId={enemyId}
+roundInfo={roundInfo}
 />
 }
 </>

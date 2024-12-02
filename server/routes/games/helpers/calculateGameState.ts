@@ -35,6 +35,8 @@ export default async function calculateGameState(req: any, game: number) {
     }
 
     console.log(`CGS effects calculations: `, action_results);
+    
+    console.log(`ALL ROUND ACTIONS: `, allRoundActions);
 
     // for every action on the current round
     for (let i = 0; i < allRoundActions.length; i++){

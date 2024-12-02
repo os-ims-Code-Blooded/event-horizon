@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -25,7 +25,16 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
- 
+  console.log("**************", roundInfo[0], "user ID", enemyId)
+
+  let userRound = roundInfo.filter(round=>round.user_id === user.id)
+
+  console.log("USER ROUND", userRound)
+
+  let enemyRound = roundInfo.filter(round=>round.user_id !== user.id)
+
+  console.log("ENEMY ROUND", enemyRound)
+
   //player selected action of BLOCK, LOAD or FIRE
   const [playerAction, setPlayerAction] = useState('')
   //player's remaining hit points
@@ -84,7 +93,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     setPlayerAction(e.target.value)
 
-    if (e.target.value === 'LOAD' && cardToPlay){
+    if (e.target.value === 'LOAD' && cardToPlay[1]){
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -138,22 +147,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       }
 
     }, session})
-
-
-    /////////// REQUEST HANDLING /////////////////////////
-
-    // await axios.post('/games/rounds', {
-    //     'data': {
-    //     'round_id': 1,
-    //     'user_id': 1,
-    //     'action': 'LOAD',
-    //     'card_id': 1
-    //   }
-    // })
-    // .then(response=>console.log(response))
-    // .catch(err => console.error("failed to post move data", err))
-
-
   }
 
 
@@ -165,8 +158,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
  
     //join session, sends the user object
     if (session){
-      socket.emit("join_session", session, user)
+      socket.emit("join_session", session, user, roundNum)
+      socket.on('round_player_data', data=>{
+        console.log("ROUND PLAYER DATA", data)
+      })
     }
+
 
     socket.on('game_over', (data: any)=>{
       console.log("********************GAME OVER DATA", data)
@@ -177,7 +174,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     socket.on('received_rounds_data', (data: any)=>{
 
 
-      // console.log("RESPONSE DATA FROM SOCKET", data)
+      console.log("RESPONSE DATA FROM SOCKET", data.Current.id)
+
+      setRoundNum(data.Current.id)
 
       
 
@@ -194,9 +193,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           
           let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
-        let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+          let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
 
-        let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+          let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
 
 
@@ -239,14 +238,11 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
         if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-          console.log("HELOOOOOOOO")
+          // console.log("HELOOOOOOOO")
           setEnemyArmed(true)
         }
-        
-        
-        
-        
-        if (enemyLastAction === 'FIRE'){
+
+        if (enemyAction === 'FIRE'){
           setEnemyArmed(false)
         }
 
@@ -273,6 +269,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     }
 
+    console.log("data", data)
 
       ////// VICTORY CONDITIONS /////////////
       if (data.GameComplete.victor_id){
