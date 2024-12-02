@@ -49,7 +49,6 @@ decks.get('/specific/:id', async (req, res) => {
     res.sendStatus(500);
   }
 
-
 })
 
 decks.get('/selected-deck/:id', async (req, res) => {
@@ -78,7 +77,6 @@ decks.get('/selected-deck/:id', async (req, res) => {
   }
 
 })
-
 
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint

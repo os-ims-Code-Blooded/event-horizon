@@ -9,7 +9,7 @@ games.use('/rounds', rounds);
 games.post('/', async (req, res) => {
 
   try {
-    console.log("__req.BODY__", req.body)
+
     // preliminary validation checks
     const user = await database.user.findFirst({
       where: {
@@ -85,7 +85,16 @@ games.post('/', async (req, res) => {
         }
       });
 
-      console.log(addUserToNewGame);
+      const initRound = await database.rounds.create({
+        data: { game: { connect: { id: addUserToNewGame.game_id} } }
+      })
+
+      const initPlayerInfo = await database.round_Player_Info.create({
+        data: { 
+          round: { connect: { id: initRound.id}},
+          user: { connect: { id: user.id} }
+        }
+      })
 
       console.log(`Creating new game #${newGame.id} for user #${req.body.user_id}.`)
 
@@ -103,29 +112,14 @@ games.post('/', async (req, res) => {
         }
       });
 
-      const initRound = await database.rounds.create({
-        data: { game: { connect: { id: addUserToGame.game_id} } }
+      const startingRound = await database.rounds.findFirst({
+        where: { game_id: addUserToGame.game_id }
       })
 
-      let allUsers: any = await database.user_Games.findMany({
-        where: { game_id: addUserToGame.game_id },
-        select: { user_id: true}
-      })
-
-      allUsers = allUsers.map((user: any) => user.user_id)
-
-      allUsers.forEach( async (user: any) => {
-
-        try {
-          await database.round_Player_Info.create({
-            data: {
-              user: { connect: { id: user} },
-              round: { connect: { id: initRound.id } }
-            }
-          })
-        } catch (error) {
-          console.error(`Error initializing player information for User #${user}.`)
-          res.sendStatus(500);
+      const initPlayerInfo = await database.round_Player_Info.create({
+        data: { 
+          round: { connect: { id: startingRound.id}},
+          user: { connect: { id: user.id} }
         }
       })
 
@@ -149,7 +143,9 @@ games.patch('/:id', async (req, res) => {
 
     let victor;
 
-    if (!req.body.data){
+    console.log("Ending game with following request: ", req.body, req.body.data)
+
+    if (!req.body.user_id){
       victor = null;
     } else {
       victor = Number(req.body.user_id);

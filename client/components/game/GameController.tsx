@@ -93,25 +93,38 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
  ////////////END TURN/////////////////
 
+  const forfeit = async () =>{
+
+    try{
+
+      if (selfDestruct){
+
+        let gameOver = await axios.patch(`/games/${session.id}`, {
+
+          "data":{
+            "user_id": enemyId
+
+        }
+      }
+    )
+        console.log("GAME OVER EMISSION", gameOver)
+        socket.emit('game_over', gameOver, session)
+      }
+    }
+    catch(err){
+      console.error(err)
+    }
+
+
+  }
+
 
   const endTurn = async () =>{
 
 
     ////////// SELF DESTRUCT /////////////////////////////
-    if (selfDestruct){
-
-      axios.patch(`/games/${session.id}`, {
-
-        user_id: enemyId
-
-      })
-      .then(data=>{
-        console.log("GAME OVER DATA", data)
-        // socket.emit('game_over', )
-      }
-      )
-    }
-
+   
+///////////////////////////////////////////////////
     setRoundDisplay(roundDisplay + 1)
 
 
@@ -155,11 +168,16 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       socket.emit("join_session", session, user)
     }
 
+    socket.on('game_over', (data: any)=>{
+      console.log("********************GAME OVER DATA", data)
+    })
+
+
 
     socket.on('received_rounds_data', (data: any)=>{
 
 
-      console.log("RESPONSE DATA FROM SOCKET", data)
+      // console.log("RESPONSE DATA FROM SOCKET", data)
 
       
 
@@ -183,13 +201,13 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
         
-        console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
+        // console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
-        console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
+        // console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
         
-        console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
+        // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
+        // console.log("prev ENEMY'S ROUND INFO", enemyPrevRound)
         
         
       if (enemyPrevRound.length > playerPrevRound.length){
@@ -212,7 +230,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         setEnemyHitPoints(enemyCurrRound[0].health)
         setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
 
-          console.log("enemyLastAction damage?", enemyPrevRound[enemyPrevRound.length - 1].damage)
+          // console.log("enemyLastAction damage?", enemyPrevRound[enemyPrevRound.length - 1].damage)
 
         
         setActiveLoading(false)
@@ -252,26 +270,23 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       setPlayerAction('')
       setEnemyWaiting(false)
-      
+
     }
 
-    
-    
-    
+
       ////// VICTORY CONDITIONS /////////////
       if (data.GameComplete.victor_id){
 
         setGameOver(true)
         setGameWinner(data.GameComplete.victor_id);
-        
+
 
       }
-      
-      
+
     }
-      
+
     })
-    
+
 
     ////////////for messaging/////////////////////
     // socket.on("receive_message", (data)=>{   //
@@ -327,7 +342,9 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           actionClick={actionClick}
           discard={undefined}
           setSelfDestruct={setSelfDestruct}  
-          selfDestruct={selfDestruct}      />
+          selfDestruct={selfDestruct}
+          forfeit={forfeit}
+          />
     </div>
   )
 }
