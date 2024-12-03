@@ -176,7 +176,7 @@ model Round_Player_Info {
   id       Int    @id @default(autoincrement())
   round_id Int
   user_id  Int
-  name     String
+  name     String @default("")
   health   Int    @default(50)
   armor    Int    @default(20)
 
