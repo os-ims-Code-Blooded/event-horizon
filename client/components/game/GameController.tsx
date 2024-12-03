@@ -103,22 +103,22 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     }
   }
 
- ////////////END TURN/////////////////
+ //////////// FORFEIT GAME /////////////////
 
   const forfeit = async () =>{
-
+    console.log("ENEMY ID", enemyId)
     try{
 
       if (selfDestruct){
 
-        let gameOver = await axios.patch(`/games/${session.id}`, {
+        let gameOver = await axios.patch(`/games/${session}`, {
 
           "data":{
-            "user_id": enemyId
-
+            "user_id": user.id
         }
       }
     )
+    setGameOver(true)
         console.log("GAME OVER EMISSION", gameOver)
         socket.emit('game_over', gameOver, session)
       }
@@ -158,20 +158,22 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   useEffect(()=>{
 
-
+     console.log("SESSION #####", session)
  
     //join session, sends the user object
     if (session){
       socket.emit("join_session", session, user, roundNum)
-
-      socket.on('round_player_data', data=>{
-        console.log("ROUND PLAYER DATA", data)
-      })
     }
+    
+    socket.on('receive_user', (data: any)=>{
 
+      console.log("receive_user DATA", data)
+    })
 
-    console.log("ENEMY ID AND NAME", enemyId, enemyName)
+    // console.log("ENEMY ID AND NAME", enemyId, enemyName)
+
     //sets enemy name
+
     if (enemyId && enemyName === ''){
       axios.get(`/profile/${enemyId}`)
       .then(userData=>{
@@ -186,6 +188,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     socket.on('game_over', (data: any)=>{
       console.log("********************GAME OVER DATA", data)
+      setGameOver(true)
     })
 
 

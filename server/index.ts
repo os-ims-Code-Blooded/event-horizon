@@ -186,7 +186,9 @@ io.on('connection', (socket)=>{
 
       socket.join(data)
 
-      socket.to(data.session).emit("receive_opponent", user)
+      // socket.to(data.session).emit("receive_opponent", user)
+
+      io.in(data.session).emit("receive_user", user)
 
 
 
@@ -229,16 +231,11 @@ io.on('connection', (socket)=>{
   })
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
-  socket.on('game_over', async (data)=>{
+  socket.on('game_over', (data, session)=>{
 
-    try{
+    
 
-      io.in(data.session).emit('game_over', data)
-
-    }
-    catch(err){
-      console.error(err)
-    }
+      io.in(session).emit('game_over', data)
 
   })
 //////////////////////////////////////////

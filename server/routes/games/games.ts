@@ -141,35 +141,35 @@ games.patch('/:id', async (req, res) => {
   // req.body.user_id represents the victor for a game
   try {
 
-    let victor;
 
-    console.log("Ending game with following request: ", req.body, req.body.data)
+    if (req.body.data.user_id) {
 
-    if (!req.body.user_id){
-      victor = null;
-    } else {
-      victor = Number(req.body.user_id);
-    }
+      const findConnections = await database.user_Games.findMany({
+        where: { game_id: Number(req.params.id) }
+      });
 
-    if (victor) {
-      const updateGame = await database.games.update({
-        where: {
-          id: Number(req.params.id)
-        },
-        data: {
-          status: false,
-          end_date: new Date(),
-          victor: { connect: { id: victor } }
-        }
-      })
+      const findOpponentID = findConnections.reduce((accum, curr) => {
+        if (curr.user_id !== Number(req.body.data.user_id)) { return curr.user_id }
+        else { return accum };
+      }, -1)
 
-      console.log(`Game terminated; victor for game session #${req.params.id} is #${victor}.`)
-      res.status(200).send({ GameComplete: updateGame });
-      /*
-        the idea here is that once this is sent back, the user will emit this from their socket to the room
-        thereby the user has surrendered, they inform the room (and the other user) that the game is over
-        and then everybody is disconnected
-      */
+      if (findOpponentID){
+        const updateGame = await database.games.update({
+          where: {
+            id: Number(req.params.id)
+          },
+          data: {
+            status: false,
+            end_date: new Date(),
+            victor: { connect: { id: findOpponentID } }
+          }
+        })
+  
+        console.log(`Game terminated; victor for game session #${req.params.id} is #${findOpponentID}.`)
+        res.status(200).send({ GameComplete: updateGame });
+      } else {
+        res.sendStatus(400);
+      }
 
     } else {
       const updateGame = await database.games.update({
@@ -187,7 +187,7 @@ games.patch('/:id', async (req, res) => {
     }
 
   } catch (error) {
-    console.error(`Error on PATCH request to terminate game session #${req.params.id}.`)
+    console.error(`Error on PATCH request to terminate game session #${req.params.id}.`, error)
     res.sendStatus(500);
   }
 
