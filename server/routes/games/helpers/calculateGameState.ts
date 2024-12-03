@@ -55,7 +55,11 @@ export default async function calculateGameState(req: any, game: number) {
         if (!card) {
           throw new Error (`Invalid LOAD operation; no card specified.`)
         } else {
-          await commitLoad(req, game, allRoundActions[i]);  // Load never returns anything, so we don't store its result
+          let isCardUnloaded = await commitLoad(req, game, allRoundActions[i]);
+
+          if (isCardUnloaded) {
+            action_results[user].unloaded_card = isCardUnloaded;
+          }
         }
 
       } else if (action === 'BLOCK'){

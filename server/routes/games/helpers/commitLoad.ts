@@ -19,6 +19,27 @@ export default async function commitLoad(req: any, game: number, action: any){
 
       console.log(`commitLoad.ts : 18 | Loading offensive Card #${payload.id} for User #${action.user_id} on Game #${game} - Round #${action.round_id}.`);
 
+      const alreadyLoaded = await database.actions_Loaded.findFirst({
+        where: { user_id: action.user_id}
+      })
+
+      let preserveCard;
+
+      if (alreadyLoaded){
+
+        preserveCard = await database.actions_Loaded.findFirst({
+          where: { user_id: action.user_id},
+          include: {
+            card: true
+          }
+        })
+
+        await database.actions_Loaded.deleteMany({
+          where: { user_id: action.user_id }
+        })
+        
+      }
+
       const damageAction = await database.actions_Loaded.create({
         data: {
           game:   { connect: { id: game}},
@@ -29,7 +50,9 @@ export default async function commitLoad(req: any, game: number, action: any){
       })
 
       console.log(`commitLoad.ts : 22 | Offensive Card #${damageAction.card_id} loaded for User #${damageAction.user_id} on Game #${damageAction.game_id} - Round #${damageAction.round_id}.`);
-    
+      
+      if (preserveCard) { return preserveCard.card };
+
     // if this must not be fired, then just add it as an effect
     } else if (isNonLethalPayload) {
 
