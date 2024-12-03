@@ -110,8 +110,6 @@ export default function App (){
     }
   };
 
-  
-
   const toggleCbMode = () => {
     const root = document.documentElement;
     if (isCbMode) {

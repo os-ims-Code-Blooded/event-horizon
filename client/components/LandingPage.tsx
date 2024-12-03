@@ -10,7 +10,7 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
 
   return (
     <div className='pt-5' aria-label="Landing Page">
-      <div className='bg-primary dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-white pt-5'
+      <div className='bg-primary dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-text pt-5'
         aria-labelledby="landing-page-title"
       >
           <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/8mBos8V.png' alt="Game graphic image"/>
@@ -18,7 +18,7 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
                   <Link
                   to="/title-menu"
                   type="button"
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-white shadow-yellow-300 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
+                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-text shadow-yellow-300 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
                   aria-label="Go to Title Menu and start playing"
                 >
                   Play!

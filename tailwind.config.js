@@ -19,6 +19,7 @@ module.exports = {
         third: '#624185',
         fourth: '#f2ad73',
         fifth: '#ffa345',
+        text: '#FFFFFF',
         purple: {
           1: '#3c1d8a',
         },

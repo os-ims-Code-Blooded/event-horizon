@@ -73,7 +73,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
 
         <div className="" aria-label="User image placeholder">Image</div>
         <div className="text-yellow-300 text-bold" aria-label={`User score: ${user.score || 0}`}>Score: {user.score || 0}</div>
-        <div aria-label="User statistics"> Wins: 0 | Losses: 0</div>
+        <div aria-label="User statistics"> Wins: {user.wins} | Losses: {user.losses}</div>
         <Link
           type="button"
           className="w-96 py-6 text-2xl p-3 bg-purple-1 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-indigo-500"
