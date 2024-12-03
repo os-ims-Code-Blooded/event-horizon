@@ -186,22 +186,24 @@ io.on('connection', (socket)=>{
 
       socket.join(data)
 
-      socket.to(data.session).emit("receive_opponent", user)
+      // socket.to(data.session).emit("receive_opponent", user)
+
+      io.in(data.session).emit("receive_user", user)
 
 
 
-      io.in(data.session).emit("round_player_data", async () => {
-        try {
-          console.log("ROUND NUM", roundNum)
-            const mostRecentRPI = await database.round_Player_Info.findMany({
-              where: { round_id: roundNum}
-            })
-            console.log("MOST RECENT RPI", mostRecentRPI)
-            return mostRecentRPI;
-        } catch (error) {
-          console.error(`Error on join session.`)
-        }
-      })
+      // io.in(data.session).emit("round_player_data", async () => {
+      //   try {
+      //     console.log("ROUND NUM", roundNum)
+      //       const mostRecentRPI = await database.round_Player_Info.findMany({
+      //         where: { round_id: roundNum}
+      //       })
+      //       console.log("MOST RECENT RPI", mostRecentRPI)
+      //       return mostRecentRPI;
+      //   } catch (error) {
+      //     console.error(`Error on join session.`)
+      //   }
+      // })
 
 
 
@@ -229,16 +231,11 @@ io.on('connection', (socket)=>{
   })
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
-  socket.on('game_over', async (data)=>{
+  socket.on('game_over', (data, session)=>{
 
-    try{
+    
 
-      io.in(data.session).emit('game_over', data)
-
-    }
-    catch(err){
-      console.error(err)
-    }
+      io.in(session).emit('game_over', data)
 
   })
 //////////////////////////////////////////
