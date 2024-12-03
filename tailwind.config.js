@@ -16,10 +16,11 @@ module.exports = {
       colors: {
         primary: '#080942',
         secondary: '#472151',
-        third: '#624185',
-        fourth: '#f2ad73',
-        fifth: '#ffa345',
-        text: '#FFFFFF',
+        third: '#3c1d8a', // faded purple
+        fourth: '#f2ad73', // yellow
+        fifth: '#ffa345', // golden yellow
+        text: '#FFFFFF', //white
+        error: '#FF3131',
         purple: {
           1: '#3c1d8a',
         },

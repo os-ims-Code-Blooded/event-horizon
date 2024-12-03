@@ -83,10 +83,10 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
 
   return (
     <div
-      className="pt-10 flex flex-col items-center [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
+      className="pt-10 flex flex-col items-center bg-primary p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="Friends or Search Results"
     >
-      <h1 className="text-2xl font-bold text-white mb-4 pt-5">
+      <h1 className="text-2xl font-bold text-text mb-4 pt-5">
         {showSearch ? 'Search Results' : "Your Friend's List"}
       </h1>
 
@@ -97,7 +97,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
             placeholder="Search for users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 rounded bg-slate-500 text-white text-center focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="w-full px-4 py-2 rounded bg-slate-500 text-text text-center focus:outline-none focus:ring-2 focus:ring-yellow-500"
             aria-label="Search input"
           />
           <button
@@ -136,7 +136,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
               {!showSearch && (
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-sm text-green-400">Wins: {friend.wins || 0}</span>
-                  <span className="text-sm text-red-400">Losses: {friend.losses || 0}</span>
+                  <span className="text-sm text-error">Losses: {friend.losses || 0}</span>
                   <span className="text-sm text-yellow-600">Score: {friend.score || 0}</span>
                 </div>
               )}
@@ -146,7 +146,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                     e.stopPropagation();
                     handleAddFriendClick(friend.id);
                   }}
-                  className="ml-4 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  className="ml-4 px-3 py-1 bg-green-500 text-text rounded hover:bg-green-600"
                   aria-label={`Add friend ${friend.name || friend.email}`}
                 >
                   Add Friend
@@ -162,13 +162,13 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
           onClick={toggleSearch}
           className={`px-4 py-2 rounded ${
             showSearch ? 'bg-gray-500 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
-          } text-white`}
+          } text-text`}
           aria-label={showSearch ? 'Back to Friends' : 'Find a New Friend'}
         >
           {showSearch ? 'Back to Friends' : 'Find a New Friend'}
         </button>
         <button
-          className={`px-4 py-2 rounded text-white ${
+          className={`px-4 py-2 rounded text-text ${
             selectedFriendId
               ? 'bg-yellow-600 hover:bg-yellow-400'
               : 'bg-slate-500 cursor-not-allowed'
@@ -199,7 +199,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-4 py-2 bg-error text-white rounded hover:bg-text"
                 onClick={confirmDelete}
               >
                 Yes, Delete

@@ -26,8 +26,19 @@ CB Secondary COLOR
 .cbMode .bg-background{
  background-color: #f7f7f7;
 }
-
+.cbMode .bg-third {
+  background-color: #ff7f00;
+}
+.cbMode .bg-fifth {
+  background-color: #ffa345;
+}
 .cbMode {
   background-color: #1f78b4;
   color: #000;
+}
+.cbMode .text-error {
+  color: #1f78b4;
+}
+.cbMode .bg-error {
+  background-color: #ff7f00;
 }
