@@ -6,9 +6,10 @@ type NavProps = {
   user: Object | null;
   toggleDarkMode: () => void;
   handleLogin: Function;
+  cbMode: () => void;
 };
 
-const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
+const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin}) => {
   const location = useLocation();
 
   const handleLogout = () => {
@@ -25,7 +26,10 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
     switch (location.pathname) {
       case '/':
         return (
-          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between space-x-4 h-10 sm:grid-cols-2">
+          <nav className="
+              fixed z-10 top-0 w-full p-4 rounded-sm shadow-lg text-white flex items-center justify-between space-x-4 h-10 sm:grid-cols-2
+              bg-yellow-600 dark:bg-purple-950 colorblind:bg-colorblind-secondary
+          ">
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -51,6 +55,9 @@ const NavigationBar: FC<NavProps> = ({ toggleDarkMode, user, handleLogin}) => {
             )}
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
             </button>
           </nav>
         );

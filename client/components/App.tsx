@@ -25,6 +25,7 @@ export default function App (){
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCbMode, setCbMode] = useState(false);
   const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {
@@ -109,6 +110,19 @@ export default function App (){
     }
   };
 
+  
+
+  const toggleCbMode = () => {
+    const root = document.documentElement;
+    if (isCbMode) {
+      root.classList.remove('cbMode');
+    } else {
+      root.classList.add('cbMode');
+    }
+    setCbMode(!isCbMode);
+  };
+
+
 
   //if no user, fetch user on render
   useEffect(() => {
@@ -131,6 +145,7 @@ export default function App (){
         toggleDarkMode={toggleDarkMode}
         user={user}
         handleLogin={handleLogin}
+        cbMode={toggleCbMode}
       />
       <Routes>
         <Route

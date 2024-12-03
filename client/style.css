@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+CB PRIMARY COLOR
+*/
+.cbMode .bg-primary {
+  background-color: #1f78b4;
+}
+
+.cbMode .text-primary {
+  color: #000000;
+}
+/* 
+CB Secondary COLOR
+*/
+.cbMode .bg-secondary {
+  background-color: #33a02c
+}
+
+.cbMode .bg-accent {
+  background-color: #ff7f00;
+}
+
+.cbMode .bg-background{
+ background-color: #f7f7f7;
+}
+.cbMode .text-
+
+.cbMode {
+  background-color: #1f78b4;
+  color: #000;
+}
