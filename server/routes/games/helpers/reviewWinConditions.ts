@@ -20,12 +20,18 @@ export default async function reviewWinConditions(players: any) {
 
       await database.user.update({
         where: { id: players[0].user_id},
-        data: { score: findUserOne.score + 50}
+        data: { 
+          losses: { increment: 1},
+          score: findUserOne.score + 50
+        }
       })
 
       await database.user.update({
         where: { id: players[1].user_id},
-        data: { score: findUserTwo.score + 100}
+        data: { 
+          wins: { increment: 1},
+          score: findUserTwo.score + 100
+        }
       })
 
       await updateCardsOnWin(players[0].user_id);
@@ -41,12 +47,18 @@ export default async function reviewWinConditions(players: any) {
 
       await database.user.update({
         where: { id: players[0].user_id},
-        data: { score: findUserOne.score + 100}
+        data: {
+          wins: { increment: 1}, 
+          score: findUserOne.score + 100
+        }
       })
 
       await database.user.update({
         where: { id: players[1].user_id},
-        data: { score: findUserTwo.score + 50}
+        data: { 
+          losses: { increment: 1},
+          score: findUserTwo.score + 50
+        }
       })
 
       await updateCardsOnWin(players[0].user_id);
@@ -64,22 +76,34 @@ export default async function reviewWinConditions(players: any) {
       if (victor === players[0].user_id) {
         await database.user.update({
           where: { id: players[0].user_id},
-          data: { score: findUserOne.score + 100}
+          data: {
+            wins: { increment: 1}, 
+            score: findUserOne.score + 100
+          }
         })
   
         await database.user.update({
           where: { id: players[1].user_id},
-          data: { score: findUserTwo.score + 50}
+          data: { 
+            losses: { increment: 1},
+            score: findUserTwo.score + 50
+          }
         })
       } else if (victor === players[1].user_id) {
         await database.user.update({
           where: { id: players[0].user_id},
-          data: { score: findUserOne.score + 50}
+          data: { 
+            losses: { increment: 1},
+            score: findUserOne.score + 50
+          }
         })
   
         await database.user.update({
           where: { id: players[1].user_id},
-          data: { score: findUserTwo.score + 100}
+          data: {
+            wins: { increment: 1}, 
+            score: findUserTwo.score + 100
+          }
         })
       }
 

@@ -9,7 +9,6 @@ export default async function gameHandler(req: any) {
 
 
   /*
-
   { 
     body: {
       "data": {
@@ -55,8 +54,6 @@ export default async function gameHandler(req: any) {
       // then attempt to perform calculations, and store the results
       const updateState = await calculateGameState(req, currentRound.game_id);
 
-      console.log(updateState);
-
       // acquire the current player information
       let updatePlayers = currentRound.Round_Player_Info.slice();
 
@@ -82,7 +79,7 @@ export default async function gameHandler(req: any) {
         })
       }
 
-      const formattedResponse = await generateResponse(newRound.id, currentRound.id);
+      const formattedResponse = await generateResponse(newRound.id, currentRound.id, updateState);
 
       return (formattedResponse);
 

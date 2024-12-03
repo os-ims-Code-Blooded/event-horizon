@@ -1,7 +1,7 @@
 import database from "../../../db/index.ts";
 import reviewWinConditions from "./reviewWinConditions.ts";
 
-export default async function generateResponse(newRound: number, prevRound: number) {
+export default async function generateResponse(newRound: number, prevRound: number, updateState: any) {
 
   try {
 
@@ -54,11 +54,33 @@ export default async function generateResponse(newRound: number, prevRound: numb
         Previous: prevInfo
       }
     } else {
-      return {
-        Success: true,
-        Current: newInfo,
-        Previous: prevInfo
+
+      let unloaded_cards = [];
+
+      for (const user in updateState) {
+        if (updateState[user].unloaded_card){
+          unloaded_cards.push({
+            user_id: Number(user),
+            card: updateState[user].unloaded_card 
+          })
+        }
       }
+
+      if (unloaded_cards.length > 0) {
+        return {
+          Success: true,
+          Current: newInfo,
+          Previous: prevInfo,
+          UnloadedCards: unloaded_cards
+        }
+      } else {
+        return {
+          Success: true,
+          Current: newInfo,
+          Previous: prevInfo
+        }
+      }
+
     }
 
 
