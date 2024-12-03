@@ -34,6 +34,8 @@ model User {
   name           String?
   score          Int      @default(0)
   selectedDeckId Int?
+  wins           Int      @default(0)
+  losses         Int      @default(0)
 
   User_Games        User_Games[]
   User_Cards        User_Cards[]
@@ -44,8 +46,10 @@ model User {
   selectedDeck      User_Decks?         @relation("SelectedDeck", fields: [selectedDeckId], references: [id])
   Round_Player_Info Round_Player_Info[]
   Actions           Actions[]
+  User_Settings     User_Settings[]
 
   @@unique([id, selectedDeckId])
+  @@unique([id, name])
 }
 
 // https://github.com/prisma/prisma/discussions/13214
@@ -169,13 +173,14 @@ model Round_Effects {
 }
 
 model Round_Player_Info {
-  id       Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   round_id Int
   user_id  Int
-  health   Int @default(50)
-  armor    Int @default(20)
+  name     String
+  health   Int    @default(50)
+  armor    Int    @default(20)
 
-  user  User   @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user  User   @relation(fields: [user_id, name], references: [id, name], onUpdate: Cascade, onDelete: Cascade)
   round Rounds @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
@@ -249,4 +254,13 @@ model User_Deck_Cards {
 
   deck      User_Decks @relation(fields: [deck_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userCards User_Cards @relation(fields: [card_id, name, description, damage, armor, image_url, duration, effect], references: [id, name, description, damage, armor, image_url, duration, effect], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model User_Settings {
+  id              Int     @id @default(autoincrement())
+  user_id         Int
+  dark_mode       Boolean @default(false)
+  colorblind_mode Boolean @default(false)
+
+  user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
