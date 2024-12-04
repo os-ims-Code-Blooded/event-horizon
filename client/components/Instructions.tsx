@@ -8,7 +8,7 @@ const Instructions: FC<InstructionProps> = ({user }) => {
 
   return (
     <div
-      className="h-screen [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:text-slate-200 text-white text-center sm:grid-cols-1 md:grid-cols-2"
+      className="h-screen bg-radial-custom dark:text-slate-200 text-white text-center sm:grid-cols-1 md:grid-cols-2"
       aria-label="Instructions Page"
     >
       <div
