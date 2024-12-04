@@ -28,7 +28,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
   };
 
   return (
-    <div className="bg-primary dark:text-white text-text min-h-screen h-full flex items-center justify-center pb-5"
+    <div className="bg-radial-custom dark:text-white text-text min-h-screen h-full flex items-center justify-center pb-5"
       aria-label="User Profile"
     >
       <div className="flex flex-col items-center space-y-3 text-center" aria-labelledby="profile-header">

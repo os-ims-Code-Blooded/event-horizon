@@ -42,3 +42,14 @@ CB Secondary COLOR
 .cbMode .bg-error {
   background-color: #ff7f00;
 }
+.cbMode .border-error {
+  background-color: #ff7f00;
+}
+
+.cbMode .bg-radial-custom {
+  background: radial-gradient(125% 125% at 50% 10%, #000000 40%, #000066 100%);
+}
+
+.bg-radial-custom {
+  background: radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%);
+}

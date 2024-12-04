@@ -25,13 +25,9 @@ module.exports = {
           1: '#3c1d8a',
         },
         gray: '#8A8E91',
-        colorblind: {
-          primary: '#1f78b4', // blue
-          secondary: '#33a02c', // green
-          accent: '#ff7f00', // orange
-          background: '#f7f7f7', // light gray
-          text: '#000000', // black
-        },
+      },
+      backgroundImage: {
+        'radial-custom': 'radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%)',
       },
     },
   },

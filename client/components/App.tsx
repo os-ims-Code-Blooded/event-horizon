@@ -164,7 +164,7 @@ export default function App (){
         />
         <Route
           path="/cards"
-          element={isAuthenticated ? <CardsPage user={user} /> : <Navigate to='/' />}
+          element={isAuthenticated && user ? <CardsPage user={user} /> : <Navigate to='/' />}
         />
         <Route
           path="/game-board"
