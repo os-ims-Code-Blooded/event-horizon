@@ -26,8 +26,8 @@ export default function calculatePlayerState(players: any, updates: any, nextRou
     const newArmor = (player.armor > 0) ? player.armor : 0;
     const newHealth = player.health + damageReceived;
 
- return {
-      user: {connect: { id: player.user_id} },
+    return {
+      user: {connect: { id: player.user_id } },
       armor: newArmor,
       health: newHealth,
       round: {connect: { id: nextRound } }

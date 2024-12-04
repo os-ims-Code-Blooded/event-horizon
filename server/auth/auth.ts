@@ -21,11 +21,24 @@ async function(request, accessToken, refreshToken, profile, done) {
       },
       update: {
         google_id: profile.id,
-        email: profile.emails[0].value
+        email: profile.emails[0].value,
+        lastLogin: new Date()
       },
       create: {
         google_id: profile.id,
         email: profile.emails[0].value
+      }
+    });
+
+    await database.user_Settings.upsert({
+      where: {
+        user_id: user.id,
+      },
+      update: {
+        user_id: user.id,
+      },
+      create: {
+        user_id: user.id
       }
     });
 

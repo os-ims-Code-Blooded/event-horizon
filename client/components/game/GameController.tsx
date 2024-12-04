@@ -98,7 +98,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     setPlayerAction(e.target.value)
 
-    if (e.target.value === 'LOAD' && cardToPlay[1]){
+    if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -173,6 +173,10 @@ export default function GameController ({ session, socket, setGameOver, setGameW
     socket.on('receive_user', (data: any)=>{
 
       console.log("receive_user DATA", data)
+    })
+
+    socket.on('recent_player_info', (data: any) => {
+      console.log(`Player Information: `, data)
     })
 
     // console.log("ENEMY ID AND NAME", enemyId, enemyName)

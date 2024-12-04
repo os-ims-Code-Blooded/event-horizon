@@ -1,7 +1,7 @@
 import database from "../../../db/index.ts";
 import updateCardsOnWin from "./updateCardsOnWin.ts";
 
-export default async function reviewWinConditions(players: any) {
+export default async function reviewWinConditions(players: any, gameID: number) {
 
   try {
     console.log("^^^ PLAYERS ^^^", players)
@@ -15,14 +15,17 @@ export default async function reviewWinConditions(players: any) {
 
       victor = players[1].user_id;
 
-      const findUserOne = await database.user.findFirst({where: { id: players[0].user_id}});
-      const findUserTwo = await database.user.findFirst({where: { id: players[1].user_id}});
+      const totalRounds = await database.rounds.findMany({
+        where: { game_id: gameID }
+      })
+
+      let roundCount = totalRounds.length;
 
       await database.user.update({
         where: { id: players[0].user_id},
         data: { 
           losses: { increment: 1},
-          score: findUserOne.score + 50
+          score: { increment: (roundCount * 6)}
         }
       })
 
@@ -30,7 +33,7 @@ export default async function reviewWinConditions(players: any) {
         where: { id: players[1].user_id},
         data: { 
           wins: { increment: 1},
-          score: findUserTwo.score + 100
+          score: { increment: (roundCount * 10)}
         }
       })
 
@@ -42,14 +45,17 @@ export default async function reviewWinConditions(players: any) {
 
       victor = players[0].user_id;
 
-      const findUserOne = await database.user.findFirst({where: { id: players[0].user_id}});
-      const findUserTwo = await database.user.findFirst({where: { id: players[1].user_id}});
+      const totalRounds = await database.rounds.findMany({
+        where: { game_id: gameID }
+      })
+
+      let roundCount = totalRounds.length;
 
       await database.user.update({
         where: { id: players[0].user_id},
         data: {
           wins: { increment: 1}, 
-          score: findUserOne.score + 100
+          score: { increment: (roundCount * 10)}
         }
       })
 
@@ -57,7 +63,7 @@ export default async function reviewWinConditions(players: any) {
         where: { id: players[1].user_id},
         data: { 
           losses: { increment: 1},
-          score: findUserTwo.score + 50
+          score: { increment: (roundCount * 6)}
         }
       })
 
@@ -69,8 +75,11 @@ export default async function reviewWinConditions(players: any) {
 
       victor = (userTwoHealth > userOneHealth) ? players[1].user_id : players[0].user_id;
 
-      const findUserOne = await database.user.findFirst({where: { id: players[0].user_id}});
-      const findUserTwo = await database.user.findFirst({where: { id: players[1].user_id}});
+      const totalRounds = await database.rounds.findMany({
+        where: { game_id: gameID }
+      })
+
+      let roundCount = totalRounds.length;
 
 
       if (victor === players[0].user_id) {
@@ -78,7 +87,7 @@ export default async function reviewWinConditions(players: any) {
           where: { id: players[0].user_id},
           data: {
             wins: { increment: 1}, 
-            score: findUserOne.score + 100
+            score: { increment: (roundCount * 10)}
           }
         })
   
@@ -86,7 +95,7 @@ export default async function reviewWinConditions(players: any) {
           where: { id: players[1].user_id},
           data: { 
             losses: { increment: 1},
-            score: findUserTwo.score + 50
+            score: { increment: (roundCount * 6)}
           }
         })
       } else if (victor === players[1].user_id) {
@@ -94,7 +103,7 @@ export default async function reviewWinConditions(players: any) {
           where: { id: players[0].user_id},
           data: { 
             losses: { increment: 1},
-            score: findUserOne.score + 50
+            score: { increment: (roundCount * 6)}
           }
         })
   
@@ -102,7 +111,7 @@ export default async function reviewWinConditions(players: any) {
           where: { id: players[1].user_id},
           data: {
             wins: { increment: 1}, 
-            score: findUserTwo.score + 100
+            score: { increment: (roundCount * 10)}
           }
         })
       }

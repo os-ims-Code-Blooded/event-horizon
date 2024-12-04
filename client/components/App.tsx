@@ -59,6 +59,15 @@ export default function App (){
 
         // update cards if necessary
         await axios.post(`/profile/collections/${response.data.user.id}`)
+
+        /* this is used in main App on startup to set the state of dark_mode && colorblind_mode
+        =======================================================================================
+        const userSettings = await axios.get(`/profile/settings/${response.data.user.id}`)
+
+        setCbMode(userSettings.data.colorblind_mode);
+        setIsDarkMode(userSettings.data.dark_mode);
+        =======================================================================================
+        */
       } else {
         setUser(null);
       }
@@ -109,8 +118,6 @@ export default function App (){
       console.error('Error adding friend');
     }
   };
-
-  
 
   const toggleCbMode = () => {
     const root = document.documentElement;
@@ -166,7 +173,7 @@ export default function App (){
         />
         <Route
           path="/cards"
-          element={isAuthenticated ? <CardsPage user={user} /> : <Navigate to='/' />}
+          element={isAuthenticated && user ? <CardsPage user={user} /> : <Navigate to='/' />}
         />
         <Route
           path="/game-board"

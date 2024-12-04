@@ -179,7 +179,7 @@ return(
 {!playClicked?
 
 
-<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-slate-900 dark:bg-black'>
+<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-radial-custom dark:bg-black'>
   <div className='p-6 justify-items-center flex flex-col items-center'>
 
 <div className='pt-8'>
@@ -215,7 +215,7 @@ return(
   {deckWasChosen?
 
 <>
-<button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
+<button className='bg-lime-200 rounded-sm' onClick={onClickPlay}>PLAY NOW!</button>
 
 <br></br>
 </>
@@ -228,7 +228,7 @@ return(
 <br></br>
 </>
   }
-  <button className='bg-lime-400' onClick={onClickMake}>CUSTOMIZE!</button>
+  <button className='bg-lime-400 rounded-sm' onClick={onClickMake}>CUSTOMIZE!</button>
   <br></br>
   <div>
 

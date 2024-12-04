@@ -27,6 +27,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [newDeckName, setNewDeckName] = useState<string>("");
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
 
+
   const fetchDecks = async () => {
     try {
       const response = await axios.get(`/profile/decks/${user.id}`);
@@ -67,6 +68,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           add_cards: selectedCards,
         },
       };
+
       await axios.patch(`/profile/decks/${user.id}`, payload);
 
       fetchDeckCards(selectedDeck);
@@ -127,10 +129,22 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           cards: selectedCards,
         }
       });
+      
       toast.success("Deck created successfully!");
+      
+      const getDecks = await axios.get(`/profile/decks/${user.id}`);
+
+      const newDeck = getDecks.data.reduce((accum, curr) => {
+        if (curr.deck_name === newDeckName){
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null);
+      
       setNewDeckName("");
       setSelectedCards([]);
-      fetchDeckCards(selectedDeck);
+      fetchDeckCards(newDeck);
       fetchDecks();
       setShowNewDeckModal(false);
     } catch (error) {
@@ -175,12 +189,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   }, [user.id]);
 
   return (
-    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-full [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
-      <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-8">Cards Page</h1>
-
+    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-full bg-radial-custom">
+      <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-1">Cards Page</h1>
+      <div className="border-t-4 border-yellow-400 w-3/5 pb-5"></div>
       {/* All Cards Section */}
       <div>
-        <h2 className="text-white text-xl mb-4">All Cards</h2>
+        <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>
         <ToastContainer position="bottom-right" />
         <div className="flex flex-wrap gap-4 justify-center">
           {allCards.length > 0 ? (
@@ -190,7 +204,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 onClick={() => toggleCardSelection(card.id)}
                 className={`relative w-36 h-48 border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer ${
                   selectedCards.includes(card.id)
-                    ? "bg-purple-500 border-purple-700"
+                    ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
                 }`}
               >
@@ -225,7 +239,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 className={`px-4 py-2 rounded-lg shadow hover:bg-yellow-500 dark:hover:bg-purple-500 ${
                   selectedDeck?.id === deck.id
                     ? "bg-yellow-600 text-white dark:bg-purple-600 dark:text-black animate-pulse"
-                    : "bg-yellow-400 text-white dark:bg-purple-400 dark:text-black"
+                    : "bg-yellow-500 text-white dark:bg-purple-400 dark:text-black"
                 }`}
               >
                 {deck.deck_name}
@@ -248,7 +262,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               <div
                 key={card.id}
                 className={`relative w-36 h-48 bg-white border border-slate-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center ${
-                  selectedCards.includes(card.id) ? "border-red-500 border-4 animate-pulse" : ""
+                  selectedCards.includes(card.id) ? "border-error border-4 animate-pulse" : ""
                 }`}
                 onClick={() => toggleCardSelection(card.id)}
               >
@@ -269,14 +283,14 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           <div className='items-end justify-items-end justify-end gap-1 flex'>
             <button
               onClick={removeCardsFromDeck}
-              className="mt-4 px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
+              className="mt-4 px-4 py-2 rounded-lg bg-error text-white hover:bg-slate-400"
             >
               Confirm Remove Selected Cards
             </button>
             <button
               value={selectedDeck.id}
               onClick={(e) => deleteSelectedDeck(e)}
-              className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-500"
+              className="mt-4 px-4 py-2 bg-error text-white rounded-lg shadow hover:bg-slate-400"
             >
               Delete Deck
             </button>
@@ -302,12 +316,16 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       <div className="text-center mt-8 pb-4">
         <button
           onClick={() => setShowNewDeckModal(true)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500"
+          disabled={selectedCards.length === 0} // Disable if no cards are selected
+          className={`px-4 py-2 rounded-lg shadow ${
+            selectedCards.length === 0
+              ? "bg-slate-400 text-white cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+          }`}
         >
           Create New Deck
         </button>
       </div>
-
       {/* New Deck Modal */}
       {showNewDeckModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

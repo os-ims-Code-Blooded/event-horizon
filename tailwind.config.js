@@ -16,20 +16,18 @@ module.exports = {
       colors: {
         primary: '#080942',
         secondary: '#472151',
-        third: '#624185',
-        fourth: '#f2ad73',
-        fifth: '#ffa345',
+        third: '#3c1d8a', // faded purple
+        fourth: '#f2ad73', // yellow
+        fifth: '#ffa345', // golden yellow
+        text: '#FFFFFF', //white
+        error: '#FF3131',
         purple: {
           1: '#3c1d8a',
         },
         gray: '#8A8E91',
-        colorblind: {
-          primary: '#1f78b4', // blue
-          secondary: '#33a02c', // green
-          accent: '#ff7f00', // orange
-          background: '#f7f7f7', // light gray
-          text: '#000000', // black
-        },
+      },
+      backgroundImage: {
+        'radial-custom': 'radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%)',
       },
     },
   },

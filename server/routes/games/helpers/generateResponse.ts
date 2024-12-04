@@ -16,7 +16,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
     })
     console.log("**** NEW INFO \n", newInfo)
 
-    const isResolved = await reviewWinConditions(newInfo.Round_Player_Info);
+    const isResolved = await reviewWinConditions(newInfo.Round_Player_Info, newInfo.game_id);
     let gameOver = null;
 
     if (isResolved) {

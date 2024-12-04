@@ -179,35 +179,32 @@ io.on('connection', (socket)=>{
 
 
   //listening for a join room event
-  socket.on('join_session', (data, user, roundNum)=>{
+  socket.on('join_session', async (data, user, roundNum) => {
     
-    console.log("*** SESSION DATA", data, user)
-    console.log("*** SOCKET ID:", sockId)
+    try {
 
+      console.log("*** SESSION DATA", data, user)
+      console.log("*** SOCKET ID:", sockId)
+  
       socket.join(data)
 
+      console.log(roundNum);
+  
       // socket.to(data.session).emit("receive_opponent", user)
+  
+      io.in(data).emit("receive_user", user)
 
-      io.in(data.session).emit("receive_user", user)
+      // finds player information for all players currently in-game
+      const findPlayerInfo = await database.round_Player_Info.findMany({
+        where: { round_id: Number(roundNum)},
+      })
 
+      io.in(data).emit("recent_player_info", findPlayerInfo);
 
+    } catch (error) {
+      console.error(`Error in JOIN SESSION for ${sockId} on ${roundNum}.`)
+    }
 
-      // io.in(data.session).emit("round_player_data", async () => {
-      //   try {
-      //     console.log("ROUND NUM", roundNum)
-      //       const mostRecentRPI = await database.round_Player_Info.findMany({
-      //         where: { round_id: roundNum}
-      //       })
-      //       console.log("MOST RECENT RPI", mostRecentRPI)
-      //       return mostRecentRPI;
-      //   } catch (error) {
-      //     console.error(`Error on join session.`)
-      //   }
-      // })
-
-
-
-    //connects the socket object to the incoming room data
   })
 
 
@@ -232,8 +229,6 @@ io.on('connection', (socket)=>{
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-
-    
 
       io.in(session).emit('game_over', data)
 

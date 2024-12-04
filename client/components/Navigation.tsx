@@ -27,8 +27,8 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
       case '/':
         return (
           <nav className="
-              fixed z-10 top-0 w-full p-4 rounded-sm shadow-lg text-white flex items-center justify-between space-x-4 h-10 sm:grid-cols-2
-              bg-yellow-600 dark:bg-purple-950 colorblind:bg-colorblind-secondary
+              fixed z-10 top-0 w-full p-4 rounded-sm shadow-lg text-text flex items-center justify-between space-x-4 h-10 sm:grid-cols-2
+              bg-fifth dark:bg-purple-950
           ">
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -64,7 +64,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
 
       case '/instructions':
         return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
 
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -77,12 +77,15 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
+            </button>
           </nav>
         );
 
       case '/user-profile':
         return (
-          <nav className="fixed top-0 w-full rounded-sm p-4 bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full rounded-sm p-4 bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
 
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -97,13 +100,16 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
+            </button>
           </nav>
         );
 
       case '/title-menu':
         return (
 
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
 
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -113,18 +119,24 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             </Link>
             <button
               className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
             >
               Logout
             </button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
+            </button>
           </nav>
         );
 
       case '/friends':
         return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
 
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -138,14 +150,23 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
             </button>
           </nav>
         );
         case '/cards':
         return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
 
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
@@ -159,14 +180,23 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
             </button>
           </nav>
         );
       case '/leaderboard':
         return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-yellow-500 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
             <Link to="/" className="hover:text-blue-600  truncate">
               EVENT HORIZON
             </Link>
@@ -179,20 +209,67 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
+            </button>
+          </nav>
+        );
+      case '/game-board':
+        return (
+
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
+
+            <Link to="/" className="hover:text-blue-600  truncate">
+              EVENT HORIZON
+            </Link>
+            <Link to="/friends" className="hover:text-blue-600  truncate">
+              Friends
+            </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              Logout
+            </button>
+            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
+              🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
             </button>
           </nav>
         );
 
       default:
         return (
-          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-yellow-600 dark:bg-purple-950 shadow-lg text-white flex items-center justify-between h-10">
+          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
             <Link to="/" className="hover:text-blue-600 truncate">
               EVENT HORIZON
             </Link>
+            {user && (
+              <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
+            )}
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
             </button>
           </nav>
         );

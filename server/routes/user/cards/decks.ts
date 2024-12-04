@@ -266,12 +266,7 @@ decks.delete('/:id', async (req, res) => {
       }
     })
 
-    if (!deleteDeck) {
-      res.sendStatus(404);
-    } else {
-      res.sendStatus(200);
-    }
-
+    res.sendStatus(204);
 
   } catch (error) {
     console.error(`Error on DELETE card deck #${req.params.id}.`);
