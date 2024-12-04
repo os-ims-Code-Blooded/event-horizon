@@ -129,33 +129,6 @@ profile.delete('/:id', async (req, res) => {
     // else we delete the user and we must also delete all associated data
     } else {
 
-
-      /*
-
-      We have a bit of a problem here and for a few reasons. The first thing is that we 
-      can't just delete a user...first we would have to delete all other records that are 
-      using the current user as a foreign key. If we don't do this, the database operation
-      fails.
-
-      This introduces a new problem, however...if I delete a user's records then their game
-      records are deleted too...this means that players would suddenly no longer have some
-      "wins" on their records with our current implementation.
-
-      Current hypothesis is that we can delete most user data from the database such as the following:
-        - friend associations
-        - cards associated with a deck  // we actually can't delete these either because Rounds && Games depend on them as a foreign key
-        - decks themselves              // we actually can't delete these either because Rounds && Games depend on them as a foreign key
-        - then we can delete the cards 
-
-      With the previous notes in mind, maybe we just preserve the user_id but delete personal information? 
-        - Change the display name to something like "deleted user"
-        - Change the googleID to null so they can't login to this account anymore
-        - Remove the email associated with the account so they can sign up again with that email
-
-      The only thing we need to figure out is how we can make these nullable, given that all three of the prior constraints are unique.
-      
-      */
-
       // find user with that ID and delete
       const user = await database.user.delete({
         where: {
@@ -163,12 +136,7 @@ profile.delete('/:id', async (req, res) => {
         }
       })
 
-      
-      if (!user){
-        res.sendStatus(404);  // if no user found
-      } else {
-        res.sendStatus(200);  // else inform user has been deleted   
-      }
+      res.sendStatus(204);
     }
 
   } catch (error){
