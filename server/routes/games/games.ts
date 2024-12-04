@@ -164,6 +164,38 @@ games.patch('/:id', async (req, res) => {
             victor: { connect: { id: findOpponentID } }
           }
         })
+
+
+        /*
+        ============================================================
+        Award scores to user; score is based on the amount of rounds
+        that were played in the game.
+        ============================================================
+        */
+        const totalRounds = await database.rounds.findMany({
+          where: { game_id: Number(req.params.id)}
+        })
+
+        let roundCount = totalRounds.length;
+
+        // update user (surrendered) scores
+        await database.user.update({
+          where: {id: Number(req.body.data.user_id)},
+          data: {
+            score: { increment: (4 * roundCount) },
+            losses: { increment: 1}
+          }
+        })
+
+        // update enemy (victor) scores
+        await database.user.update({
+          where: {id: findOpponentID},
+          data: {
+            score: { increment: (8 * roundCount) },
+            wins: { increment: 1}
+          }
+        })
+        /*============================================================*/
   
         console.log(`Game terminated; victor for game session #${req.params.id} is #${findOpponentID}.`)
         res.status(200).send({ GameComplete: updateGame });
