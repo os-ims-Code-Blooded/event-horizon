@@ -27,8 +27,13 @@ export default async function commitLoad(req: any, game: number, action: any){
 
       if (alreadyLoaded){
 
+        // changed logic here so that this works properly
+        // finds the loaded card for the current GAME, instead of all loaded cards
         preserveCard = await database.actions_Loaded.findFirst({
-          where: { user_id: action.user_id},
+          where: { 
+            user_id: action.user_id,
+            game_id: game
+          },
           include: {
             card: true
           }
