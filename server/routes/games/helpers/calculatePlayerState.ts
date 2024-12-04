@@ -27,10 +27,10 @@ export default function calculatePlayerState(players: any, updates: any, nextRou
     const newHealth = player.health + damageReceived;
 
     return {
-      user_id: player.user_id,
+      user: {connect: { id: player.user_id } },
       armor: newArmor,
       health: newHealth,
-      round_id: nextRound
+      round: {connect: { id: nextRound } }
     }
 
   })

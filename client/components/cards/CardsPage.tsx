@@ -67,6 +67,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           add_cards: selectedCards,
         },
       };
+
       await axios.patch(`/profile/decks/${user.id}`, payload);
 
       fetchDeckCards(selectedDeck);
@@ -127,10 +128,22 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           cards: selectedCards,
         }
       });
+      
       toast.success("Deck created successfully!");
+      
+      const getDecks = await axios.get(`/profile/decks/${user.id}`);
+
+      const newDeck = getDecks.data.reduce((accum, curr) => {
+        if (curr.deck_name === newDeckName){
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null);
+      
       setNewDeckName("");
       setSelectedCards([]);
-      fetchDeckCards(selectedDeck);
+      fetchDeckCards(newDeck);
       fetchDecks();
       setShowNewDeckModal(false);
     } catch (error) {
