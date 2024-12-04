@@ -142,21 +142,6 @@ decks.post('/:id', async (req, res) => {
 // enables you to update an existing card deck
 decks.patch('/:id', async (req, res) => {
 
-  /* Example POST request format
-  ==================================================================================================
-  req: {
-    body: {               // !!! MUST CHOOSE AT LEAST ONE OPTION OR WILL ENCOUNTER ERROR !!!
-      data: {
-        deck_id:          // REQUIRED: Deck ID that you want to update
-        deck_name:        // OPTION: This is the name for the current deck, REQUIRES deck_id too
-        delete_cards:     // OPTION: This is an ARRAY of ONLY card IDs that the user wants to delete
-        add_cards:        // OPTION: This is an ARRAY of ONLY card IDs that the user wants to delete
-      }
-    }
-  }
-  ==================================================================================================
-  */
-
   try {
 
     if (!req.body.data){
@@ -165,6 +150,31 @@ decks.patch('/:id', async (req, res) => {
     } else if (!req.body.data.deck_id){
       console.error(`Error on PATCH card deck for user #${req.params.id}; no 'deck_id' property exists for updating a deck.`)
       res.sendStatus(203);
+    } else {
+      const options = [
+        'deck_id',
+        'deck_name',
+        "delete_cards",
+        "add_cards"
+      ]
+  
+      if (!req.body.data){
+        res.sendStatus(203);
+      } else {
+        const reqOptions = Object.keys(req.body.data);
+        let hasValidOption = false;
+  
+        reqOptions.forEach((option) => {
+          if (options.includes(option)){
+            hasValidOption = true;
+          }
+        })
+  
+        if (!hasValidOption){
+          console.error(`No valid options provided for PATCH request to settings for user #${req.params.id}.`)
+          res.sendStatus(203);
+        }
+      }
     }
 
     // if we have specified that we want to update a deck's name, update the deck name
