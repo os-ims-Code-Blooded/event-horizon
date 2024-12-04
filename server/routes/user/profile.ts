@@ -6,13 +6,15 @@ import collections from './cards/collection.ts';
 import friends from './friends.ts';
 import decks from './cards/decks.ts';
 import games_history from './games.ts';
+import settings from './settings.ts';
 
 
 const profile = express.Router();
 profile.use('/collections', collections);
 profile.use('/friends', friends);
 profile.use('/decks', decks);
-profile.use('/games-history', games_history)
+profile.use('/games-history', games_history);
+profile.use('/settings', settings);
 
 profile.get('/:id', async (req, res) => {
 
