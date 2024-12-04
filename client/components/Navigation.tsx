@@ -119,6 +119,9 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             </Link>
             <button
               className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
             >
               Logout
             </button>
@@ -147,6 +150,12 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
@@ -171,6 +180,12 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
@@ -194,6 +209,39 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/instructions" className="hover:text-blue-600  truncate">
               How To Play
             </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
+            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
+              🌗
+            </button>
+            <button onClick={cbMode} className="hover:text-blue-600 ">
+              -
+            </button>
+          </nav>
+        );
+      case '/game-board':
+        return (
+
+          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
+
+            <Link to="/" className="hover:text-blue-600  truncate">
+              EVENT HORIZON
+            </Link>
+            <Link to="/friends" className="hover:text-blue-600  truncate">
+              Friends
+            </Link>
+            <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              Logout
+            </button>
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>
@@ -209,6 +257,14 @@ const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin
             <Link to="/" className="hover:text-blue-600 truncate">
               EVENT HORIZON
             </Link>
+            {user && (
+              <button
+              className="hover:text-blue-600  truncate"
+              onClick={() => {
+                handleLogout();
+              }}
+            ></button>
+            )}
             <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
               🌗
             </button>

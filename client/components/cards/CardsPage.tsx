@@ -177,8 +177,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
   return (
     <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-full bg-radial-custom">
-      <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-8">Cards Page</h1>
-
+      <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-1">Cards Page</h1>
+      <div className="border-t-4 border-yellow-400 w-3/5 pb-5"></div>
       {/* All Cards Section */}
       <div>
         <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>

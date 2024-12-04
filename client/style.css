@@ -53,3 +53,6 @@ CB Secondary COLOR
 .bg-radial-custom {
   background: radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%);
 }
+#app {
+  background-color: radial-gradient(125% 125% at 50% 10%, #000000 40%, #000066 100%);
+}

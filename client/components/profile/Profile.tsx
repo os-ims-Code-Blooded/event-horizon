@@ -28,7 +28,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
   };
 
   return (
-    <div className="bg-radial-custom dark:text-white text-text min-h-screen h-full flex items-center justify-center pb-5"
+    <div className="bg-radial-custom dark:text-white text-white min-h-screen h-full flex items-center justify-center pb-5"
       aria-label="User Profile"
     >
       <div className="flex flex-col items-center space-y-3 text-center" aria-labelledby="profile-header">
@@ -102,7 +102,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 text-text rounded-lg shadow-md shadow-slate-600 hover:bg-none bg-yellow-400"
+          className="w-96 py-6 text-2xl p-3 text-text rounded-lg shadow-md shadow-slate-600 hover:bg-yellow-600 bg-yellow-400"
           to="/leaderboard"
           replace={true}
           aria-label="Go to Leaderboard"

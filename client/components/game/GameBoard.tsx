@@ -170,7 +170,7 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
-    <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
+    <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col bg-radial-custom'>
       <div className='flex flex-row justify-between gap-1 p-1'>
         <div className='pr-4 flex flex-grow'>
           <div className='pt-10 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
