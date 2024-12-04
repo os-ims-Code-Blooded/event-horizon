@@ -50,22 +50,41 @@ settings.get(`/:id` , async (req, res) => {
 
 // })
 
-settings.patch(`:id`, async (req, res) => {
+settings.patch(`/:id`, async (req, res) => {
 
   try {
 
+    const options = [
+      'dark_mode',
+      'colorblind_mode'
+    ]
+
     if (!req.body.data){
       res.sendStatus(203);
+    } else {
+      const reqOptions = Object.keys(req.body.data);
+      let hasValidOption = false;
+
+      reqOptions.forEach((option) => {
+        if (options.includes(option)){
+          hasValidOption = true;
+        }
+      })
+
+      if (!hasValidOption){
+        console.error(`No valid options provided for PATCH request to settings for user #${req.params.id}.`)
+        res.sendStatus(203);
+      }
     }
 
-    if (req.body.data.dark_mode) {
+    if (req.body.data.dark_mode !== undefined && typeof req.body.data.dark_mode === "boolean") {
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { dark_mode: req.body.data.dark_mode }
       })
     }
     
-    if (req.body.data.colorblind_mode) {
+    if (req.body.data.colorblind_mode !== undefined && typeof req.body.data.colorblind_mode === "boolean") {
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { colorblind_mode: req.body.data.colorblind_mode }
