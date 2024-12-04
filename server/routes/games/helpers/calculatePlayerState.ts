@@ -5,12 +5,12 @@ export default function calculatePlayerState(players: any, updates: any, nextRou
     for (const key in updates) {
 
       if (Number(key) === player.user_id) {
-        player.armor += updates[key].armor; 
+        player.armor += updates[key].armor;
       } else {
-        if (updates[player.user_id].isBlocking === true) {          
-          player.armor -= (Math.round(updates[key].damage * 0.50)); 
+        if (updates[player.user_id].isBlocking === true) {
+          player.armor -= (Math.round(updates[key].damage * 0.50));
         } else {
-          player.armor -= updates[key].damage;                      
+          player.armor -= updates[key].damage;
         }
       }
     }
