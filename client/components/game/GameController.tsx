@@ -203,12 +203,38 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   console.log("*** ROUND RESPONSE DATA ***\n", data)
 
+
+  ///////// RETURNING CARD TO DECK //////////////////////////
+  if (data.UnloadedCards) {
+
+    const userHasCard = data.UnloadedCards
+    .filter((action) => {
+      return (action.user_id === user.id);
+    }).reduce((accum, curr) => {
+      if (curr.card_id) {
+        return curr.card_id;
+      } else {
+        return accum;
+      }
+    }, 0)
+
+    
+    if (userHasCard) {
+      console.log(`Attempting to return card ID #${userHasCard} to #${user.id} hand.`)
+      console.log(`Selected deck is currently: `, deckSelected)
+
+      const cardToReturnToHand = deckSelected.filter((card) => {
+        return (card.card_id === userHasCard)
+      })
+      console.log(`Found card to return to hand: `, cardToReturnToHand)
+    }
+  }
+//////////////////////////////////////////
+
+
   if (data.user_id){
-
     if (data.user_id !== user.id){
-
       setEnemyWaiting(true)
-
     }
   }
 

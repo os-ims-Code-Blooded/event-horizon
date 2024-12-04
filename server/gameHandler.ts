@@ -61,7 +61,7 @@ export default async function gameHandler(req: any) {
       console.log(`Current player information to be used in calculations is: `, updatePlayers)
 
       // end the current round
-      await database.rounds.update({ 
+      await database.rounds.update({
         where: { id: req.body.data.round_id},
         data: { end_date: new Date() }
       })
