@@ -36,6 +36,7 @@ model User {
   selectedDeckId Int?
   wins           Int      @default(0)
   losses         Int      @default(0)
+  lastLogin      DateTime @default(now())
 
   User_Games        User_Games[]
   User_Cards        User_Cards[]
@@ -258,7 +259,7 @@ model User_Deck_Cards {
 
 model User_Settings {
   id              Int     @id @default(autoincrement())
-  user_id         Int
+  user_id         Int     @unique
   dark_mode       Boolean @default(false)
   colorblind_mode Boolean @default(false)
 
