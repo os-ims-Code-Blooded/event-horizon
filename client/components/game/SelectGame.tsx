@@ -87,7 +87,7 @@ export default function SelectGame({
       console.log(" \n REEEEEEESPONSE.DATA: \n", response.data)
 
       let idOfEnemy = response.data.User_Games.filter(game=>game.user_id!== user.id).user_id
-      
+
       setEnemyId(idOfEnemy)
       setSession(response.data.id)
       setPlayClicked(true)
@@ -101,6 +101,16 @@ export default function SelectGame({
       .then((moreData)=>{
 
         console.log("LATEST ROUND:  ", moreData.data["Latest Player Info"])
+
+
+        // console.log("MORE DATA:  ", moreData.data)
+
+        let enemy = moreData.data["Latest Player Info"].filter(playerInfo=>playerInfo.user_id !== user.id)
+
+        console.log("ENEMY+++++++>\n", enemy[0].name)
+
+        setEnemyName(enemy[0].name)
+
 
 
         setRoundInfo(moreData.data["Latest Player Info"])

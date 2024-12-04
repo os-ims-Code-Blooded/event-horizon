@@ -9,7 +9,7 @@ export default async function gameHandler(req: any) {
 
 
   /*
-  { 
+  {
     body: {
       "data": {
         "round_id": 1,
@@ -53,6 +53,7 @@ export default async function gameHandler(req: any) {
 
       // then attempt to perform calculations, and store the results
       const updateState = await calculateGameState(req, currentRound.game_id);
+      console.log("########### \nUPDATE STATE \n", updateState)
 
       // acquire the current player information
       let updatePlayers = currentRound.Round_Player_Info.slice();

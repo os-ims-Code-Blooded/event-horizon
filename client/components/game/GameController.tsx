@@ -158,7 +158,10 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   useEffect(()=>{
 
+
+
      console.log("SESSION #####", session)
+
  
     //join session, sends the user object
     if (session){
