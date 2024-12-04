@@ -109,12 +109,8 @@ friends.delete('/:id', async (req, res) => {
         }
       })
 
-      if (!friends && !friendsOf){
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
-
+      res.sendStatus(204);
+      
     }
   } catch (error) {
     console.error(`Error on delete friend #${req.body.id} for user #${req.params.id}.`)
