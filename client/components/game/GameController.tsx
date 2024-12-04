@@ -80,6 +80,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [roundDisplay, setRoundDisplay] = useState(1)
 
   const [selfDestruct, setSelfDestruct] = useState(false)
+  
+  const [allCards, setAllCards] = useState([])
 
 
 
@@ -237,11 +239,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound[0].action)
+        console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
 
 
 
         setEnemyLastAction(enemyPrevRound[0].action)
+
         
         
       // if (enemyPrevRound.length > playerPrevRound.length){

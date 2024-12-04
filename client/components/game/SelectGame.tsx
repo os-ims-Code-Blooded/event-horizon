@@ -173,7 +173,7 @@ const handleDeckSelect = (e) =>{
 
 return(
 
-<>
+<div>
 
 
 {!playClicked?
@@ -257,6 +257,7 @@ return(
 
 </>
 :
+<div className='h-full'>
 
 <GameController
 session={session}
@@ -274,11 +275,12 @@ roundInfo={roundInfo}
 enemyName={enemyName}
 setEnemyName={setEnemyName}
 />
+</div>
 }
 </>
 }
 
-</>
+</div>
 
 )
 }

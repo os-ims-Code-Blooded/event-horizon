@@ -170,10 +170,12 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
-    <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
+    <div className='p-5 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
       <div className='flex flex-row justify-between gap-1 p-1'>
-        <div className='pr-4 flex flex-grow'>
-          <div className='pt-10 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
+        <div className='pr-4 flex flex-grow px-4'>
+          <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>
+          <div className='pt-10 px-4 text-white'>|</div>
+          <div className='pt-10 px-4 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
           {opponentCards.map((card, index) => (
@@ -233,7 +235,7 @@ if (playerHand.length <= 0){
 
               :
 
-              <div className='p-20 text-[2rem] text-red-600'> ENEMY STATUS: </div>
+              <div className='p-20 text-[2rem] text-gray'> ENEMY STATUS: </div>
 
             }
           </div>
