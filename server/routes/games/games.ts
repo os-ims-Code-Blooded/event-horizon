@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 import rounds from './rounds.ts';
 
@@ -6,7 +7,7 @@ const games = express.Router();
 games.use('/rounds', rounds);
 
 // provide the player ID, and this will tell you if there is a game
-games.get('/:id', async (req, res) => {
+games.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -37,7 +38,7 @@ games.get('/:id', async (req, res) => {
 })
 
 // used to create a game AND find an existing game
-games.post('/', async (req, res) => {
+games.post('/', async (req: AuthRequest, res) => {
 
   try {
 
@@ -167,7 +168,7 @@ games.post('/', async (req, res) => {
 })
 
 // used to disable a game, send game ID to end it
-games.patch('/:id', async (req, res) => {
+games.patch('/:id', async (req: AuthRequest, res) => {
 
   // req.body.user_id represents the victor for a game
   try {
@@ -257,7 +258,7 @@ games.patch('/:id', async (req, res) => {
 })
 
 // used to delete a game (if a user is waiting for a game and changes their mind)
-games.delete('/:id', async (req, res) => {
+games.delete('/:id', async (req: AuthRequest, res) => {
 
   try {
 

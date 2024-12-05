@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 
 const friends = express.Router();
 
-friends.get('/:id', async (req, res) => {
+friends.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -48,7 +49,7 @@ friends.get('/:id', async (req, res) => {
 
 })
 
-friends.post('/:id', async (req, res) => {
+friends.post('/:id', async (req: AuthRequest, res) => {
   try {
     if (!req.params.id){
       console.error(`No primary user designated in POST request parameters for friends.`)
@@ -75,7 +76,7 @@ friends.post('/:id', async (req, res) => {
 
 // If encounter issue with Axios request, read discussion below.
 // https://masteringjs.io/tutorials/axios/delete-with-body
-friends.delete('/:id', async (req, res) => {
+friends.delete('/:id', async (req: AuthRequest, res) => {
 
   try {
 

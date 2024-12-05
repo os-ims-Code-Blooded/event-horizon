@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../../misc/types.ts';
 import database from '../../../db/index.ts';
 
 const decks = express.Router();
 
 // enables you to get all card decks for the specified user
 // a specific deck can also be specified in req.body.data
-decks.get('/:id', async (req, res) => {
+decks.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -28,7 +29,7 @@ decks.get('/:id', async (req, res) => {
 })
 
 // you provide only a deck ID here because a deck is specifically unique to a user (no user ID necessary)
-decks.get('/specific/:id', async (req, res) => {
+decks.get('/specific/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -51,7 +52,7 @@ decks.get('/specific/:id', async (req, res) => {
 
 })
 
-decks.get('/selected-deck/:id', async (req, res) => {
+decks.get('/selected-deck/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -80,7 +81,7 @@ decks.get('/selected-deck/:id', async (req, res) => {
 
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint
-decks.post('/:id', async (req, res) => {
+decks.post('/:id', async (req: AuthRequest, res) => {
 
   /* Example POST request format
   ===========================================================================================
@@ -140,7 +141,7 @@ decks.post('/:id', async (req, res) => {
 })
 
 // enables you to update an existing card deck
-decks.patch('/:id', async (req, res) => {
+decks.patch('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -266,7 +267,7 @@ decks.patch('/:id', async (req, res) => {
 })
 
 // enables you to delete an existing card deck
-decks.delete('/:id', async (req, res) => {
+decks.delete('/:id', async (req: AuthRequest, res) => {
 
   try {
 
