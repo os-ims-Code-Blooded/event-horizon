@@ -225,4 +225,33 @@ games.patch('/:id', async (req, res) => {
 
 })
 
+// used to delete a game (if a user is waiting for a game and changes their mind)
+games.delete('/:id', async (req, res) => {
+
+  try {
+
+    const game = await database.games.findFirst({
+      where: { id: Number(req.params.id)},
+      include: { User_Games: true }
+    })
+
+    if ( game.User_Games.length > 1) {
+      console.error(`This route is for ending a game search, but two users were found.`);
+      console.error(`If users do not want to play this game, they must surrender.`)
+      res.sendStatus(203);
+    } else {
+      await database.games.delete({
+        where: { id: Number(req.params.id)}
+      })
+
+      res.sendStatus(204);
+    }
+
+  } catch (error) {
+    console.error(`Error on DELETE request to end a game search on game session #${req.params.id}.`)
+    res.sendStatus(500);
+  }
+
+})
+
 export default games;
