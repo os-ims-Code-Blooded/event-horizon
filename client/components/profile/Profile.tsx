@@ -28,7 +28,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
   };
 
   return (
-    <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] dark:text-white text-slate-400 min-h-screen h-full flex items-center justify-center pb-5"
+    <div className="bg-radial-custom dark:text-white text-white min-h-screen h-full flex items-center justify-center pb-5"
       aria-label="User Profile"
     >
       <div className="flex flex-col items-center space-y-3 text-center" aria-labelledby="profile-header">
@@ -73,10 +73,10 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
 
         <div className="" aria-label="User image placeholder">Image</div>
         <div className="text-yellow-300 text-bold" aria-label={`User score: ${user.score || 0}`}>Score: {user.score || 0}</div>
-        <div aria-label="User statistics"> Wins: 0 | Losses: 0</div>
+        <div aria-label="User statistics"> Wins: {user.wins} | Losses: {user.losses}</div>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-purple-1 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-indigo-500"
+          className="w-96 py-6 text-2xl p-3 bg-third text-text rounded-lg shadow-md shadow-slate-600 hover:bg-indigo-500"
           to="/cards"
           replace={true}
           aria-label="Go to Cards"
@@ -85,7 +85,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-emerald-500 text-white rounded-lg shadow-md shadow-slate-600 hover:bg-emerald-400"
+          className="w-96 py-6 text-2xl p-3 bg-emerald-500 text-text rounded-lg shadow-md shadow-slate-600 hover:bg-emerald-400"
           to="/friends"
           replace={true}
           aria-label="Go to Friends"
@@ -94,7 +94,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-gray text-white rounded-lg shadow-md shadow-slate-600 hover:bg-slate-300"
+          className="w-96 py-6 text-2xl p-3 bg-gray text-text rounded-lg shadow-md shadow-slate-600 hover:bg-slate-300"
           to=""
           aria-label="Go to Settings"
         >
@@ -102,7 +102,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
         </Link>
         <Link
           type="button"
-          className="w-96 py-6 text-2xl p-3 bg-gold text-white rounded-lg shadow-md shadow-slate-600 hover:bg-none bg-yellow-200"
+          className="w-96 py-6 text-2xl p-3 text-text rounded-lg shadow-md shadow-slate-600 hover:bg-yellow-600 bg-yellow-400"
           to="/leaderboard"
           replace={true}
           aria-label="Go to Leaderboard"

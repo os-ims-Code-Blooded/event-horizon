@@ -115,6 +115,7 @@ export default function SelectGame({
 
 
 
+
   /*===============================================================================
     This function begins searching for a game; it technically creates a session if
     a session is not found. As a result, we have to use the onClickStopSearch 
@@ -123,6 +124,7 @@ export default function SelectGame({
   const onClickPlay = async () => {
       
     try {
+
 
       const game = await axios.post('/games', { "user_id": user.id });
       const round = await axios.get(`/games/rounds/${game.data.id}`)
@@ -219,13 +221,13 @@ export default function SelectGame({
 
 return(
 
-<>
+<div>
 
 
 {!playClicked?
 
 
-<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-slate-900 dark:bg-black'>
+<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-radial-custom dark:bg-black'>
   <div className='p-6 justify-items-center flex flex-col items-center'>
 
 <div className='pt-8'>
@@ -261,7 +263,7 @@ return(
   {deckWasChosen?
 
 <>
-<button className='bg-lime-200' onClick={onClickPlay}>PLAY NOW!</button>
+<button className='bg-lime-200 rounded-sm' onClick={onClickPlay}>PLAY NOW!</button>
 
 <br></br>
 </>
@@ -274,7 +276,7 @@ return(
 <br></br>
 </>
   }
-  <button className='bg-lime-400' onClick={onClickMake}>CUSTOMIZE!</button>
+  <button className='bg-lime-400 rounded-sm' onClick={onClickMake}>CUSTOMIZE!</button>
   <br></br>
   <div>
 
@@ -303,6 +305,7 @@ return(
 
 </>
 :
+<div className='h-full'>
 
 <GameController
 session={session}
@@ -321,11 +324,12 @@ enemyName={enemyName}
 setEnemyName={setEnemyName}
 setEnemyId={setEnemyId}
 />
+</div>
 }
 </>
 }
 
-</>
+</div>
 
 )
 }

@@ -13,7 +13,7 @@ export default function GameOver ({
   return(
 <>
 {gameWinner === user.id? 
-    <div className='p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white '>
+    <div className='p-4 justify-items-center flex flex-col items-center bg-radial-custom text-white h-full'>
       <div className='p-4 pt-8 justify-items-center flex flex-col items-center'>
         
         <h1 className='text-xl'>GAME OVER BRUV</h1>

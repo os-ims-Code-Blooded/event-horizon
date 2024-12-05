@@ -80,6 +80,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [roundDisplay, setRoundDisplay] = useState(1)
 
   const [selfDestruct, setSelfDestruct] = useState(false)
+  
+  const [allCards, setAllCards] = useState([])
 
 
 
@@ -158,6 +160,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   useEffect(()=>{
 
+
+
      console.log("SESSION #####", session)
 
     socket.on('game_over', (data: any)=>{
@@ -171,13 +175,39 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
       if (data.user_id){
 
-        if (data.user_id !== user.id){
+  ///////// RETURNING CARD TO DECK //////////////////////////
+  if (data.UnloadedCards) {
 
-          setEnemyWaiting(true)
-
-        }
+    const userHasCard = data.UnloadedCards
+    .filter((action) => {
+      return (action.user_id === user.id);
+    }).reduce((accum, curr) => {
+      if (curr.card_id) {
+        return curr.card_id;
+      } else {
+        return accum;
       }
+    }, 0)
 
+    
+    if (userHasCard) {
+      console.log(`Attempting to return card ID #${userHasCard} to #${user.id} hand.`)
+      console.log(`Selected deck is currently: `, deckSelected)
+
+      const cardToReturnToHand = deckSelected.filter((card) => {
+        return (card.card_id === userHasCard)
+      })
+      console.log(`Found card to return to hand: `, cardToReturnToHand)
+    }
+  }
+//////////////////////////////////////////
+
+
+  if (data.user_id){
+    if (data.user_id !== user.id){
+      setEnemyWaiting(true)
+    }
+  }
       if (data.Current){
 
         setRoundNum(data.Current.id)
@@ -205,11 +235,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S ROUND INFO", enemyPrevRound[0].action)
+        console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
 
 
 
         setEnemyLastAction(enemyPrevRound[0].action)
+
         
         
       // if (enemyPrevRound.length > playerPrevRound.length){

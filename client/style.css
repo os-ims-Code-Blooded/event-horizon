@@ -9,7 +9,7 @@ CB PRIMARY COLOR
   background-color: #1f78b4;
 }
 
-.cbMode .text-primary {
+.cbMode .text-text {
   color: #000000;
 }
 /* 
@@ -26,9 +26,33 @@ CB Secondary COLOR
 .cbMode .bg-background{
  background-color: #f7f7f7;
 }
-.cbMode .text-
-
+.cbMode .bg-third {
+  background-color: #ff7f00;
+}
+.cbMode .bg-fifth {
+  background-color: #ffa345;
+}
 .cbMode {
   background-color: #1f78b4;
   color: #000;
+}
+.cbMode .text-error {
+  color: #1f78b4;
+}
+.cbMode .bg-error {
+  background-color: #ff7f00;
+}
+.cbMode .border-error {
+  background-color: #ff7f00;
+}
+
+.cbMode .bg-radial-custom {
+  background: radial-gradient(125% 125% at 50% 10%, #000000 40%, #000066 100%);
+}
+
+.bg-radial-custom {
+  background: radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%);
+}
+#app {
+  background-color: radial-gradient(125% 125% at 50% 10%, #000000 40%, #000066 100%);
 }
