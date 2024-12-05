@@ -17,10 +17,19 @@ type GameBoardProp = {
   user: any
   userDecks: any
   deckSelected: any
+  cardReplacement: any
+  setCardReplacement: any
+  reloaded: any
+  setReloaded: any
+
   endTurn: any
   playerAction: any
   setPlayerAction: any
   handSize: any
+  gameDeck: any
+  setGameDeck: any
+  playerHand: any
+  setPlayerHand: any
 
   enemyName: any
   enemyAction: any
@@ -40,6 +49,7 @@ type GameBoardProp = {
   hitPoints: number
   setHitPoints: any
   armor: number
+
   roundDisplay: number
   turnEnded: any
   setTurnEnded: any
@@ -61,12 +71,22 @@ const GameBoard: FC <GameBoardProp> = ({
   userDecks,
   deckSelected,
   handSize,
+  gameDeck,
+  setGameDeck,
+  playerHand,
+  setPlayerHand,
+
 
   playerAction,
   setPlayerAction,
   cardToPlay,
   setCardToPlay,
   setCardId,
+  cardReplacement,
+  setCardReplacement,
+  reloaded,
+  setReloaded,
+
   endTurn,
   turnEnded,
   hitPoints,
@@ -96,24 +116,6 @@ const GameBoard: FC <GameBoardProp> = ({
 }) => {
 
 
-  const shuffle = array =>{
-    for (let i = array.length - 1; i > 0; i--){
-      let j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array
-  }
-  //////////////////////////////////
-  // console.log("DECK SELECTED", deckSelected)
-
-  const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
-
-  const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
-
-  // console.log("GD", gameDeck, "\nPH", playerHand)
-
-
-///////////////////////////////////////////////////////
 
   const opponentCards: CardType[] = [
     {
@@ -155,6 +157,18 @@ const discard = (cardName: any) =>{
 
 /////// check if out of cards //////////////////////////////////////////
 
+console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
+
+if (reloaded && cardReplacement[0].user_id === user.id){
+  console.log("RELOADED!")
+  setGameDeck(gameDeck.concat(cardReplacement[0].card))
+  setReloaded(false)
+  setCardReplacement([])
+}
+
+console.log("GAME DECK", gameDeck)
+
+
 if (playerHand.length < 3 && gameDeck.length > 0){
  
   let nextCard = [gameDeck.pop()]
@@ -171,7 +185,7 @@ if (playerHand.length <= 0){
 //////////////////////////////////////////////////////
   return (
 
-    <div className='p-5 z-5 grid-cols-3 z-10 h-full w-full flex space-between flex-col bg-radial-custom'>
+    <div className='p-5 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-radial-custom'>
       <div className='flex flex-row justify-between gap-1 p-1'>
         <div className='pr-4 flex flex-grow px-4'>
           <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>
@@ -289,7 +303,9 @@ if (playerHand.length <= 0){
                 setCardId={setCardId}
                 playerAction={playerAction}
                 setActiveLoading={setActiveLoading}
-                playerHand={undefined}
+                playerHand={playerHand}
+                setPlayerHand={setPlayerHand}
+                user={user}
               />
             )
           })}

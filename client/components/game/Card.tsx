@@ -18,9 +18,11 @@ interface CardProps {
   setActiveLoading: any
 
   playerHand: any
+  setPlayerHand: any
+  user: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user }) => {
 
   const cardSelect = (card: CardType) =>{
 
@@ -28,6 +30,9 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
     setCardId(card.card_id)
     setActiveLoading(true)
+    console.log("PLAYER HAND", playerHand)
+
+    // setPlayerHand(playerHand.filter((handCard: { card_id: number; })=> handCard.card_id !== card.id))
    
 
   }
