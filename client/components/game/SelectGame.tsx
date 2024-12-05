@@ -64,13 +64,48 @@ export default function SelectGame({
   const [roundInfo, setRoundInfo] = useState([])
   
 
-  useEffect(()=>{
+  useEffect( () => {
 
     // on arrival to this page, attempt to get the decks available
     // this allows the user to select from their current card decks
     axios.get(`/profile/decks/${user.id}`)
       .then((response) => {
         setUserDecks(response.data)
+
+        axios.get(`/games/${user.id}`)
+          .then((game) => {
+            if (game.data) {
+
+              axios.get(`/games/rounds/${game.data.id}`)
+                .then((round) => {
+                  setSession(game.data.id);
+                  setRoundNum(round.data["Current Round"]);
+                  socket.emit("join_session", session, user, roundNum);
+
+                  // I don't know if putting an event listener here is an issue
+                  // this might need to be somewhere else?
+                  socket.on('session_players', (data: any) => {
+            
+                    // when we receive emission, see if there is an enemy
+                    const enemy = data.filter((player) => {
+                      return (player.id !== user.id)
+                    })
+                    
+                    // if the filtered array contains an enemy
+                    if (enemy.length > 0) {
+                      setEnemyName(enemy[0].name);  // set that enemy's name
+                      setEnemyId(enemy[0].user_id); // set that enemy's user ID
+                      setRoundInfo(data)            // set the current round information
+                      setPlayClicked(true)          // then trigger Game Board conditional render
+                    }
+                  })
+                })
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+
       })
       .catch((err) => { 
         console.error(err)
