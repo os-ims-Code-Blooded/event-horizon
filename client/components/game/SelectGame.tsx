@@ -63,17 +63,28 @@ export default function SelectGame({
 
   const [roundInfo, setRoundInfo] = useState([])
   
-//////////////////////////////////
+
   useEffect(()=>{
+
+    // on arrival to this page, attempt to get the decks available
+    // this allows the user to select from their current card decks
     axios.get(`/profile/decks/${user.id}`)
-    .then(response=>{
-      setUserDecks(response.data)})
-    .catch(err=>console.error(err))
+      .then((response) => {
+        setUserDecks(response.data)
+      })
+      .catch((err) => { 
+        console.error(err)
+      })
   }, [])
   
-///////////////////////////////////////////
 
 
+
+  /*===============================================================================
+    This function begins searching for a game; it technically creates a session if
+    a session is not found. As a result, we have to use the onClickStopSearch 
+    function to request to delete the game and end the "matchmaking" request.
+  =================================================================================*/
   const onClickPlay = async () => {
       
     try {
@@ -107,43 +118,69 @@ export default function SelectGame({
     } catch (error) {
       console.error(`Error on connecting to a game session.`)
     }
-
   }
+  /*===============================================================================*/
+  /*===============================================================================*/
 
-///////// MAKE CUSTOM GAME ////////////////////
+
+
+  /*===============================================================================
+    This function should enable a user to stop searching for a game (if none found)
+  =================================================================================*/
+  const onClickStopSearch = async () => {
+    try {
+      if (session) {
+        await axios.delete(`/games/${session}`);
+        // we also need to re-enable buttons so they can click play game again
+      }
+    } catch (error) {
+      console.error(`Error on request to stop searching for a game session.`)
+    }
+  }
+  /*===============================================================================*/
+  /*===============================================================================*/
+
+
+
+
+  /*===============================================================================
+    This function will eventually enable the creation of a custom game
+  =================================================================================*/
   const onClickMake = () =>{
     setMakeClicked(true)
   }
+  /*===============================================================================*/
+  /*===============================================================================*/
 
 
-////////  DECK SELECT  ///////////////////
-const handleDeckSelect = (e) =>{
 
-  axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
-    .then((response) => {
+  /*===============================================================================
+    Handles deck selection for entering a game
+  ===============================================================================*/
+  const handleDeckSelect = (e) =>{
 
-      console.log(`Fetching cards for selected deck:`, response);
-      
-      const cards = response.data
-      setDeckWasChosen(true)
-      setDeckSelected(cards)
-    })
+    axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
+      .then((response) => {
 
-
-  axios.patch(`/profile/${user.id}`,
-    {
-      selectedDeck: {
-         connect: {
-           id: userDecks[e.target.value].id
-          }
-        }
+        console.log(`Fetching cards for selected deck:`, response);
+        
+        const cards = response.data
+        setDeckWasChosen(true)
+        setDeckSelected(cards)
       })
 
+    const sendSelectedDeck = {
+      selectedDeck: {
+        connect: {
+          id: userDecks[e.target.value].id
+          }
+        }
+    }
 
-}
-
-
-//////////// RENDER ////////////////////////////
+    axios.patch(`/profile/${user.id}`, sendSelectedDeck)
+  }
+/*===============================================================================*/
+/*===============================================================================*/
 
 return(
 
