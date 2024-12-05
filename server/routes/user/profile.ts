@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import path from 'path';
 import dotenv from "dotenv";
 import database from '../../db/index.ts';
@@ -16,7 +17,7 @@ profile.use('/decks', decks);
 profile.use('/games-history', games_history);
 profile.use('/settings', settings);
 
-profile.get('/:id', async (req, res) => {
+profile.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -58,7 +59,32 @@ profile.get('/:id', async (req, res) => {
 
 })
 
-profile.get('/top-scores/:id', async (req, res) => {
+profile.get('/', async (req: AuthRequest, res) => {
+
+  try {
+
+    if (req.user) {
+      const user = await database.user.findFirst({
+        where: { id: req.user.id }
+      })
+  
+      if (!user){
+        res.sendStatus(404);
+      } else {
+        res.status(200).send(user);
+      }
+    } else {
+      res.sendStatus(203);
+    }
+
+  } catch (error){
+    console.error(`Error on GET request for user.`, error)
+    res.sendStatus(500);
+  }
+
+})
+
+profile.get('/top-scores/:id', async (req: AuthRequest, res) => {
   // console.log('REQ', req);
   try {
     //find top 10 users sorted by highest score
@@ -82,7 +108,7 @@ profile.get('/top-scores/:id', async (req, res) => {
   }
 });
 
-profile.get('/', async (req, res) => {
+profile.get('/all', async (req: AuthRequest, res) => {
 
   try {
     const users = await database.user.findMany();
@@ -100,7 +126,7 @@ profile.get('/', async (req, res) => {
 
 })
 
-profile.post('/', async (req, res) => {
+profile.post('/', async (req: AuthRequest, res) => {
 
   try {
     // pull all associated data from request
@@ -119,7 +145,7 @@ profile.post('/', async (req, res) => {
 
 })
 
-profile.delete('/:id', async (req, res) => {
+profile.delete('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -152,7 +178,7 @@ profile.delete('/:id', async (req, res) => {
 
 })
 
-profile.patch('/:id', async (req, res) => {
+profile.patch('/:id', async (req: AuthRequest, res) => {
   try {
     // if no patch specified, indicate nothing received
     if (!req.body){
@@ -181,7 +207,7 @@ profile.patch('/:id', async (req, res) => {
 
 
 // profile search
-profile.get('/users/search', async (req, res) => {
+profile.get('/users/search', async (req: AuthRequest, res) => {
   const { name } = req.query;
 
   try {

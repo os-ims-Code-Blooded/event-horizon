@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 
 const settings = express.Router();
 
-settings.get(`/:id` , async (req, res) => {
+settings.get(`/:id` , async (req: AuthRequest, res) => {
 
   try {
 
@@ -24,7 +25,7 @@ settings.get(`/:id` , async (req, res) => {
 
 })
 
-// settings.post(`:id`, async (req, res) => {
+// settings.post(`:id`, async (req: AuthRequest, res) => {
 
 //   try {
 
@@ -50,7 +51,7 @@ settings.get(`/:id` , async (req, res) => {
 
 // })
 
-settings.patch(`/:id`, async (req, res) => {
+settings.patch(`/:id`, async (req: AuthRequest, res) => {
 
   try {
 

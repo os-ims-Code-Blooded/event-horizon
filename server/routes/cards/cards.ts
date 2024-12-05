@@ -1,9 +1,10 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 
 const cards = express.Router();
 
-cards.get('/', async (req, res) => {
+cards.get('/', async (req: AuthRequest, res) => {
 
   try {
 

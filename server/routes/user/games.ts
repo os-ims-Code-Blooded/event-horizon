@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 
 const games_history = express.Router();
 
 // used to get all games for user that the user has won
-games_history.get('/won/:id', async (req, res) => {
+games_history.get('/won/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -48,7 +49,7 @@ games_history.get('/won/:id', async (req, res) => {
 })
 
 // used to get all games that a user has lost
-games_history.get('/lost/:id', async (req, res) => {
+games_history.get('/lost/:id', async (req: AuthRequest, res) => {
 
   try {
 

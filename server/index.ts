@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from './misc/types.ts';
 import passport from 'passport';
 import session  from 'express-session';
 import authRouter from './auth/auth.ts';
@@ -6,7 +7,6 @@ import path from 'path';
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from './db/index.ts';
-
 import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
@@ -18,7 +18,6 @@ import gameHandler from './gameHandler.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
-
 
 //configure dotenv
 dotenv.config();
@@ -37,7 +36,6 @@ app.use(cors())
 
 
 ////////// PASSPORT //////////////////
-
 app.use(session(
   {
     secret: process.env.SERVER_SESSION_SECRET,
@@ -50,10 +48,10 @@ app.use(passport.session());
 app.use('/', authRouter);
 app.use('/profile', profile);
 app.use('/friends', friends);
-app.use('/games', games)
+app.use('/games', games);
 
 // Middleware to check if user is authenticated
-const isAuthenticated = (req: any, res: any, next: any) => {
+const isAuthenticated = (req: AuthRequest, res: any, next: any) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -61,40 +59,51 @@ const isAuthenticated = (req: any, res: any, next: any) => {
 };
 
 
-app.get('/', (req, res) => {
+app.get('/', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-
 });
-// app.get('*', (req, res) => {
+
+// app.get('*', (req: AuthRequest, res) => {
 //   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'))
 // })
-app.get('/title-menu', (req, res) => {
+
+app.get('/title-menu', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
-app.get('/instructions', (req, res) => {
+app.get('/instructions', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
-app.get('/user-profile', (req, res) => {
+app.get('/user-profile', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
-app.get('/friends', (req, res) => {
+app.get('/friends', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
 
-app.get('/api/auth-check', (req, res) => {
-  res.json({ isAuthenticated: req.isAuthenticated(), user: req.user });
+app.get('/api/auth-check/', async (req: AuthRequest, res) => {
+
+  let user;
+
+  if (req.user) {
+    user = await database.user.findFirst({
+      where: { id: Number(req.user.id)}
+    })
+  }
+  
+  res.json({ isAuthenticated: req.isAuthenticated(), user: user });
 });
-app.get('/game-board', (req, res) => {
+
+app.get('/game-board', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
-app.get('/leaderboard', (req, res) => {
+app.get('/leaderboard', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
-app.get('/cards', (req, res) => {
+app.get('/cards', (req: AuthRequest, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
 
-app.post('/api/logout', (req, res) => {
+app.post('/api/logout', (req: AuthRequest, res) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ message: 'Error logging out' });

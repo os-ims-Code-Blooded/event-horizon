@@ -1,9 +1,6 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
-import createAction from './helpers/createAction.ts';
-import calculateGameState from './helpers/calculateGameState.ts';
-import calculatePlayerState from './helpers/calculatePlayerState.ts';
-import generateResponse from './helpers/generateResponse.ts';
 
 const rounds = express.Router();
 
@@ -19,7 +16,7 @@ req.body =
 }
 */
 
-rounds.get('/:id', async (req, res) => {
+rounds.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
@@ -51,6 +48,12 @@ rounds.get('/:id', async (req, res) => {
     res.sendStatus(500);
 
   }
+
+})
+
+
+// used to get the most recent action for a round
+rounds.get('action/:id', async (req: AuthRequest, res) => {
 
 })
 

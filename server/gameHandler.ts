@@ -4,6 +4,7 @@ import createAction from './routes/games/helpers/createAction.ts';
 import calculateGameState from './routes/games/helpers/calculateGameState.ts';
 import calculatePlayerState from './routes/games/helpers/calculatePlayerState.ts';
 import generateResponse from './routes/games/helpers/generateResponse.ts';
+import { Prisma } from '@prisma/client';
 
 export default async function gameHandler(req: any) {
 
@@ -53,7 +54,6 @@ export default async function gameHandler(req: any) {
 
       // then attempt to perform calculations, and store the results
       const updateState = await calculateGameState(req, currentRound.game_id);
-      console.log("########### \nUPDATE STATE \n", updateState)
 
       // acquire the current player information
       let updatePlayers = currentRound.Round_Player_Info.slice();

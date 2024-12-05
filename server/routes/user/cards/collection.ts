@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
+import { User, AuthRequest } from '../../../misc/types.ts';
 import database from '../../../db/index.ts';
 
 const collections = express.Router();
 
 // get cards that belong to a specific user
-collections.get('/:id', async (req, res) => {
+collections.get('/:id', async (req: AuthRequest, res) => {
 
   try {
     
@@ -26,7 +27,7 @@ collections.get('/:id', async (req, res) => {
 })
 
 // very intensive operation, checks user score to see if they have earned a card
-collections.post('/:id', async (req, res) => {
+collections.post('/:id', async (req: AuthRequest, res) => {
 
   try {
 

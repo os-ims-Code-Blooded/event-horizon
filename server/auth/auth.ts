@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
   callbackURL: `${process.env.CLIENT_URL}:${process.env.PORT}/auth/google/callback`,
   passReqToCallback   : true
 },
-async function(request, accessToken, refreshToken, profile, done) {
+async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {
 
   try {
 
@@ -51,13 +51,13 @@ async function(request, accessToken, refreshToken, profile, done) {
 }
 ));
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser(function(user: any, cb: any) {
   process.nextTick(function() {
     return cb(null, user);
   });
 });
 
-passport.deserializeUser(function(user, cb) {
+passport.deserializeUser(function(user: any, cb: any) {
   process.nextTick(function() {
     return cb(null, user);
   });
