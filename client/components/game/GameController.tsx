@@ -29,14 +29,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   let userRound = roundInfo.filter(round=>round.user_id === user.id)
 
-  console.log("USER ROUND", userRound)
+  // console.log("USER ROUND", userRound)
 
   let enemyRound = roundInfo.filter(round=>round.user_id !== user.id)
 
-  console.log("ENEMY ROUND", enemyRound)
+  // console.log("ENEMY ROUND", enemyRound)
 
   //player selected action of BLOCK, LOAD or FIRE
   const [playerAction, setPlayerAction] = useState('')
+  const [lastAction, setLastAction] = useState('')
+
+
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(50)
   const [armor, setArmor] = useState(20)
@@ -83,18 +86,32 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   
   const [allCards, setAllCards] = useState([])
 
+  const [cardReplacement, setCardReplacement] = useState([])
+
+  const [reloaded, setReloaded] = useState(false)
 
 
 
+////////////////////////////////////////////////////
+const shuffle = array =>{
+  for (let i = array.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array
+}
+//////////////////////////////////
+
+const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
+const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
+
+///////////////////////////////////////////////////////
  
-  //for a finished game
-  // const [gameOver, setGameOver] = useState(false)
-  // const [gameWinner, setGameWinner] = useState('')
-
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
     // console.log("click value", e.target.value)
+    
 
     setPlayerAction(e.target.value)
 
@@ -102,6 +119,12 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
+    }
+
+    console.log("CURRENT action", e.target.value, "LAST action", lastAction)
+    if (e.target.value === "LOAD" && lastAction === "LOAD" && cardReplacement.length > 0){
+      setReloaded(true)
+      console.log("RELOADED?")
     }
   }
 
@@ -121,7 +144,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       }
     )
     setGameOver(true)
-        console.log("GAME OVER EMISSION", gameOver)
+        // console.log("GAME OVER EMISSION", gameOver)
         socket.emit('game_over', gameOver, session)
       }
     }
@@ -134,6 +157,11 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 //////////// END TURN ////////////////////////////////
   const endTurn = async () =>{
+
+    //send patch request to server with stringified hand and 
+
+    
+    setLastAction(playerAction)
 
 
 ////////// SELF DESTRUCT /////////////////////////////
@@ -162,10 +190,10 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-     console.log("SESSION #####", session)
+    console.log("SESSION #####", session)
 
     socket.on('game_over', (data: any)=>{
-      console.log("********************GAME OVER DATA", data)
+      // console.log("********************GAME OVER DATA", data)
       setGameOver(true)
     })
 
@@ -173,7 +201,6 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
     console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-      if (data.user_id){
 
   ///////// RETURNING CARD TO DECK //////////////////////////
   if (data.UnloadedCards) {
@@ -200,6 +227,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       console.log(`Found card to return to hand: `, cardToReturnToHand)
     }
   }
+
 //////////////////////////////////////////
 
 
@@ -208,12 +236,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
       setEnemyWaiting(true)
     }
   }
-      if (data.Current){
-
-        setRoundNum(data.Current.id)
-      }
 
 
+  if (data.Current){
+    setRoundNum(data.Current.id)
+  }
+
+
+
+  if(data.UnloadedCards){
+    setCardReplacement(data.UnloadedCards)
+  }
         // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
 
         if (data.Current){
@@ -225,6 +258,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
 
           let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+
 
 
 
@@ -300,7 +334,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
 
-
+      
       setPlayerAction('')
       setEnemyWaiting(false)
 
@@ -343,7 +377,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           user={user}
           userDecks={userDecks}
           deckSelected={deckSelected}
+          gameDeck={gameDeck}
+          setGameDeck={setGameDeck}
+          playerHand={playerHand}
+          setPlayerHand={setPlayerHand}
+
+
           handSize={handSize}
+          cardReplacement={cardReplacement}
+          setCardReplacement={setCardReplacement}
+          reloaded={reloaded}
+          setReloaded={setReloaded}
 
           endTurn={endTurn}
           setPlayerAction={setPlayerAction}
@@ -375,7 +419,7 @@ export default function GameController ({ session, socket, setGameOver, setGameW
           setActiveLoading={setActiveLoading}
           actionClick={actionClick}
           discard={undefined}
-          setSelfDestruct={setSelfDestruct}  
+          setSelfDestruct={setSelfDestruct} 
           selfDestruct={selfDestruct}
           forfeit={forfeit}
           />
