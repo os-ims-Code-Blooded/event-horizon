@@ -5,6 +5,37 @@ import rounds from './rounds.ts';
 const games = express.Router();
 games.use('/rounds', rounds);
 
+// provide the player ID, and this will tell you if there is a game
+games.get('/:id', async (req, res) => {
+
+  try {
+
+    const games = await database.user_Games.findMany({
+      where: { user_id: Number(req.params.id) },
+      include: { game: true}
+    })
+
+    const userHasOpenGame = games.reduce((accum, curr) => {
+      if (curr.game.status === true) {
+        return curr;
+      } else {
+        return accum;
+      }
+    }, null)
+
+    if (userHasOpenGame){
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(userHasOpenGame);
+    }
+
+  } catch (error) {
+    console.error(`Error on GET request for an open game associated with user #${req.params.id}.`)
+    res.sendStatus(500);
+  }
+
+})
+
 // used to create a game AND find an existing game
 games.post('/', async (req, res) => {
 
@@ -224,5 +255,35 @@ games.patch('/:id', async (req, res) => {
   }
 
 })
+
+// used to delete a game (if a user is waiting for a game and changes their mind)
+games.delete('/:id', async (req, res) => {
+
+  try {
+
+    const game = await database.games.findFirst({
+      where: { id: Number(req.params.id)},
+      include: { User_Games: true }
+    })
+
+    if ( game.User_Games.length > 1) {
+      console.error(`This route is for ending a game search, but two users were found.`);
+      console.error(`If users do not want to play this game, they must surrender.`)
+      res.sendStatus(203);
+    } else {
+      await database.games.delete({
+        where: { id: Number(req.params.id)}
+      })
+
+      res.sendStatus(204);
+    }
+
+  } catch (error) {
+    console.error(`Error on DELETE request to end a game search on game session #${req.params.id}.`)
+    res.sendStatus(500);
+  }
+
+})
+
 
 export default games;

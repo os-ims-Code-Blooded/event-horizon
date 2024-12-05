@@ -15,7 +15,7 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum, enemyName, setEnemyName }){
+export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum, enemyName, setEnemyName, setEnemyId }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -190,50 +190,16 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 
 
-     console.log("SESSION #####", session)
-
- 
-    //join session, sends the user object
-    if (session){
-      socket.emit("join_session", session, user, roundNum)
-    }
-    
-    socket.on('receive_user', (data: any)=>{
-
-      // console.log("receive_user DATA", data)
-    })
-
-    socket.on('recent_player_info', (data: any) => {
-      // console.log(`Player Information: `, data)
-    })
-
-    // console.log("ENEMY ID AND NAME", enemyId, enemyName)
-
-    //sets enemy name
-
-    if (enemyId && enemyName === ''){
-      axios.get(`/profile/${enemyId}`)
-      .then(userData=>{
-        console.log("USER DATA", userData.data.name)
-        setEnemyName(userData.data.name)
-      })
-      .catch(err=>console.error(err))
-    
-    }
-
-
+    console.log("SESSION #####", session)
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
       setGameOver(true)
     })
 
-
-
     socket.on('received_rounds_data', (data: any)=>{
 
-
-  // console.log("*** ROUND RESPONSE DATA ***\n", data)
+    console.log("*** ROUND RESPONSE DATA ***\n", data)
 
 
   ///////// RETURNING CARD TO DECK //////////////////////////
@@ -271,9 +237,11 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
     }
   }
 
+
   if (data.Current){
     setRoundNum(data.Current.id)
   }
+
 
 
   if(data.UnloadedCards){

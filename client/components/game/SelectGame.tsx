@@ -63,113 +63,161 @@ export default function SelectGame({
 
   const [roundInfo, setRoundInfo] = useState([])
   
-//////////////////////////////////
-  useEffect(()=>{
+
+  useEffect( () => {
+
+    // on arrival to this page, attempt to get the decks available
+    // this allows the user to select from their current card decks
     axios.get(`/profile/decks/${user.id}`)
-    .then(response=>{
-      setUserDecks(response.data)})
-    .catch(err=>console.error(err))
-  }, [])
-  
-///////////////////////////////////////////
+      .then((response) => {
+        setUserDecks(response.data)
 
+        axios.get(`/games/${user.id}`)
+          .then((game) => {
+            if (game.data) {
 
-  const onClickPlay = () =>{
-    
-    axios.post('/games',
-      {
-        "user_id": user.id
-        
-      }
-    )
-    .then((response)=>{
+              axios.get(`/games/rounds/${game.data.id}`)
+                .then((round) => {
+                  setSession(game.data.id);
+                  setRoundNum(round.data["Current Round"]);
+                  socket.emit("join_session", session, user, roundNum);
 
-      console.log(" \n REEEEEEESPONSE.DATA: \n", response.data)
-
-      let idOfEnemy = response.data.User_Games.filter(game=>game.user_id!== user.id).user_id
-
-      setEnemyId(idOfEnemy)
-      setSession(response.data.id)
-      setPlayClicked(true)
-
-
-     
-
-
-
-      axios.get(`/games/rounds/${response.data.id}`)
-      .then((moreData)=>{
-
-        console.log("LATEST ROUND:  ", moreData.data["Latest Player Info"])
-
-
-        // console.log("MORE DATA:  ", moreData.data)
-
-        let enemy = moreData.data["Latest Player Info"].filter(playerInfo=>playerInfo.user_id !== user.id)
-
-        console.log("ENEMY+++++++>\n", enemy[0].name)
-
-        setEnemyName(enemy[0].name)
-
-
-
-        setRoundInfo(moreData.data["Latest Player Info"])
-
-
-
-        setRoundNum(moreData.data['Most Recent Round'])
+                  // I don't know if putting an event listener here is an issue
+                  // this might need to be somewhere else?
+                  socket.on('session_players', (data: any) => {
+            
+                    // when we receive emission, see if there is an enemy
+                    const enemy = data.filter((player) => {
+                      return (player.id !== user.id)
+                    })
+                    
+                    // if the filtered array contains an enemy
+                    if (enemy.length > 0) {
+                      setEnemyName(enemy[0].name);  // set that enemy's name
+                      setEnemyId(enemy[0].user_id); // set that enemy's user ID
+                      setRoundInfo(data)            // set the current round information
+                      setPlayClicked(true)          // then trigger Game Board conditional render
+                    }
+                  })
+                })
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          })
 
       })
-      .catch(err=>console.error(err))
-
-    })
-    .catch(err=>console.error(err))
-    
-
+      .catch((err) => { 
+        console.error(err)
+      })
+  }, [])
   
 
-    
-
-
-    
-  }
 
 
 
-///////// MAKE CUSTOM GAME ////////////////////
-  const onClickMake = () =>{
-    setMakeClicked(true)
-  }
-
-
-////////  DECK SELECT  ///////////////////
-const handleDeckSelect = (e) =>{
-
-  axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
-    .then((response) => {
-
-      console.log(`Fetching cards for selected deck:`, response);
+  /*===============================================================================
+    This function begins searching for a game; it technically creates a session if
+    a session is not found. As a result, we have to use the onClickStopSearch 
+    function to request to delete the game and end the "matchmaking" request.
+  =================================================================================*/
+  const onClickPlay = async () => {
       
-      const cards = response.data
-      setDeckWasChosen(true)
-      setDeckSelected(cards)
-    })
+    try {
 
 
-  axios.patch(`/profile/${user.id}`,
-    {
-      selectedDeck: {
-         connect: {
-           id: userDecks[e.target.value].id
-          }
+      const game = await axios.post('/games', { "user_id": user.id });
+      const round = await axios.get(`/games/rounds/${game.data.id}`)
+      
+      setSession(game.data.id);
+      setRoundNum(round.data["Current Round"]);
+
+      socket.emit("join_session", session, user, roundNum);
+
+      // I don't know if putting an event listener here is an issue
+      // this might need to be somewhere else?
+      socket.on('session_players', (data: any) => {
+
+        // when we receive emission, see if there is an enemy
+        const enemy = data.filter((player) => {
+          return (player.id !== user.id)
+        })
+        
+        // if the filtered array contains an enemy
+        if (enemy.length > 0) {
+          setEnemyName(enemy[0].name);  // set that enemy's name
+          setEnemyId(enemy[0].user_id); // set that enemy's user ID
+          setRoundInfo(data)            // set the current round information
+          setPlayClicked(true)          // then trigger Game Board conditional render
         }
       })
 
+    } catch (error) {
+      console.error(`Error on connecting to a game session.`)
+    }
+  }
+  /*===============================================================================*/
+  /*===============================================================================*/
 
-}
 
 
-//////////// RENDER ////////////////////////////
+  /*===============================================================================
+    This function should enable a user to stop searching for a game (if none found)
+  =================================================================================*/
+  const onClickStopSearch = async () => {
+    try {
+      if (session) {
+        await axios.delete(`/games/${session}`);
+        // we also need to re-enable buttons so they can click play game again
+      }
+    } catch (error) {
+      console.error(`Error on request to stop searching for a game session.`)
+    }
+  }
+  /*===============================================================================*/
+  /*===============================================================================*/
+
+
+
+
+  /*===============================================================================
+    This function will eventually enable the creation of a custom game
+  =================================================================================*/
+  const onClickMake = () =>{
+    setMakeClicked(true)
+  }
+  /*===============================================================================*/
+  /*===============================================================================*/
+
+
+
+  /*===============================================================================
+    Handles deck selection for entering a game
+  ===============================================================================*/
+  const handleDeckSelect = (e) =>{
+
+    axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
+      .then((response) => {
+
+        console.log(`Fetching cards for selected deck:`, response);
+        
+        const cards = response.data
+        setDeckWasChosen(true)
+        setDeckSelected(cards)
+      })
+
+    const sendSelectedDeck = {
+      selectedDeck: {
+        connect: {
+          id: userDecks[e.target.value].id
+          }
+        }
+    }
+
+    axios.patch(`/profile/${user.id}`, sendSelectedDeck)
+  }
+/*===============================================================================*/
+/*===============================================================================*/
 
 return(
 
@@ -274,6 +322,7 @@ enemyId={enemyId}
 roundInfo={roundInfo}
 enemyName={enemyName}
 setEnemyName={setEnemyName}
+setEnemyId={setEnemyId}
 />
 </div>
 }
