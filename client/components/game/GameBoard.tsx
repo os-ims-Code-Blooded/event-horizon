@@ -10,6 +10,7 @@ interface CardType {
   damage: number;
   armor: number;
   description: string;
+  id: number;
 }
 type GameBoardProp = {
   session: string;
@@ -144,7 +145,8 @@ const GameBoard: FC <GameBoardProp> = ({
     name: 'Phaser Charge',
     damage: 10,
     armor: 0,
-    description: 'last-resort shield-to-phaser power conversion'
+    description: 'last-resort shield-to-phaser power conversion',
+    id: 666
   }]
 
 /////////// discard a card /////////////////////////////////////////
@@ -157,7 +159,7 @@ const discard = (cardName: any) =>{
 
 /////// check if out of cards //////////////////////////////////////////
 
-console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
+// console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
 
 if (reloaded && cardReplacement[0].user_id === user.id){
   console.log("RELOADED!")
@@ -166,7 +168,7 @@ if (reloaded && cardReplacement[0].user_id === user.id){
   setCardReplacement([])
 }
 
-console.log("GAME DECK", gameDeck)
+// console.log("GAME DECK", gameDeck)
 
 
 if (playerHand.length < 3 && gameDeck.length > 0){
@@ -185,7 +187,7 @@ if (playerHand.length <= 0){
 //////////////////////////////////////////////////////
   return (
 
-    <div className='p-5 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-radial-custom'>
+    <div className='p-5 pt-15 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-black-hole bg-cover'>
       <div className='flex flex-row justify-between gap-1 p-1'>
         <div className='pr-4 flex flex-grow px-4'>
           <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>

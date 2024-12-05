@@ -116,6 +116,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
+      console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -124,7 +125,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
     console.log("CURRENT action", e.target.value, "LAST action", lastAction)
     if (e.target.value === "LOAD" && lastAction === "LOAD" && cardReplacement.length > 0){
       setReloaded(true)
-      console.log("RELOADED?")
+      // console.log("RELOADED?")
     }
   }
 
@@ -162,11 +163,6 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     
     setLastAction(playerAction)
-
-
-////////// SELF DESTRUCT /////////////////////////////
-
-///////////////////////////////////////////////////
     setRoundDisplay(roundDisplay + 1)
 
 
@@ -188,9 +184,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
   useEffect(()=>{
 
-
-
-    console.log("SESSION #####", session)
+    // console.log("SESSION #####", session)
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
@@ -265,11 +259,11 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
         
         // console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
-        console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
+        // console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
+        // console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
 
 
 

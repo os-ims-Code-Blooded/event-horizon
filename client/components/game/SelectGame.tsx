@@ -62,6 +62,8 @@ export default function SelectGame({
   const [enemyName, setEnemyName] = useState('')
 
   const [roundInfo, setRoundInfo] = useState([])
+
+  const [activeUserGame, setActiveUserGame] = useState(false)
   
 
   useEffect( () => {
@@ -80,7 +82,7 @@ export default function SelectGame({
                 .then((round) => {
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
-                  socket.emit("join_session", session, user, roundNum);
+                  socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
                   // I don't know if putting an event listener here is an issue
                   // this might need to be somewhere else?
@@ -97,6 +99,7 @@ export default function SelectGame({
                       setEnemyId(enemy[0].user_id); // set that enemy's user ID
                       setRoundInfo(data)            // set the current round information
                       setPlayClicked(true)          // then trigger Game Board conditional render
+                      setDeckWasChosen(true)
                     }
                   })
                 })
@@ -148,7 +151,7 @@ export default function SelectGame({
           setEnemyName(enemy[0].name);  // set that enemy's name
           setEnemyId(enemy[0].user_id); // set that enemy's user ID
           setRoundInfo(data)            // set the current round information
-          setPlayClicked(true)          // then trigger Game Board conditional render
+          setActiveUserGame(true)          // then trigger Game Board conditional render
         }
       })
 
@@ -222,8 +225,32 @@ export default function SelectGame({
 return(
 
 <div>
+{activeUserGame?  
 
+<div className='h-full'>
 
+<GameController
+session={session}
+socket={socket}
+user={user}
+setGameOver={setGameOver}
+setGameWinner={setGameWinner}
+userDecks={userDecks}
+deckSelected={deckSelected}
+handSize={handSize}
+roundNum={roundNum}
+setRoundNum={setRoundNum}
+enemyId={enemyId}
+roundInfo={roundInfo}
+enemyName={enemyName}
+setEnemyName={setEnemyName}
+setEnemyId={setEnemyId}
+/>
+</div>
+
+:  
+
+<div>
 {!playClicked?
 
 
@@ -328,6 +355,12 @@ setEnemyId={setEnemyId}
 }
 </>
 }
+
+</div>
+
+}
+
+
 
 </div>
 
