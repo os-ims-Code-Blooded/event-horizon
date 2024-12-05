@@ -74,57 +74,41 @@ export default function SelectGame({
 ///////////////////////////////////////////
 
 
-  const onClickPlay = () =>{
-    
-    axios.post('/games',
-      {
-        "user_id": user.id
-        
-      }
-    )
-    .then((response)=>{
-
-      console.log(" \n REEEEEEESPONSE.DATA: \n", response.data)
-
-      let idOfEnemy = response.data.User_Games.filter(game=>game.user_id!== user.id).user_id
+  const onClickPlay = async () => {
       
-      setEnemyId(idOfEnemy)
-      setSession(response.data.id)
-      setPlayClicked(true)
+    try {
 
+      const game = await axios.post('/games', { "user_id": user.id });
+      const round = await axios.get(`/games/rounds/${game.data.id}`)
+      
+      setSession(game.data.id);
+      setRoundNum(round.data["Current Round"]);
 
-     
+      socket.emit("join_session", session, user, roundNum);
 
+      // I don't know if putting an event listener here is an issue
+      // this might need to be somewhere else?
+      socket.on('session_players', (data: any) => {
 
-
-      axios.get(`/games/rounds/${response.data.id}`)
-      .then((moreData)=>{
-
-        console.log("LATEST ROUND:  ", moreData.data["Latest Player Info"])
-
-
-        setRoundInfo(moreData.data["Latest Player Info"])
-
-
-
-        setRoundNum(moreData.data['Most Recent Round'])
-
+        // when we receive emission, see if there is an enemy
+        const enemy = data.filter((player) => {
+          return (player.id !== user.id)
+        })
+        
+        // if the filtered array contains an enemy
+        if (enemy.length > 0) {
+          setEnemyName(enemy[0].name);  // set that enemy's name
+          setEnemyId(enemy[0].user_id); // set that enemy's user ID
+          setRoundInfo(data)            // set the current round information
+          setPlayClicked(true)          // then trigger Game Board conditional render
+        }
       })
-      .catch(err=>console.error(err))
 
-    })
-    .catch(err=>console.error(err))
-    
+    } catch (error) {
+      console.error(`Error on connecting to a game session.`)
+    }
 
-  
-
-    
-
-
-    
   }
-
-
 
 ///////// MAKE CUSTOM GAME ////////////////////
   const onClickMake = () =>{
@@ -263,6 +247,7 @@ enemyId={enemyId}
 roundInfo={roundInfo}
 enemyName={enemyName}
 setEnemyName={setEnemyName}
+setEnemyId={setEnemyId}
 />
 }
 </>
