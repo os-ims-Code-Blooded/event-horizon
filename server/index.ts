@@ -82,6 +82,17 @@ app.get('/friends', (req: AuthRequest, res) => {
 
 app.get('/api/auth-check/', async (req: AuthRequest, res) => {
 
+  // there is a better way to do this section
+    // right now this is fetching the user from the database on every auth check
+    // it would be better for us to simply return whether or not the user exists on the request
+
+    // req.isAuthenticated() ? true : false
+    // OR
+    // req.user ? true : false
+
+    // we would send this information back to the client and if TRUE they stay in the App
+    // otherwise we would send back FALSE and they would be redirected
+    
   let user;
 
   if (req.user) {
@@ -89,7 +100,7 @@ app.get('/api/auth-check/', async (req: AuthRequest, res) => {
       where: { id: Number(req.user.id)}
     })
   }
-  
+
   res.json({ isAuthenticated: req.isAuthenticated(), user: user });
 });
 
