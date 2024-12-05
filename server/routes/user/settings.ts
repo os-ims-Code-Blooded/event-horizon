@@ -54,6 +54,7 @@ settings.patch(`/:id`, async (req, res) => {
 
   try {
 
+
     const options = [
       'dark_mode',
       'colorblind_mode'

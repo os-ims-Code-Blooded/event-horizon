@@ -13,6 +13,7 @@ import UserDecks from './cards/UserDecks.tsx'
 import GameBoard from './game/GameBoard.tsx';
 import Friends from './profile/Friends.tsx';
 import CardsPage from './cards/CardsPage.tsx';
+import Settings from './profile/Settings.tsx';
 import axios from 'axios';
 interface User {
   id: number;
@@ -26,6 +27,7 @@ export default function App (){
   const [friends, setFriends] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCbMode, setCbMode] = useState(false);
+  const [userSettings, setUserSettings] = useState(null)
   const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {
@@ -56,6 +58,19 @@ export default function App (){
       // Fetch user profile if authenticated
       if (response.data.isAuthenticated) {
         setUser(response.data.user);
+        
+        // fetcher users settings
+        const userSetting = await axios.get(`/profile/settings/${response.data.user.id}`);
+        // set userSettings
+        setUserSettings(userSetting.data);
+
+        if(userSetting.data.colorblind_mode){
+          const root = document.documentElement;
+          root.classList.add('cbMode');
+        }
+        if(userSetting.data.dark_mode){
+          toggleDarkMode();
+        }
 
         // update cards if necessary
         await axios.post(`/profile/collections/${response.data.user.id}`)
@@ -121,6 +136,12 @@ export default function App (){
 
   const toggleCbMode = () => {
     const root = document.documentElement;
+
+    // if(typeof bool === 'boolean' && bool){
+    //   root.classList.add('cbMode');
+    // } else if(typeof bool === 'boolean' && bool !== undefined){
+    //     root.classList.remove('cbMode');
+    // }
     if (isCbMode) {
       root.classList.remove('cbMode');
     } else {
@@ -170,6 +191,10 @@ export default function App (){
         <Route
           path="/user-profile"
           element={isAuthenticated ? <Profile user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
+        />
+        <Route
+          path="/settings"
+          element={isAuthenticated && user ? <Settings user={user} AuthCheck={AuthCheck} /> : <Navigate to='/' />}
         />
         <Route
           path="/cards"
