@@ -185,7 +185,7 @@ if (playerHand.length <= 0){
             />
           ))}
         </div>
-        <div className='pt-5 flex-col min-w-60 flex flex-grow'>
+        <div className='pt-5 flex-col min-w-60 flex flex-grow z-0'>
           <div className='text-red-800 font-bold text-center'>{enemyName || 'No Player'}</div>
             <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
               <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm z-0'>

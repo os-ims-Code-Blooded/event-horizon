@@ -95,7 +95,8 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
         <Link
           type="button"
           className="w-96 py-6 text-2xl p-3 bg-gray text-text rounded-lg shadow-md shadow-slate-600 hover:bg-slate-300"
-          to=""
+          to="/settings"
+          replace={true}
           aria-label="Go to Settings"
         >
           Settings

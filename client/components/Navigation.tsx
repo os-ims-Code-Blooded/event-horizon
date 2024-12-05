@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,275 +9,138 @@ type NavProps = {
   cbMode: () => void;
 };
 
-const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin}) => {
+const NavigationBar: FC<NavProps> = ({ cbMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     axios.post('/api/logout')
-    .then(() => {
-      window.location.href = '/';
-    })
-    .catch((err) =>{
-      console.error('Failed to logout!');
-    });
+      .then(() => {
+        window.location.href = '/';
+      })
+      .catch((err) => {
+        console.error('Failed to logout!');
+      });
   };
 
-  const renderNavForRoute = () => {
-    switch (location.pathname) {
-      case '/':
-        return (
-          <nav className="
-              fixed z-10 top-0 w-full p-4 rounded-sm shadow-lg text-text flex items-center justify-between space-x-4 h-10 sm:grid-cols-2
-              bg-fifth dark:bg-purple-950
-          ">
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/instructions" className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
-            {user ? (
-              <>
-                <Link to="/title-menu" className="hover:text-blue-600 truncate">
-                  PLAY!
-                </Link>
-                <button
-                  onClick={() => handleLogout()}
-                  className="hover:text-blue-600  truncate"
+  // navigation items for routes
+  const navItems: { [key: string]: { label: string; path: string; showWhenLoggedIn?: boolean; onClick?: () => void;  }[] } = {
+    '/': [
+      { label: 'How To Play', path: '/instructions' },
+      { label: 'PLAY!', path: '/title-menu', showWhenLoggedIn: true },
+      { label: 'Profile', path: 'user-profile', showWhenLoggedIn: true }
+    ],
+    '/instructions': [
+      { label: 'PLAY!', path: '/title-menu', showWhenLoggedIn: true},
+      { label: 'Profile', path: 'user-profile', showWhenLoggedIn: true }
+
+    ],
+    '/user-profile': [
+      { label: 'PLAY!', path: '/title-menu' },
+      { label: 'How To Play', path: '/instructions' },
+    ],
+    '/title-menu': [
+      { label: 'Friends', path: '/friends' },
+    ],
+    '/friends': [
+      { label: 'Profile', path: '/user-profile', showWhenLoggedIn: true },
+      { label: 'How To Play', path: '/instructions', showWhenLoggedIn: true },
+      { label: 'PLAY!', path: 'title-menu', showWhenLoggedIn: true }
+
+    ],
+    '/leaderboard': [
+      { label: 'Profile', path: '/user-profile' },
+      { label: 'How To Play', path: '/instructions' },
+    ],
+    '/game-board': [
+      { label: 'Friends', path: '/friends' },
+    ],
+    '/settings': [
+      { label: 'Friends', path: '/friends' },
+      { label: 'Profile', path: '/user-profile' },
+      { label: 'PLAY!', path: 'title-menu', showWhenLoggedIn: true }
+    ],
+    '/cards': [
+      { label: 'Friends', path: '/friends' },
+      { label: 'Profile', path: '/user-profile' },
+      { label: 'PLAY!', path: 'title-menu', showWhenLoggedIn: true }
+    ],
+  };
+
+  const commonNavItems = [
+    { label: 'EVENT HORIZON', path: '/' },
+    { label: 'Logout', path: '/', showWhenLoggedIn: true, onClick: handleLogout },
+  ];
+
+  const currentItems = navItems[location.pathname] || [];
+  const displayedItems = [...commonNavItems, ...currentItems];
+
+  const NavButton: FC<{
+    label: string;
+    path: string;
+    onClick?: () => void;
+    className?: string;
+  }> = ({ label, path, onClick, className }) => (
+    <Link
+      to={path}
+      onClick={onClick}
+      className={`hover:text-blue-600 truncate ${className || ''}`}
+    >
+      {label}
+    </Link>
+  );
+
+  return (
+    <nav className="fixed z-10 top-0 w-full p-4 shadow-lg bg-fifth dark:bg-purple-950 flex items-center justify-between text-text">
+      {/* Navigation Links */}
+      <div className="hidden sm:flex items-center gap-x-8">
+        {displayedItems
+          .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
+          .map(({ label, path, onClick }, index) => (
+            <NavButton key={index} label={label} path={path} onClick={onClick} />
+          ))}
+      </div>
+
+      {/* Mobile Dropdown */}
+      <div className="relative sm:hidden">
+        <button
+          onClick={() => setDropdownOpen(!isDropdownOpen)}
+          className="hover:text-blue-600"
+        >
+          ☰
+        </button>
+        {isDropdownOpen && (
+          <div className="absolute left-1/2 top-full transform mt-2 w-48 bg-fifth dark:bg-purple-950 rounded shadow-lg">
+            {displayedItems
+              .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
+              .map(({ label, path, onClick }, index) => (
+                <Link
+                  key={index}
+                  to={path}
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    if (onClick) onClick();
+                  }}
+                  className="block px-4 py-2 text-white hover:bg-orange-500 dark:hover:bg-purple-800"
                 >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link to="/login" onClick={() => handleLogin()} className="hover:text-blue-600  truncate">
-                Sign Up / Login
-              </Link>
-            )}
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
+                  {label}
+                </Link>
+              ))}
+          </div>
+        )}
+      </div>
 
-      case '/instructions':
-        return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            {user && (
-              <Link to="/title-menu" className="hover:text-blue-600  truncate">
-                PLAY!
-              </Link>
-            )}
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-
-      case '/user-profile':
-        return (
-          <nav className="fixed top-0 w-full rounded-sm p-4 bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              PLAY!
-            </Link>
-            <Link to="/instructions" className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
-            <Link to="/" onClick={() => handleLogout()}className='hover:text-orange-400 truncate'>Logout</Link>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-
-      case '/title-menu':
-        return (
-
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/friends" className="hover:text-blue-600  truncate">
-              Friends
-            </Link>
-            <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
-              Logout
-            </button>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-
-      case '/friends':
-        return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              PLAY!
-            </Link>
-            <Link to="/user-profile" className="hover:text-blue-600  truncate">
-              Profile
-            </Link>
-            <Link to="/instructions" className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
-            <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            ></button>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-        case '/cards':
-        return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              PLAY!
-            </Link>
-            <Link to="/user-profile" className="hover:text-blue-600  truncate">
-              Profile
-            </Link>
-            <Link to="/instructions" className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
-            <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            ></button>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-      case '/leaderboard':
-        return (
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/title-menu" className="hover:text-blue-600  truncate">
-              Play!
-            </Link>
-            <Link to="/user-profile" className="hover:text-blue-600  truncate">
-              Profile
-            </Link>
-            <Link to="/instructions" className="hover:text-blue-600  truncate">
-              How To Play
-            </Link>
-            <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            ></button>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-      case '/game-board':
-        return (
-
-          <nav className="fixed top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-
-            <Link to="/" className="hover:text-blue-600  truncate">
-              EVENT HORIZON
-            </Link>
-            <Link to="/friends" className="hover:text-blue-600  truncate">
-              Friends
-            </Link>
-            <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
-              Logout
-            </button>
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-
-      default:
-        return (
-          <nav className="fixed z-10 top-0 w-full p-4 rounded-sm bg-fifth dark:bg-purple-950 shadow-lg text-text flex items-center justify-between h-10">
-            <Link to="/" className="hover:text-blue-600 truncate">
-              EVENT HORIZON
-            </Link>
-            {user && (
-              <button
-              className="hover:text-blue-600  truncate"
-              onClick={() => {
-                handleLogout();
-              }}
-            ></button>
-            )}
-            <button onClick={toggleDarkMode} className="hover:text-blue-600 ">
-              🌗
-            </button>
-            <button onClick={cbMode} className="hover:text-blue-600 ">
-              -
-            </button>
-          </nav>
-        );
-    }
-  };
-
-  return renderNavForRoute();
+      {/* Theme Toggle Buttons */}
+      <div className="flex items-center space-x-2">
+        <button onClick={toggleDarkMode} className="hover:text-blue-600">
+          🌗
+        </button>
+        <button onClick={cbMode} className="hover:text-blue-600">
+          -
+        </button>
+      </div>
+    </nav>
+  );
 };
-
 
 export default NavigationBar;

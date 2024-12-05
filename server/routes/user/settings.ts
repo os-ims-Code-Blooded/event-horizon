@@ -50,22 +50,22 @@ settings.get(`/:id` , async (req, res) => {
 
 // })
 
-settings.patch(`:id`, async (req, res) => {
+settings.patch(`/:id`, async (req, res) => {
 
   try {
-
+    console.log('req.body', req.body);
     if (!req.body.data){
       res.sendStatus(203);
     }
 
-    if (req.body.data.dark_mode) {
+    if (req.body.data.dark_mode !== undefined && typeof req.body.data.dark_mode === "boolean") {
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { dark_mode: req.body.data.dark_mode }
       })
     }
     
-    if (req.body.data.colorblind_mode) {
+    if (req.body.data.colorblind_mode !== undefined && typeof req.body.data.colorblind_mode === "boolean") {
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { colorblind_mode: req.body.data.colorblind_mode }

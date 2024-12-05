@@ -93,6 +93,9 @@ app.get('/leaderboard', (req, res) => {
 app.get('/cards', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 })
+app.get('/settings', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+})
 
 app.post('/api/logout', (req, res) => {
   req.logout((err) => {
