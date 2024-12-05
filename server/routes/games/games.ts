@@ -5,6 +5,37 @@ import rounds from './rounds.ts';
 const games = express.Router();
 games.use('/rounds', rounds);
 
+// provide the player ID, and this will tell you if there is a game
+games.get('/:id', async (req, res) => {
+
+  try {
+
+    const games = await database.user_Games.findMany({
+      where: { user_id: Number(req.params.id) },
+      include: { game: true}
+    })
+
+    const userHasOpenGame = games.reduce((accum, curr) => {
+      if (curr.game.status === true) {
+        return curr;
+      } else {
+        return accum;
+      }
+    }, null)
+
+    if (userHasOpenGame){
+      res.sendStatus(404);
+    } else {
+      res.status(200).send(userHasOpenGame);
+    }
+
+  } catch (error) {
+    console.error(`Error on GET request for an open game associated with user #${req.params.id}.`)
+    res.sendStatus(500);
+  }
+
+})
+
 // used to create a game AND find an existing game
 games.post('/', async (req, res) => {
 
@@ -253,5 +284,6 @@ games.delete('/:id', async (req, res) => {
   }
 
 })
+
 
 export default games;
