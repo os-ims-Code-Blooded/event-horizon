@@ -197,26 +197,31 @@ io.on('connection', (socket)=>{
     
     try {
 
-      console.log("*** SESSION DATA", data, user)
-      console.log("*** SOCKET ID:", sockId)
+      console.log(`===================================================================`)
+      console.log("SOCKET CONNECTION  |  ", sockId)
+      console.log(data, user)
+      console.log(`===================================================================\n`)
   
       socket.join(data)
-
-      console.log(roundNum);
-  
-      // socket.to(data.session).emit("receive_opponent", user)
-  
-      io.in(data).emit("receive_user", user)
 
       // finds player information for all players currently in-game
       const findPlayerInfo = await database.round_Player_Info.findMany({
         where: { round_id: Number(roundNum)},
       })
 
-      io.in(data).emit("recent_player_info", findPlayerInfo);
+      if (findPlayerInfo.length > 1) {
+        console.log(`===================================================================`)
+        console.log(`Two players have been detected for Game Session #${data}.`)
+        console.log(`The Game Board should be rendered by the client for the session.`)
+        console.log(`===================================================================\n`)        
+      }
+
+      io.in(data).emit("session_players", findPlayerInfo);
 
     } catch (error) {
+      console.log(`<<!!!!=========================ERROR=========================!!!!>>`)
       console.error(`Error in JOIN SESSION for ${sockId} on ${roundNum}.`)
+      console.log(`<<!!!!=======================================================!!!!>>`)
     }
 
   })
