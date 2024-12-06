@@ -48,6 +48,7 @@ model User {
   Round_Player_Info Round_Player_Info[]
   Actions           Actions[]
   User_Settings     User_Settings[]
+  Game_Card_States  Game_Card_States[]
 
   @@unique([id, selectedDeckId])
   @@unique([id, name])
@@ -110,6 +111,8 @@ model Rounds {
   game              Games               @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   Round_Player_Info Round_Player_Info[]
   Actions           Actions[]
+
+  Game_Card_States Game_Card_States[]
 }
 
 // Theoretically immutable; we create actions here
@@ -182,6 +185,17 @@ model Round_Player_Info {
   armor    Int    @default(20)
 
   user  User   @relation(fields: [user_id, name], references: [id, name], onUpdate: Cascade, onDelete: Cascade)
+  round Rounds @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model Game_Card_States {
+  id       Int     @id @default(autoincrement())
+  round_id Int
+  user_id  Int
+  deck     String?
+  hand     String?
+
+  user  User   @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   round Rounds @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
