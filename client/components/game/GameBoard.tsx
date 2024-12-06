@@ -251,7 +251,7 @@ if (playerHand.length <= 0){
                 <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
               </div>
               :
-              <div className='p-20 text-[2rem] text-green-500'> MUNITION STATUS: </div>
+              <div className='border-8 border-gray rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col text-[1rem] text-green-500'><div className='pt-15'>MUNITION STATUS:</div> </div>
             }
           </div>
         </div>
@@ -323,10 +323,12 @@ if (playerHand.length <= 0){
                 endTurn()
                 if (playerAction === 'FIRE'){
                     setCardToPlay(null)
-                    discard(cardToPlay[0])
+                    // discard(cardToPlay[0])
                 }
                 if (playerAction === "LOAD" && cardToPlay[2]){
                   setCardToPlay(null)
+                  discard(cardToPlay[0])
+                } else if (playerAction === "LOAD" && cardToPlay[1]){
                   discard(cardToPlay[0])
                 }
               }}>COMMIT TURN</button>

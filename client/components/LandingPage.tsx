@@ -10,10 +10,10 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
 
   return (
     <div className='pt-5' aria-label="Landing Page">
-      <div className='bg-radial-custom dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-text pt-5'
+      <div className='bg-starfield bg-contain dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-text pt-5'
         aria-labelledby="landing-page-title"
       >
-          <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/8mBos8V.png' alt="Game graphic image"/>
+          <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
           {user && (
                   <Link
                   to="/title-menu"

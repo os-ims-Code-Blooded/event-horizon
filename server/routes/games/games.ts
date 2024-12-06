@@ -14,16 +14,19 @@ games.get('/:id', async (req, res) => {
       where: { user_id: Number(req.params.id) },
       include: { game: true}
     })
+    console.log("*** GAMES ***\n", games)
 
     const userHasOpenGame = games.reduce((accum, curr) => {
       if (curr.game.status === true) {
-        return curr;
+        return curr.game;
       } else {
         return accum;
       }
     }, null)
+    
+    console.log("*** USER HAS OPEN GAMES ***\n", userHasOpenGame)
 
-    if (userHasOpenGame){
+    if (!userHasOpenGame){
       res.sendStatus(404);
     } else {
       res.status(200).send(userHasOpenGame);

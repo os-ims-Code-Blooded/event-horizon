@@ -216,7 +216,7 @@ io.on('connection', (socket)=>{
         console.log(`===================================================================`)
         console.log(`Two players have been detected for Game Session #${data}.`)
         console.log(`The Game Board should be rendered by the client for the session.`)
-        console.log(findPlayerInfo);
+        console.log("FOUND PLAYER INFO:  ", findPlayerInfo);
         console.log(`===================================================================\n`)        
       }
 
@@ -236,6 +236,7 @@ io.on('connection', (socket)=>{
 
   socket.on('end_turn', async (data)=>{
 
+    console.log(" ENDED TURN DATA ", data)
 
     try{
       const response = await gameHandler(data)
