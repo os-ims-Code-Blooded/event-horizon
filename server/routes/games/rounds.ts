@@ -38,7 +38,20 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
         }
       }, 0)
 
-      res.status(200).send({ "Current Round": findMostRecent});
+      let userState = await database.game_Card_States.findFirst({
+        where: {
+          AND: [
+            { round_id: findMostRecent },
+            { user_id: req.user.id }
+          ] 
+        }
+      })
+
+      res.status(200).send({ 
+        "Current Round": findMostRecent,
+        "Current Deck": userState.deck,
+        "Current Hand": userState.hand
+      });
 
     }
 
