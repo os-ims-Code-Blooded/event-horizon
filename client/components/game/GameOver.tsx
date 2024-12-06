@@ -8,7 +8,7 @@ export default function GameOver ({
 
 
 
-  
+  console.log("USER ID", user.id, "GAME WINNER", gameWinner);
 
   return(
 <>
@@ -38,6 +38,7 @@ export default function GameOver ({
     </div>
 
 : 
+
 <div className='p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white '>
 <div className='p-4 pt-8 justify-items-center flex flex-col items-center'>
   

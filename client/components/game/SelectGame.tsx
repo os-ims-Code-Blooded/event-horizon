@@ -152,6 +152,7 @@ export default function SelectGame({
 
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
+
           return (player.user_id !== user.id)
         })
         
@@ -159,7 +160,7 @@ export default function SelectGame({
         
         }
 
-        console.log("ON CLICK PLAY ENEMY", enemy)
+        // console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
         if (enemy.length > 0) {
           setEnemyName(enemy[0].name);  // set that enemy's name
@@ -238,7 +239,7 @@ export default function SelectGame({
 
 return(
 
-<div>
+<div >
 {activeUserGame?  
 
 <div className='h-full'>
@@ -272,10 +273,10 @@ setEnemyId={setEnemyId}
 }
 </div>
 
-:  
+:
 
 <div>
- 
+
 {!playClicked?
 
 
@@ -285,12 +286,8 @@ setEnemyId={setEnemyId}
 <div className='pt-8'>
 
 
-
-<select id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
+<select className='text-black' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
   <option value="">--select deck--</option>
-
-
-
 
   {userDecks.map((deck, index)=>{
     // console.log("index", index)
@@ -303,10 +300,6 @@ setEnemyId={setEnemyId}
   })}
 
 
-
-
-
-
 </select>
   </div>
 
@@ -315,7 +308,6 @@ setEnemyId={setEnemyId}
   {deckWasChosen?
 
 <>
-<button className='bg-lime-200 rounded-sm' onClick={onClickPlay}>PLAY NOW!</button>
 
 {waiting?
 
@@ -323,7 +315,8 @@ setEnemyId={setEnemyId}
 
 :
 
-null
+<button className='bg-lime-200 rounded-sm text-black' onClick={onClickPlay}>PLAY NOW!</button>
+
 
 }
 <div className='flex flex-row'></div>
@@ -334,12 +327,12 @@ null
 :
 
 <>
-<button className='cursor-not-allowed bg-gray' >PLAY NOW!</button>
+<button className='cursor-not-allowed bg-gray text-black' >PLAY NOW!</button>
 
 <br></br>
 </>
   }
-  <button className='bg-lime-400 rounded-sm' onClick={onClickMake}>CUSTOMIZE!</button>
+  <button className='bg-lime-400 rounded-sm text-black' onClick={onClickMake}>CUSTOMIZE!</button>
   <br></br>
   <div>
 

@@ -117,7 +117,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      console.log("***********CARD TO PLAY:\n", cardToPlay)
+      // console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -145,9 +145,9 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
         }
       }
     )
-    setGameOver(true)
+    // setGameOver(true)
         // console.log("GAME OVER EMISSION", gameOver)
-        socket.emit('game_over', gameOver, session)
+        socket.emit('game_over', gameOver.data, session)
       }
     }
     catch(err){
@@ -187,7 +187,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
   useEffect(()=>{
 
-    console.log("SESSION #####", session)
+    // console.log("SESSION #####", session)
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
@@ -195,12 +195,18 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
+      console.log("WINNER?", data)
+      setGameWinner(data.GameComplete.victor_id)
       setGameOver(true)
+
+
     })
 
     socket.on('received_rounds_data', (data: any)=>{
 
-    console.log("*** ROUND RESPONSE DATA ***\n", data)
+    // console.log("*** ROUND RESPONSE DATA ***\n", data)
+
+    // socket.on('socket_request')
 
 
   ///////// RETURNING CARD TO DECK //////////////////////////
@@ -284,14 +290,14 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 
       if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        console.log("HELOOOOOOOO")
+        // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
 
     
 
       if (enemyPrevRound[0].action === 'FIRE'){
-        console.log("FIRED!!!")
+        // console.log("FIRED!!!")
         setEnemyArmed(false)
       }
 
@@ -341,13 +347,15 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     }
 
-    console.log("data", data)
+    
+    ////// VICTORY CONDITIONS /////////////
+    if (data.GameComplete){
+      
+        console.log("victory data?", data)
 
-      ////// VICTORY CONDITIONS /////////////
-      if (data.GameComplete){
+        setGameWinner(data.GameComplete.victor_id);
 
         setGameOver(true)
-        setGameWinner(data.GameComplete.victor_id);
 
 
       }

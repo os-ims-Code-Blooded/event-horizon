@@ -237,7 +237,7 @@ io.on('connection', (socket)=>{
         console.log(`Two players have been detected for Game Session #${data}.`)
         console.log(`The Game Board should be rendered by the client for the session.`)
         console.log("FOUND PLAYER INFO:  ", findPlayerInfo);
-        console.log(`===================================================================\n`)        
+        console.log(`===================================================================\n`)
       }
 
       io.in(data).emit("session_players", findPlayerInfo);
@@ -273,7 +273,7 @@ io.on('connection', (socket)=>{
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-
+    console.log("data", data)
       io.in(session).emit('game_over', data)
 
   })
