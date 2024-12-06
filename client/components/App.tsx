@@ -184,6 +184,7 @@ export default function App (){
         user={user}
         handleLogin={handleLogin}
         cbMode={toggleCbMode}
+        isDarkMode={isDarkMode}
       />
       <Routes>
         <Route
