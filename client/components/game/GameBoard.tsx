@@ -120,18 +120,21 @@ const GameBoard: FC <GameBoardProp> = ({
 
   const opponentCards: CardType[] = [
     {
+      id: 1,
       name: '',
       damage: 0,
       armor: 0,
       description: ''
     },
     {
+      id: 2,
       name: '',
       damage: 0,
       armor: 0,
       description: ''
     },
     {
+      id: 3,
       name: '',
       damage: 0,
       armor: 0,
