@@ -64,6 +64,8 @@ export default function SelectGame({
   const [roundInfo, setRoundInfo] = useState([])
 
   const [activeUserGame, setActiveUserGame] = useState(false)
+
+  const [waiting, setWaiting] = useState(false)
   
   
 
@@ -102,6 +104,7 @@ export default function SelectGame({
                       setEnemyName(enemy[0].name);  // set that enemy's name
                       setEnemyId(enemy[0].user_id); // set that enemy's user ID
                       setRoundInfo(data)            // set the current round information
+                      setWaiting(false)
                       setPlayClicked(true)          // then trigger Game Board conditional render
                       setDeckWasChosen(true)
                     }
@@ -138,6 +141,8 @@ export default function SelectGame({
       
       setSession(game.data.id);
       setRoundNum(round.data["Current Round"]);
+      setWaiting(true)
+      
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
@@ -270,6 +275,7 @@ setEnemyId={setEnemyId}
 :  
 
 <div>
+ 
 {!playClicked?
 
 
@@ -311,6 +317,17 @@ setEnemyId={setEnemyId}
 <>
 <button className='bg-lime-200 rounded-sm' onClick={onClickPlay}>PLAY NOW!</button>
 
+{waiting?
+
+<h1 className="text-white">waiting for game</h1>
+
+:
+
+null
+
+}
+<div className='flex flex-row'></div>
+
 <br></br>
 </>
 
@@ -327,13 +344,13 @@ setEnemyId={setEnemyId}
   <div>
 
     {!makeClicked?
-      
+
       null
-    
+
       :
       <div className='flex flex-row p-4'>
-  
-        
+
+
         <MakeGame/>
       </div>
   }
