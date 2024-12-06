@@ -34,7 +34,7 @@ export default async function gameHandler(req: any) {
         Actions_Loaded: true,
       }
     })
-
+    console.log("REQ BODY", req.body);
     // if this is the first action submitted for a round
     if (currentRound.Actions.length === 0){
 

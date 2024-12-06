@@ -62,6 +62,11 @@ export default function SelectGame({
   const [enemyName, setEnemyName] = useState('')
 
   const [roundInfo, setRoundInfo] = useState([])
+
+  const [activeUserGame, setActiveUserGame] = useState(false)
+
+  const [waiting, setWaiting] = useState(false)
+  
   
 
   useEffect( () => {
@@ -80,7 +85,7 @@ export default function SelectGame({
                 .then((round) => {
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
-                  socket.emit("join_session", session, user, roundNum);
+                  socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
                   // I don't know if putting an event listener here is an issue
                   // this might need to be somewhere else?
@@ -88,15 +93,20 @@ export default function SelectGame({
             
                     // when we receive emission, see if there is an enemy
                     const enemy = data.filter((player) => {
-                      return (player.id !== user.id)
+                      return (player.user_id !== user.id)
                     })
                     
+                    console.log("ENEMY???\n", enemy)
+
+
                     // if the filtered array contains an enemy
                     if (enemy.length > 0) {
                       setEnemyName(enemy[0].name);  // set that enemy's name
                       setEnemyId(enemy[0].user_id); // set that enemy's user ID
                       setRoundInfo(data)            // set the current round information
+                      setWaiting(false)
                       setPlayClicked(true)          // then trigger Game Board conditional render
+                      setDeckWasChosen(true)
                     }
                   })
                 })
@@ -131,8 +141,10 @@ export default function SelectGame({
       
       setSession(game.data.id);
       setRoundNum(round.data["Current Round"]);
+      setWaiting(true)
+      
 
-      socket.emit("join_session", session, user, roundNum);
+      socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?
@@ -140,15 +152,20 @@ export default function SelectGame({
 
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
-          return (player.id !== user.id)
+          return (player.user_id !== user.id)
         })
         
+        if (deckSelected){
+        
+        }
+
+        console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
         if (enemy.length > 0) {
           setEnemyName(enemy[0].name);  // set that enemy's name
           setEnemyId(enemy[0].user_id); // set that enemy's user ID
           setRoundInfo(data)            // set the current round information
-          setPlayClicked(true)          // then trigger Game Board conditional render
+          setActiveUserGame(true)          // then trigger Game Board conditional render
         }
       })
 
@@ -222,8 +239,43 @@ export default function SelectGame({
 return(
 
 <div>
+{activeUserGame?  
 
+<div className='h-full'>
 
+{gameOver?
+<>
+<GameOver gameWinner={gameWinner} user={user}/>
+
+</>
+:
+<div className='h-full'>
+
+<GameController
+session={session}
+socket={socket}
+user={user}
+setGameOver={setGameOver}
+setGameWinner={setGameWinner}
+userDecks={userDecks}
+deckSelected={deckSelected}
+handSize={handSize}
+roundNum={roundNum}
+setRoundNum={setRoundNum}
+enemyId={enemyId}
+roundInfo={roundInfo}
+enemyName={enemyName}
+setEnemyName={setEnemyName}
+setEnemyId={setEnemyId}
+/>
+</div>
+}
+</div>
+
+:  
+
+<div>
+ 
 {!playClicked?
 
 
@@ -265,6 +317,17 @@ return(
 <>
 <button className='bg-lime-200 rounded-sm' onClick={onClickPlay}>PLAY NOW!</button>
 
+{waiting?
+
+<h1 className="text-white">waiting for game</h1>
+
+:
+
+null
+
+}
+<div className='flex flex-row'></div>
+
 <br></br>
 </>
 
@@ -281,13 +344,13 @@ return(
   <div>
 
     {!makeClicked?
-      
-      <UserDecks user={null}/>
-    
+
+      null
+
       :
       <div className='flex flex-row p-4'>
-  
-        <UserDecks user={null}/>
+
+
         <MakeGame/>
       </div>
   }
@@ -328,6 +391,12 @@ setEnemyId={setEnemyId}
 }
 </>
 }
+
+</div>
+
+}
+
+
 
 </div>
 

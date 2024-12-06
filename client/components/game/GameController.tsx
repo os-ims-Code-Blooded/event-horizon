@@ -41,8 +41,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
 
   //player's remaining hit points
-  const [hitPoints, setHitPoints] = useState(50)
-  const [armor, setArmor] = useState(20)
+  const [hitPoints, setHitPoints] = useState(userRound[0].health || 50)
+  const [armor, setArmor] = useState(userRound[0].armor || 20)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
   const [cardId, setCardId] = useState(null)
@@ -50,8 +50,8 @@ export default function GameController ({ session, socket, setGameOver, setGameW
  
 
   //player's remaining hit points
-  const [enemyHitPoints, setEnemyHitPoints] = useState(50)
-  const [enemyArmor, setEnemyArmor] = useState(20)
+  const [enemyHitPoints, setEnemyHitPoints] = useState(enemyRound[0] ? enemyRound[0].health : 50)
+  const [enemyArmor, setEnemyArmor] = useState(enemyRound[0] ? enemyRound[0].armor : 20)
   
 
   //the enemy's current and last actions
@@ -103,6 +103,7 @@ const shuffle = array =>{
 //////////////////////////////////
 
 const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
+
 const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 ///////////////////////////////////////////////////////
@@ -116,15 +117,16 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
+      console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
     }
 
-    console.log("CURRENT action", e.target.value, "LAST action", lastAction)
+    // console.log("CURRENT action", e.target.value, "LAST action", lastAction)
     if (e.target.value === "LOAD" && lastAction === "LOAD" && cardReplacement.length > 0){
       setReloaded(true)
-      console.log("RELOADED?")
+      // console.log("RELOADED?")
     }
   }
 
@@ -162,13 +164,8 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     
     setLastAction(playerAction)
-
-
-////////// SELF DESTRUCT /////////////////////////////
-
-///////////////////////////////////////////////////
     setRoundDisplay(roundDisplay + 1)
-
+    // console.log("*** CARD ID ***\n", cardId)
 
     socket.emit('end_turn', {
       "body":{
@@ -176,7 +173,9 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
           "round_id": roundNum,
           "user_id": user.id,
           "action": playerAction,
-          "card_id": cardId
+          "card_id": cardId,
+          "deck_state": JSON.stringify(gameDeck),
+          "hand_state": JSON.stringify(playerHand)
       }
 
     }, session})
@@ -188,9 +187,11 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
   useEffect(()=>{
 
-
-
     console.log("SESSION #####", session)
+
+    if (enemyRound[0]){
+      setEnemyName(enemyRound[0].name)
+    }
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
@@ -265,11 +266,11 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
         
         // console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
         
-        console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
+        // console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
         
         // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
         
-        console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
+        // console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
 
 
 

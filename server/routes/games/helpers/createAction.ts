@@ -5,13 +5,15 @@ export default async function createAction(req: any){
   try {
 
     const cardSubmission = req.body.data.card_id ? req.body.data.card_id : null;
-    
-    if (cardSubmission){
-  
-      const findCardCorrelation = await database.user_Cards.findFirst({ where: { id: Number(req.body.data.card_id) }})
+    console.log("*** req.body.data.card_id ***\n", req.body.data.card_id)
 
+    if (cardSubmission){
+      const findCardCorrelation = await database.user_Cards.findFirst({ where: { id: Number(req.body.data.card_id) }})
+      
       const cardDetails = await database.cards.findFirst({ where: { id: findCardCorrelation.card_id}})
       
+      console.log("CARD ID MISMATCH", req.body.data.card_id, cardDetails.id)
+
       const newAction = await database.actions.create({
         data: {
           round:  { connect: { id: req.body.data.round_id}},

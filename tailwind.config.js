@@ -28,6 +28,8 @@ module.exports = {
       },
       backgroundImage: {
         'radial-custom': 'radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%)',
+        'black-hole': 'url("https://i.imgur.com/So8ytLh.png")',
+        'starfield': 'url("https://i.imgur.com/76SAN8D.gif")'
       },
     },
   },
