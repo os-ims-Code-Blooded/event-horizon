@@ -64,7 +64,7 @@ passport.deserializeUser(function(user: any, cb: any) {
 });
 auth.get('/login', passport.authenticate('google', {
   scope: ['email', 'openid'],
-  // prompt: 'select_account consent'
+  prompt: 'select_account consent'
 }));
 
 auth.get('/auth/google/callback',

@@ -20,7 +20,7 @@ profile.use('/settings', settings);
 profile.get('/:id', async (req: AuthRequest, res) => {
 
   try {
-
+    console.log('User fetch server', req.user);
     // if no user specified
     if (!req.params.id){
       res.sendStatus(203);
@@ -163,8 +163,17 @@ profile.delete('/:id', async (req: AuthRequest, res) => {
           id: Number(req.params.id)
         }
       })
-
-      res.sendStatus(204);
+      req.logout((err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Error logging out' });
+        }
+        req.session.destroy((error) => {
+          if (error) {
+            return res.status(500).json({ message: 'Error destroying session' });
+          }
+          res.sendStatus(204);
+        });
+      });
     }
 
   } catch (error){
@@ -180,6 +189,7 @@ profile.delete('/:id', async (req: AuthRequest, res) => {
 
 profile.patch('/:id', async (req: AuthRequest, res) => {
   try {
+    console.log('req bod', req.body);
     // if no patch specified, indicate nothing received
     if (!req.body){
       res.sendStatus(203);
@@ -191,16 +201,17 @@ profile.patch('/:id', async (req: AuthRequest, res) => {
       const user = await database.user.update({
         where : {
           id: Number(req.params.id)
-        }, 
+        },
         data: data
       })
-
+      console.log('user updated?', user);
       res.status(200).send(user);
 
     }
 
   } catch (error) {
-    console.error(`Error on PATCH request for user #${req.params.id}`)
+    console.error(`Error on PATCH request for user #${req.params.id}`, error)
+    res.sendStatus(500);
   }
 
 })

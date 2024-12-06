@@ -28,29 +28,36 @@ const LeaderBoard = ({user, fullScreen=true}) => {
     <div
       className={`${
         fullScreen ? 'h-screen' : 'h-full'
-      } w-full bg-slate-900 text-white dark:text-slate-400 dark:bg-black flex flex-col items-center`}
+      } w-full bg-slate-900 text-white dark:text-slate-200 dark:bg-black flex flex-col items-center`}
     >
       <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
-      <table className='table-auto border-collapse border border-slate-500'>
+      <table className="table-auto border-collapse border border-slate-500">
         <thead>
-          <tr className='bg-slate-700'>
-            <th className='border border-slate-600 px-4 py-2'>Rank</th>
-            <th className='border border-slate-600 px-4 py-2'>Name</th>
-            <th className='border border-slate-600 px-4 py-2'>Score</th>
+          <tr className="bg-slate-700">
+            <th className="border border-slate-600 px-4 py-2">Rank</th>
+            <th className="border border-slate-600 px-4 py-2">Name</th>
+            <th className="border border-slate-600 px-4 py-2">Score</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user: any, index) => (
-            <tr key={user.name} className='even:bg-slate-800'>
-              <td className='border border-slate-600 px-4 py-2'>{index + 1}</td>
-              <td className='border border-slate-600 px-4 py-2'>{user.name}</td>
-              <td className='border border-slate-600 px-4 py-2'>{user.score}</td>
+          {users.map((boardUser: any, index) => (
+            <tr
+              key={boardUser.id}
+              className={`even:bg-slate-800 ${
+                user.id === boardUser.id ? 'animate-pulse bg-yellow-100' : ''
+              }`}
+            >
+              <td className="border border-slate-600 px-4 py-2">{index + 1}</td>
+              <td className="border border-slate-600 px-4 py-2">{boardUser.name}</td>
+              <td className="border border-slate-600 px-4 py-2 text-yellow-400">
+                {boardUser.score}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-}
+};
 
 export default LeaderBoard;
