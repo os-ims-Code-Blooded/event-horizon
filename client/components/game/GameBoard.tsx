@@ -196,7 +196,7 @@ if (playerHand.length <= 0){
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
           {opponentCards.map((card, index) => (
-          <img src='https://i.imgur.com/y1g83zB.png' className="scale-[.75] rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
+          <img src='https://i.imgur.com/0RdgUoR.png' className="scale-[.75] border-8 border-slate-600 rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
           key={index}
             />
           ))}
@@ -238,17 +238,20 @@ if (playerHand.length <= 0){
           <div>
             {cardToPlay?
               <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
-                <h2 className="text-lg font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                <h2 className="text-lg text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                 <div className="text-center">
                   <div>`IMAGE`</div>
-                  <p className="text-gray-700 mb-1">
+                  <p className="text-black mb-1">
                     <strong>Attack:</strong> {cardToPlay[1]}
                   </p>
-                  <p className="text-gray-700 mb-1">
+                  <p className="text-black mb-1">
                     <strong>Defense:</strong> {cardToPlay[2]}
                   </p>
+                  <p className="text-black mb-1">
+                    <strong>Duration:</strong> {cardToPlay[5]? cardToPlay[5] : 0}
+                 </p>
                 </div>
-                <p className="text-gray-600 text-sm text-center">{cardToPlay[3]}</p>
+                <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
               </div>
               :
               <div className='border-8 border-gray rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col text-[1rem] text-green-500'><div className='pt-15'>MUNITION STATUS:</div> </div>
@@ -308,6 +311,7 @@ if (playerHand.length <= 0){
                 playerHand={playerHand}
                 setPlayerHand={setPlayerHand}
                 user={user}
+                activeLoading={activeLoading}
               />
             )
           })}

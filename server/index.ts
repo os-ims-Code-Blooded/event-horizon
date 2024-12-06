@@ -273,7 +273,7 @@ io.on('connection', (socket)=>{
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-
+    console.log("data", data)
       io.in(session).emit('game_over', data)
 
   })

@@ -26,6 +26,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [newDeckName, setNewDeckName] = useState<string>("");
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
+  const [deckPoints, setDeckPoints] = useState(200)
 
 
   const fetchDecks = async () => {
