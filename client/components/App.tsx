@@ -28,10 +28,12 @@ export default function App (){
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {
-    // setIsDarkMode((prevMode) => !prevMode);
+    setIsDarkMode((prevMode) => !prevMode);
     document.documentElement.classList.toggle('dark')
   };
 
@@ -53,22 +55,30 @@ export default function App (){
     try {
 
       const response = await axios.get('/api/auth-check');
+      console.log('auth response', response);
       setIsAuthenticated(response.data.isAuthenticated);
 
       // Fetch user profile if authenticated
       if (response.data.isAuthenticated) {
         setUser(response.data.user);
-        
+
         // fetcher users settings
         const userSetting = await axios.get(`/profile/settings/${response.data.user.id}`);
         // set userSettings
         setUserSettings(userSetting.data);
 
-        if(userSetting.data.colorblind_mode){
+        if(userSetting.data.colorblind_mode && !isCbMode){
           const root = document.documentElement;
           root.classList.add('cbMode');
+          setCbMode(true);
+        } else if(isCbMode && userSetting.data.colorblind_mode !== undefined) {
+          const root = document.documentElement;
+          root.classList.remove('cbMode');
+          setCbMode(false);
         }
-        if(userSetting.data.dark_mode){
+        if(userSetting.data.dark_mode && !isDarkMode){
+          toggleDarkMode();
+        } else if(userSetting.data.dark_mode !== undefined && isDarkMode){
           toggleDarkMode();
         }
 
@@ -194,7 +204,7 @@ export default function App (){
         />
         <Route
           path="/settings"
-          element={isAuthenticated && user ? <Settings user={user} AuthCheck={AuthCheck} /> : <Navigate to='/' />}
+          element={isAuthenticated && user ? <Settings user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
         />
         <Route
           path="/cards"
