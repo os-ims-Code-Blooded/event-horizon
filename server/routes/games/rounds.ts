@@ -57,7 +57,7 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
 
   } catch (error) {
 
-    console.error(`Error fetching most recent round for game #${req.params.id}.`)
+    console.error(`Error fetching most recent round for game #${req.params.id}.`, error)
     res.sendStatus(500);
 
   }
