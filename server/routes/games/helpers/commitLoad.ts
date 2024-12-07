@@ -81,6 +81,9 @@ export default async function commitLoad(req: any, game: number, action: any){
         let localDeckState: any = userDeck.deck;
         let localHandState: any = userDeck.hand;
 
+        console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
+        console.log(`Current Hand for user #${action.user_id}: `, localHandState);
+
         // add the card back to the deck
         if (Array.isArray(localDeckState)) {
           localDeckState.push(card)
@@ -89,11 +92,15 @@ export default async function commitLoad(req: any, game: number, action: any){
         // filter hand to find the card that we are deleting, and exlcude it
         if (Array.isArray(localHandState)){
           localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
+          console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
           localHandState.push(shuffle(localDeckState).pop());                           // push a random card to the hand
         }
 
+        console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
+        console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
+
         // update the stored deck with parsedDeck being turned back into a string
-        await database.game_Card_States.updateMany({
+        const updatesComplete = await database.game_Card_States.updateMany({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -105,6 +112,8 @@ export default async function commitLoad(req: any, game: number, action: any){
             hand: localHandState
           }
         })
+
+        console.log(`Updated card states for user #${action.user_id}: `, updatesComplete);
         
         // create the damage action to store in actions_Loaded
         const damageAction = await database.actions_Loaded.create({
@@ -145,17 +154,23 @@ export default async function commitLoad(req: any, game: number, action: any){
         let localDeckState: any = userDeck.deck;
         let localHandState: any = userDeck.hand;
 
+        console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
+        console.log(`Current Hand for user #${action.user_id}: `, localHandState);
+
         // filter hand to find the card that we are deleting, and splice it
         if (Array.isArray(localHandState)){
           localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
-
+          console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
           if (localDeckState.length > 0) {
             localHandState.push(shuffle(localDeckState).pop());                         // push a random card to the hand
           }
         }
 
+        console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
+        console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
+
         // update the stored deck with these changes
-        await database.game_Card_States.updateMany({
+        const updatesComplete = await database.game_Card_States.updateMany({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -167,6 +182,8 @@ export default async function commitLoad(req: any, game: number, action: any){
             hand: localHandState
           }
         })
+
+        console.log(`Updated card states for user #${action.user_id}: `, updatesComplete);
 
         // create the damage action to store in actions_Loaded
         const damageAction = await database.actions_Loaded.create({
