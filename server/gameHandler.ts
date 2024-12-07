@@ -75,30 +75,19 @@ export default async function gameHandler(req: any) {
 
       console.log(`Successfully pulled all deck states for the game, follows: `, pullGameDeckStates);
       
-      // remap them for creation of a new deck state
-      const deckStatesToCreate = pullGameDeckStates.map((state) => {
-        return {
-          user: state.user_id,
-          deck: state.deck,
-          hand: shuffle(state.deck).slice(0, 3)
-        }
-      })
-      
       // for every item in the deckStates to create
-      for (let i = 0; i < deckStatesToCreate.length; i++) {
+      for (let i = 0; i < pullGameDeckStates.length; i++) {
         const newState = await database.game_Card_States.create({ 
           data: {
-            user: { connect: { id: deckStatesToCreate[i].user}},
+            user: { connect: { id: pullGameDeckStates[i].user_id}},
             round: { connect: { id: newRound.id} },
-            deck: deckStatesToCreate[i].deck,
-            hand: deckStatesToCreate[i].hand
+            deck: pullGameDeckStates[i].deck,
+            hand: pullGameDeckStates[i].hand
           }
         })
-
-        console.log(`New deck state created for user #${deckStatesToCreate[i].user}: `, newState);
       }
 
-      const formattedResponse = await generateResponse(newRound.id, currentRound.id, updateState);
+      const formattedResponse = await generateResponse(newRound.id, currentRound.id);
 
       return (formattedResponse);
 
