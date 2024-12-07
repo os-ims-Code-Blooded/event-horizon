@@ -258,17 +258,46 @@ io.on('connection', (socket)=>{
 
     console.log(" ENDED TURN DATA ", data)
 
-    try{
+    try {
       const response = await gameHandler(data)
-
       io.in(data.session).emit('received_rounds_data', response)
-
-
     }
     catch(err){
       console.error(err)
     }
 
+  })
+
+  socket.on('deck_state_request', async (data) => {
+
+    /*
+    data: {
+      user_id:   your user id,
+      socket_id: your socket id,
+      round_id:  your current round
+    }
+    */
+    try {
+
+      const deckState = await database.game_Card_States.findFirst({
+        where: {
+          AND: [
+            { user_id: Number(data.user_id) },
+            { round_id: Number(data.round_id)}
+          ]
+        }
+      })
+
+      const preformat = {
+        "Current Deck": deckState.deck,
+        "Current Hand": deckState.hand
+      }
+
+      io.to(data.socket_id).emit('deck_state_response', preformat)
+
+    } catch (error) {
+      console.error(`Failure on a self-identify emission from client.`)
+    }
   })
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
