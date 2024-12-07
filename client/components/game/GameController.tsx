@@ -109,6 +109,8 @@ export default function GameController ({
 
   const [gameDeck, setGameDeck] = useState(deckSelected)
 
+  const [playerHand, setPlayerHand] = useState(handProvided)
+  
   const getAllCards = async () => {
     try {
       const response = await axios.get(`/cards/`);
@@ -118,12 +120,6 @@ export default function GameController ({
       console.error("Error fetching all cards:", error);
     }
   };
-  
-  const [gameDeck, setGameDeck] = useState(deckSelected);
-
-  const [playerHand, setPlayerHand] = useState(handProvided);
-
- 
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
@@ -133,7 +129,7 @@ export default function GameController ({
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      // console.log("***********CARD TO PLAY:\n", cardToPlay)
+      console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -161,9 +157,9 @@ export default function GameController ({
         }
       }
     )
-    // setGameOver(true)
+    setGameOver(true)
         // console.log("GAME OVER EMISSION", gameOver)
-        socket.emit('game_over', gameOver.data, session)
+        socket.emit('game_over', gameOver, session)
       }
     }
     catch(err){
@@ -202,7 +198,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
-    // console.log("SESSION #####", session)
+    console.log("SESSION #####", session)
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
@@ -210,72 +206,24 @@ export default function GameController ({
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
-      console.log("WINNER?", data)
-      setGameWinner(data.GameComplete.victor_id)
       setGameOver(true)
-
-
     })
 
-
-    socket.on('received_rounds_data', (data: any)=>{
-
+    socket.on('received_rounds_data', (data: any) => {
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-      const emission = {
-        user_id: user.id,
-        round_id: data.Current.id,
-        socket_id: socket
+      if (data.Current) {
+        const emission = {
+          user_id: user.id,
+          round_id: data.Current.id,
+          socket_id: socket
+        }
+  
+        // socket.emit('deck_state_request', (emission))
       }
 
-    }, 0)
-
-    
-    if (userHasCard) {
-      console.log(`Attempting to return card ID #${userHasCard} to #${user.id} hand.`)
-      console.log(`Selected deck is currently: `, deckSelected)
-
-      const cardToReturnToHand = deckSelected.filter((card) => {
-        return (card.card_id === userHasCard)
-      })
-      console.log(`Found card to return to hand: `, cardToReturnToHand)
-    }
-  }
-
-//////////////////////////////////////////
-
-
-  if (data.user_id){
-    if (data.user_id !== user.id){
-      setEnemyWaiting(true)
-    }
-  }
-
-
-  if (data.Current){
-    setRoundNum(data.Current.id)
-  }
-
-
-
-  if(data.UnloadedCards){
-    setCardReplacement(data.UnloadedCards)
-  }
-        // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
-
-  if (data.Current){
-
-    let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-    
-    let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
-
-    let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
-
-    let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
-
-      socket.emit('deck_state_request', (emission))
-
+   
       if (data.user_id){
         if (data.user_id !== user.id){
           setEnemyWaiting(true)
@@ -293,7 +241,7 @@ export default function GameController ({
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
 
-    setEnemyLastAction(enemyPrevRound[0].action)
+        setEnemyLastAction(enemyPrevRound[0].action)
 
         
         
@@ -302,35 +250,26 @@ export default function GameController ({
       // }
 
 
-    if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-      // console.log("HELOOOOOOOO")
-      setEnemyArmed(true)
-    }
+      if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+        console.log("HELOOOOOOOO")
+        setEnemyArmed(true)
+      }
 
     
 
-    if (enemyPrevRound[0].action === 'FIRE'){
-      // console.log("FIRED!!!")
-      setEnemyArmed(false)
-      if (enemyPrevRound[0]){
-        console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
-
-        getAllCards();
-        console.log("ALL CARDS?", allCards)
-
-        // const getAllCards = async () => {
-        //   try {
-        //     const response = await axios.get(`/cards/`);
-
-        //     console.log("ALL CARD DATA?", response.data)
-        //   } catch (error) {
-        //     console.error("Error fetching all cards:", error);
-        //   }
-        // };
-        // console.log("ALL CARD DATA? --->", getAllCards)
-
+      if (enemyPrevRound[0].action === 'FIRE'){
+        // console.log("FIRED!!!")
+        setEnemyArmed(false)
+        if (enemyPrevRound[0]){
+          console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+  
+          getAllCards();
+          console.log("ALL CARDS?", allCards)
+  
+  
+  
+        }
       }
-    }
 
 
       ///////////////////////////////////////////////
@@ -378,15 +317,13 @@ export default function GameController ({
 
     }
 
-    
-    ////// VICTORY CONDITIONS /////////////
-    if (data.GameComplete){
-      
-        console.log("victory data?", data)
+    console.log("data", data)
 
-        setGameWinner(data.GameComplete.victor_id);
+      ////// VICTORY CONDITIONS /////////////
+      if (data.GameComplete){
 
         setGameOver(true)
+        setGameWinner(data.GameComplete.victor_id);
 
 
       }
@@ -396,8 +333,9 @@ export default function GameController ({
     })
 
     socket.on('deck_state_response', (data) => {
-      setGameDeck(JSON.parse(data['Current Deck']));
-      setPlayerHand(JSON.parse(data['Current Hand']));
+      console.log("DEWCK STATE DATA", data)
+      setGameDeck(data['Current Deck']);
+      setPlayerHand(data['Current Hand']);
     })
 
 

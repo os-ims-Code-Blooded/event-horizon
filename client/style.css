@@ -29,9 +29,7 @@ CB Secondary COLOR
 .cbMode .bg-third {
   background-color: #ff7f00;
 }
-.cbMode .bg-fifth {
-  background-color: #ffa345;
-}
+
 .cbMode {
   background-color: #1f78b4;
   color: #000;
@@ -40,6 +38,9 @@ CB Secondary COLOR
   color: #1f78b4;
 }
 .cbMode .bg-error {
+  background-color: #ff7f00;
+}
+.cbMode .bg-neutral {
   background-color: #ff7f00;
 }
 .cbMode .border-error {
@@ -58,4 +59,14 @@ CB Secondary COLOR
 }
 #app {
   background-color: radial-gradient(125% 125% at 50% 10%, #000000 40%, #000066 100%);
+}
+
+/* 
+darkmode cb
+*/
+/* .dark.cbMode .bg-third.bg-third.bg-third {
+  background-color: #0F52BA !important;
+} */
+.cbMode .bg-fifth {
+  background-color: #0F52BA !important;
 }

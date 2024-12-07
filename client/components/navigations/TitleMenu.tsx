@@ -10,7 +10,7 @@ const TitleMenu: FC<TitleProps> = ({user}) => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-starfield dark:bg-radial-dark h-screen max-h-screen text-text flex-col" aria-label="Title Menu">
+    <div className="flex items-center justify-center min-h-screen bg-starfield h-screen max-h-screen text-text flex-col" aria-label="Title Menu">
       <div className="flex flex-row text-center space-between gap-3">
         {/* How To Play Button Container */}
         <div className="w-28 h-28 rounded-full bg-slate-700 relative">
