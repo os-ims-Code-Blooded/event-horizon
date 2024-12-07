@@ -109,7 +109,20 @@ export default function GameController ({
 
   const [gameDeck, setGameDeck] = useState(deckSelected)
 
-  const [playerHand, setPlayerHand] = useState(handProvided)
+  const getAllCards = async () => {
+    try {
+      const response = await axios.get(`/cards/`);
+      console.log("ALL CARD DATA?", response)
+      setAllCards(response.data)
+    } catch (error) {
+      console.error("Error fetching all cards:", error);
+    }
+  };
+  
+  const [gameDeck, setGameDeck] = useState(deckSelected);
+
+  const [playerHand, setPlayerHand] = useState(handProvided);
+
  
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
@@ -120,7 +133,7 @@ export default function GameController ({
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      console.log("***********CARD TO PLAY:\n", cardToPlay)
+      // console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -148,9 +161,9 @@ export default function GameController ({
         }
       }
     )
-    setGameOver(true)
+    // setGameOver(true)
         // console.log("GAME OVER EMISSION", gameOver)
-        socket.emit('game_over', gameOver, session)
+        socket.emit('game_over', gameOver.data, session)
       }
     }
     catch(err){
@@ -189,7 +202,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
-    console.log("SESSION #####", session)
+    // console.log("SESSION #####", session)
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
@@ -197,13 +210,18 @@ export default function GameController ({
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
+      console.log("WINNER?", data)
+      setGameWinner(data.GameComplete.victor_id)
       setGameOver(true)
+
+
     })
 
-    socket.on('received_rounds_data', (data: any) => {
+
+    socket.on('received_rounds_data', (data: any)=>{
+
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
-
 
       if (data.user_id){
         if (data.user_id !== user.id){
@@ -222,7 +240,7 @@ export default function GameController ({
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
 
-        setEnemyLastAction(enemyPrevRound[0].action)
+    setEnemyLastAction(enemyPrevRound[0].action)
 
         if (enemyPrevRound[enemyPrevRound.length - 1].damage){
           console.log("HELOOOOOOOO")
@@ -235,6 +253,7 @@ export default function GameController ({
         }
 
         //checks if both players have committed a turn for this round
+
         if (playerPrevRound.length === enemyPrevRound.length) {
           setArmor(playerCurrRound[0].armor)
           setHitPoints(playerCurrRound[0].health)

@@ -6,9 +6,11 @@ export default async function commitAttack(req: any, game: number, action: any){
 
     // first find the loaded card that they want to fire
     const payload = await database.actions_Loaded.findFirst({
-      where: { user_id: Number(action.user_id) }
+      where: {
+        user_id: Number(action.user_id),
+        game_id: game
+      }
     })
-
     /*=====================================================================*/
     const payloadExists = payload ? payload: null;
     const payloadHasEffect = payload ? (payload.duration > 0) : null;

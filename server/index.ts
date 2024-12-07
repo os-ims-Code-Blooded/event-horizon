@@ -15,6 +15,7 @@ import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
+import cards from './routes/cards/cards.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -35,6 +36,7 @@ app.on('error', (err: any) => console.error('Error', err));
 app.use(cors())
 
 
+
 ////////// PASSPORT //////////////////
 app.use(session(
   {
@@ -49,6 +51,7 @@ app.use('/', authRouter);
 app.use('/profile', profile);
 app.use('/friends', friends);
 app.use('/games', games);
+app.use('/cards', cards)
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req: AuthRequest, res: any, next: any) => {
@@ -237,7 +240,7 @@ io.on('connection', (socket)=>{
         console.log(`Two players have been detected for Game Session #${data}.`)
         console.log(`The Game Board should be rendered by the client for the session.`)
         console.log("FOUND PLAYER INFO:  ", findPlayerInfo);
-        console.log(`===================================================================\n`)        
+        console.log(`===================================================================\n`)
       }
 
       io.in(data).emit("session_players", findPlayerInfo);
@@ -271,7 +274,7 @@ io.on('connection', (socket)=>{
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-
+    console.log("data", data)
       io.in(session).emit('game_over', data)
 
   })
