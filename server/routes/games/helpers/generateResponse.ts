@@ -12,6 +12,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
         Round_Player_Info: true,
         Actions: true,
         Actions_Loaded: true,
+        Game_Card_States: true
       }
     })
 
@@ -43,6 +44,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
         Round_Player_Info: true,
         Actions: true,
         Actions_Loaded: true,
+        Game_Card_States: true
       }
     })
 

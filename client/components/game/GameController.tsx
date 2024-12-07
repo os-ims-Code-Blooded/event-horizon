@@ -224,6 +224,7 @@ export default function GameController ({
       }
 
    
+
       if (data.user_id){
         if (data.user_id !== user.id){
           setEnemyWaiting(true)
@@ -242,7 +243,6 @@ export default function GameController ({
 
 
         setEnemyLastAction(enemyPrevRound[0].action)
-
         
         
       // if (enemyPrevRound.length > playerPrevRound.length){
@@ -272,35 +272,29 @@ export default function GameController ({
       }
 
 
-      ///////////////////////////////////////////////
+        if (enemyPrevRound[0].action === 'FIRE'){
+          console.log("FIRED!!!")
+          setEnemyArmed(false)
+        }
+
         //checks if both players have committed a turn for this round
-        if (playerPrevRound.length === enemyPrevRound.length){
 
+        if (playerPrevRound.length === enemyPrevRound.length) {
+          setArmor(playerCurrRound[0].armor)
+          setHitPoints(playerCurrRound[0].health)
+          setEnemyArmor(enemyCurrRound[0].armor)
+          setEnemyHitPoints(enemyCurrRound[0].health)
+          setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
+          setActiveLoading(false)
+          setEnemyAction('')
+          setEnemyTurnEnd(false)
+          setTurnEnded(false)
+          setPlayerAction('')
+          setEnemyWaiting(false)
 
-
-        setArmor(playerCurrRound[0].armor)
-        setHitPoints(playerCurrRound[0].health)
-
-        setEnemyArmor(enemyCurrRound[0].armor)
-        setEnemyHitPoints(enemyCurrRound[0].health)
-        setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
-
-          // console.log("enemyLastAction damage?", enemyPrevRound[enemyPrevRound.length - 1].damage)
-
-        
-        setActiveLoading(false)
-
-
-
-
-
-
-
-
-        setEnemyAction('')
-        setEnemyTurnEnd(false)
-        setTurnEnded(false)
-
+          // we need to set card deck and hand here, but I don't know how to make it work within what we already have
+          // this should become apparent when this round info is console.log()
+        }
 
         //expend ordinance if fired
         // if (playerAction === 'FIRE'){
@@ -326,7 +320,12 @@ export default function GameController ({
         setGameWinner(data.GameComplete.victor_id);
 
 
-      }
+
+        ////// VICTORY CONDITIONS /////////////
+        if (data.GameComplete){
+          setGameOver(true)
+          setGameWinner(data.GameComplete.victor_id);
+        }
 
       }
 
