@@ -5,6 +5,8 @@ import calculateGameState from './routes/games/helpers/calculateGameState.ts';
 import calculatePlayerState from './routes/games/helpers/calculatePlayerState.ts';
 import generateResponse from './routes/games/helpers/generateResponse.ts';
 import { Prisma } from '@prisma/client';
+import { connect } from 'http2';
+import shuffle from './routes/games/helpers/shuffle.ts';
 
 export default async function gameHandler(req: any) {
 
@@ -77,6 +79,34 @@ export default async function gameHandler(req: any) {
       for (let i = 0; i < updatePlayers.length; i++){
         const newPlayerInfo = await database.round_Player_Info.create({
           data: updatePlayers[i]
+        })
+      }
+
+      // pull all game deck states
+      const pullGameDeckStates = await database.game_Card_States.findMany({
+        where: { round_id: currentRound.id }
+      });
+
+      console.log(`Successfully pulled all deck states for the game, follows: `, pullGameDeckStates);
+      
+      // remap them for creation of a new deck state
+      const deckStatesToCreate = pullGameDeckStates.map((state) => {
+        return {
+          user: state.user_id,
+          deck: state.deck,
+          hand: shuffle(state.deck).slice(0, 3)
+        }
+      })
+      
+      // for every item in the deckStates to create
+      for (let i = 0; i < deckStatesToCreate.length; i++) {
+        await database.game_Card_States.create({ 
+          data: {
+            user: { connect: { id: deckStatesToCreate[i].user}},
+            round: { connect: { id: newRound.id} },
+            deck: deckStatesToCreate[i].deck,
+            hand: deckStatesToCreate[i].hand
+          }
         })
       }
 
