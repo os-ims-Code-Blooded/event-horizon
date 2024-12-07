@@ -24,7 +24,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [allCards, setAllCards] = useState<Card[]>([]);
-  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  const [allSelectedCards, setAllSelectedCards] = useState<number[]>([]);
+  const [selectedCardsInDeck, setSelectedCardsInDeck] = useState<number[]>([]);
   const [newDeckName, setNewDeckName] = useState<string>("");
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [deckPoints, setDeckPoints] = useState(0)
@@ -48,26 +49,36 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       toast.error("Error fetching deck cards:", error);
     }
   };
-
+  // toggling for cards displayed in allCards to add to a deck
   const toggleCardSelection = (cardId: number) => {
-    setSelectedCards((prevSelected) =>
+    setAllSelectedCards((prevSelected) =>
       prevSelected.includes(cardId)
         ? prevSelected.filter((id) => id !== cardId)
         : [...prevSelected, cardId]
     );
+
 
     console.log("CARD ID", cardId)
     console.log("cards", allCards)
     let currCard = allCards.filter(card=> card.id === cardId)
 
     console.log("current card", currCard)
-    console.log("SELECTED CARDS", selectedCards)
-    !selectedCards.includes(cardId) ? setDeckPoints(currCard[0].duration? deckPoints + ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints + (currCard[0].armor + currCard[0].damage) ) : setDeckPoints(currCard[0].duration? deckPoints - ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints - (currCard[0].armor + currCard[0].damage) )
+    console.log("SELECTED CARDS", allSelectedCards)
+    !allSelectedCards.includes(cardId) ? setDeckPoints(currCard[0].duration? deckPoints + ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints + (currCard[0].armor + currCard[0].damage) ) : setDeckPoints(currCard[0].duration? deckPoints - ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints - (currCard[0].armor + currCard[0].damage) )
 
   };
+  // toggling for selecting cards in deck to remove
+  const toggleDeckCardSelection = (cardId: number) => {
+    setSelectedCardsInDeck((prevSelected) =>
+      prevSelected.includes(cardId)
+        ? prevSelected.filter((id) => id !== cardId)
+        : [...prevSelected, cardId]
+    );
+  };
+
 
   const addCardsToDeck = async () => {
-    if (!selectedDeck || selectedCards.length === 0) {
+    if (!selectedDeck || allSelectedCards.length === 0) {
       toast.error("Please select a deck and at least one card.");
       return;
     }
@@ -76,7 +87,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       const payload = {
         data: {
           deck_id: selectedDeck.id,
-          add_cards: selectedCards,
+          add_cards: allSelectedCards,
         },
       };
 
@@ -85,7 +96,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       fetchDeckCards(selectedDeck);
       toast.success("Cards added to deck successfully!");
       fetchDecks();
-      setSelectedCards([]);
+      setAllSelectedCards([]);
 
     } catch (error) {
       toast.error("Error adding cards to deck:", error);
@@ -93,7 +104,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   };
 
   const removeCardsFromDeck = async () => {
-    if (!selectedDeck || selectedCards.length === 0) {
+    if (!selectedDeck || selectedCardsInDeck.length === 0) {
       toast.error("Please select a deck and at least one card.");
       return;
     }
@@ -104,7 +115,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     try {
       console.log('ALL CARDS', cards);
       const actualCardIds = cards
-      .filter((card) => selectedCards.includes(card.id))
+      .filter((card) => selectedCardsInDeck.includes(card.id))
       .map((card) => card.card_id);
 
       const payload = {
@@ -114,12 +125,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         },
       };
       setCards((prevCards) =>
-        prevCards.filter((card) => !selectedCards.includes(card.id))
+        prevCards.filter((card) => !selectedCardsInDeck.includes(card.id))
       );
       await axios.patch(`/profile/decks/${user.id}`, payload);
 
       toast.success("Cards removed from deck successfully!");
-      setSelectedCards([]);
+      setSelectedCardsInDeck([]);
       fetchDeckCards(selectedDeck);
       fetchDecks();
     } catch (error) {
@@ -128,7 +139,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   };
 
   const createNewDeck = async () => {
-    if (!newDeckName.trim() || selectedCards.length === 0) {
+    if (!newDeckName.trim() || allSelectedCards.length === 0) {
       toast.error("Please provide a deck name and select at least one card.");
       return;
     }
@@ -137,12 +148,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       await axios.post(`/profile/decks/${user.id}`, {
         data: {
           deck_name: newDeckName.trim(),
-          cards: selectedCards,
+          cards: allSelectedCards,
         }
       });
-      
+
       toast.success("Deck created successfully!");
-      
+
       const getDecks = await axios.get(`/profile/decks/${user.id}`);
 
       const newDeck = getDecks.data.reduce((accum, curr) => {
@@ -152,10 +163,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           return accum;
         }
       }, null);
-      
+
       setNewDeckName("");
-      setSelectedCards([]);
+      setAllSelectedCards([]);
       fetchDeckCards(newDeck);
+      setSelectedDeck(newDeck);
       fetchDecks();
       setShowNewDeckModal(false);
     } catch (error) {
@@ -217,7 +229,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ width: "25%", minWidth: "120px", aspectRatio: "3/4" }}
                 className={`relative border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 ${
-                  selectedCards.includes(card.id)
+                  allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
                 }`}
@@ -282,12 +294,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={deckCard.id}
                 className={`relative bg-white border border-slate-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center flex-shrink-0 p-2 
                   ${
-                    selectedCards.includes(deckCard.id)
+                    selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
                       : ""
                   }`}
                 style={{ width: "25%", minWidth: "120px", aspectRatio: "3/4" }}
-                onClick={() => toggleCardSelection(deckCard.id)}
+                onClick={() => toggleDeckCardSelection(deckCard.id)}
               >
                 {/* Card Content */}
                 <div className="font-semibold pb-1 text-sm sm:text-base">
@@ -347,9 +359,9 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       <div className="text-center mt-8 pb-4">
         <button
           onClick={() => setShowNewDeckModal(true)}
-          disabled={selectedCards.length === 0 || deckPoints > 100} // Disable if no cards selected OR if deck value above 200
+          disabled={allSelectedCards.length === 0 || deckPoints > 100} // Disable if no cards selected OR if deck value above 200
           className={`px-4 py-2 rounded-lg shadow ${
-            selectedCards.length === 0 || deckPoints > 100
+            allSelectedCards.length === 0 || deckPoints > 100
               ? "bg-slate-400 text-white cursor-not-allowed"
               : "bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
           }`}
@@ -361,13 +373,13 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       {showNewDeckModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3">
-            <h2 className="text-xl text-center font-bold text-white mb-4">Create New Deck</h2>
+            <h2 className="text-xl text-center font-bold text-text mb-4">Create New Deck</h2>
             <input
               type="text"
               placeholder="Deck Name"
               value={newDeckName}
               onChange={(e) => setNewDeckName(e.target.value)}
-              className="w-full p-2 border border-slate-300 rounded-lg mb-4 text-center"
+              className="w-full p-2 border border-slate-300 bg-slate-400 rounded-lg text-black mb-4 text-center"
             />
             <button
               onClick={createNewDeck}
