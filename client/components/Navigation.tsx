@@ -55,6 +55,8 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
     ],
     '/game-board': [
       { label: 'Friends', path: '/friends' },
+      { label: 'Profile', path: '/user-profile', showWhenLoggedIn: true },
+
     ],
     '/settings': [
       { label: 'Friends', path: '/friends' },
@@ -92,7 +94,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
   );
 
   return (
-    <nav className="fixed z-10 top-0 w-full p-4 shadow-lg bg-fifth dark:bg-purple-950 flex items-center justify-between text-text">
+    <nav className="fixed z-10 top-0 w-full p-4 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text">
       {/* Navigation Links */}
       <div className="hidden sm:flex items-center gap-x-8">
         {displayedItems

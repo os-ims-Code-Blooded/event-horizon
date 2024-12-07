@@ -86,7 +86,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
       className="pt-10 flex flex-col items-center bg-starfield p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="Friends or Search Results"
     >
-      <h1 className="text-2xl font-bold text-text mb-4 pt-5">
+      <h1 className="text-2xl font-bold text-white mb-4 pt-5">
         {showSearch ? 'Search Results' : "Your Friend's List"}
       </h1>
 
@@ -117,7 +117,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
               className={`flex justify-between items-center py-4 px-6 rounded-md transition-colors cursor-pointer ${
                 selectedFriendId === friend.id
                   ? 'bg-blue-700 text-white'
-                  : 'bg-slate-600 text-slate-300 hover:bg-slate-400'
+                  : 'bg-slate-600 text-white hover:bg-slate-400'
               }`}
               onClick={() => handleSelectFriend(friend.id)}
               aria-label={`Friend ${friend.name || friend.email}`}

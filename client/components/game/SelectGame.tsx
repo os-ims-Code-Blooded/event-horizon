@@ -301,13 +301,13 @@ handProvided = {handProvided}
 {!playClicked?
 
 
-<div className='pt-15 flex h-full items-center justify-center min-h-screen bg-radial-custom dark:bg-black'>
-  <div className='p-6 justify-items-center flex flex-col items-center'>
+<div className='pt-20 flex h-full items-center justify-center min-h-screen bg-starfield'>
+  <div className='p-6 justify-items-center flex flex-col items-center gap-3'>
 
 <div className='pt-8'>
 
 
-<select className='text-black' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
+<select className='text-black w-70' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
   <option value="">--select deck--</option>
 
   {userDecks.map((deck, index)=>{
@@ -332,12 +332,12 @@ handProvided = {handProvided}
 
 {waiting?
 
-<h1 className="text-white">waiting for game</h1>
+<h1 className="text-white animate-pulse text-2xl">Waiting For Game</h1>
 
 :
-
-<button className='bg-lime-200 rounded-sm text-black' onClick={onClickPlay}>PLAY NOW!</button>
-
+<div className="w-36 h-36 rounded-full bg-slate-700 relative">
+  <button className='bg-success dark:bg-darkGreen inset-0 m-auto h-32 w-32 rounded-full text-black absolute shadow-md shadow-white hover:bg-emerald-300' onClick={onClickPlay}>PLAY NOW!</button>
+</div>
 
 }
 <div className='flex flex-row'></div>
@@ -347,13 +347,17 @@ handProvided = {handProvided}
 
 :
 
-<>
-<button className='cursor-not-allowed bg-gray text-black' >PLAY NOW!</button>
+<div className="w-36 h-36 rounded-full bg-slate-700 relative">
+
+<button className='cursor-not-allowed bg-gray text-black shadow-sm shadow-white inset-0 m-auto h-32 w-32 rounded-full absolute' >PLAY NOW!</button>
 
 <br></br>
-</>
+</div>
   }
-  <button className='bg-lime-400 rounded-sm text-black' onClick={onClickMake}>CUSTOMIZE!</button>
+  <div className="w-32 h-32 rounded-full bg-slate-700 relative">
+
+  <button className='bg-success dark:bg-darkGreen inset-0 m-auto h-28 w-28 rounded-full text-black absolute shadow-sm shadow-white hover:bg-emerald-300' onClick={onClickMake}>CUSTOMIZE!</button>
+  </div>
   <br></br>
   <div>
 

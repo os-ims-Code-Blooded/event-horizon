@@ -10,15 +10,15 @@ type ProfileProps = {
 const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
 
   return (
-    <div className="bg-starfield dark:text-white text-text min-h-screen h-full flex items-center justify-center pb-5"
+    <div className="bg-starfield text-white min-h-screen h-full flex items-center justify-center pb-5"
       aria-label="User Profile"
     >
       <div className="flex flex-col items-center space-y-3 text-center gap-2" aria-labelledby="profile-header">
-        <h1 id="profile-header" className="mb-10 text-3xl font-extrabold">Profile</h1>
+        <h1 id="profile-header" className="mb-10 text-3xl font-extrabold text-white">Profile</h1>
         <h2 id='profile-user-name' className='font-bold text-2xl' aria-label='Your Name Displayed'>{user.name}</h2>
-        <div className="" aria-label="User image placeholder">Image</div>
+        <div className="text-white" aria-label="User image placeholder">Image</div>
         <div className="text-yellow-300 text-bold" aria-label={`User score: ${user.score || 0}`}>Score: {user.score || 0}</div>
-        <div aria-label="User statistics"> Wins: {user.wins} | Losses: {user.losses}</div>
+        <div aria-label="User statistics" className='text-white'> Wins: {user.wins} | Losses: {user.losses}</div>
         <div className='flex flex-row gap-4'>
         <div className="w-36 h-36 rounded-full bg-slate-700 relative">
             <Link

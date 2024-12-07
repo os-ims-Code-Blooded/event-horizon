@@ -205,11 +205,11 @@ if (playerHand.length <= 0){
           ))}
         </div>
         <div className='pt-5 flex-col min-w-60 flex flex-grow z-0'>
-          <div className='text-red-800 font-bold text-center'>{enemyName || 'No Player'}</div>
+          <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
             <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
               <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm z-0'>
                 <div
-                  className="bg-red-600 h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
+                  className="bg-error h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
                   style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
                   </div>
                 <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
@@ -233,14 +233,14 @@ if (playerHand.length <= 0){
         <div className='flex flex-row justify-between h-70'>
           <div>
             {enemyArmed?
-              <div className='p-20 text-[2rem] text-red-600'>ENEMY STATUS: ARMED</div>
+              <div className='p-20 text-[2rem] text-error'>ENEMY STATUS: ARMED</div>
               :
               <div className='p-20 text-[2rem] text-gray'> ENEMY STATUS: </div>
             }
           </div>
           <div>
             {cardToPlay?
-              <div className="bg-white border-8 border-red-600 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
+              <div className="bg-white border-8 border-error rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110">
                 <h2 className="text-lg text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                 <div className="text-center">
                   <div>`IMAGE`</div>
@@ -281,7 +281,7 @@ if (playerHand.length <= 0){
             </div>
             <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm z-0'>
               <div
-                className="bg-red-600 h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
+                className="bg-error h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
                 style={{ width: `${(hitPoints / 50) * 100}%` }}>
                 </div>
               <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
@@ -346,7 +346,7 @@ if (playerHand.length <= 0){
           </div>
           <div>
             {enemyWaiting?
-              <div className='text-red-600 text-[1rem] text-center animate-pulse' >
+              <div className='text-error text-[1rem] text-center animate-pulse' >
                 opponent waiting
               </div>
             :
@@ -356,14 +356,14 @@ if (playerHand.length <= 0){
           <br></br>
           <label className="inline-flex items-center cursor-pointer">
             <input type="checkbox" value={selfDestruct} className="sr-only peer" onClick={()=>{setSelfDestruct(!selfDestruct)}}/>
-            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
             <span className="ms-3 text-sm font-medium text-white dark:text-white">ARM SELF DESTRUCT</span>
           </label>
           <br></br>
           {selfDestruct?
           <button onClick={forfeit} className='p-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold focus:ring-4 focus:ring-orange-600 '>SELF DESTRUCT</button>
           :
-              <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold rounded-sm'
+              <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray text-white font-bold rounded-md'
               >SELF DESTRUCT</button>
           }
           </div>

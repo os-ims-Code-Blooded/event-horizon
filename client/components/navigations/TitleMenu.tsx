@@ -10,7 +10,7 @@ const TitleMenu: FC<TitleProps> = ({user}) => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-starfield dark:bg-radial-dark h-screen max-h-screen text-text flex-col" aria-label="Title Menu">
+    <div className="flex items-center justify-center min-h-screen bg-starfield h-screen max-h-screen text-text flex-col" aria-label="Title Menu">
       <div className="flex flex-row text-center space-between gap-3">
         {/* How To Play Button Container */}
         <div className="w-28 h-28 rounded-full bg-slate-700 relative">
@@ -37,7 +37,7 @@ const TitleMenu: FC<TitleProps> = ({user}) => {
           <Link
             to="/game-board"
             replace={true}
-            className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:animate-ping"
+            className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:animate-shake"
           >
             Play!
           </Link>
