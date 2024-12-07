@@ -189,11 +189,11 @@ model Round_Player_Info {
 }
 
 model Game_Card_States {
-  id       Int     @id @default(autoincrement())
+  id       Int   @id @default(autoincrement())
   round_id Int
   user_id  Int
-  deck     String?
-  hand     String?
+  deck     Json?
+  hand     Json?
 
   user  User   @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   round Rounds @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
