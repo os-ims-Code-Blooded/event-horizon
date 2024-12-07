@@ -131,16 +131,6 @@ export default async function commitLoad(req: any, game: number, action: any){
           }
         });
 
-        // find the user-card relationship for the card that they previously played (server expects this to be a User_Card relation when sent from client)
-        const card = await database.user_Cards.findFirst({
-          where: {
-            AND: [
-              { user_id: action.user_id },
-              { card_id: alreadyLoaded.card_id }
-            ]
-          }
-        });
-
         let localDeckState: any = userDeck.deck;
         let localHandState: any = userDeck.hand;
 
