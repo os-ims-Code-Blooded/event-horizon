@@ -134,17 +134,27 @@ games.post('/', async (req: AuthRequest, res) => {
 
       // find the cards in that deck
       const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
-        where: { deck_id: user.selectedDeckId }
+        where: { deck_id: user.selectedDeckId },
+        include: {
+          userCards: true
+        }
       })
+
+      const mapCards = getPlayerDeckCards.map((deckCard) => {
+        return deckCard.userCards;
+      }).flat();
+
+      console.log(`Deck cards found: `, getPlayerDeckCards);
+      console.log(`Mapped cards are: `, mapCards);
 
       let startingDeck; 
       let startingHand;
       
       if (getPlayerDeckCards.length <= 3) {
         startingDeck = [];
-        startingHand = shuffle(getPlayerDeckCards);
+        startingHand = shuffle(mapCards);
       } else {
-        startingDeck = shuffle(getPlayerDeckCards);
+        startingDeck = shuffle(mapCards);
         startingHand = startingDeck.splice(0, 3);
       }
 
@@ -187,17 +197,27 @@ games.post('/', async (req: AuthRequest, res) => {
 
       // find the cards in that deck
       const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
-        where: { deck_id: user.selectedDeckId }
+        where: { deck_id: user.selectedDeckId },
+        include: {
+          userCards: true
+        }
       })
+
+      const mapCards = getPlayerDeckCards.map((deckCard) => {
+        return deckCard.userCards;
+      }).flat();
+
+      console.log(`Deck cards found: `, getPlayerDeckCards);
+      console.log(`Mapped cards are: `, mapCards);
 
       let startingDeck; 
       let startingHand;
       
       if (getPlayerDeckCards.length <= 3) {
         startingDeck = [];
-        startingHand = shuffle(getPlayerDeckCards);
+        startingHand = shuffle(mapCards);
       } else {
-        startingDeck = shuffle(getPlayerDeckCards);
+        startingDeck = shuffle(mapCards);
         startingHand = startingDeck.splice(0, 3);
       }
 
