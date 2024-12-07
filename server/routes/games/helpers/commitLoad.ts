@@ -18,16 +18,6 @@ export default async function commitLoad(req: any, game: number, action: any){
     // if must be fired, then load this shell
     if (isLethalPayload) {
 
-      // create the damage action to store in actions_Loaded
-      const damageAction = await database.actions_Loaded.create({
-        data: {
-          game:   { connect: { id: game}},
-          round:  { connect: { id: action.round_id}},
-          action: { connect: { id: action.id, user_id: action.user_id}},
-          card:   { connect: { id: payload.id}},
-        }
-      })
-
       // find out if they already have a card loaded
       const alreadyLoaded = await database.actions_Loaded.findFirst({
         where: {
