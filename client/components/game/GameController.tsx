@@ -120,7 +120,7 @@ export default function GameController ({
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      console.log("***********CARD TO PLAY:\n", cardToPlay)
+      // console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -148,9 +148,9 @@ export default function GameController ({
         }
       }
     )
-    setGameOver(true)
+    // setGameOver(true)
         // console.log("GAME OVER EMISSION", gameOver)
-        socket.emit('game_over', gameOver, session)
+        socket.emit('game_over', gameOver.data, session)
       }
     }
     catch(err){
@@ -189,7 +189,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
-    console.log("SESSION #####", session)
+    // console.log("SESSION #####", session)
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
@@ -197,10 +197,16 @@ export default function GameController ({
 
     socket.on('game_over', (data: any)=>{
       // console.log("********************GAME OVER DATA", data)
+      console.log("WINNER?", data)
+      setGameWinner(data.GameComplete.victor_id)
       setGameOver(true)
+
+
     })
 
-    socket.on('received_rounds_data', (data: any) => {
+
+    socket.on('received_rounds_data', (data: any)=>{
+
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
@@ -239,14 +245,14 @@ export default function GameController ({
 
 
       if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        console.log("HELOOOOOOOO")
+        // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
 
     
 
       if (enemyPrevRound[0].action === 'FIRE'){
-        console.log("FIRED!!!")
+        // console.log("FIRED!!!")
         setEnemyArmed(false)
       }
 
@@ -296,13 +302,15 @@ export default function GameController ({
 
     }
 
-    console.log("data", data)
+    
+    ////// VICTORY CONDITIONS /////////////
+    if (data.GameComplete){
+      
+        console.log("victory data?", data)
 
-      ////// VICTORY CONDITIONS /////////////
-      if (data.GameComplete){
+        setGameWinner(data.GameComplete.victor_id);
 
         setGameOver(true)
-        setGameWinner(data.GameComplete.victor_id);
 
 
       }
