@@ -20,25 +20,6 @@ export default async function createAction(req: any){
         }
       })
 
-      //============================ NEW CODE =======================//
-      /**
-       *  this code expects for a submitted action (each user) to
-       *  provide a string JSON of their current deck under property 
-       *  'deck' when they submit an action
-       */ 
-      await database.game_Card_States.updateMany({
-        where: {
-          AND: [
-            { round_id: req.body.data.round_id },
-            { user_id: req.body.data.user_id}
-          ]
-        },
-        data: {
-          deck: req.body.data.deck
-        }
-      })
-      //=============================================================//
-
       console.log(`createAction.ts : 11 | New action for User #${newAction.user_id} on Round #${newAction.round_id}; includes card #${newAction.card_id} with action type '${newAction.action}'.`);
       return newAction;
   
