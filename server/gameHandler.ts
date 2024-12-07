@@ -100,7 +100,7 @@ export default async function gameHandler(req: any) {
       
       // for every item in the deckStates to create
       for (let i = 0; i < deckStatesToCreate.length; i++) {
-        await database.game_Card_States.create({ 
+        const newState = await database.game_Card_States.create({ 
           data: {
             user: { connect: { id: deckStatesToCreate[i].user}},
             round: { connect: { id: newRound.id} },
@@ -108,6 +108,8 @@ export default async function gameHandler(req: any) {
             hand: deckStatesToCreate[i].hand
           }
         })
+
+        console.log(`New deck state created for user #${deckStatesToCreate[i].user}: `, newState);
       }
 
       const formattedResponse = await generateResponse(newRound.id, currentRound.id, updateState);

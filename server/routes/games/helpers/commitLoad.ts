@@ -53,10 +53,20 @@ export default async function commitLoad(req: any, game: number, action: any){
           }
         })
 
+        // find the user-card relationship for the card that they played (server expects this to be a User_Card relation when sent from client)
+        const card = await database.user_Cards.findFirst({
+          where: {
+            AND: [
+              { user_id: action.user_id },
+              { card_id: alreadyLoaded.card_id }
+            ]
+          }
+        })
+
         const localDeckState: any = userDeck.deck;
 
         if (Array.isArray(localDeckState)) {
-          localDeckState.push(alreadyLoaded)
+          localDeckState.push(card)
         }
 
         // update the stored deck with parsedDeck being turned back into a string

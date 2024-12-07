@@ -223,59 +223,6 @@ export default function GameController ({
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-      const emission = {
-        user_id: user.id,
-        round_id: data.Current.id,
-        socket_id: socket
-      }
-
-    }, 0)
-
-    
-    if (userHasCard) {
-      console.log(`Attempting to return card ID #${userHasCard} to #${user.id} hand.`)
-      console.log(`Selected deck is currently: `, deckSelected)
-
-      const cardToReturnToHand = deckSelected.filter((card) => {
-        return (card.card_id === userHasCard)
-      })
-      console.log(`Found card to return to hand: `, cardToReturnToHand)
-    }
-  }
-
-//////////////////////////////////////////
-
-
-  if (data.user_id){
-    if (data.user_id !== user.id){
-      setEnemyWaiting(true)
-    }
-  }
-
-
-  if (data.Current){
-    setRoundNum(data.Current.id)
-  }
-
-
-
-  if(data.UnloadedCards){
-    setCardReplacement(data.UnloadedCards)
-  }
-        // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
-
-  if (data.Current){
-
-    let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-    
-    let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
-
-    let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
-
-    let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
-
-      socket.emit('deck_state_request', (emission))
-
       if (data.user_id){
         if (data.user_id !== user.id){
           setEnemyWaiting(true)
@@ -295,111 +242,46 @@ export default function GameController ({
 
     setEnemyLastAction(enemyPrevRound[0].action)
 
-        
-        
-      // if (enemyPrevRound.length > playerPrevRound.length){
-      //   setEnemyWaiting(true)
-      // }
+        if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+          console.log("HELOOOOOOOO")
+          setEnemyArmed(true)
+        }
 
+        if (enemyPrevRound[0].action === 'FIRE'){
+          console.log("FIRED!!!")
+          setEnemyArmed(false)
+        }
 
-    if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-      // console.log("HELOOOOOOOO")
-      setEnemyArmed(true)
-    }
-
-    
-
-    if (enemyPrevRound[0].action === 'FIRE'){
-      // console.log("FIRED!!!")
-      setEnemyArmed(false)
-      if (enemyPrevRound[0]){
-        console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
-
-        getAllCards();
-        console.log("ALL CARDS?", allCards)
-
-        // const getAllCards = async () => {
-        //   try {
-        //     const response = await axios.get(`/cards/`);
-
-        //     console.log("ALL CARD DATA?", response.data)
-        //   } catch (error) {
-        //     console.error("Error fetching all cards:", error);
-        //   }
-        // };
-        // console.log("ALL CARD DATA? --->", getAllCards)
-
-      }
-    }
-
-
-      ///////////////////////////////////////////////
         //checks if both players have committed a turn for this round
-        if (playerPrevRound.length === enemyPrevRound.length){
 
+        if (playerPrevRound.length === enemyPrevRound.length) {
+          setArmor(playerCurrRound[0].armor)
+          setHitPoints(playerCurrRound[0].health)
+          setEnemyArmor(enemyCurrRound[0].armor)
+          setEnemyHitPoints(enemyCurrRound[0].health)
+          setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
+          setActiveLoading(false)
+          setEnemyAction('')
+          setEnemyTurnEnd(false)
+          setTurnEnded(false)
+          setPlayerAction('')
+          setEnemyWaiting(false)
 
+          // we need to set card deck and hand here, but I don't know how to make it work within what we already have
+          // this should become apparent when this round info is console.log()
+        }
 
-        setArmor(playerCurrRound[0].armor)
-        setHitPoints(playerCurrRound[0].health)
+        console.log("data", data)
 
-        setEnemyArmor(enemyCurrRound[0].armor)
-        setEnemyHitPoints(enemyCurrRound[0].health)
-        setEnemyLastAction(enemyPrevRound[enemyPrevRound.length - 1].action)
-
-          // console.log("enemyLastAction damage?", enemyPrevRound[enemyPrevRound.length - 1].damage)
-
-        
-        setActiveLoading(false)
-
-
-
-
-
-
-
-
-        setEnemyAction('')
-        setEnemyTurnEnd(false)
-        setTurnEnded(false)
-
-
-        //expend ordinance if fired
-        // if (playerAction === 'FIRE'){
-          //   setCardToPlay(null)
-          // }
-
-          //reset the actions
-
-
-
-      
-      setPlayerAction('')
-      setEnemyWaiting(false)
-
-    }
-
-    
-    ////// VICTORY CONDITIONS /////////////
-    if (data.GameComplete){
-      
-        console.log("victory data?", data)
-
-        setGameWinner(data.GameComplete.victor_id);
-
-        setGameOver(true)
-
-
-      }
+        ////// VICTORY CONDITIONS /////////////
+        if (data.GameComplete){
+          setGameOver(true)
+          setGameWinner(data.GameComplete.victor_id);
+        }
 
       }
 
     })
-
-    socket.on('deck_state_response', (data) => {
-      setGameDeck(JSON.parse(data['Current Deck']));
-      setPlayerHand(JSON.parse(data['Current Hand']));
-    })
-
 
     ////////////for messaging/////////////////////
     // socket.on("receive_message", (data)=>{   //
