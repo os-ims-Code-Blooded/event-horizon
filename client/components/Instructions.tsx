@@ -8,7 +8,7 @@ const Instructions: FC<InstructionProps> = ({user }) => {
 
   return (
     <div
-      className="h-screen bg-radial-custom dark:text-slate-200 text-white text-center sm:grid-cols-1 md:grid-cols-2"
+      className="h-screen bg-radial-custom dark:bg-radial-dark dark:text-slate-200 text-white text-center sm:grid-cols-1 md:grid-cols-2"
       aria-label="Instructions Page"
     >
       <div

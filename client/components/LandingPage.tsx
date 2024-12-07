@@ -15,14 +15,16 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
       >
           <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
           {user && (
+              <div className="w-28 h-28 rounded-full bg-slate-700 relative">
                   <Link
                   to="/title-menu"
                   type="button"
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-tr from-zinc-900 to-yellow-300 text-text shadow-yellow-300 rounded-lg shadow-sm text-center hover:bg-none hover:bg-yellow-700'
+                  className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text rounded-full shadow-md shadow-slate-200 flex items-center justify-center font-semibold text-center dark:hover:bg-slate-300 hover:bg-green-700"
                   aria-label="Go to Title Menu and start playing"
                 >
                   Play!
                 </Link>
+                </div>
                 )}
         <div className='p-5 w-3/4 font-bold text-justify' aria-labelledby="storyline-heading">
           {/* <div className='text-4xl text-center'>EVENT HORIZON</div> */}
@@ -33,15 +35,17 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
           <br></br>
           <div className='justify-center justify-items-center flex bg-transparent' aria-label="Login or Sign Up section">
             {!user && (
+              <div className="w-28 h-28 rounded-full bg-slate-700 relative">
                   <Link
                   to="/login"
                   type="button"
                   onClick={() => handleLogin()}
-                  className='w-96 py-6 text-2xl p-3 bg-gradient-to-t from-green-300 to-emerald-600 text-white shadow-emerald-500 rounded-lg shadow-sm text-center hover:bg-none hover:bg-emerald-900'
+                  className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text rounded-full shadow-md shadow-slate-200 flex items-center justify-center font-semibold text-center dark:hover:bg-slate-300 hover:bg-green-700"
                   aria-label="Sign Up or Login"
                 >
                   Sign Up / Login
                 </Link>
+                </div>
                 )}
           </div>
         </div>
@@ -51,3 +55,13 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
 }
 
 export default LandingPage;
+
+<div className="w-28 h-28 rounded-full bg-slate-700 relative">
+          <Link
+            to="/game-board"
+            replace={true}
+            className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:animate-ping"
+          >
+            Play!
+          </Link>
+        </div>
