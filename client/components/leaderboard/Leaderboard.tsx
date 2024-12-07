@@ -43,7 +43,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
           {users.map((boardUser: any, index) => (
             <tr
               key={boardUser.id}
-              className={`even:bg-slate-800 ${
+              className={`even:bg-slate-800 ${index === 0 ? 'font-bold' : ''} ${
                 user.id === boardUser.id ? 'animate-pulse bg-yellow-100 text-black' : ''
               }`}
             >

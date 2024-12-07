@@ -201,7 +201,7 @@ const Settings = ({user, fetchUser}) =>{
         </table>
         <div className='flex justify-center gap-8 mt-4 pt-50'>
           <button 
-            className='justify-center items-center justify-items-center bg-error hover:animate-pulse hover:bg-slate-500 text-text w-60 h-15'
+            className='justify-center items-center rounded-md justify-items-center bg-error hover:animate-pulse hover:bg-slate-500 text-text w-60 h-15'
             onClick={() => promptDelete()}
           >
             DELETE ACCOUNT

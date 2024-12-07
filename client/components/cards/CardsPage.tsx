@@ -220,7 +220,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-        <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-4 px-4 justify-start items-center" style={{ minWidth: '50%' }}>
+        <div className="h-68 w-full max-w-screen-md overflow-x-auto flex gap-3 px-4 justify-start items-center" style={{ minWidth: '50%' }}>
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
@@ -228,7 +228,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 ${
+                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 ${
                   allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
@@ -288,11 +288,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           <h2 className="text-white text-xl mb-4">
             Cards in {selectedDeck.deck_name}
           </h2>
-          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-3 px-4 justify-center items-center " style={{ minWidth: '50%' }}>
+          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-3 px-10 justify-start items-center " style={{ minWidth: '50%' }}>
             {cards.map((deckCard) => (
               <div
                 key={deckCard.id}
-                className={`relative bg-white border border-slate-300 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 p-2 
+                className={`relative bg-white border border-slate-300 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0' 
                   ${
                     selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
