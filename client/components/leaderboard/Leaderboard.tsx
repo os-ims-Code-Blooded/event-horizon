@@ -28,7 +28,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
     <div
       className={`${
         fullScreen ? 'h-screen' : 'h-full'
-      } w-full bg-slate-900 text-white dark:text-slate-200 dark:bg-black flex flex-col items-center`}
+      } w-full bg-neutral dark:bg-radial-dark text-white dark:text-slate-200 flex flex-col items-center rounded-md pt-15`}
     >
       <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
       <table className="table-auto border-collapse border border-slate-500">
@@ -44,7 +44,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
             <tr
               key={boardUser.id}
               className={`even:bg-slate-800 ${
-                user.id === boardUser.id ? 'animate-pulse bg-yellow-100' : ''
+                user.id === boardUser.id ? 'animate-pulse bg-yellow-100 text-black' : ''
               }`}
             >
               <td className="border border-slate-600 px-4 py-2">{index + 1}</td>

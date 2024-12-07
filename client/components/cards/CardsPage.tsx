@@ -200,23 +200,23 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   }, [user.id]);
 
   return (
-    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-full bg-radial-custom">
+    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-screen bg-starfield">
       <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-1">Cards Page</h1>
       <div className="border-t-4 border-yellow-400 w-3/5 pb-5"></div>
       {/* All Cards Section */}
-      <div>
+      <div className='h-auto w-screen justify-items-center'>
         <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-4 px-4 justify-start items-center">
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
               <div
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
-                className={`relative w-36 h-48 border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer ${
+                style={{ width: "25%", minWidth: "120px", aspectRatio: "3/4" }}
+                className={`relative border rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 ${
                   selectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
@@ -272,34 +272,46 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
       {/* Selected Deck Actions */}
       {selectedDeck && (
-        <div className="text-center mt-4">
+        <div className="text-center mt-4 flex flex-col">
           <h2 className="text-white text-xl mb-4">
             Cards in {selectedDeck.deck_name}
           </h2>
-          <div className="flex flex-wrap gap-4 justify-center">
-            {cards.map((card) => (
+          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-4 px-4 justify-start items-center">
+            {cards.map((deckCard) => (
               <div
-                key={card.id}
-                className={`relative w-36 h-48 bg-white border border-slate-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center ${
-                  selectedCards.includes(card.id) ? "border-error border-4 animate-pulse" : ""
-                }`}
-                onClick={() => toggleCardSelection(card.id)}
+                key={deckCard.id}
+                className={`relative bg-white border border-slate-300 rounded-lg shadow-lg flex flex-col justify-items-center text-black text-center flex-shrink-0 p-2 
+                  ${
+                    selectedCards.includes(deckCard.id)
+                      ? "border-error border-4 animate-pulse"
+                      : ""
+                  }`}
+                style={{ width: "25%", minWidth: "120px", aspectRatio: "3/4" }}
+                onClick={() => toggleCardSelection(deckCard.id)}
               >
-                <div className="font-semibold pb-1">{card.name}</div>
-                <div className="px-1">{card.image_url || "IMAGE"}</div>
-                <div className="pt-4 text-sm">{card.description}</div>
-                <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1">
+                {/* Card Content */}
+                <div className="font-semibold pb-1 text-sm sm:text-base">
+                  {deckCard.name}
+                </div>
+                <div className="px-1 text-xs sm:text-sm">
+                  {deckCard.image_url || "IMAGE"}
+                </div>
+                <div className="pt-4 text-xs sm:text-sm">{deckCard.description}</div>
+
+                {/* Card Stats */}
+                <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1 text-xs">
                   <div className="p-1">
-                    <strong>ATK:</strong> {card.damage || 0}
+                    <strong>ATK:</strong> {deckCard.damage || 0}
                   </div>
                   <div className="p-1">
-                    <strong>AMR:</strong> {card.armor || 0}
+                    <strong>AMR:</strong> {deckCard.armor || 0}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className='items-end justify-items-end justify-end gap-1 flex'>
+
+          <div className='items-center justify-items-center justify-center gap-2 flex'>
             <button
               onClick={removeCardsFromDeck}
               className="mt-4 px-4 py-2 rounded-lg bg-error text-white hover:bg-slate-400"
