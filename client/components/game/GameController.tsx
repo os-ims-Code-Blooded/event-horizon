@@ -177,8 +177,6 @@ export default function GameController ({
           "user_id": user.id,
           "action": playerAction,
           "card_id": cardId,
-          "deck_state": gameDeck,
-          "hand_state": playerHand
       }
     }, session})
   }
