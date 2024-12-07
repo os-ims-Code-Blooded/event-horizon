@@ -182,6 +182,52 @@ export default async function commitLoad(req: any, game: number, action: any){
 
       console.log(`commitLoad.ts : 34 | Loading defensive Card #${payload.id} for User #${action.user_id} on Game #${game} - Round #${action.round_id}.`);
 
+      // find the card state for this user, including the hand and the deck
+      const userDeck = await database.game_Card_States.findFirst({
+        where: {
+          AND: [
+            { round_id: action.round_id},
+            { user_id: action.user_id }
+          ]
+        },
+        select: {
+          deck: true,
+          hand: true
+        }
+      });
+
+      let localDeckState: any = userDeck.deck;
+      let localHandState: any = userDeck.hand;
+
+      console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
+      console.log(`Current Hand for user #${action.user_id}: `, localHandState);
+
+      // filter hand to find the card that we are deleting, and splice it
+      if (Array.isArray(localHandState)){
+        localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
+        console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
+        if (localDeckState.length > 0) {
+          localHandState.push(shuffle(localDeckState).pop());                         // push a random card to the hand
+        }
+      }
+
+      console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
+      console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
+
+      // update the stored deck with these changes
+      const updatesComplete = await database.game_Card_States.updateMany({
+        where: {
+          AND: [
+            { round_id: action.round_id},
+            { user_id: action.user_id }
+          ]
+        }, 
+        data: {
+          deck: localDeckState,
+          hand: localHandState
+        }
+      })
+
       const defensiveAction = await database.round_Effects.create({
         data: {
           game:   { connect: { id: game}},
