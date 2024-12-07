@@ -15,7 +15,24 @@ import axios from 'axios';
 // });
 
 
-export default function GameController ({ session, socket, setGameOver, setGameWinner, user, userDecks, deckSelected, handSize, roundNum, enemyId, roundInfo, setRoundNum, enemyName, setEnemyName, setEnemyId }){
+export default function GameController ({ 
+  session, 
+  socket, 
+  setGameOver, 
+  setGameWinner, 
+  user, 
+  userDecks, 
+  deckSelected, 
+  handSize, 
+  roundNum, 
+  enemyId, 
+  roundInfo, 
+  setRoundNum, 
+  enemyName, 
+  setEnemyName, 
+  setEnemyId,
+  handProvided
+ }){
 
   //TOP LEVEL GAME COMPONENT
 
@@ -90,23 +107,22 @@ export default function GameController ({ session, socket, setGameOver, setGameW
 
   const [reloaded, setReloaded] = useState(false)
 
+  const [gameDeck, setGameDeck] = useState(deckSelected)
 
+  const getAllCards = async () => {
+    try {
+      const response = await axios.get(`/cards/`);
+      console.log("ALL CARD DATA?", response)
+      setAllCards(response.data)
+    } catch (error) {
+      console.error("Error fetching all cards:", error);
+    }
+  };
+  
+  const [gameDeck, setGameDeck] = useState(deckSelected);
 
-////////////////////////////////////////////////////
-const shuffle = array =>{
-  for (let i = array.length - 1; i > 0; i--){
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array
-}
-//////////////////////////////////
+  const [playerHand, setPlayerHand] = useState(handProvided);
 
-const [gameDeck, setGameDeck] = useState(shuffle(deckSelected))
-
-const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
-
-///////////////////////////////////////////////////////
  
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
@@ -174,10 +190,9 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
           "user_id": user.id,
           "action": playerAction,
           "card_id": cardId,
-          "deck_state": JSON.stringify(gameDeck),
-          "hand_state": JSON.stringify(playerHand)
+          "deck_state": gameDeck,
+          "hand_state": playerHand
       }
-
     }, session})
   }
 
@@ -202,25 +217,18 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     })
 
+
     socket.on('received_rounds_data', (data: any)=>{
 
-    // console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-    // socket.on('socket_request')
+      console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-
-  ///////// RETURNING CARD TO DECK //////////////////////////
-  if (data.UnloadedCards) {
-
-    const userHasCard = data.UnloadedCards
-    .filter((action) => {
-      return (action.user_id === user.id);
-    }).reduce((accum, curr) => {
-      if (curr.card_id) {
-        return curr.card_id;
-      } else {
-        return accum;
+      const emission = {
+        user_id: user.id,
+        round_id: data.Current.id,
+        socket_id: socket
       }
+
     }, 0)
 
     
@@ -256,31 +264,36 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
   }
         // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
 
-        if (data.Current){
+  if (data.Current){
 
-          let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-          
-          let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+    let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+    
+    let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
-          let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+    let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
 
-          let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+    let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+
+      socket.emit('deck_state_request', (emission))
+
+      if (data.user_id){
+        if (data.user_id !== user.id){
+          setEnemyWaiting(true)
+        }
+      }
+
+      if (data.Current){
+        setRoundNum(data.Current.id)
+      }
+
+      if (data.Current){
+        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+        let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
 
-
-
-        
-        // console.log("CURRENT PLAYER'S ROUND INFO", playerCurrRound)
-        
-        // console.log("CURRENT ENEMY'S ROUND INFO", enemyCurrRound)
-        
-        // console.log("prev PLAYER'S ROUND INFO", playerPrevRound)
-        
-        // console.log("prev ENEMY'S CARD INFO", enemyPrevRound[0].card_id)
-
-
-
-        setEnemyLastAction(enemyPrevRound[0].action)
+    setEnemyLastAction(enemyPrevRound[0].action)
 
         
         
@@ -289,17 +302,35 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
       // }
 
 
-      if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        // console.log("HELOOOOOOOO")
-        setEnemyArmed(true)
-      }
+    if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+      // console.log("HELOOOOOOOO")
+      setEnemyArmed(true)
+    }
 
     
 
-      if (enemyPrevRound[0].action === 'FIRE'){
-        // console.log("FIRED!!!")
-        setEnemyArmed(false)
+    if (enemyPrevRound[0].action === 'FIRE'){
+      // console.log("FIRED!!!")
+      setEnemyArmed(false)
+      if (enemyPrevRound[0]){
+        console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+
+        getAllCards();
+        console.log("ALL CARDS?", allCards)
+
+        // const getAllCards = async () => {
+        //   try {
+        //     const response = await axios.get(`/cards/`);
+
+        //     console.log("ALL CARD DATA?", response.data)
+        //   } catch (error) {
+        //     console.error("Error fetching all cards:", error);
+        //   }
+        // };
+        // console.log("ALL CARD DATA? --->", getAllCards)
+
       }
+    }
 
 
       ///////////////////////////////////////////////
@@ -360,8 +391,13 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
       }
 
-    }
+      }
 
+    })
+
+    socket.on('deck_state_response', (data) => {
+      setGameDeck(JSON.parse(data['Current Deck']));
+      setPlayerHand(JSON.parse(data['Current Hand']));
     })
 
 

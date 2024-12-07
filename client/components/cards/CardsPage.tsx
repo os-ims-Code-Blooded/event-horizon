@@ -9,6 +9,7 @@ type Deck = {
 };
 
 type Card = {
+  duration: any;
   card_id: any;
   damage: number;
   armor: number;
@@ -26,7 +27,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [newDeckName, setNewDeckName] = useState<string>("");
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
-  const [deckPoints, setDeckPoints] = useState(200)
+  const [deckPoints, setDeckPoints] = useState(0)
 
 
   const fetchDecks = async () => {
@@ -54,6 +55,15 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         ? prevSelected.filter((id) => id !== cardId)
         : [...prevSelected, cardId]
     );
+
+    console.log("CARD ID", cardId)
+    console.log("cards", allCards)
+    let currCard = allCards.filter(card=> card.id === cardId)
+
+    console.log("current card", currCard)
+    console.log("SELECTED CARDS", selectedCards)
+    !selectedCards.includes(cardId) ? setDeckPoints(currCard[0].duration? deckPoints + ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints + (currCard[0].armor + currCard[0].damage) ) : setDeckPoints(currCard[0].duration? deckPoints - ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints - (currCard[0].armor + currCard[0].damage) )
+
   };
 
   const addCardsToDeck = async () => {
@@ -197,9 +207,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       <div className='h-auto w-screen justify-items-center'>
         <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>
         <ToastContainer position="bottom-right" />
+
         <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-4 px-4 justify-start items-center">
           {allCards.length > 0 ? (
             allCards.map((card) => (
+
               <div
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
@@ -222,6 +234,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                   </div>
                 </div>
               </div>
+
             ))
           ) : (
             <p className="text-slate-300">No cards available.</p>
@@ -230,7 +243,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       </div>
       {/* deck creation points counter */}
     <div>
-    <h4 className="text-white text-base mb-4 text-center">Current Deck Value: {}</h4>
+    <h4 className="text-white text-base mb-4 text-center">Current Deck Value: {deckPoints}/100</h4>
 
     </div>
       {/* Deck Buttons */}
@@ -334,9 +347,9 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       <div className="text-center mt-8 pb-4">
         <button
           onClick={() => setShowNewDeckModal(true)}
-          disabled={selectedCards.length === 0} // Disable if no cards are selected
+          disabled={selectedCards.length === 0 || deckPoints > 100} // Disable if no cards selected OR if deck value above 200
           className={`px-4 py-2 rounded-lg shadow ${
-            selectedCards.length === 0
+            selectedCards.length === 0 || deckPoints > 100
               ? "bg-slate-400 text-white cursor-not-allowed"
               : "bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
           }`}

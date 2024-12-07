@@ -52,33 +52,6 @@ decks.get('/specific/:id', async (req: AuthRequest, res) => {
 
 })
 
-decks.get('/selected-deck/:id', async (req: AuthRequest, res) => {
-
-  try {
-
-    const findUserDeck = await database.user.findFirst({
-      where: { id: Number(req.params.id)},
-      include: {
-        selectedDeck: { include: {
-          User_Decks_Cards: true
-        }}
-      }
-    })
-
-    if (!findUserDeck){
-      res.sendStatus(404);
-    } else {
-      res.status(200).send(findUserDeck.selectedDeck);
-
-    }
-
-  } catch (error) {
-    console.error(`Error on GET card decks for user #${req.params.id}.`, error);
-    res.sendStatus(500);
-  }
-
-})
-
 // enables you to create a new card deck, this only creates the NAME for the card deck
 // this gets somewhat complex, so I am including an example inside of this endpoint
 decks.post('/:id', async (req: AuthRequest, res) => {

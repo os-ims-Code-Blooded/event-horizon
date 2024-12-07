@@ -15,6 +15,7 @@ import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
+import cards from './routes/cards/cards.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -35,6 +36,7 @@ app.on('error', (err: any) => console.error('Error', err));
 app.use(cors())
 
 
+
 ////////// PASSPORT //////////////////
 app.use(session(
   {
@@ -49,6 +51,7 @@ app.use('/', authRouter);
 app.use('/profile', profile);
 app.use('/friends', friends);
 app.use('/games', games);
+app.use('/cards', cards)
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req: AuthRequest, res: any, next: any) => {
@@ -258,17 +261,46 @@ io.on('connection', (socket)=>{
 
     console.log(" ENDED TURN DATA ", data)
 
-    try{
+    try {
       const response = await gameHandler(data)
-
       io.in(data.session).emit('received_rounds_data', response)
-
-
     }
     catch(err){
       console.error(err)
     }
 
+  })
+
+  socket.on('deck_state_request', async (data) => {
+
+    /*
+    data: {
+      user_id:   your user id,
+      socket_id: your socket id,
+      round_id:  your current round
+    }
+    */
+    try {
+
+      const deckState = await database.game_Card_States.findFirst({
+        where: {
+          AND: [
+            { user_id: Number(data.user_id) },
+            { round_id: Number(data.round_id)}
+          ]
+        }
+      })
+
+      const preformat = {
+        "Current Deck": deckState.deck,
+        "Current Hand": deckState.hand
+      }
+
+      io.to(data.socket_id).emit('deck_state_response', preformat)
+
+    } catch (error) {
+      console.error(`Failure on a self-identify emission from client.`)
+    }
   })
 ////////////////////////////////////////
 // PLAYER SELF-DESTRUCTS
