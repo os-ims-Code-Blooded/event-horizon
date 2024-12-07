@@ -20,29 +20,58 @@ export default async function commitLoad(req: any, game: number, action: any){
       console.log(`commitLoad.ts : 18 | Loading offensive Card #${payload.id} for User #${action.user_id} on Game #${game} - Round #${action.round_id}.`);
 
       const alreadyLoaded = await database.actions_Loaded.findFirst({
-        where: { user_id: action.user_id}
+        where: {
+          AND: [
+            {  user_id: action.user_id },
+            {  game_id: game }
+          ]
+        },
+        include: {
+          card: true
+        }
       })
 
-      let preserveCard;
 
-      if (alreadyLoaded){
-
-        // changed logic here so that this works properly
-        // finds the loaded card for the current GAME, instead of all loaded cards
-        preserveCard = await database.actions_Loaded.findFirst({
-          where: { 
-            user_id: action.user_id,
-            game_id: game
-          },
-          include: {
-            card: true
-          }
-        })
+      if (alreadyLoaded) {
 
         await database.actions_Loaded.deleteMany({
           where: { user_id: action.user_id }
         })
-        
+
+        console.log(`A card was already loaded for user #${action.user_id}, the card was: `, alreadyLoaded.card);
+
+        // find the card state for this user
+        const userDeck = await database.game_Card_States.findFirst({
+          where: {
+            AND: [
+              { round_id: action.round_id},
+              { user_id: action.user_id }
+            ]
+          },
+          select: {
+            deck: true
+          }
+        })
+
+        const localDeckState: any = userDeck.deck;
+
+        if (Array.isArray(localDeckState)) {
+          localDeckState.push(alreadyLoaded)
+        }
+
+        // update the stored deck with parsedDeck being turned back into a string
+        await database.game_Card_States.updateMany({
+          where: {
+            AND: [
+              { round_id: action.round_id},
+              { user_id: action.user_id }
+            ]
+          }, 
+          data: {
+            deck: localDeckState
+          }
+        })
+
       }
 
       const damageAction = await database.actions_Loaded.create({
@@ -55,8 +84,6 @@ export default async function commitLoad(req: any, game: number, action: any){
       })
 
       console.log(`commitLoad.ts : 22 | Offensive Card #${damageAction.card_id} loaded for User #${damageAction.user_id} on Game #${damageAction.game_id} - Round #${damageAction.round_id}.`);
-      
-      if (preserveCard) { return preserveCard.card };
 
     // if this must not be fired, then just add it as an effect
     } else if (isNonLethalPayload) {
