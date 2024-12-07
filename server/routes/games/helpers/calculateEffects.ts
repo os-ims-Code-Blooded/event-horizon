@@ -6,7 +6,12 @@ export default async function calculateEffects(game: any, user: number){
 
     // find all active effects for user
     const activeEffects = await database.round_Effects.findMany({
-      where: { user_id: user }
+      where: { 
+        AND: [
+          { user_id: user },
+          { game_id: game }
+        ]
+      }
     })
     
 
