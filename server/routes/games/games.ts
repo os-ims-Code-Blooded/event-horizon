@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
 import rounds from './rounds.ts';
+import shuffle from './helpers/shuffle.ts';
 
 const games = express.Router();
 games.use('/rounds', rounds);
@@ -131,6 +132,21 @@ games.post('/', async (req: AuthRequest, res) => {
         }
       })
 
+      // find the cards in that deck
+      const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
+        where: { deck_id: user.selectedDeckId }
+      })
+
+      // create them as a state to be used throughout game
+      const makePlayerDeckState = await database.game_Card_States.create({
+        data: {
+          round: { connect: { id: initRound.id} },
+          user: { connect: { id: user.id } },
+          deck: getPlayerDeckCards,
+          hand: shuffle(getPlayerDeckCards).slice(0, 3)
+        }
+      })
+
       console.log(`Creating new game #${newGame.id} for user #${req.body.user_id}.`)
 
       res.status(201).send(newGame);
@@ -155,6 +171,23 @@ games.post('/', async (req: AuthRequest, res) => {
         data: { 
           round: { connect: { id: startingRound.id}},
           user: { connect: { id: user.id} }
+        }
+      })
+
+      // find the cards in that deck
+      const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
+        where: { deck_id: user.selectedDeckId }
+      })
+
+      console.log(`Found deck cards for player: `, getPlayerDeckCards)
+
+      // create them as a state to be used throughout game
+      const makePlayerDeckState = await database.game_Card_States.create({
+        data: {
+          round: { connect: { id: startingRound.id} },
+          user: { connect: { id: user.id } },
+          deck: getPlayerDeckCards,
+          hand: shuffle(getPlayerDeckCards).slice(0, 3)
         }
       })
 

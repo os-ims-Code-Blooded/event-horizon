@@ -47,6 +47,7 @@ export default function SelectGame({
   const [makeClicked, setMakeClicked] = useState(false)
   const [deckSelected, setDeckSelected] = useState([])
   const [deckWasChosen, setDeckWasChosen] = useState(false)
+  const [handProvided, setHandProvided] = useState([])
 
   const [handSize, setHandSize] = useState(3)
   
@@ -85,6 +86,12 @@ export default function SelectGame({
                 .then((round) => {
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
+                  setDeckSelected(round.data["Current Deck"]);
+                  setHandProvided(round.data["Current Hand"]);
+
+                  console.log(`Current Deck: `, round.data["Current Deck"]);
+                  console.log(`Current Hand: `, round.data["Current Hand"]);
+
                   socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
                   // I don't know if putting an event listener here is an issue
@@ -137,11 +144,16 @@ export default function SelectGame({
 
 
       const game = await axios.post('/games', { "user_id": user.id });
-      const round = await axios.get(`/games/rounds/${game.data.id}`)
+      const round = await axios.get(`/games/rounds/${game.data.id}`);
       
       setSession(game.data.id);
       setRoundNum(round.data["Current Round"]);
+      setDeckSelected(round.data["Current Deck"]);
+      setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
+
+      console.log(`Current Deck: `, round.data["Current Deck"]);
+      console.log(`Current Hand: `, round.data["Current Hand"]);
       
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
@@ -214,6 +226,11 @@ export default function SelectGame({
   ===============================================================================*/
   const handleDeckSelect = (e) =>{
 
+    /* 
+    This should be unnecessary now given how we are managing the states on the
+    server side. When you select a deck in here, the server will use this when
+    you click play game to create the deck state entry for you on this game.
+
     axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
       .then((response) => {
 
@@ -223,6 +240,7 @@ export default function SelectGame({
         setDeckWasChosen(true)
         setDeckSelected(cards)
       })
+    */
 
     const sendSelectedDeck = {
       selectedDeck: {
@@ -231,6 +249,8 @@ export default function SelectGame({
           }
         }
     }
+
+    setDeckWasChosen(true);
 
     axios.patch(`/profile/${user.id}`, sendSelectedDeck)
   }
@@ -268,6 +288,7 @@ roundInfo={roundInfo}
 enemyName={enemyName}
 setEnemyName={setEnemyName}
 setEnemyId={setEnemyId}
+handProvided = {handProvided}
 />
 </div>
 }
@@ -379,6 +400,7 @@ roundInfo={roundInfo}
 enemyName={enemyName}
 setEnemyName={setEnemyName}
 setEnemyId={setEnemyId}
+handProvided = {handProvided}
 />
 </div>
 }

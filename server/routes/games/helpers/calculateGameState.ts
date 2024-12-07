@@ -34,10 +34,6 @@ export default async function calculateGameState(req: any, game: number) {
       }
     }
 
-    console.log(`CGS effects calculations: `, action_results);
-    
-    console.log(`ALL ROUND ACTIONS: `, allRoundActions);
-
     // for every action on the current round
     for (let i = 0; i < allRoundActions.length; i++){
 
@@ -55,11 +51,7 @@ export default async function calculateGameState(req: any, game: number) {
         if (!card) {
           throw new Error (`Invalid LOAD operation; no card specified.`)
         } else {
-          let isCardUnloaded = await commitLoad(req, game, allRoundActions[i]);
-
-          if (isCardUnloaded) {
-            action_results[user].unloaded_card = isCardUnloaded;
-          }
+          await commitLoad(req, game, allRoundActions[i]);
         }
 
       } else if (action === 'BLOCK'){
@@ -69,8 +61,6 @@ export default async function calculateGameState(req: any, game: number) {
       }
 
     }
-
-    console.log(`CGS complete calculations: `, action_results);
 
     return action_results;
 

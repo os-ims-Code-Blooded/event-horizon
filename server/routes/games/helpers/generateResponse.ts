@@ -14,7 +14,6 @@ export default async function generateResponse(newRound: number, prevRound: numb
         Actions_Loaded: true,
       }
     })
-    console.log("**** NEW INFO \n", newInfo)
 
     const isResolved = await reviewWinConditions(newInfo.Round_Player_Info, newInfo.game_id);
     let gameOver = null;
@@ -56,32 +55,11 @@ export default async function generateResponse(newRound: number, prevRound: numb
       }
     } else {
 
-      let unloaded_cards = [];
-
-      for (const user in updateState) {
-        if (updateState[user].unloaded_card){
-          unloaded_cards.push({
-            user_id: Number(user),
-            card: updateState[user].unloaded_card 
-          })
-        }
+      return {
+        Success: true,
+        Current: newInfo,
+        Previous: prevInfo
       }
-
-      if (unloaded_cards.length > 0) {
-        return {
-          Success: true,
-          Current: newInfo,
-          Previous: prevInfo,
-          UnloadedCards: unloaded_cards
-        }
-      } else {
-        return {
-          Success: true,
-          Current: newInfo,
-          Previous: prevInfo
-        }
-      }
-
     }
 
 
