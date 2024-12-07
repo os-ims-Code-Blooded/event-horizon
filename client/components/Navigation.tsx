@@ -55,6 +55,8 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
     ],
     '/game-board': [
       { label: 'Friends', path: '/friends' },
+      { label: 'Profile', path: '/user-profile', showWhenLoggedIn: true },
+
     ],
     '/settings': [
       { label: 'Friends', path: '/friends' },
