@@ -137,13 +137,24 @@ games.post('/', async (req: AuthRequest, res) => {
         where: { deck_id: user.selectedDeckId }
       })
 
+      let startingDeck; 
+      let startingHand;
+      
+      if (getPlayerDeckCards.length <= 3) {
+        startingDeck = [];
+        startingHand = shuffle(getPlayerDeckCards);
+      } else {
+        startingDeck = shuffle(getPlayerDeckCards);
+        startingHand = startingDeck.splice(0, 3);
+      }
+
       // create them as a state to be used throughout game
       const makePlayerDeckState = await database.game_Card_States.create({
         data: {
           round: { connect: { id: initRound.id} },
           user: { connect: { id: user.id } },
-          deck: getPlayerDeckCards,
-          hand: shuffle(getPlayerDeckCards).slice(0, 3)
+          deck: startingDeck,
+          hand: startingHand
         }
       })
 
@@ -179,15 +190,24 @@ games.post('/', async (req: AuthRequest, res) => {
         where: { deck_id: user.selectedDeckId }
       })
 
-      console.log(`Found deck cards for player: `, getPlayerDeckCards)
+      let startingDeck; 
+      let startingHand;
+      
+      if (getPlayerDeckCards.length <= 3) {
+        startingDeck = [];
+        startingHand = shuffle(getPlayerDeckCards);
+      } else {
+        startingDeck = shuffle(getPlayerDeckCards);
+        startingHand = startingDeck.splice(0, 3);
+      }
 
       // create them as a state to be used throughout game
       const makePlayerDeckState = await database.game_Card_States.create({
         data: {
           round: { connect: { id: startingRound.id} },
           user: { connect: { id: user.id } },
-          deck: getPlayerDeckCards,
-          hand: shuffle(getPlayerDeckCards).slice(0, 3)
+          deck: startingDeck,
+          hand: startingHand
         }
       })
 
