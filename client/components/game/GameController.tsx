@@ -91,6 +91,17 @@ export default function GameController ({ session, socket, setGameOver, setGameW
   const [reloaded, setReloaded] = useState(false)
 
 
+  const getAllCards = async () => {
+    try {
+      const response = await axios.get(`/cards/`);
+      console.log("ALL CARD DATA?", response)
+      setAllCards(response.data)
+    } catch (error) {
+      console.error("Error fetching all cards:", error);
+    }
+  };
+  
+
 
 ////////////////////////////////////////////////////
 const shuffle = array =>{
@@ -204,7 +215,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
     socket.on('received_rounds_data', (data: any)=>{
 
-    // console.log("*** ROUND RESPONSE DATA ***\n", data)
+    console.log("*** ROUND RESPONSE DATA ***\n", data)
 
     // socket.on('socket_request')
 
@@ -256,15 +267,15 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
   }
         // console.log("CURRENT ROUND INFO", data.Current.Round_Player_Info)
 
-        if (data.Current){
+  if (data.Current){
 
-          let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-          
-          let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+    let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+    
+    let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
-          let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+    let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
 
-          let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+    let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
 
 
@@ -280,7 +291,7 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
 
 
 
-        setEnemyLastAction(enemyPrevRound[0].action)
+    setEnemyLastAction(enemyPrevRound[0].action)
 
         
         
@@ -289,17 +300,35 @@ const [playerHand, setPlayerHand] = useState(gameDeck.slice(0, 3))
       // }
 
 
-      if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        // console.log("HELOOOOOOOO")
-        setEnemyArmed(true)
-      }
+    if (enemyPrevRound[enemyPrevRound.length - 1].damage){
+      // console.log("HELOOOOOOOO")
+      setEnemyArmed(true)
+    }
 
     
 
-      if (enemyPrevRound[0].action === 'FIRE'){
-        // console.log("FIRED!!!")
-        setEnemyArmed(false)
+    if (enemyPrevRound[0].action === 'FIRE'){
+      // console.log("FIRED!!!")
+      setEnemyArmed(false)
+      if (enemyPrevRound[0]){
+        console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+
+        getAllCards();
+        console.log("ALL CARDS?", allCards)
+
+        // const getAllCards = async () => {
+        //   try {
+        //     const response = await axios.get(`/cards/`);
+
+        //     console.log("ALL CARD DATA?", response.data)
+        //   } catch (error) {
+        //     console.error("Error fetching all cards:", error);
+        //   }
+        // };
+        // console.log("ALL CARD DATA? --->", getAllCards)
+
       }
+    }
 
 
       ///////////////////////////////////////////////
