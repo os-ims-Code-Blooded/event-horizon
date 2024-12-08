@@ -49,7 +49,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
             >
               <td className="border border-slate-600 px-4 py-2">{index + 1}</td>
               <td className="border border-slate-600 px-4 py-2">{boardUser.name}</td>
-              <td className="border border-slate-600 px-4 py-2 text-yellow-400">
+              <td className={`${user.id === boardUser.id ? 'text-black' : 'text-yellow-600'}border border-slate-600 px-4 py-2`}>
                 {boardUser.score}
               </td>
             </tr>

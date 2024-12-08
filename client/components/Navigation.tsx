@@ -28,8 +28,8 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
   const navItems: { [key: string]: { label: string; path: string; showWhenLoggedIn?: boolean; onClick?: () => void;  }[] } = {
     '/': [
       { label: 'How To Play', path: '/instructions' },
-      { label: 'PLAY!', path: '/title-menu', showWhenLoggedIn: true },
-      { label: 'Profile', path: 'user-profile', showWhenLoggedIn: true }
+      { label: 'Profile', path: 'user-profile', showWhenLoggedIn: true },
+      { label: 'PLAY!', path: '/title-menu', showWhenLoggedIn: true }
     ],
     '/instructions': [
       { label: 'PLAY!', path: '/title-menu', showWhenLoggedIn: true},
