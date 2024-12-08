@@ -85,6 +85,7 @@ export default function GameController ({
   //the enemy's LOADed card
   const [enemyCard, setEnemyCard] = useState('')
 
+  
   //whether or not player's turn has ended
   const [turnEnded, setTurnEnded] = useState(false)
 
@@ -111,10 +112,23 @@ export default function GameController ({
 
   const [playerHand, setPlayerHand] = useState(handProvided)
   
+  
+  
+  const opponentCards = [
+    {
+    },
+    {
+    },
+    {
+    },
+  ];
+
+  const [enemyHand, setEnemyHand] = useState(opponentCards)
+  
   const getAllCards = async () => {
     try {
       const response = await axios.get(`/cards/`);
-      console.log("ALL CARD DATA?", response)
+      // console.log("ALL CARD DATA?", response)
       setAllCards(response.data)
     } catch (error) {
       console.error("Error fetching all cards:", error);
@@ -129,7 +143,7 @@ export default function GameController ({
     setPlayerAction(e.target.value)
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      console.log("***********CARD TO PLAY:\n", cardToPlay)
+      // console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
@@ -145,7 +159,7 @@ export default function GameController ({
  //////////// FORFEIT GAME /////////////////
 
   const forfeit = async () =>{
-    console.log("ENEMY ID", enemyId)
+    // console.log("ENEMY ID", enemyId)
     try{
 
       if (selfDestruct){
@@ -196,10 +210,11 @@ export default function GameController ({
 
   useEffect(()=>{
 
-    console.log("SESSION #####", session)
+    // console.log("SESSION #####", session)
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
+      console.log("********** ENEMY ROUND", enemyRound[0])
     }
 
     socket.on('game_over', (data: any)=>{
@@ -211,17 +226,6 @@ export default function GameController ({
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
-      if (data.Current) {
-        const emission = {
-          user_id: user.id,
-          round_id: data.Current.id,
-          socket_id: socket
-        }
-  
-        // socket.emit('deck_state_request', (emission))
-      }
-
-   
 
       if (data.user_id){
         if (data.user_id !== user.id){
@@ -232,6 +236,14 @@ export default function GameController ({
       if (data.Current){
         setRoundNum(data.Current.id)
       }
+      let myHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
+
+
+      let theirHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
+
+      console.log("ENEMY'S HAND CARDS:", theirHand)
+      setEnemyHand(theirHand)
+      setPlayerHand(myHand)
 
       if (data.Current){
         let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
@@ -249,7 +261,7 @@ export default function GameController ({
 
 
       if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        console.log("HELOOOOOOOO")
+        // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
 
@@ -259,10 +271,10 @@ export default function GameController ({
         // console.log("FIRED!!!")
         setEnemyArmed(false)
         if (enemyPrevRound[0]){
-          console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+          // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
   
           getAllCards();
-          console.log("ALL CARDS?", allCards)
+          // console.log("ALL CARDS?", allCards)
   
   
   
@@ -271,7 +283,7 @@ export default function GameController ({
 
 
         if (enemyPrevRound[0].action === 'FIRE'){
-          console.log("FIRED!!!")
+          // console.log("FIRED!!!")
           setEnemyArmed(false)
         }
 
@@ -309,7 +321,7 @@ export default function GameController ({
 
     }
 
-    console.log("data", data)
+    // console.log("data", data)
 
       ////// VICTORY CONDITIONS /////////////
       if (data.GameComplete){
@@ -328,13 +340,6 @@ export default function GameController ({
       }
 
     })
-
-    socket.on('deck_state_response', (data) => {
-      console.log("DEWCK STATE DATA", data)
-      setGameDeck(data['Current Deck']);
-      setPlayerHand(data['Current Hand']);
-    })
-
 
     ////////////for messaging/////////////////////
     // socket.on("receive_message", (data)=>{   //
@@ -385,6 +390,7 @@ export default function GameController ({
           enemyCard={enemyCard}
           enemyTurnEnd={enemyTurnEnd}
           enemyArmed={enemyArmed}
+          enemyHand={enemyHand}
 
           weaponArmed={weaponArmed}
           setWeaponArmed={setWeaponArmed}

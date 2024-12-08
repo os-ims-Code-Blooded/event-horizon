@@ -41,6 +41,7 @@ type GameBoardProp = {
   enemyCard: any
   enemyTurnEnd: any
   enemyArmed: any
+  enemyHand: any
 
   cardToPlay: any
   setCardToPlay: any
@@ -103,6 +104,7 @@ const GameBoard: FC <GameBoardProp> = ({
   enemyCard,
   enemyTurnEnd,
   enemyArmed,
+  enemyHand,
 
   weaponArmed,
   setWeaponArmed,
@@ -118,29 +120,6 @@ const GameBoard: FC <GameBoardProp> = ({
 
 
 
-  const opponentCards: CardType[] = [
-    {
-      id: 1,
-      name: '',
-      damage: 0,
-      armor: 0,
-      description: ''
-    },
-    {
-      id: 2,
-      name: '',
-      damage: 0,
-      armor: 0,
-      description: ''
-    },
-    {
-      id: 3,
-      name: '',
-      damage: 0,
-      armor: 0,
-      description: ''
-    },
-  ];
 
 ///////// default attack card //////////////////////////////////////////////
 
@@ -186,6 +165,7 @@ if (playerHand.length <= 0){
 }
 
 // console.log("USER:::", user)
+console.log("GAMEBOARD ENEMY HAND", enemyHand)
 
 //////////////////////////////////////////////////////
   return (
@@ -198,10 +178,13 @@ if (playerHand.length <= 0){
           <div className='pt-10 px-4 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
-          {opponentCards.map((card, index) => (
+          {enemyHand.map((card, index) => (
+            <>
+            {console.log("MAP INDEX", index, "ENEMY HAND IN MAP:", enemyHand)}
           <img src='https://i.imgur.com/0RdgUoR.png' className="scale-[.75] border-8 border-slate-600 rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
           key={index}
-            />
+          />
+          </>
           ))}
         </div>
         <div className='pt-5 flex-col min-w-60 flex flex-grow z-0'>

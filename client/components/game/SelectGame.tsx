@@ -89,8 +89,8 @@ export default function SelectGame({
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
 
-                  console.log(`Current Deck: `, round.data["Current Deck"]);
-                  console.log(`Current Hand: `, round.data["Current Hand"]);
+                  // console.log(`Current Deck: `, round.data["Current Deck"]);
+                  // console.log(`Current Hand: `, round.data["Current Hand"]);
 
                   socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
@@ -152,8 +152,9 @@ export default function SelectGame({
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
 
-      console.log(`Current Deck: `, round.data["Current Deck"]);
-      console.log(`Current Hand: `, round.data["Current Hand"]);
+      // console.log(`******** Current ROUND DATA: `, round.data);
+      // console.log(`Current Deck: `, round.data["Current Deck"]);
+      // console.log(`Current Hand: `, round.data["Current Hand"]);
       
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
