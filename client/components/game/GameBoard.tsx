@@ -170,7 +170,7 @@ console.log("GAMEBOARD ENEMY HAND", enemyHand)
 //////////////////////////////////////////////////////
   return (
 
-    <div className='p-5 pt-15 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-black-hole bg-cover'>
+    <div className='mt-10 p-5 pt-15 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-black-hole bg-cover'>
       <div className='flex flex-row justify-between gap-1 p-1'>
         <div className='pr-4 flex flex-grow px-4'>
           <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>
@@ -181,7 +181,7 @@ console.log("GAMEBOARD ENEMY HAND", enemyHand)
           {enemyHand.map((card, index) => (
             <>
             {console.log("MAP INDEX", index, "ENEMY HAND IN MAP:", enemyHand)}
-          <img src='https://i.imgur.com/0RdgUoR.png' className="scale-[.75] border-8 border-slate-600 rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
+          <img src='https://i.imgur.com/Uvf7DCN.png' className="scale-[.85] border-8 border-slate-600 rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
           key={index}
           />
           </>
@@ -210,7 +210,7 @@ console.log("GAMEBOARD ENEMY HAND", enemyHand)
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
           <div className='justify-center z-1 h-50 w-60'>
-              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.50] scale-y-[.50]'/>
+              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.75] scale-y-[.75]'/>
             </div>
         </div>
         <div className='flex flex-row justify-between h-70'>
@@ -240,13 +240,13 @@ console.log("GAMEBOARD ENEMY HAND", enemyHand)
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
               </div>
               :
-              <div className='border-8 border-gray rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col text-[1rem] text-green-500'><div className='pt-15'>MUNITION STATUS:</div> </div>
+              <div className='border-4 border-gray rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col text-[1rem] text-green-500'><div className='pt-15'>MUNITION STATUS:</div> </div>
             }
           </div>
         </div>
         <div>
           <div className='z-1 h-50 w-60'>
-            <img src='https://i.imgur.com/4paq921.png' className='scale-x-[.50] scale-y-[.50]'/>
+            <img src='https://i.imgur.com/4paq921.png' className='scale-x-[.75] scale-y-[.75]'/>
             </div>
         </div>
       </div>

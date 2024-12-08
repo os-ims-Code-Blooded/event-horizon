@@ -16,7 +16,7 @@ export default function ActionSelect({
 
   return(
     <>
-      <div className='flex flex-cols gap-2 justify-items-center'>
+      <div className='flex flex-cols gap-2 justify-items-center w-96 justify-evenly'>
 
       {activeLoading || turnEnded?
 
@@ -82,9 +82,9 @@ export default function ActionSelect({
 
       </div>
       <br></br>
-      <div className=' p-2 bg-white text-black font-bold' >CURRENT ACTION SELECTED: {playerAction}</div>
+      <div className=' p-2 bg-white text-black font-bold w-96' >CURRENT ACTION SELECTED: {playerAction}</div>
   
-      <div className=' p-2 bg-black text-white font-bold' >ENEMY'S LAST ACTION: {enemyLastAction}
+      <div className=' p-2 bg-black text-white font-bold w-96' >ENEMY'S LAST ACTION: {enemyLastAction}
           {enemyCard && enemyLastAction === 'FIRE' && !enemyTurnEnd ?
           
             <>
