@@ -9,11 +9,12 @@ type LandingProps = {
 const LandingPage: FC<LandingProps> = ({ user, handleLogin}) => {
 
   return (
-    <div className='pt-5' aria-label="Landing Page">
-      <div className='bg-starfield bg-contain dark:bg-black flex flex-col items-center justify-center min-h-screen h-full text-text pt-5'
+    <div className='pt-5 max-h-screen' aria-label="Landing Page">
+      <div className='bg-starfield bg-contain dark:bg-black flex flex-col items-center justify-center min-h-screen text-text pt-5'
         aria-labelledby="landing-page-title"
+        // style={{height: '50%'}}
       >
-          <img className='w-2/3 transform: scale-90' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
+          <img className='w-2/3 transform: scale-80' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
           {user && (
               <div className="w-28 h-28 rounded-full bg-slate-700 relative">
                   <Link
