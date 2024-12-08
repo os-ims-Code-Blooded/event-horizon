@@ -172,9 +172,10 @@ export default function GameController ({
       }
     )
     setGameOver(true)
-        // console.log("GAME OVER EMISSION", gameOver)
-        socket.emit('game_over', gameOver, session)
-      }
+    // console.log("GAME OVER EMISSION", gameOver)
+    socket.emit('game_over', gameOver, session)
+  }
+   
     }
     catch(err){
       console.error(err)
@@ -218,8 +219,9 @@ export default function GameController ({
     }
 
     socket.on('game_over', (data: any)=>{
-      // console.log("********************GAME OVER DATA", data)
+      console.log("********************GAME OVER DATA", data)
       setGameOver(true)
+      setGameWinner(data.data.GameComplete.victor_id)
     })
 
     socket.on('received_rounds_data', (data: any) => {
