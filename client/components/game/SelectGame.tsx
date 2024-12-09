@@ -14,19 +14,19 @@ import { use } from 'passport';
 
 ////////////////////////////
 //creates front-end socket connection to the server
-// const socket = io("http://localhost:3000", {
-//   withCredentials: true,
-//   extraHeaders: {
-//     "my-custom-header": "abcd"
-//   }
-// });
-
-const socket = io("http://ec2-18-226-17-160.us-east-2.compute.amazonaws.com:3000", {
+const socket = io("http://localhost:3000", {
   withCredentials: true,
   extraHeaders: {
     "my-custom-header": "abcd"
   }
 });
+
+// const socket = io("http://ec2-18-226-17-160.us-east-2.compute.amazonaws.com:3000", {
+//   withCredentials: true,
+//   extraHeaders: {
+//     "my-custom-header": "abcd"
+//   }
+// });
 ////////////////////////////
 
 
@@ -201,7 +201,7 @@ export default function SelectGame({
     try {
       if (session) {
         await axios.delete(`/games/${session}`);
-        // we also need to re-enable buttons so they can click play game again
+        setWaiting(false);
       }
     } catch (error) {
       console.error(`Error on request to stop searching for a game session.`)
@@ -335,8 +335,10 @@ handProvided = {handProvided}
 
 {waiting?
 
-<h1 className="text-white animate-pulse text-2xl">Waiting For Game</h1>
-
+<div>
+  <button onClick={onClickStopSearch}>X</button>
+  <h1 className="text-white animate-pulse text-2xl">Waiting For Game</h1>
+</div>
 :
 <div className="w-36 h-36 rounded-full bg-slate-700 relative">
   <button className='bg-success dark:bg-darkGreen inset-0 m-auto h-32 w-32 rounded-full text-black absolute shadow-md shadow-white hover:bg-emerald-300' onClick={onClickPlay}>PLAY NOW!</button>

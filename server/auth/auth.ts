@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from '../db/index.ts';
 import { Router } from 'express';
+import generateRandomName from './generateRandomName.ts';
 
 const auth = Router();
 
@@ -26,7 +27,8 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
       },
       create: {
         google_id: profile.id,
-        email: profile.emails[0].value
+        email: profile.emails[0].value,
+        name: generateRandomName()
       }
     });
 
@@ -38,7 +40,7 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
         user_id: user.id,
       },
       create: {
-        user_id: user.id
+        user_id: user.id,
       }
     });
 
