@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
-import database from '../../db/index.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
+import database from '../../database/index.ts';
 import rounds from './rounds.ts';
-import shuffle from './helpers/shuffle.ts';
-import errorHandler from '../../misc/errorHandler.ts';
+import shuffle from '../../helpers/shuffle.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 const games = express.Router();
 games.use('/rounds', rounds);

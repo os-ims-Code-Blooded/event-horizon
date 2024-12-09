@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import database from '../db/index.ts';
+import database from '../database/index.ts';
 import { Router } from 'express';
 import generateRandomName from './generateRandomName.ts';
 

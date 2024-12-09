@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../../misc/types.ts';
-import database from '../../../db/index.ts';
-import errorHandler from '../../../misc/errorHandler.ts';
+import { User, AuthRequest } from '../../../helpers/misc/types.ts';
+import database from '../../../database/index.ts';
+import errorHandler from '../../../helpers/misc/error_logging/errorHandler.ts';
 
 const decks = express.Router();
 
