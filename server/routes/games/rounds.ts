@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
+import errorHandler from '../../misc/error_logs/errorHandler.ts';
 
 const rounds = express.Router();
 
@@ -56,17 +57,10 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
-
+    errorHandler(error);
     console.error(`Error fetching most recent round for game #${req.params.id}.`, error)
     res.sendStatus(500);
-
   }
-
-})
-
-
-// used to get the most recent action for a round
-rounds.get('action/:id', async (req: AuthRequest, res) => {
 
 })
 

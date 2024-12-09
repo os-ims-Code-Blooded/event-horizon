@@ -69,7 +69,7 @@ export default async function updateCardsOnWin(userID: string | number) {
     }
 
   } catch (error) {
-    console.error(`Error on POST request creating a card for user #${userID}.`)
+    throw new Error(error);
   }
 
 }

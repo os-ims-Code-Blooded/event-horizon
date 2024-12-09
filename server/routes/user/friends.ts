@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
+import errorHandler from '../../misc/error_logs/errorHandler.ts';
 
 const friends = express.Router();
 
@@ -43,6 +44,7 @@ friends.get('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     console.error(`Error on a GET request for friends associated with user #${req.params.id}.`)
     res.sendStatus(500);
   }
@@ -69,6 +71,7 @@ friends.post('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     console.error(`Error on create friend #${req.body.data.id} for user #${req.params.id}.`)
     res.sendStatus(500);
   }
@@ -114,6 +117,7 @@ friends.delete('/:id', async (req: AuthRequest, res) => {
       
     }
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on delete friend #${req.body.id} for user #${req.params.id}.`)
     res.sendStatus(500);
   }

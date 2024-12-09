@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
+import errorHandler from '../../misc/error_logs/errorHandler.ts';
 
 const cards = express.Router();
 
@@ -17,6 +18,7 @@ cards.get('/', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on accessing administrative repository containing all cards.`)
     res.sendStatus(500);
   }

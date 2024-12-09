@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../../misc/types.ts';
 import database from '../../../db/index.ts';
+import errorHandler from '../../../misc/error_logs/errorHandler.ts';
 
 const decks = express.Router();
 
@@ -22,6 +23,7 @@ decks.get('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET card decks for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
@@ -46,6 +48,7 @@ decks.get('/specific/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET card decks for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
@@ -107,6 +110,7 @@ decks.post('/:id', async (req: AuthRequest, res) => {
     res.sendStatus(201);
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on POST card deck '${req.body.data.deck_name}' for user #${req.params.id}.`);
     res.sendStatus(500);
   }
@@ -233,6 +237,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
     res.sendStatus(200);
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on PATCH card deck '${req.body.data.deck_name}' for user #${req.params.id}.`, error);
     res.sendStatus(500);
   }
@@ -253,6 +258,7 @@ decks.delete('/:id', async (req: AuthRequest, res) => {
     res.sendStatus(204);
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on DELETE card deck #${req.params.id}.`);
     res.sendStatus(500);
   }
