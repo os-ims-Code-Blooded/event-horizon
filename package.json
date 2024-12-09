@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start": "ts-node server/index.ts",
-    "seed":  "ts-node server/misc/seed.ts"
+    "seed":  "ts-node server/helpers/misc/seed.ts"
   },
   "repository": {
     "type": "git",
