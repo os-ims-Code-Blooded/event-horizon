@@ -39,19 +39,32 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
         }
       }, 0)
 
-      let userState = await database.game_Card_States.findFirst({
-        where: {
-          AND: [
-            { round_id: findMostRecent },
-            { user_id: req.user.id }
-          ] 
-        }
+      let userState = await database.game_Card_States.findMany({
+        where: { round_id: findMostRecent }
       })
+
+      const player = userState.reduce((accum, curr) => {
+        if (curr.user_id === Number(req.params.id)) {
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null)
+
+      const enemy = userState.reduce((accum, curr) => {
+        if (curr.user_id !== Number(req.params.id)) {
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null)
 
       res.status(200).send({ 
         "Current Round": findMostRecent,
-        "Current Deck": userState.deck,
-        "Current Hand": userState.hand
+        "Current Deck": player.deck,
+        "Current Hand": player.hand,
+        "Enemy Deck": enemy.deck,
+        "Enemy Hand": enemy.hand
       });
 
     }
