@@ -171,10 +171,10 @@ if (playerHand.length <= 0){
   return (
 
     <div className='mt-10 p-5 pt-15 z-5 grid-cols-3 z-10 h-screen w-full flex space-between flex-col bg-black-hole bg-cover'>
-      <div className='flex flex-row justify-between gap-1 p-1'>
-        <div className='pr-4 flex flex-grow px-4'>
+   <div className='flex flex-row justify-between gap-1 p-1 h-60'>
+        <div className='pr-4 flex flex-col flex-grow px-4'>
           <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>
-          <div className='pt-10 px-4 text-white'>|</div>
+          {/* <div className='pt-10 px-4 text-white'></div> */}
           <div className='pt-10 px-4 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
@@ -187,6 +187,7 @@ if (playerHand.length <= 0){
           </>
           ))}
         </div>
+
         <div className='pt-5 flex-col min-w-60 flex flex-grow z-0'>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
             <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
