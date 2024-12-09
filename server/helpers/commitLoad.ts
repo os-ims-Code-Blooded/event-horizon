@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import shuffle from "./shuffle.ts";
 
 export default async function commitLoad(req: any, game: number, action: any){

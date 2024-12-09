@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
 import path from 'path';
 import dotenv from "dotenv";
-import database from '../../db/index.ts';
+import database from '../../database/index.ts';
 import collections from './cards/collection.ts';
 import friends from './friends.ts';
 import decks from './cards/decks.ts';
 import games_history from './games.ts';
 import settings from './settings.ts';
-import errorHandler from '../../misc/error_logging/errorHandler.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 
 const profile = express.Router();

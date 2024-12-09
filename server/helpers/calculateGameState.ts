@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import calculateEffects from "./calculateEffects.ts";
 import commitAttack from "./commitAttack.ts";
 import commitLoad from "./commitLoad.ts";

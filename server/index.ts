@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from './misc/types.ts';
+import { User, AuthRequest } from './helpers/misc/types.ts';
 import passport from 'passport';
 import session  from 'express-session';
-import authRouter from './auth/auth.ts';
+import authRouter from './authentication/auth.ts';
 import path from 'path';
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import database from './db/index.ts';
+import database from './database/index.ts';
 import http from 'http'
 import cors from 'cors'
 import { Server } from 'socket.io'
@@ -16,7 +16,7 @@ import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
 import cards from './routes/cards/cards.ts';
-import errorHandler from './misc/error_logging/errorHandler.ts';
+import errorHandler from './helpers/misc/error_logging/errorHandler.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
