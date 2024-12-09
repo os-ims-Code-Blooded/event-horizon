@@ -2,3 +2,4 @@ client/dist
 node_modules/
 .env
 prisma/migrations
+server/misc/error_logs

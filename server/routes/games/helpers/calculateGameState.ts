@@ -65,8 +65,7 @@ export default async function calculateGameState(req: any, game: number) {
     return action_results;
 
   } catch (error) {
-    console.error(`Fatal error in calculateGameState: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

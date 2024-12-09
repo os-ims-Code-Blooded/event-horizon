@@ -52,8 +52,7 @@ export default async function calculateEffects(game: any, user: number){
     return effects;
 
   } catch (error) {
-    console.error(`Error on commitLoad: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

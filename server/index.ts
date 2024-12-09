@@ -16,6 +16,7 @@ import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
 import cards from './routes/cards/cards.ts';
+import errorHandler from './misc/errorHandler.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -127,6 +128,7 @@ app.post('/api/logout', (req: AuthRequest, res) => {
     }
     req.session.destroy((error) => {
       if (error) {
+        errorHandler(error);
         return res.status(500).json({ message: 'Error destroying session' });
       }
       res.status(200).json({ message: 'Logged out!' });
@@ -167,11 +169,12 @@ const io = new Server(server, {
 server.listen(PORT, () => {
     database.$connect()
         .then((connectionEstablished) => {
-            console.log(`Prisma has connected to the database...`);
-            console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
+          console.log(`Prisma has connected to the database...`);
+          console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
         })
         .catch((error) => {
-            console.error(`Failure on database connection...`)
+          errorHandler(error);
+          console.error(`Failure on database connection...`)
         })
 });
 
@@ -191,11 +194,11 @@ server.listen(PORT, () => {
     try {
       const deletedGames = await database.games.deleteMany({ where: { status: false }})
       if (deletedGames) {
-          console.log(`Routine database maintenance: purged closed games in database at ${new Date()}.`)
+        console.log(`Routine database maintenance: purged closed games in database at ${new Date()}.`)
       }
     } catch (error) {
-
-        console.error(`Error during routine database maintenance: failure to purge closed games: `, error);
+      errorHandler(error);
+      console.error(`Error during routine database maintenance: failure to purge closed games: `, error);
     }
   }, oneHour);
 
@@ -246,6 +249,7 @@ io.on('connection', (socket)=>{
       io.in(data).emit("session_players", findPlayerInfo);
 
     } catch (error) {
+      errorHandler(error);
       console.log(`<<!!!!=========================ERROR=========================!!!!>>`)
       console.error(`Error in JOIN SESSION for ${sockId} on ${roundNum}.`)
       console.log(`<<!!!!=======================================================!!!!>>`)
@@ -265,8 +269,9 @@ io.on('connection', (socket)=>{
       const response = await gameHandler(data)
       io.in(data.session).emit('received_rounds_data', response)
     }
-    catch(err){
-      console.error(err)
+    catch(error){
+      errorHandler(error);
+      console.error(error)
     }
 
   })

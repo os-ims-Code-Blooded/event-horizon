@@ -242,8 +242,7 @@ export default async function commitLoad(req: any, game: number, action: any){
     }
 
   } catch (error) {
-    console.error(`Error on commitLoad: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

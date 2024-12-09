@@ -7,6 +7,7 @@ import generateResponse from './routes/games/helpers/generateResponse.ts';
 import { Prisma } from '@prisma/client';
 import { connect } from 'http2';
 import shuffle from './routes/games/helpers/shuffle.ts';
+import errorHandler from './misc/errorHandler.ts';
 
 export default async function gameHandler(req: any) {
 
@@ -95,6 +96,7 @@ export default async function gameHandler(req: any) {
 
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Fatal error encountered within Rounds router (rounds.ts), error message follows: `, error);
     return {
       "Success": false,

@@ -66,7 +66,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
 
 
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
 
 }
