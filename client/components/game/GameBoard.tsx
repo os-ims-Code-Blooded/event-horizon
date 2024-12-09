@@ -165,7 +165,7 @@ if (playerHand.length <= 0){
 }
 
 // console.log("USER:::", user)
-console.log("GAMEBOARD ENEMY HAND", enemyHand)
+// console.log("GAMEBOARD ENEMY HAND", enemyHand)
 
 //////////////////////////////////////////////////////
   return (
@@ -180,7 +180,7 @@ console.log("GAMEBOARD ENEMY HAND", enemyHand)
         <div className="flex flex-row justify-center items-center flex-grow">
           {enemyHand.map((card, index) => (
             <>
-            {console.log("MAP INDEX", index, "ENEMY HAND IN MAP:", enemyHand)}
+            {/* {console.log("MAP INDEX", index, "ENEMY HAND IN MAP:", enemyHand)} */}
           <img src='https://i.imgur.com/Uvf7DCN.png' className="scale-[.85] border-8 border-slate-600 rounded-lg shadow-md p-0 m-2 w-45 h-60 z-0 flex flex-col items-center justify-between "
           key={index}
           />
