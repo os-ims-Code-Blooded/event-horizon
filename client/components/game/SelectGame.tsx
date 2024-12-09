@@ -58,6 +58,7 @@ export default function SelectGame({
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
+  const [initialRound, setInitialRound] = useState(0)
   
   const [enemyId, setEnemyId] = useState(null)
   const [enemyName, setEnemyName] = useState('')
@@ -86,6 +87,7 @@ export default function SelectGame({
                 .then((round) => {
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
+                  setInitialRound(round.data["Current Round"] - 1)
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
 
@@ -152,9 +154,9 @@ export default function SelectGame({
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
 
-      // console.log(`******** Current ROUND DATA: `, round.data);
-      // console.log(`Current Deck: `, round.data["Current Deck"]);
-      // console.log(`Current Hand: `, round.data["Current Hand"]);
+      console.log(`******** Current ROUND DATA: `, round.data);
+      console.log(`Current Deck: `, round.data["Current Deck"]);
+      console.log(`Current Hand: `, round.data["Current Hand"]);
       
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
@@ -266,10 +268,10 @@ return(
 <div className='h-full'>
 
 {gameOver?
-<>
+<div className='h-full'>
 <GameOver gameWinner={gameWinner} user={user}/>
 
-</>
+</div>
 :
 <div className='h-full'>
 
@@ -382,10 +384,10 @@ handProvided = {handProvided}
 
 <>
 {gameOver?
-<>
+<div className='h-full'>
 <GameOver gameWinner={gameWinner} user={user}/>
 
-</>
+</div>
 :
 <div className='h-full'>
 

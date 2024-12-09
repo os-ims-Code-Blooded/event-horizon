@@ -215,7 +215,7 @@ export default function GameController ({
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
-      console.log("********** ENEMY ROUND", enemyRound[0])
+      // console.log("********** ENEMY ROUND", enemyRound[0])
     }
 
     socket.on('game_over', (data: any)=>{
