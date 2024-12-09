@@ -44,7 +44,7 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       })
 
       const player = userState.reduce((accum, curr) => {
-        if (curr.user_id === Number(req.params.id)) {
+        if (curr.user_id === Number(req.user.id)) {
           return curr;
         } else {
           return accum;
@@ -52,7 +52,7 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       }, null)
 
       const enemy = userState.reduce((accum, curr) => {
-        if (curr.user_id !== Number(req.params.id)) {
+        if (curr.user_id !== Number(req.user.id)) {
           return curr;
         } else {
           return accum;

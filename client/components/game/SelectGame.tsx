@@ -69,6 +69,16 @@ export default function SelectGame({
 
   const [waiting, setWaiting] = useState(false)
   
+  const opponentCards = [
+    {
+    },
+    {
+    },
+    {
+    },
+  ];
+
+  const [enemyHand, setEnemyHand] = useState(opponentCards)
   
 
   useEffect( () => {
@@ -85,11 +95,14 @@ export default function SelectGame({
 
               axios.get(`/games/rounds/${game.data.id}`)
                 .then((round) => {
+                  console.log("ROUND DATA", round.data)
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
                   setInitialRound(round.data["Current Round"] - 1)
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
+                  setEnemyHand(round.data["Enemy Hand"]);
+
 
                   // console.log(`Current Deck: `, round.data["Current Deck"]);
                   // console.log(`Current Hand: `, round.data["Current Hand"]);
@@ -104,7 +117,7 @@ export default function SelectGame({
                     const enemy = data.filter((player) => {
                       return (player.user_id !== user.id)
                     })
-                    
+                    console.log("JOIN SESSION DATA", data)
                     console.log("ENEMY???\n", enemy)
 
 
@@ -165,15 +178,17 @@ export default function SelectGame({
       // this might need to be somewhere else?
       socket.on('session_players', (data: any) => {
 
+
+        console.log("SESSION PLAYERS DATA", data)
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
 
           return (player.user_id !== user.id)
         })
         
-        if (deckSelected){
+        // if (deckSelected){
         
-        }
+        // }
 
         // console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
@@ -410,6 +425,8 @@ enemyName={enemyName}
 setEnemyName={setEnemyName}
 setEnemyId={setEnemyId}
 handProvided = {handProvided}
+enemyHand={enemyHand}
+setEnemyHand={setEnemyHand}
 />
 </div>
 }

@@ -31,7 +31,9 @@ export default function GameController ({
   enemyName, 
   setEnemyName, 
   setEnemyId,
-  handProvided
+  handProvided,
+  enemyHand,
+  setEnemyHand
  }){
 
   //TOP LEVEL GAME COMPONENT
@@ -114,16 +116,7 @@ export default function GameController ({
   
   
   
-  const opponentCards = [
-    {
-    },
-    {
-    },
-    {
-    },
-  ];
 
-  const [enemyHand, setEnemyHand] = useState(opponentCards)
   
   const getAllCards = async () => {
     try {
