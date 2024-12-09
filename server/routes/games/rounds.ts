@@ -31,16 +31,24 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       return;
     } else {
       
-      let findMostRecent = findGameRounds.reduce( (accum, curr) => {
+      interface round {
+        id: number;
+        actual: number;
+        game_id: number;
+        start_date: Date;
+        end_date: Date | null;
+      }
+
+      let findMostRecent: round = findGameRounds.reduce( (accum: any, curr: any) => {
         if (curr.id > accum){
-          return curr.id;
+          return curr;
         } else {
           return accum;
         }
-      }, 0)
+      }, null)
 
       let userState = await database.game_Card_States.findMany({
-        where: { round_id: findMostRecent }
+        where: { round_id: findMostRecent.id }
       })
 
       const player = userState.reduce((accum, curr) => {
@@ -60,7 +68,8 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       }, null)
 
       res.status(200).send({ 
-        "Current Round": findMostRecent,
+        "Current Round Actual": findMostRecent.actual,
+        "Current Round": findMostRecent.id,
         "Current Deck": player.deck,
         "Current Hand": player.hand,
         "Enemy Deck": enemy.deck,
