@@ -191,16 +191,16 @@ if (playerHand.length <= 0){
         <div className='pt-5 flex-col min-w-60 flex flex-grow z-0'>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
             <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
-              <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm z-0'>
+              <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm z-0'>
                 <div
-                  className="bg-error h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
+                  className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm z-10"
                   style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
                   </div>
                 <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
               </div>
-          <div className='bg-slate-700 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 relative'>
+          <div className='bg-slate-700 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative'>
             <div
-                className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 absolute inset-y-0"
+                className="bg-blue-400 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 absolute inset-y-0"
                 style={{ width: `${(enemyArmor/100) * 100}%` }}>
               </div>
               <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Armor: ${enemyArmor}`}</div>
@@ -263,9 +263,9 @@ if (playerHand.length <= 0){
               </div>
               <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Armor: ${armor}`}</div>
             </div>
-            <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm z-0'>
+            <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm z-0'>
               <div
-                className="bg-error h-5 rounded-full text-center justify-items-center text-white text-sm z-10"
+                className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm z-10"
                 style={{ width: `${(hitPoints / 50) * 100}%` }}>
                 </div>
               <div className='pl-4 z-11 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
