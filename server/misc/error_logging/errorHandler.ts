@@ -7,7 +7,7 @@ export default async function errorHandler(data: any) {
 
     const date = new Date();  // create a date
     const directoryName = date.toISOString().slice(0, 10); // remove '-' so file name remains valid
-    const directoryPath = path.resolve(`./server/misc/error_logs/${directoryName}`);  // this ensures that no matter where errorHandler is called, items are stored here
+    const directoryPath = path.resolve(`./server/misc/error_logging/error_logs/${directoryName}`);  // this ensures that no matter where errorHandler is called, items are stored here
     const timestamp = `${date.getHours()}${date.getMinutes()}hr-${date.getSeconds()}${date.getMilliseconds()}ms`
 
     await fs.mkdir(directoryPath, { recursive: true }); // recursive creates it if it doesn't exist
