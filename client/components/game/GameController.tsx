@@ -279,9 +279,9 @@ export default function GameController ({
         setRoundNum(data.Current.id)
 
 
-        
-        let myHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
-        
+
+      let myHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
+
 
       let theirHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
 
