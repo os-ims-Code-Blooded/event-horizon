@@ -211,6 +211,7 @@ model Cards {
   duration       Int      @default(0)
   effect         String   @default("")
   score_required Int      @default(0)
+  points         Int      @default(0)
 
   User_Cards     User_Cards[]
   Actions        Actions[]
