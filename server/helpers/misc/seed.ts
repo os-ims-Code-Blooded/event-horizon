@@ -350,6 +350,10 @@ async function seed() {
 
     await database.$connect();
 
+    await database.user_Decks.deleteMany(); // unnecessary, but as a fail-safe
+
+    await database.user_Cards.deleteMany(); // unnecessary, but as a fail-safe
+
     await database.cards.deleteMany();
 
     await database.cards.createMany({ data: cards });
