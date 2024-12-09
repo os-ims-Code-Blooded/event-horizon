@@ -16,7 +16,7 @@ import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
 import cards from './routes/cards/cards.ts';
-import errorHandler from './misc/error_logs/errorHandler.ts';
+import errorHandler from './misc/errorHandler.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')

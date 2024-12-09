@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../misc/types.ts';
 import database from '../../db/index.ts';
-import errorHandler from '../../misc/error_logs/errorHandler.ts';
+import errorHandler from '../../misc/errorHandler.ts';
 
 const friends = express.Router();
 

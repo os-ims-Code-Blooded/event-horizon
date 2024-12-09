@@ -10,7 +10,10 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "typeRoots": ["node_modules/@types", "typings"]
+    "typeRoots": ["node_modules/@types", "typings"],
+    "lib": [
+      "ES2021.String",
+    ]
   },
   "include": ["server/**/*.ts"]
 }

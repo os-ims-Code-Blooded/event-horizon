@@ -8,7 +8,7 @@ import friends from './friends.ts';
 import decks from './cards/decks.ts';
 import games_history from './games.ts';
 import settings from './settings.ts';
-import errorHandler from '../../misc/error_logs/errorHandler.ts';
+import errorHandler from '../../misc/errorHandler.ts';
 
 
 const profile = express.Router();
