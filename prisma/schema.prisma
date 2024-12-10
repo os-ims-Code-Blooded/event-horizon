@@ -101,6 +101,7 @@ model User_Games {
 // there will not be many Games for one Round
 model Rounds {
   id         Int       @id @default(autoincrement())
+  actual     Int       @default(1)
   game_id    Int
   start_date DateTime  @default(now())
   end_date   DateTime?
@@ -211,6 +212,7 @@ model Cards {
   duration       Int      @default(0)
   effect         String   @default("")
   score_required Int      @default(0)
+  points         Int      @default(0)
 
   User_Cards     User_Cards[]
   Actions        Actions[]

@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 
 export default async function commitAttack(req: any, game: number, action: any){
 
@@ -72,8 +72,7 @@ export default async function commitAttack(req: any, game: number, action: any){
     }
 
   } catch (error) {
-    console.error(`Error on commitLoad: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

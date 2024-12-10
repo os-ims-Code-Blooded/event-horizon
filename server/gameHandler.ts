@@ -1,12 +1,13 @@
 import express, { Request, Response } from 'express';
-import database from './db/index.ts';
-import createAction from './routes/games/helpers/createAction.ts';
-import calculateGameState from './routes/games/helpers/calculateGameState.ts';
-import calculatePlayerState from './routes/games/helpers/calculatePlayerState.ts';
-import generateResponse from './routes/games/helpers/generateResponse.ts';
+import database from './database/index.ts';
+import createAction from './helpers/createAction.ts';
+import calculateGameState from './helpers/calculateGameState.ts';
+import calculatePlayerState from './helpers/calculatePlayerState.ts';
+import generateResponse from './helpers/generateResponse.ts';
 import { Prisma } from '@prisma/client';
 import { connect } from 'http2';
-import shuffle from './routes/games/helpers/shuffle.ts';
+import shuffle from './helpers/shuffle.ts';
+import errorHandler from './helpers/misc/error_logging/errorHandler.ts';
 
 export default async function gameHandler(req: any) {
 
@@ -56,7 +57,10 @@ export default async function gameHandler(req: any) {
 
       // create a new round for the game only after all calculations have succeeded
       const newRound = await database.rounds.create({
-        data: { game_id: currentRound.game_id}
+        data: { 
+          game_id: currentRound.game_id,
+          actual: currentRound.actual + 1
+        }
       })
 
       // returns an array of new players after updates
@@ -95,6 +99,7 @@ export default async function gameHandler(req: any) {
 
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Fatal error encountered within Rounds router (rounds.ts), error message follows: `, error);
     return {
       "Success": false,

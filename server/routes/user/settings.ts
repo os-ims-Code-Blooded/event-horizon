@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
-import database from '../../db/index.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
+import database from '../../database/index.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 const settings = express.Router();
 
@@ -19,6 +20,7 @@ settings.get(`/:id` , async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET request for settings for user #${req.params.id}: `, error)
     res.sendStatus(500);
   }
@@ -96,6 +98,7 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
     res.sendStatus(200);
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on PATCH request for settings for user #${req.params.id}: `, error)
     res.sendStatus(500);
   }

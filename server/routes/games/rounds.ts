@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
-import database from '../../db/index.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
+import database from '../../database/index.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 const rounds = express.Router();
 
@@ -30,43 +31,58 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       return;
     } else {
       
-      let findMostRecent = findGameRounds.reduce( (accum, curr) => {
+      interface round {
+        id: number;
+        actual: number;
+        game_id: number;
+        start_date: Date;
+        end_date: Date | null;
+      }
+
+      let findMostRecent: round = findGameRounds.reduce( (accum: any, curr: any) => {
         if (curr.id > accum){
-          return curr.id;
+          return curr;
         } else {
           return accum;
         }
-      }, 0)
+      }, null)
 
-      let userState = await database.game_Card_States.findFirst({
-        where: {
-          AND: [
-            { round_id: findMostRecent },
-            { user_id: req.user.id }
-          ] 
-        }
+      let userState = await database.game_Card_States.findMany({
+        where: { round_id: findMostRecent.id }
       })
 
+      const player = userState.reduce((accum, curr) => {
+        if (curr.user_id === Number(req.user.id)) {
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null)
+
+      const enemy = userState.reduce((accum, curr) => {
+        if (curr.user_id !== Number(req.user.id)) {
+          return curr;
+        } else {
+          return accum;
+        }
+      }, null)
+
       res.status(200).send({ 
-        "Current Round": findMostRecent,
-        "Current Deck": userState.deck,
-        "Current Hand": userState.hand
+        "Current Round Actual": findMostRecent.actual,
+        "Current Round": findMostRecent.id,
+        "Current Deck": player.deck,
+        "Current Hand": player.hand,
+        "Enemy Deck": enemy.deck,
+        "Enemy Hand": enemy.hand
       });
 
     }
 
   } catch (error) {
-
+    errorHandler(error);
     console.error(`Error fetching most recent round for game #${req.params.id}.`, error)
     res.sendStatus(500);
-
   }
-
-})
-
-
-// used to get the most recent action for a round
-rounds.get('action/:id', async (req: AuthRequest, res) => {
 
 })
 

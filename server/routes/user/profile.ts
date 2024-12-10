@@ -1,13 +1,14 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
 import path from 'path';
 import dotenv from "dotenv";
-import database from '../../db/index.ts';
+import database from '../../database/index.ts';
 import collections from './cards/collection.ts';
 import friends from './friends.ts';
 import decks from './cards/decks.ts';
 import games_history from './games.ts';
 import settings from './settings.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 
 const profile = express.Router();
@@ -49,6 +50,7 @@ profile.get('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     if (req.params.id){ 
       console.error(`Error on GET request for specified user #${req.params.id}.`)
     } else {
@@ -78,6 +80,7 @@ profile.get('/', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     console.error(`Error on GET request for user.`, error)
     res.sendStatus(500);
   }
@@ -103,6 +106,7 @@ profile.get('/top-scores/:id', async (req: AuthRequest, res) => {
       res.status(200).send(topUsers);
     }
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET request for leaderboard: ${error.message}`);
     res.sendStatus(500);
   }
@@ -120,6 +124,7 @@ profile.get('/all', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     console.error(`Error on GET request for all user profiles.`)
     res.sendStatus(500);
   }
@@ -139,6 +144,7 @@ profile.post('/', async (req: AuthRequest, res) => {
     res.status(201).send(createUser);
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on POST request for user.`)
     res.sendStatus(500);
   }
@@ -177,6 +183,7 @@ profile.delete('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error){
+    errorHandler(error);
     if (req.params.id){ 
       console.error(`Error on DELETE request for specified user #${req.params.id}.`)
     } else {
@@ -210,6 +217,7 @@ profile.patch('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on PATCH request for user #${req.params.id}`, error)
     res.sendStatus(500);
   }
@@ -235,6 +243,7 @@ profile.get('/users/search', async (req: AuthRequest, res) => {
     });
     res.status(200).send(users);
   } catch (error) {
+    errorHandler(error);
     console.error('Error searching for users');
     res.sendStatus(500);
   }

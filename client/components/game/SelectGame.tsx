@@ -58,6 +58,7 @@ export default function SelectGame({
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
+  const [initialRound, setInitialRound] = useState(0)
   
   const [enemyId, setEnemyId] = useState(null)
   const [enemyName, setEnemyName] = useState('')
@@ -68,6 +69,16 @@ export default function SelectGame({
 
   const [waiting, setWaiting] = useState(false)
   
+  const opponentCards = [
+    {
+    },
+    {
+    },
+    {
+    },
+  ];
+
+  const [enemyHand, setEnemyHand] = useState(opponentCards)
   
 
   useEffect( () => {
@@ -84,10 +95,14 @@ export default function SelectGame({
 
               axios.get(`/games/rounds/${game.data.id}`)
                 .then((round) => {
+                  console.log("ROUND DATA", round.data)
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
+                  setInitialRound(round.data["Current Round"] - 1)
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
+                  setEnemyHand(round.data["Enemy Hand"]);
+
 
                   // console.log(`Current Deck: `, round.data["Current Deck"]);
                   // console.log(`Current Hand: `, round.data["Current Hand"]);
@@ -102,7 +117,7 @@ export default function SelectGame({
                     const enemy = data.filter((player) => {
                       return (player.user_id !== user.id)
                     })
-                    
+                    console.log("JOIN SESSION DATA", data)
                     console.log("ENEMY???\n", enemy)
 
 
@@ -152,9 +167,9 @@ export default function SelectGame({
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
 
-      // console.log(`******** Current ROUND DATA: `, round.data);
-      // console.log(`Current Deck: `, round.data["Current Deck"]);
-      // console.log(`Current Hand: `, round.data["Current Hand"]);
+      console.log(`******** Current ROUND DATA: `, round.data);
+      console.log(`Current Deck: `, round.data["Current Deck"]);
+      console.log(`Current Hand: `, round.data["Current Hand"]);
       
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
@@ -163,15 +178,17 @@ export default function SelectGame({
       // this might need to be somewhere else?
       socket.on('session_players', (data: any) => {
 
+
+        console.log("SESSION PLAYERS DATA", data)
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
 
           return (player.user_id !== user.id)
         })
         
-        if (deckSelected){
+        // if (deckSelected){
         
-        }
+        // }
 
         // console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
@@ -199,7 +216,7 @@ export default function SelectGame({
     try {
       if (session) {
         await axios.delete(`/games/${session}`);
-        // we also need to re-enable buttons so they can click play game again
+        setWaiting(false);
       }
     } catch (error) {
       console.error(`Error on request to stop searching for a game session.`)

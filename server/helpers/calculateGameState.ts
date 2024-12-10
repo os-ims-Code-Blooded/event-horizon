@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import calculateEffects from "./calculateEffects.ts";
 import commitAttack from "./commitAttack.ts";
 import commitLoad from "./commitLoad.ts";
@@ -65,8 +65,7 @@ export default async function calculateGameState(req: any, game: number) {
     return action_results;
 
   } catch (error) {
-    console.error(`Fatal error in calculateGameState: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

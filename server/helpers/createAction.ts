@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 
 export default async function createAction(req: any){
   
@@ -36,7 +36,6 @@ export default async function createAction(req: any){
       return newAction;
     }
   } catch (error) {
-    console.error(`Fatal error in createAction helper: `, error);
-    return error;
+    throw new Error(error);
   }
 }

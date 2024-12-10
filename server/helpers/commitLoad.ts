@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import shuffle from "./shuffle.ts";
 
 export default async function commitLoad(req: any, game: number, action: any){
@@ -242,8 +242,7 @@ export default async function commitLoad(req: any, game: number, action: any){
     }
 
   } catch (error) {
-    console.error(`Error on commitLoad: `, error);
-    return error;
+    throw new Error(error);
   }
 
 }

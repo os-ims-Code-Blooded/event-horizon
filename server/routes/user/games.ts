@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
-import database from '../../db/index.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
+import database from '../../database/index.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 const games_history = express.Router();
 
@@ -42,6 +43,7 @@ games_history.get('/won/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on request for won games associated with user #${req.params.id}.`);
     res.sendStatus(500);
   }
@@ -136,6 +138,7 @@ games_history.get('/lost/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET request for games lost by user #${req.params.id}.`);
     res.sendStatus(500);
   }
