@@ -382,11 +382,10 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               </div>
             ))}
           </div>
-<<<<<<< HEAD
+
           <div>Selected Deck Value: {currDeckVal}/200</div>
 
-=======
->>>>>>> 2aca9ca59b2b5e1e761883c39270e97f75c1ea39
+
           <div className='items-center justify-items-center justify-center gap-2 flex z-10 relative'>
             <button
               onClick={removeCardsFromDeck}
