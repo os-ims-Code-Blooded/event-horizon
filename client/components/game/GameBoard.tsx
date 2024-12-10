@@ -157,7 +157,8 @@ if (playerHand.length < 3 && gameDeck.length > 0){
  
   let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
-  setPlayerHand(playerHand.concat(nextCard))
+  // setPlayerHand(playerHand.concat(nextCard))
+  setPlayerHand(playerHand)
 }
 
 if (playerHand.length <= 0){
