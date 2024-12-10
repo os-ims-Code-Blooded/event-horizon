@@ -288,24 +288,26 @@ return(
         :
         <div className='h-full z-10 relative'>
           <GameController
-          session={session}
-          socket={socket}
-          user={user}
-          setGameOver={setGameOver}
-          setGameWinner={setGameWinner}
-          userDecks={userDecks}
-          deckSelected={deckSelected}
-          handSize={handSize}
-          roundNum={roundNum}
-          setRoundNum={setRoundNum}
-          enemyId={enemyId}
-          roundInfo={roundInfo}
-          enemyName={enemyName}
-          setEnemyName={setEnemyName}
-          setEnemyId={setEnemyId}
-          handProvided = {handProvided}
-          roundActual={roundActual}
-          setRoundActual={setRoundActual}
+           session={session}
+           socket={socket}
+           user={user}
+           setGameOver={setGameOver}
+           setGameWinner={setGameWinner}
+           userDecks={userDecks}
+           deckSelected={deckSelected}
+           handSize={handSize}
+           roundNum={roundNum}
+           setRoundNum={setRoundNum}
+           enemyId={enemyId}
+           roundInfo={roundInfo}
+           enemyName={enemyName}
+           setEnemyName={setEnemyName}
+           setEnemyId={setEnemyId}
+           handProvided = {handProvided}
+           enemyHand={enemyHand}
+           setEnemyHand={setEnemyHand}
+           roundActual={roundActual}
+           setRoundActual={setRoundActual}
           />
           </div>
           }
@@ -366,26 +368,28 @@ return(
           <GameOver gameWinner={gameWinner} user={user}/>
         :
         <div className='h-full z-10 relative'>
-          <GameController
-          session={session}
-          socket={socket}
-          user={user}
-          setGameOver={setGameOver}
-          setGameWinner={setGameWinner}
-          userDecks={userDecks}
-          deckSelected={deckSelected}
-          handSize={handSize}
-          roundNum={roundNum}
-          setRoundNum={setRoundNum}
-          enemyId={enemyId}
-          roundInfo={roundInfo}
-          enemyName={enemyName}
-          setEnemyName={setEnemyName}
-          setEnemyId={setEnemyId}
-          handProvided = {handProvided}
-          roundActual={roundActual}
-          setRoundActual={setRoundActual}
-          />
+    <GameController
+    session={session}
+    socket={socket}
+    user={user}
+    setGameOver={setGameOver}
+    setGameWinner={setGameWinner}
+    userDecks={userDecks}
+    deckSelected={deckSelected}
+    handSize={handSize}
+    roundNum={roundNum}
+    setRoundNum={setRoundNum}
+    enemyId={enemyId}
+    roundInfo={roundInfo}
+    enemyName={enemyName}
+    setEnemyName={setEnemyName}
+    setEnemyId={setEnemyId}
+    handProvided = {handProvided}
+    enemyHand={enemyHand}
+    setEnemyHand={setEnemyHand}
+    roundActual={roundActual}
+    setRoundActual={setRoundActual}
+/>
         </div>
         }
       </div>
