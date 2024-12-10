@@ -67,14 +67,23 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
         }
       }, null)
 
-      res.status(200).send({ 
-        "Current Round Actual": findMostRecent.actual,
-        "Current Round": findMostRecent.id,
-        "Current Deck": player.deck,
-        "Current Hand": player.hand,
-        "Enemy Deck": enemy.deck,
-        "Enemy Hand": enemy.hand
-      });
+      if (!enemy) {
+        res.status(200).send({ 
+          "Current Round Actual": findMostRecent.actual,
+          "Current Round": findMostRecent.id,
+          "Current Deck": player.deck,
+          "Current Hand": player.hand
+        });        
+      } else {
+        res.status(200).send({ 
+          "Current Round Actual": findMostRecent.actual,
+          "Current Round": findMostRecent.id,
+          "Current Deck": player.deck,
+          "Current Hand": player.hand,
+          "Enemy Deck": enemy.deck,
+          "Enemy Hand": enemy.hand
+        });
+      }
 
     }
 
