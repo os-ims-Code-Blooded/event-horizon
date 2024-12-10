@@ -17,7 +17,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
       <div className="flex flex-col items-center space-y-3 text-center gap-2 relative z-10" aria-labelledby="profile-header">
         <h1 id="profile-header" className="mb-10 text-3xl font-extrabold text-text dark:text-darkText relative z-10">Profile</h1>
         <h2 id='profile-user-name' className='font-bold text-2xl relative z-10 text-text dark:text-darkText' aria-label='Your Name Displayed'>{user.name}</h2>
-        <div className="text-text dark:text-darkText relative z-10" aria-label="User image placeholder">Image</div>
+        <div className="text-text dark:text-darkText relative z-10" aria-label="User image placeholder" style={{scale: '2'}}>👤</div>
         <div className="text-yellow-500 text-bold relative z-10" aria-label={`User score: ${user.score || 0}`}>Score: {user.score || 0}</div>
         <div aria-label="User statistics" className='text-text dark:text-darkText relative z-10'> Wins: {user.wins} | Losses: {user.losses}</div>
         <div className='flex flex-row gap-4 relative z-10'>
