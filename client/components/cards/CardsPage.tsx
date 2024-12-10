@@ -371,7 +371,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       </div>
       {/* New Deck Modal */}
       {showNewDeckModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
           <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3">
             <h2 className="text-xl text-center font-bold text-text mb-4">Create New Deck</h2>
             <input

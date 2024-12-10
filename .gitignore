@@ -3,3 +3,4 @@ node_modules/
 .env
 prisma/migrations
 server/helpers/misc/error_logging/error_logs
+package-lock.json
