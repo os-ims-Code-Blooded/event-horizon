@@ -40,12 +40,12 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
       }
 
       let findMostRecent: round = findGameRounds.reduce( (accum: any, curr: any) => {
-        if (curr.id > accum){
+        if (curr.id > accum.id){
           return curr;
         } else {
           return accum;
         }
-      }, null)
+      }, {id: 0})
 
       let userState = await database.game_Card_States.findMany({
         where: { round_id: findMostRecent.id }

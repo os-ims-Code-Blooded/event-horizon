@@ -171,10 +171,10 @@ model Round_Effects {
   effect       String?
   time_elapsed Int     @default(0)
 
-  round  Rounds  @relation(fields: [round_id], references: [id])
+  round  Rounds  @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   action Actions @relation(fields: [action_id, user_id], references: [id, user_id], onUpdate: Cascade, onDelete: Cascade)
   card   Cards?  @relation(fields: [card_id, damage, armor, duration, effect], references: [id, damage, armor, duration, effect], onUpdate: Cascade, onDelete: Cascade)
-  game   Games   @relation(fields: [game_id], references: [id])
+  game   Games   @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Round_Player_Info {

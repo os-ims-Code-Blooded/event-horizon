@@ -58,6 +58,9 @@ export default function SelectGame({
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
+
+  const [roundActual, setRoundActual] = useState(1)
+
   
   const [enemyId, setEnemyId] = useState(null)
   const [enemyName, setEnemyName] = useState('')
@@ -84,8 +87,15 @@ export default function SelectGame({
 
               axios.get(`/games/rounds/${game.data.id}`)
                 .then((round) => {
+
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
+
+                  console.log("ROUND DATA", round.data["Current Round Actual"])
+                  setSession(game.data.id);
+                  setRoundNum(round.data["Current Round"]);
+                  setRoundActual(round.data["Current Round Actual"])
+
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
 
@@ -151,6 +161,7 @@ export default function SelectGame({
       setDeckSelected(round.data["Current Deck"]);
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
+      setRoundActual(round.data["Current Round Actual"])
 
       // console.log(`******** Current ROUND DATA: `, round.data);
       // console.log(`Current Deck: `, round.data["Current Deck"]);
@@ -270,22 +281,26 @@ return(
         :
         <div className='h-full z-10 relative'>
           <GameController
-          session={session}
-          socket={socket}
-          user={user}
-          setGameOver={setGameOver}
-          setGameWinner={setGameWinner}
-          userDecks={userDecks}
-          deckSelected={deckSelected}
-          handSize={handSize}
-          roundNum={roundNum}
-          setRoundNum={setRoundNum}
-          enemyId={enemyId}
-          roundInfo={roundInfo}
-          enemyName={enemyName}
-          setEnemyName={setEnemyName}
-          setEnemyId={setEnemyId}
-          handProvided = {handProvided}
+           session={session}
+           socket={socket}
+           user={user}
+           setGameOver={setGameOver}
+           setGameWinner={setGameWinner}
+           userDecks={userDecks}
+           deckSelected={deckSelected}
+           handSize={handSize}
+           roundNum={roundNum}
+           setRoundNum={setRoundNum}
+           enemyId={enemyId}
+           roundInfo={roundInfo}
+           enemyName={enemyName}
+           setEnemyName={setEnemyName}
+           setEnemyId={setEnemyId}
+           handProvided = {handProvided}
+           enemyHand={enemyHand}
+           setEnemyHand={setEnemyHand}
+           roundActual={roundActual}
+           setRoundActual={setRoundActual}
           />
           </div>
           }
@@ -346,24 +361,28 @@ return(
           <GameOver gameWinner={gameWinner} user={user}/>
         :
         <div className='h-full z-10 relative'>
-          <GameController
-          session={session}
-          socket={socket}
-          user={user}
-          setGameOver={setGameOver}
-          setGameWinner={setGameWinner}
-          userDecks={userDecks}
-          deckSelected={deckSelected}
-          handSize={handSize}
-          roundNum={roundNum}
-          setRoundNum={setRoundNum}
-          enemyId={enemyId}
-          roundInfo={roundInfo}
-          enemyName={enemyName}
-          setEnemyName={setEnemyName}
-          setEnemyId={setEnemyId}
-          handProvided = {handProvided}
-          />
+    <GameController
+    session={session}
+    socket={socket}
+    user={user}
+    setGameOver={setGameOver}
+    setGameWinner={setGameWinner}
+    userDecks={userDecks}
+    deckSelected={deckSelected}
+    handSize={handSize}
+    roundNum={roundNum}
+    setRoundNum={setRoundNum}
+    enemyId={enemyId}
+    roundInfo={roundInfo}
+    enemyName={enemyName}
+    setEnemyName={setEnemyName}
+    setEnemyId={setEnemyId}
+    handProvided = {handProvided}
+    enemyHand={enemyHand}
+    setEnemyHand={setEnemyHand}
+    roundActual={roundActual}
+    setRoundActual={setRoundActual}
+/>
         </div>
         }
       </div>
