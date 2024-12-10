@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import reviewWinConditions from "./reviewWinConditions.ts";
 
 export default async function generateResponse(newRound: number, prevRound: number) {
@@ -66,7 +66,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
 
 
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
 
 }

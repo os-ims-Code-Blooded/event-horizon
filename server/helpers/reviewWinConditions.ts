@@ -1,4 +1,4 @@
-import database from "../../../db/index.ts";
+import database from "../database/index.ts";
 import updateCardsOnWin from "./updateCardsOnWin.ts";
 
 export default async function reviewWinConditions(players: any, gameID: number) {

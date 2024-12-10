@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
-import { User, AuthRequest } from '../../misc/types.ts';
-import database from '../../db/index.ts';
+import { User, AuthRequest } from '../../helpers/misc/types.ts';
+import database from '../../database/index.ts';
 import rounds from './rounds.ts';
-import shuffle from './helpers/shuffle.ts';
+import shuffle from '../../helpers/shuffle.ts';
+import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
 
 const games = express.Router();
 games.use('/rounds', rounds);
@@ -35,6 +36,7 @@ games.get('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on GET request for an open game associated with user #${req.params.id}.`)
     res.sendStatus(500);
   }
@@ -236,6 +238,7 @@ games.post('/', async (req: AuthRequest, res) => {
 
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on request for games for user #${req.body.user_id}.`)
     console.error(error);
     res.sendStatus(500);
@@ -327,6 +330,7 @@ games.patch('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on PATCH request to terminate game session #${req.params.id}.`, error)
     res.sendStatus(500);
   }
@@ -356,6 +360,7 @@ games.delete('/:id', async (req: AuthRequest, res) => {
     }
 
   } catch (error) {
+    errorHandler(error);
     console.error(`Error on DELETE request to end a game search on game session #${req.params.id}.`)
     res.sendStatus(500);
   }

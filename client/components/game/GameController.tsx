@@ -31,7 +31,9 @@ export default function GameController ({
   enemyName, 
   setEnemyName, 
   setEnemyId,
-  handProvided
+  handProvided,
+  enemyHand,
+  setEnemyHand
  }){
 
   //TOP LEVEL GAME COMPONENT
@@ -114,16 +116,7 @@ export default function GameController ({
   
   
   
-  const opponentCards = [
-    {
-    },
-    {
-    },
-    {
-    },
-  ];
 
-  const [enemyHand, setEnemyHand] = useState(opponentCards)
   
   const getAllCards = async () => {
     try {
@@ -215,7 +208,7 @@ export default function GameController ({
 
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
-      console.log("********** ENEMY ROUND", enemyRound[0])
+      // console.log("********** ENEMY ROUND", enemyRound[0])
     }
 
     socket.on('game_over', (data: any)=>{
@@ -277,11 +270,13 @@ export default function GameController ({
 
       if (data.Current){
         setRoundNum(data.Current.id)
-      }
-      let myHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
 
 
-      let theirHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
+
+      let myHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
+
+
+      let theirHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
 
       console.log("ENEMY'S HAND CARDS:", theirHand)
       setEnemyHand(theirHand)
@@ -293,11 +288,11 @@ export default function GameController ({
         let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
-
+        
         setEnemyLastAction(enemyPrevRound[0].action)
         
         
-      // if (enemyPrevRound.length > playerPrevRound.length){
+        // if (enemyPrevRound.length > playerPrevRound.length){
       //   setEnemyWaiting(true)
       // }
 
@@ -306,25 +301,25 @@ export default function GameController ({
         // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
-
-    
-
+      
+      
+      
       if (enemyPrevRound[0].action === 'FIRE'){
         // console.log("FIRED!!!")
         setEnemyArmed(false)
         if (enemyPrevRound[0]){
           // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
-  
+          
           getAllCards();
           // console.log("ALL CARDS?", allCards)
-  
-  
-  
+          
+          
+          
         }
       }
-
-
-        if (enemyPrevRound[0].action === 'FIRE'){
+      
+      
+      if (enemyPrevRound[0].action === 'FIRE'){
           // console.log("FIRED!!!")
           setEnemyArmed(false)
         }
@@ -343,11 +338,11 @@ export default function GameController ({
           setTurnEnded(false)
           setPlayerAction('')
           setEnemyWaiting(false)
-
+          
           // we need to set card deck and hand here, but I don't know how to make it work within what we already have
           // this should become apparent when this round info is console.log()
         }
-
+        
         //expend ordinance if fired
         // if (playerAction === 'FIRE'){
           //   setCardToPlay(null)
@@ -357,11 +352,12 @@ export default function GameController ({
 
 
 
-      
+          
       setPlayerAction('')
       setEnemyWaiting(false)
-
+      
     }
+  }
 
     // console.log("data", data)
 
