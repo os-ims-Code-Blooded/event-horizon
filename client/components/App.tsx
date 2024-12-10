@@ -189,7 +189,7 @@ export default function App (){
       <Routes>
         <Route
           path="/"
-          element={<LandingPage user={user} handleLogin={handleLogin}/>}
+          element={<LandingPage user={user} isDarkMode={isDarkMode} isCbMode={isCbMode} handleLogin={handleLogin}/>}
         />
         <Route
           path="/title-menu"

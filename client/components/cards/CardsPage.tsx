@@ -212,15 +212,16 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   }, [user.id]);
 
   return (
-    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-screen bg-starfield">
-      <h1 className="font-extrabold text-white text-3xl text-center pt-8 pb-1">Cards Page</h1>
-      <div className="border-t-4 border-yellow-400 w-3/5 pb-5"></div>
+    <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-screen">
+      <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
+      <h1 className="font-extrabold text-text dark:text-darkText text-3xl text-center pt-8 pb-1 z-10 relative">Cards Page</h1>
+      <div className="border-t-4 border-yellow-400 w-3/5 pb-5 z-10 relative"></div>
       {/* All Cards Section */}
-      <div className='h-auto w-screen justify-items-center'>
-        <h2 className="text-white text-xl mb-4 text-center">All Cards</h2>
+      <div className='h-auto w-screen justify-items-center z-10 relative'>
+        <h2 className="text-white text-xl mb-4 text-center z-10 relative">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-        <div className="h-68 w-full max-w-screen-md overflow-x-auto flex gap-3 px-4 justify-start items-center" style={{ minWidth: '50%' }}>
+        <div className="h-68 w-full max-w-screen-md overflow-x-auto flex gap-3 px-4 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
@@ -228,20 +229,20 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 ${
+                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg bg-slate-300 flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0  z-10${
                   allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
                 }`}
               >
-                <div className="font-semibold pb-1">{card.name}</div>
-                <div className="px-1">{card.image_url || "IMAGE"}</div>
-                <div className="pt-4 text-sm">{card.description}</div>
-                <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1">
-                  <div className="p-1">
+                <div className="font-semibold pb-1 z-10 relative">{card.name}</div>
+                <div className="px-1 z-10 relative">{card.image_url || "IMAGE"}</div>
+                <div className="pt-4 text-sm z-10 relative">{card.description}</div>
+                <div className="absolute bottom-0 right-0 left-0 flex z-10 flex-row justify-between px-1">
+                  <div className="p-1 z-10 relative">
                     <strong>ATK:</strong> {card.damage}
                   </div>
-                  <div className="p-1">
+                  <div className="p-1 z-10 relative">
                     <strong>AMR:</strong> {card.armor}
                   </div>
                 </div>
@@ -249,50 +250,50 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
             ))
           ) : (
-            <p className="text-slate-300">No cards available.</p>
+            <p className="text-slate-300 z-10 relative">No cards available.</p>
           )}
         </div>
       </div>
       {/* deck creation points counter */}
     <div>
-    <h4 className="text-white text-base mb-4 text-center">Current Deck Value: {deckPoints}/100</h4>
+    <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Deck Value: {deckPoints}/100</h4>
 
     </div>
       {/* Deck Buttons */}
-      <div className="pt-8 pb-8">
-        <h2 className="text-white text-xl text-center font-semibold mb-4">Decks</h2>
-        <div className="flex flex-wrap gap-4 justify-center">
+      <div className="pt-8 pb-8 z-10 relative">
+        <h2 className="text-text dark:text-darkText text-xl text-center font-semibold mb-4 z-10 relative ">Decks</h2>
+        <div className="flex flex-wrap gap-4 justify-center z-10 relative">
           {decks.length > 0 ? (
             decks.map((deck) => (
               <button
                 key={deck.id}
                 onClick={() => fetchDeckCards(deck)}
-                className={`px-4 py-2 rounded-lg shadow hover:bg-yellow-500 dark:hover:bg-purple-500 ${
+                className={`px-4 py-2 rounded-lg shadow z-10 relative text-text dark:text-darkText hover:bg-yellow-500 dark:hover:bg-purple-500 ${
                   selectedDeck?.id === deck.id
-                    ? "bg-yellow-600 text-white dark:bg-purple-600 dark:text-black animate-pulse"
-                    : "bg-yellow-500 text-white dark:bg-purple-400 dark:text-black"
+                    ? "bg-yellow-600 text-text dark:bg-purple-600 dark:text-darkText animate-pulse"
+                    : "bg-yellow-500 text-text dark:bg-purple-400 dark:text-darkText"
                 }`}
               >
                 {deck.deck_name}
               </button>
             ))
           ) : (
-            <p className="text-slate-300">No decks available.</p>
+            <p className="text-text dark:text-darkText z-10 relative">No decks available.</p>
           )}
         </div>
       </div>
 
       {/* Selected Deck Actions */}
       {selectedDeck && (
-        <div className="text-center mt-4 flex flex-col">
-          <h2 className="text-white text-xl mb-4">
+        <div className="text-center mt-4 flex flex-col z-10 relative">
+          <h2 className="text-white text-xl mb-4 z-10 relative">
             Cards in {selectedDeck.deck_name}
           </h2>
-          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-3 px-10 justify-start items-center " style={{ minWidth: '50%' }}>
+          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-3 px-10 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
             {cards.map((deckCard) => (
               <div
                 key={deckCard.id}
-                className={`relative bg-white border border-slate-300 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0' 
+                className={`relative bg-white border border-slate-300 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10' 
                   ${
                     selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
@@ -302,20 +303,20 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 onClick={() => toggleDeckCardSelection(deckCard.id)}
               >
                 {/* Card Content */}
-                <div className="font-semibold pb-1 text-sm sm:text-base">
+                <div className="font-semibold pb-1 text-sm sm:text-base relative z-10">
                   {deckCard.name}
                 </div>
-                <div className="px-1 text-xs sm:text-sm">
+                <div className="px-1 text-xs z-10 relative sm:text-sm">
                   {deckCard.image_url || "IMAGE"}
                 </div>
-                <div className="pt-4 text-xs sm:text-sm">{deckCard.description}</div>
+                <div className="pt-4 text-xs z-10 relativesm:text-sm">{deckCard.description}</div>
 
                 {/* Card Stats */}
-                <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1 text-xs">
-                  <div className="p-1">
+                <div className="absolute bottom-0 right-0 left-0 flex flex-row justify-between px-1 text-xs z-10">
+                  <div className="p-1 z-10 relative">
                     <strong>ATK:</strong> {deckCard.damage || 0}
                   </div>
-                  <div className="p-1">
+                  <div className="p-1 z-10 relative">
                     <strong>AMR:</strong> {deckCard.armor || 0}
                   </div>
                 </div>
@@ -323,17 +324,17 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
             ))}
           </div>
 
-          <div className='items-center justify-items-center justify-center gap-2 flex'>
+          <div className='items-center justify-items-center justify-center gap-2 flex z-10 relative'>
             <button
               onClick={removeCardsFromDeck}
-              className="mt-4 px-4 py-2 rounded-lg bg-error text-white hover:bg-slate-400"
+              className="mt-4 px-4 py-2 rounded-lg bg-error text-white z-10 relative hover:bg-slate-400"
             >
               Confirm Remove Selected Cards
             </button>
             <button
               value={selectedDeck.id}
               onClick={(e) => deleteSelectedDeck(e)}
-              className="mt-4 px-4 py-2 bg-error text-white rounded-lg shadow hover:bg-slate-400"
+              className="mt-4 px-4 py-2 bg-error text-white rounded-lg shadow z-10 relative hover:bg-slate-400"
             >
               Delete Deck
             </button>
@@ -343,12 +344,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
       {/* Add Cards to Deck Button */}
       {selectedDeck && (
-        <div className="text-center mt-4 pb-2">
+        <div className="text-center mt-4 pb-2 z-10 relative">
           <button
             onClick={() => {
               addCardsToDeck();
             }}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-500"
+            className="px-4 py-2 bg-green-600 text-text dark:text-darkText rounded-lg z-10 relative shadow hover:bg-green-500"
           >
             Add Selected Cards to {selectedDeck.deck_name}
           </button>
@@ -356,14 +357,14 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       )}
 
       {/* Create New Deck */}
-      <div className="text-center mt-8 pb-4">
+      <div className="text-center mt-8 pb-4 z-10 relative">
         <button
           onClick={() => setShowNewDeckModal(true)}
           disabled={allSelectedCards.length === 0 || deckPoints > 100} // Disable if no cards selected OR if deck value above 200
-          className={`px-4 py-2 rounded-lg shadow ${
+          className={`px-4 py-2 rounded-lg shadow z-10 relative ${
             allSelectedCards.length === 0 || deckPoints > 100
-              ? "bg-slate-400 text-white cursor-not-allowed"
-              : "bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+              ? "bg-slate-400 text-text dark:text-darkText cursor-not-allowed"
+              : "bg-blue-600 text-text dark:text-darkText hover:bg-blue-500 cursor-pointer"
           }`}
         >
           Create New Deck

@@ -99,14 +99,15 @@ const Settings = ({user, fetchUser}) =>{
 
   return (
     <div
-      className="pt-10 flex flex-col items-center bg-starfield gap-5 text-white p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
+      className="pt-10 flex flex-col items-center gap-5 text-white p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="User Settings Page"
     >
-      <h1 className="text-center text-3xl font-bold pt-10">USER SETTINGS</h1>
-      <div className="mt-8 w-full max-w-2xl justify-center justify-items-center items-center flex-col flex">
-        <table className="table-auto border-s-orange-100 w-full bg-gray-800 text-left text-sm rounded-lg overflow-hidden shadow-md">
+      <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>
+      <h1 className="text-center text-3xl font-bold pt-10 z-10 relative">USER SETTINGS</h1>
+      <div className="mt-8 w-full max-w-2xl justify-center justify-items-center items-center flex-col flex z-10 relative">
+        <table className="table-auto border-s-orange-100 w-full bg-slate-500 text-left text-text dark:text-darkText text-sm rounded-lg overflow-hidden shadow-md z-10 relative">
           <thead>
-            <tr className="bg-gray-700 text-gray-200">
+            <tr className="bg-gray-700 text-gray-200 z-10 relative border-b border-s-slate-700">
               <th className="px-4 py-2">Setting</th>
               <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2">Action</th>
@@ -114,32 +115,32 @@ const Settings = ({user, fetchUser}) =>{
           </thead>
           <tbody>
             {/* User's  information */}
-          <tr className="border-b border-gray-700">
-              <td className="px-4 py-3">Username</td>
-              <td className="px-4 py-3">Display name for a User</td>
-              <td className="px-4 py-3">
+          <tr className="border-b border-s-slate-700 z-10 relative">
+              <td className="px-4 py-3 z-10 relative text-text dark:text-darkText">Username</td>
+              <td className="px-4 py-3 z-10 relative text-text dark:text-darkText">Display name for a User</td>
+              <td className="px-4 py-3 z-10 relative text-text dark:text-darkText">
               {isEditing ? (
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="name-input" className="sr-only">
+                <div className="flex items-center space-x-2 z-10 relative">
+                  <label htmlFor="name-input" className="sr-only z-10 relative text-text dark:text-darkText">
                     Edit name
                   </label>
                   <input
                     type="text"
                     value={name || ''}
                     onChange={(e) => setName(e.target.value)}
-                    className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                    className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-600 text-black z-10 relative bg-slate-500"
                     aria-label="Enter your name"
                   />
                   <button
                     onClick={changeName}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-600 z-10 relative"
                     aria-label="Save name changes"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 z-10 relative"
                     aria-label="Cancel name changes"
                   >
                     Cancel
@@ -147,7 +148,7 @@ const Settings = ({user, fetchUser}) =>{
                 </div>
               ) : (
                 <div
-                  className="p-2 anime-pulse border rounded focus:outline-none text-white cursor-pointer hover:border-blue-500"
+                  className="p-2 anime-pulse border rounded focus:outline-none text-white cursor-pointer hover:border-yellow-600 z-10 bg-slate-600 relative"
                   onClick={() => setIsEditing(true)}
                   aria-label={`Name: ${name}. Click to edit.`}
                 >
@@ -157,51 +158,51 @@ const Settings = ({user, fetchUser}) =>{
               </td>
             </tr>
             {/* Theme Settings */}
-            <tr className="border-b border-gray-700">
+            <tr className="border-b border-s-slate-700 z-10 relative">
               <td className="px-4 py-3">Dark Mode</td>
               <td className="px-4 py-3">Toggle dark mode for the application.</td>
               <td className="px-4 py-3">
                 <button
                   onClick={toggleDarkMode}
-                  className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
-                    darkMode ? 'bg-green-500' : 'bg-slate-500'
+                  className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none z-10 ${
+                    darkMode ? 'bg-emerald-500' : 'bg-slate-700'
                   }`}
                   aria-label="Toggle Dark Mode"
                 >
                   <span
                     className={`${
                       darkMode ? 'translate-x-6' : 'translate-x-1'
-                    } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                    } inline-block w-4 h-4 transform bg-white rounded-full transition-transform z-10 relative`}
                   ></span>
                 </button>
               </td>
             </tr>
             <tr>
-              <td className="px-4 py-3">Color-Blind Mode</td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 z-10 relative">Color-Blind Mode</td>
+              <td className="px-4 py-3 z-10 relative">
                 Adjust colors for better visibility for color-blind users.
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 z-10 relative">
                 <button
                   onClick={toggleColorBlindMode}
-                  className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
-                    colorBlindMode ? 'bg-green-500' : 'bg-slate-500'
+                  className={`relative inline-flex items-center h-6 rounded-full w-11 z-10 transition-colors focus:outline-none ${
+                    colorBlindMode ? 'bg-emerald-500' : 'bg-slate-700'
                   }`}
                   aria-label="Toggle Color-Blind Mode"
                 >
                   <span
                     className={`${
                       colorBlindMode ? 'translate-x-6' : 'translate-x-1'
-                    } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+                    } inline-block w-4 h-4 transform bg-white rounded-full transition-transform z-10 relative`}
                   ></span>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
-        <div className='flex justify-center gap-8 mt-4 pt-50'>
+        <div className='flex justify-center gap-8 mt-4 pt-50 z-10 relative'>
           <button 
-            className='justify-center items-center rounded-md justify-items-center bg-error hover:animate-pulse hover:bg-slate-500 text-text w-60 h-15'
+            className='justify-center items-center rounded-md justify-items-center bg-error hover:animate-pulse hover:bg-slate-500 text-text dark:text-darkText w-60 h-15 z-10 relative'
             onClick={() => promptDelete()}
           >
             DELETE ACCOUNT
@@ -210,12 +211,12 @@ const Settings = ({user, fetchUser}) =>{
         <div>
           {showDeletePrompt && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="p-4 bg-slate-700 rounded shadow-lg w-full max-w-sm">
+            <div className="p-4 bg-slate-700 rounded shadow-lg w-full max-w-sm z-10 relative">
               <h2 className="text-lg font-bold mb-2">Confirm Deletion</h2>
               <p className="text-md text-white">
                 Are you sure you want to delete this friend?
               </p>
-              <div className="flex justify-end gap-4 mt-4">
+              <div className="flex justify-end gap-4 mt-4 z-10 relative">
                 <button
                   className="px-4 py-2 bg-slate-300 text-slate-700 rounded hover:bg-slate-400"
                   onClick={cancelDelete}
