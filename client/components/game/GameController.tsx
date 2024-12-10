@@ -33,7 +33,9 @@ export default function GameController ({
   setEnemyId,
   handProvided,
   enemyHand,
-  setEnemyHand
+  setEnemyHand,
+  roundActual,
+  setRoundActual
  }){
 
   //TOP LEVEL GAME COMPONENT
@@ -100,7 +102,7 @@ export default function GameController ({
   //has the card been LOADed?
   const [weaponArmed, setWeaponArmed] = useState(false)
 
-  const [roundDisplay, setRoundDisplay] = useState(1)
+  const [roundDisplay, setRoundDisplay] = useState(roundActual)
 
   const [selfDestruct, setSelfDestruct] = useState(false)
   
@@ -184,7 +186,7 @@ export default function GameController ({
 
     
     setLastAction(playerAction)
-    setRoundDisplay(roundDisplay + 1)
+   
     // console.log("*** CARD ID ***\n", cardId)
 
     socket.emit('end_turn', {
@@ -270,6 +272,7 @@ export default function GameController ({
 
       if (data.Current){
         setRoundNum(data.Current.id)
+        setRoundActual(data.Current.actual)
 
 
 

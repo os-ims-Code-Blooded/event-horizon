@@ -58,7 +58,7 @@ export default function SelectGame({
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
-  const [initialRound, setInitialRound] = useState(0)
+  const [roundActual, setRoundActual] = useState(1)
   
   const [enemyId, setEnemyId] = useState(null)
   const [enemyName, setEnemyName] = useState('')
@@ -95,10 +95,10 @@ export default function SelectGame({
 
               axios.get(`/games/rounds/${game.data.id}`)
                 .then((round) => {
-                  console.log("ROUND DATA", round.data)
+                  console.log("ROUND DATA", round.data["Current Round Actual"])
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
-                  setInitialRound(round.data["Current Round"] - 1)
+                  setRoundActual(round.data["Current Round Actual"])
                   setDeckSelected(round.data["Current Deck"]);
                   setHandProvided(round.data["Current Hand"]);
                   setEnemyHand(round.data["Enemy Hand"]);
@@ -166,6 +166,7 @@ export default function SelectGame({
       setDeckSelected(round.data["Current Deck"]);
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
+      setRoundActual(round.data["Current Round Actual"])
 
       console.log(`******** Current ROUND DATA: `, round.data);
       console.log(`Current Deck: `, round.data["Current Deck"]);
@@ -303,6 +304,8 @@ return(
           setEnemyName={setEnemyName}
           setEnemyId={setEnemyId}
           handProvided = {handProvided}
+          roundActual={roundActual}
+          setRoundActual={setRoundActual}
           />
           </div>
           }
@@ -380,6 +383,8 @@ return(
           setEnemyName={setEnemyName}
           setEnemyId={setEnemyId}
           handProvided = {handProvided}
+          roundActual={roundActual}
+          setRoundActual={setRoundActual}
           />
         </div>
         }
