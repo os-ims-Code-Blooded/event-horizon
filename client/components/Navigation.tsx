@@ -146,7 +146,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
         }
         </button>
         <button onClick={cbMode} className="hover:text-blue-600">
-          CB
+          👁️
         </button>
       </div>
     </nav>
