@@ -280,7 +280,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         <h2 className="text-white text-xl mb-4 text-center z-10 relative">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-        <div className="h-68 w-full max-w-screen-md overflow-x-auto flex gap-3 px-4 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
+        <div className="grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 h-68 w-full max-w-screen-md gap-3 px-4 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
@@ -350,7 +350,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           <h2 className="text-white text-xl mb-4 z-10 relative">
             Cards in {selectedDeck.deck_name}
           </h2>
-          <div className="h-64 w-full max-w-screen-md overflow-x-auto flex gap-3 px-10 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
+          <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 w-full max-w-screen-md gap-3 px-10 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
             {cards.map((deckCard) => (
               <div
                 key={deckCard.id}
