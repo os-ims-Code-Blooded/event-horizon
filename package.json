@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "concurrently \"npm start\" \"jest\"",
+    "dev": "concurrently \"npm start\" \"npm run build\"",
     "build": "webpack",
     "start": "ts-node server/index.ts",
     "seed": "ts-node server/helpers/misc/seed.ts"
