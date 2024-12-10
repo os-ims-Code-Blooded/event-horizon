@@ -316,11 +316,9 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       {/* deck creation points counter */}
     <div>
     <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Card Values: {deckPoints}/200</h4>
-
     </div>
 
       {/* Deck Buttons */}
-
       <div className="pt-8 pb-8 z-10 relative">
         <h2 className="text-text dark:text-darkText text-xl text-center font-semibold mb-4 z-10 relative ">Decks</h2>
         <div className="flex flex-wrap gap-4 justify-center z-10 relative">
