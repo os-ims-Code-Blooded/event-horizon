@@ -67,7 +67,7 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
         }
       }, null)
 
-      if (enemy) {
+      if (!enemy) {
         res.status(200).send({ 
           "Current Round Actual": findMostRecent.actual,
           "Current Round": findMostRecent.id,
