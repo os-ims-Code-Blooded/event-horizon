@@ -211,7 +211,7 @@ if (playerHand.length <= 0){
       <div className='flex flex-row justify-between p-3 h-86'>
         <div>
           <div className='justify-center z-1 h-50 w-60'>
-              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.75] scale-y-[.75]'/>
+              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.75] scale-y-[.75] outline outline-blue-600 rounded-full animate-outline-pulse'/>
             </div>
         </div>
         <div className='flex flex-row justify-between h-70'>
