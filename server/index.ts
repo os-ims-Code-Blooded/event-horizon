@@ -188,19 +188,19 @@ server.listen(PORT, () => {
   let gameMoves = []
   let oneUserEndedTurn = true
 
-  const oneHour = 60 * 60 * 1000; 
+  const halfHour = 60 * 30 * 1000; 
 
   setInterval( async () => {
     try {
       const deletedGames = await database.games.deleteMany({ where: { status: false }})
       if (deletedGames) {
-        console.log(`Routine database maintenance: purged closed games in database at ${new Date()}.`)
+        console.log(`Routine database maintenance: purged ${deletedGames.count} closed games in database at ${new Date()}.`)
       }
     } catch (error) {
       errorHandler(error);
       console.error(`Error during routine database maintenance: failure to purge closed games: `, error);
     }
-  }, oneHour);
+  }, halfHour);
 
   //when the server establishes a connection, it shall do the following:
 
