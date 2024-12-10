@@ -19,7 +19,8 @@ module.exports = {
         third: '#371c69', // faded purple
         fourth: '#FDDA0D', // yellow
         fifth: '#ffa345', // golden yellow
-        text: '#FFFFFF', //white
+        text: '#000000',
+        darkText: '#FFFFFF', //white
         error: '#FF3131',
         success: '#98FB98',
         neutral: '#899499',
@@ -36,6 +37,10 @@ module.exports = {
         'radial-dark': 'radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%)',
         'black-hole': 'url("https://i.imgur.com/So8ytLh.png")',
         'starfield': 'url("https://i.imgur.com/76SAN8D.gif")',
+        'starfield-light': 'url("https://i.imgur.com/DeaAAKn.gif")',
+        'logo-light': 'url("https://i.imgur.com/oM3zj2J.png")',
+        'logo-dark': 'url("https://i.imgur.com/e5Tmg4r.png")',
+        'logo-cb': 'url("")'
       },
       animation:{
         'shake': 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',

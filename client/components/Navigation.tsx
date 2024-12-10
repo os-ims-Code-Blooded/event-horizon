@@ -94,7 +94,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
   );
 
   return (
-    <nav className="fixed z-10 top-0 w-full p-4 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text">
+    <nav className="fixed z-50 top-0 w-full p-4 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text dark:text-darkText">
       {/* Navigation Links */}
       <div className="hidden sm:flex items-center gap-x-8">
         {displayedItems
@@ -113,7 +113,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
           ☰
         </button>
         {isDropdownOpen && (
-          <div className="absolute left-1/2 top-full transform mt-2 w-48 bg-fifth dark:bg-purple-950 rounded shadow-lg">
+          <div className="absolute left-1/2 top-full transform mt-2 w-48 bg-fifth dark:bg-purple-950 rounded shadow-lg z-50">
             {displayedItems
               .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
               .map(({ label, path, onClick }, index) => (
@@ -124,7 +124,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
                     setDropdownOpen(false);
                     if (onClick) onClick();
                   }}
-                  className="block px-4 py-2 text-white hover:bg-orange-500 dark:hover:bg-purple-800"
+                  className="block px-4 py-2 text-text dark:text-darkText hover:bg-orange-500 dark:hover:bg-purple-800 z-50"
                 >
                   {label}
                 </Link>

@@ -44,7 +44,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
             <tr
               key={boardUser.id}
               className={`even:bg-slate-800 ${index === 0 ? 'font-bold' : ''} ${
-                user.id === boardUser.id ? 'animate-pulse bg-yellow-100 text-black' : ''
+                user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-white' : ''
               }`}
             >
               <td className="border border-slate-600 px-4 py-2">{index + 1}</td>
