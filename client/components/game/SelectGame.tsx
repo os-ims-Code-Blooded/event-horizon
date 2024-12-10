@@ -71,6 +71,16 @@ export default function SelectGame({
 
   const [waiting, setWaiting] = useState(false)
   
+  const opponentCards = [
+    {
+    },
+    {
+    },
+    {
+    },
+  ];
+
+  const [enemyHand, setEnemyHand] = useState(opponentCards)
   
 
   useEffect( () => {
