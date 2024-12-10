@@ -33,69 +33,52 @@ collections.post('/:id', async (req: AuthRequest, res) => {
 
   try {
 
-    // find the user's score
-    const userScore = await database.user.findUnique({
-      where: {
-        id: Number(req.params.id)
-      },
-      select: {
-        score: true
-      }
+    // find the user's score and their current cards
+    const user = await database.user.findUnique({
+      where: { id: Number(req.params.id) },
+      include: { User_Cards: true }
     })
 
-    // find the score required and the IDs of all cards
+    // find cards where the score required is less than or equal to user score
     const allCards = await database.cards.findMany({
-      select: {
-        score_required: true,
-        id: true
-      }
+      where: { score_required: { lte: user.score }}
     })
 
     // if the user's score meets card recommendations, they should have these cards (array of card IDs)
-    const earnedCards = allCards.reduce((accum, curr) => {
-      if (curr.score_required <= userScore.score){
-        accum.push(curr.id);
-        return accum;
-      } else {
-        return accum;
-      }
-    }, [])
-
-    // find all cards that the user has been assigned
-    const userCards = await database.user_Cards.findMany({
-      where: {
-        user_id: Number(req.params.id)
-      }
-    })
+    const earnedCards = allCards.map((card) => card.id)
 
     // the current cards that have been given to a user
-    const userCurrentCards = userCards.map((card) => {
-      return card.card_id;
-    })
+    const userCurrentCards = user.User_Cards.map((card) => card.card_id)
 
     // I have earned these cards, they are assigned to my account and me as a user [1, 2, 3, 4...]
     // I have TECHNICALLY earned these cards, but have not been given them yet [...5, 6, 7]
     // represents all cards that a user has earned, but has not been given
-    const cardsToAdd = earnedCards.filter((card: number) => {
-      if (!userCurrentCards.includes(card)) {
-        return card;
-      }
-    });
+    const cardsToAdd = earnedCards.filter((card: number) => !userCurrentCards.includes(card));
 
     // if there are cards to add to the user
     if (cardsToAdd.length > 0){
 
-      // we use a loop here because createMany cannot be used for relationships
-      cardsToAdd.forEach( async (id) => {
-        await database.user_Cards.create({
+      const local = [];
+
+      for (let i = 0; i < cardsToAdd.length; i++) {
+        local.push(database.user_Cards.create({
           data: {
-            card: { connect: { id: Number(id) } },
+            card: { connect: { id: Number(cardsToAdd[i]) } },
             user: { connect: { id: Number(req.params.id) } }
           }
-        })
-      })
+        }))
+      }
 
-      res.sendStatus(201);
+      Promise.race(local)
+        .then(() => {
+          res.sendStatus(201);
+        })
+        .catch((error) => {
+          console.error(`Error resolving promises in card collections update for user ${req.params.id}.`)
+        })
+
+      return; 
+
     } else {
       res.sendStatus(200);
     }
