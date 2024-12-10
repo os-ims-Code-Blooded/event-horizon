@@ -29,6 +29,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [newDeckName, setNewDeckName] = useState<string>("");
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [deckPoints, setDeckPoints] = useState(0)
+  const [currDeckVal, setCurrDeckVal] = useState(0)
+
 
 
   const fetchDecks = async () => {
@@ -49,7 +51,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       toast.error("Error fetching deck cards:", error);
     }
   };
+
+
+  ////////////////////////////////////////////////////////////////////////
   // toggling for cards displayed in allCards to add to a deck
+
   const toggleCardSelection = (cardId: number) => {
     setAllSelectedCards((prevSelected) =>
       prevSelected.includes(cardId)
@@ -58,15 +64,24 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     );
 
 
-    console.log("CARD ID", cardId)
-    console.log("cards", allCards)
+    // console.log("CARD ID", cardId)
+    // console.log("cards", allCards)
     let currCard = allCards.filter(card=> card.id === cardId)
 
-    console.log("current card", currCard)
-    console.log("SELECTED CARDS", allSelectedCards)
-    !allSelectedCards.includes(cardId) ? setDeckPoints(currCard[0].duration? deckPoints + ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints + (currCard[0].armor + currCard[0].damage) ) : setDeckPoints(currCard[0].duration? deckPoints - ((currCard[0].armor + currCard[0].damage) * currCard[0].duration) : deckPoints - (currCard[0].armor + currCard[0].damage) )
+    // console.log("current card", currCard)
+    // console.log("SELECTED CARDS", allSelectedCards)
+    !allSelectedCards.includes(cardId) ? 
+    
+    setDeckPoints(deckPoints + ((currCard[0].armor + currCard[0].damage) * (currCard[0].duration + 1)))
+    
+    :
+    
+    setDeckPoints(deckPoints - ((currCard[0].armor + currCard[0].damage) * (currCard[0].duration + 1)))
 
+    
   };
+  ////////////////////////////////////////////////////////////////////////////////
+
   // toggling for selecting cards in deck to remove
   const toggleDeckCardSelection = (cardId: number) => {
     setSelectedCardsInDeck((prevSelected) =>
@@ -76,6 +91,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     );
   };
 
+
+
+
+
+  ////////////////// ADDS CARDS ////////////////////////////////////////////////////////////////
 
   const addCardsToDeck = async () => {
     if (!selectedDeck || allSelectedCards.length === 0) {
@@ -103,6 +123,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     }
   };
 
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////// remove cards //////////////////////////////////////////////
   const removeCardsFromDeck = async () => {
     if (!selectedDeck || selectedCardsInDeck.length === 0) {
       toast.error("Please select a deck and at least one card.");
@@ -138,6 +164,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     }
   };
 
+
+  ////////////////////////// CREATE DECK ////////////////////////////
   const createNewDeck = async () => {
     if (!newDeckName.trim() || allSelectedCards.length === 0) {
       toast.error("Please provide a deck name and select at least one card.");
@@ -174,7 +202,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       toast.error("Error creating new deck:", error);
     }
   };
-
+///////////// DELETE /////////////////////////////////////////////////////////////////
   const deleteSelectedDeck = async (e) => {
     if (!selectedDeck) {
       toast.error("No deck selected.");
@@ -196,8 +224,29 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       toast.error("Error deleting deck:", error);
     }
   };
+  //////////////////////////////////////////////////////////////////////////////////////
+  //////////////// LIFECYCLE /////////////////////////////////////////////////////
+  
+  useEffect(()=>{
+
+    if (cards.length > 0){
+      console.log("hello");
+  
+      setCurrDeckVal(cards.reduce((acc, curr)=>{
+  
+        acc += ((curr.armor + curr.damage) * (curr.duration + 1))
+        return acc
+  
+      }, 0))
+    }
+
+  })
 
   useEffect(() => {
+    
+
+
+
 
     const fetchAllCards = async () => {
       try {
@@ -209,8 +258,18 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     };
     fetchAllCards();
     fetchDecks();
+
+    
+
+
+      // setCurrDeckVal(deckVal)
+    
+
   }, [user.id]);
 
+  console.log("currDeckVal", currDeckVal)
+
+  /////////////////////////////////// RENDER /////////////////////////////////////////////////
   return (
     <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-screen">
       <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
@@ -256,10 +315,12 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       </div>
       {/* deck creation points counter */}
     <div>
-    <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Deck Value: {deckPoints}/100</h4>
+    <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Card Values: {deckPoints}/200</h4>
 
     </div>
+
       {/* Deck Buttons */}
+
       <div className="pt-8 pb-8 z-10 relative">
         <h2 className="text-text dark:text-darkText text-xl text-center font-semibold mb-4 z-10 relative ">Decks</h2>
         <div className="flex flex-wrap gap-4 justify-center z-10 relative">
@@ -323,6 +384,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               </div>
             ))}
           </div>
+          <div>Selected Deck Value: {currDeckVal}/200</div>
+
           <div className='items-center justify-items-center justify-center gap-2 flex z-10 relative'>
             <button
               onClick={removeCardsFromDeck}
@@ -341,9 +404,26 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         </div>
       )}
 
+
+
       {/* Add Cards to Deck Button */}
+      {/* {console.log("SELECTED DECK's Cards TO ADD TO:  ", cards)} */}
+      {console.log("DECK VALUE PLUS NEW POINTS", currDeckVal + deckPoints)}
       {selectedDeck && (
         <div className="text-center mt-4 pb-2 z-10 relative">
+          <div>
+          </div>
+
+        {currDeckVal + deckPoints > 200 ?
+          <button
+            
+            className="cursor-not-allowed px-4 py-2 bg-gray text-text dark:text-darkText rounded-lg z-10 relative shadow"
+          >
+            Add Selected Cards to {selectedDeck.deck_name}
+          </button>
+      
+      :
+
           <button
             onClick={() => {
               addCardsToDeck();
@@ -352,16 +432,22 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           >
             Add Selected Cards to {selectedDeck.deck_name}
           </button>
+        }
+
+
+
         </div>
       )}
+
+
 
       {/* Create New Deck */}
       <div className="text-center mt-8 pb-4 z-10 relative">
         <button
           onClick={() => setShowNewDeckModal(true)}
-          disabled={allSelectedCards.length === 0 || deckPoints > 100} // Disable if no cards selected OR if deck value above 200
+          disabled={allSelectedCards.length === 0 || deckPoints > 200} // Disable if no cards selected OR if deck value above 200
           className={`px-4 py-2 rounded-lg shadow z-10 relative ${
-            allSelectedCards.length === 0 || deckPoints > 100
+            allSelectedCards.length === 0 || deckPoints > 200
               ? "bg-slate-400 text-text dark:text-darkText cursor-not-allowed"
               : "bg-blue-600 text-text dark:text-darkText hover:bg-blue-500 cursor-pointer"
           }`}

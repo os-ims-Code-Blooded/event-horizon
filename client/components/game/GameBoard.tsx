@@ -15,6 +15,7 @@ interface CardType {
 type GameBoardProp = {
   session: string;
   socket: any
+  roundActual: any
   user: any
   userDecks: any
   deckSelected: any
@@ -52,7 +53,6 @@ type GameBoardProp = {
   setHitPoints: any
   armor: number
 
-  roundDisplay: number
   turnEnded: any
   setTurnEnded: any
   activeLoading: any
@@ -69,6 +69,7 @@ type GameBoardProp = {
 const GameBoard: FC <GameBoardProp> = ({
   session,
   socket,
+  roundActual,
   user,
   userDecks,
   deckSelected,
@@ -108,7 +109,6 @@ const GameBoard: FC <GameBoardProp> = ({
 
   weaponArmed,
   setWeaponArmed,
-  roundDisplay,
   setTurnEnded,
   activeLoading,
   setActiveLoading,
@@ -175,7 +175,7 @@ if (playerHand.length <= 0){
         <div className='pr-4 flex flex-col flex-grow px-4'>
           <div className='pt-10 px-4 text-white'>Encounter {session} vs {enemyName}</div>
           {/* <div className='pt-10 px-4 text-white'></div> */}
-          <div className='pt-10 px-4 text-white'>TIME: 00:00 / ROUND {roundDisplay}</div>
+          <div className='pt-10 px-4 text-white'>TIME: 00:00 / ROUND {roundActual}</div>
         </div>
         <div className="flex flex-row justify-center items-center flex-grow">
           {enemyHand.map((card, index) => (
