@@ -34,12 +34,12 @@ collections.post('/:id', async (req: AuthRequest, res) => {
   try {
 
     // find the user's score
-    const userScore = await database.user.findUnique({
+    const user = await database.user.findUnique({
       where: {
         id: Number(req.params.id)
       },
-      select: {
-        score: true
+      include: {
+        User_Cards: true
       }
     })
 
@@ -53,7 +53,7 @@ collections.post('/:id', async (req: AuthRequest, res) => {
 
     // if the user's score meets card recommendations, they should have these cards (array of card IDs)
     const earnedCards = allCards.reduce((accum, curr) => {
-      if (curr.score_required <= userScore.score){
+      if (curr.score_required <= user.score){
         accum.push(curr.id);
         return accum;
       } else {
@@ -61,15 +61,8 @@ collections.post('/:id', async (req: AuthRequest, res) => {
       }
     }, [])
 
-    // find all cards that the user has been assigned
-    const userCards = await database.user_Cards.findMany({
-      where: {
-        user_id: Number(req.params.id)
-      }
-    })
-
     // the current cards that have been given to a user
-    const userCurrentCards = userCards.map((card) => {
+    const userCurrentCards = user.User_Cards.map((card) => {
       return card.card_id;
     })
 
@@ -85,15 +78,14 @@ collections.post('/:id', async (req: AuthRequest, res) => {
     // if there are cards to add to the user
     if (cardsToAdd.length > 0){
 
-      // we use a loop here because createMany cannot be used for relationships
-      cardsToAdd.forEach( async (id) => {
+      for (let i = 0; i < cardsToAdd.length; i++) {
         await database.user_Cards.create({
           data: {
-            card: { connect: { id: Number(id) } },
+            card: { connect: { id: Number(cardsToAdd[i]) } },
             user: { connect: { id: Number(req.params.id) } }
           }
         })
-      })
+      }
 
       res.sendStatus(201);
     } else {

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Rounds` ADD COLUMN `actual` INTEGER NOT NULL DEFAULT 1;
