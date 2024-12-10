@@ -277,176 +277,120 @@ export default function SelectGame({
 /*===============================================================================*/
 
 return(
+  <div >
+    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
+    {activeUserGame?
+    <div className='h-full z-10 relative'>
+      {gameOver?
+      <>
+        <GameOver gameWinner={gameWinner} user={user}/>
+      </>
+        :
+        <div className='h-full z-10 relative'>
+          <GameController
+          session={session}
+          socket={socket}
+          user={user}
+          setGameOver={setGameOver}
+          setGameWinner={setGameWinner}
+          userDecks={userDecks}
+          deckSelected={deckSelected}
+          handSize={handSize}
+          roundNum={roundNum}
+          setRoundNum={setRoundNum}
+          enemyId={enemyId}
+          roundInfo={roundInfo}
+          enemyName={enemyName}
+          setEnemyName={setEnemyName}
+          setEnemyId={setEnemyId}
+          handProvided = {handProvided}
+          roundActual={roundActual}
+          setRoundActual={setRoundActual}
+          />
+          </div>
+          }
+    </div>
 
-<div >
-{activeUserGame?  
-
-<div className='h-full'>
-
-{gameOver?
-<div className='h-full'>
-<GameOver gameWinner={gameWinner} user={user}/>
-
-</div>
-:
-<div className='h-full'>
-
-<GameController
-session={session}
-socket={socket}
-user={user}
-setGameOver={setGameOver}
-setGameWinner={setGameWinner}
-userDecks={userDecks}
-deckSelected={deckSelected}
-handSize={handSize}
-roundNum={roundNum}
-setRoundNum={setRoundNum}
-enemyId={enemyId}
-roundInfo={roundInfo}
-enemyName={enemyName}
-setEnemyName={setEnemyName}
-setEnemyId={setEnemyId}
-handProvided = {handProvided}
-enemyHand={enemyHand}
-setEnemyHand={setEnemyHand}
-roundActual={roundActual}
-setRoundActual={setRoundActual}
-/>
-</div>
-}
-</div>
-
-:
-
-<div>
-
-{!playClicked?
-
-
-<div className='pt-20 flex h-full items-center justify-center min-h-screen bg-starfield'>
-  <div className='p-6 justify-items-center flex flex-col items-center gap-3'>
-
-<div className='pt-8'>
-
-
-<select className='text-black w-70' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
-  <option value="">--select deck--</option>
-
-  {userDecks.map((deck, index)=>{
-    // console.log("index", index)
-    
-    return(
-      <option key={deck.deck_name} value={index}>{deck.deck_name}</option>
-
-
-    )
-  })}
-
-
-</select>
-  </div>
-
-<br></br>
-
-  {deckWasChosen?
-
-<>
-
-{waiting?
-
-<div>
-  <button onClick={onClickStopSearch}>X</button>
-  <h1 className="text-white animate-pulse text-2xl">Waiting For Game</h1>
-</div>
-:
-<div className="w-36 h-36 rounded-full bg-slate-700 relative">
-  <button className='bg-success dark:bg-darkGreen inset-0 m-auto h-32 w-32 rounded-full text-black absolute shadow-md shadow-white hover:bg-emerald-300' onClick={onClickPlay}>PLAY NOW!</button>
-</div>
-
-}
-<div className='flex flex-row'></div>
-
-<br></br>
-</>
-
-:
-
-<div className="w-36 h-36 rounded-full bg-slate-700 relative">
-
-<button className='cursor-not-allowed bg-gray text-black shadow-sm shadow-white inset-0 m-auto h-32 w-32 rounded-full absolute' >PLAY NOW!</button>
-
-<br></br>
-</div>
-  }
-  <div className="w-32 h-32 rounded-full bg-slate-700 relative">
-
-  <button className='bg-success dark:bg-darkGreen inset-0 m-auto h-28 w-28 rounded-full text-black absolute shadow-sm shadow-white hover:bg-emerald-300' onClick={onClickMake}>CUSTOMIZE!</button>
-  </div>
-  <br></br>
-  <div>
-
-    {!makeClicked?
-
-      null
-
-      :
-      <div className='flex flex-row p-4'>
-
-
-        <MakeGame/>
+    :
+    <div className='z-10 relative'>
+      {!playClicked?
+      <div className='pt-20 flex h-full items-center justify-center min-h-screen z-10 relative'>
+        <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
+        <div className='p-6 justify-items-center flex flex-col items-center gap-3 z-10 relative'>
+                <div className='pt-8 z-10 relative'>
+                  <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
+                    <option className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-600 z-10 relative' value="">--select deck--</option>
+                    {userDecks.map((deck, index)=>{
+                      return(
+                        <option className='z-10 relative' key={deck.deck_name} value={index}>{deck.deck_name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+              <br></br>
+                {deckWasChosen?
+                <div className='z-10 relative'>
+                {waiting ?
+                  <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
+                  :
+                  <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
+                    <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={onClickPlay}>PLAY NOW!</button>
+                  </div>
+                }
+                  <div className='flex flex-row z-10 relative'></div>
+                  <br></br>
+                </div>
+                :
+                  <div className="w-36 h-36 rounded-full bg-slate-700 z-10 relative">
+                    <button className='cursor-not-allowed bg-gray text-text dark:text-darkText shadow-sm shadow-white inset-0 m-auto h-32 w-32 z-10 rounded-full absolute' >PLAY NOW!</button>
+                    <br></br>
+                  </div>
+                }
+          <div className="w-32 h-32 rounded-full bg-slate-700 z-10 relative">
+            <button className='bg-fifth dark:bg-third inset-0 z-10 m-auto h-28 w-28 rounded-full text-text dark:text-darkText absolute shadow-sm shadow-white hover:bg-orange-500 dark:hover:bg-purple-500' onClick={onClickMake}>CUSTOMIZE!</button>
+          </div>
+          <br></br>
+          <div>
+            {!makeClicked? null
+            :
+              <div className='flex flex-row p-4 z-10 relative'>
+                <MakeGame />
+              </div>
+            }
+          </div>
+        </div>
       </div>
-  }
-</div>
-</div>
-</div>
-
-
-:
-
-<>
-{gameOver?
-<div className='h-full'>
-<GameOver gameWinner={gameWinner} user={user}/>
-
-</div>
-:
-<div className='h-full'>
-
-<GameController
-session={session}
-socket={socket}
-user={user}
-setGameOver={setGameOver}
-setGameWinner={setGameWinner}
-userDecks={userDecks}
-deckSelected={deckSelected}
-handSize={handSize}
-roundNum={roundNum}
-setRoundNum={setRoundNum}
-enemyId={enemyId}
-roundInfo={roundInfo}
-enemyName={enemyName}
-setEnemyName={setEnemyName}
-setEnemyId={setEnemyId}
-handProvided = {handProvided}
-enemyHand={enemyHand}
-setEnemyHand={setEnemyHand}
-roundActual={roundActual}
-setRoundActual={setRoundActual}
-/>
-</div>
-}
-</>
-}
-
-</div>
-
-}
-
-
-
-</div>
-
-)
-}
+      :
+      <div className='z-10 relative'>
+        {gameOver ?
+          <GameOver gameWinner={gameWinner} user={user}/>
+        :
+        <div className='h-full z-10 relative'>
+          <GameController
+          session={session}
+          socket={socket}
+          user={user}
+          setGameOver={setGameOver}
+          setGameWinner={setGameWinner}
+          userDecks={userDecks}
+          deckSelected={deckSelected}
+          handSize={handSize}
+          roundNum={roundNum}
+          setRoundNum={setRoundNum}
+          enemyId={enemyId}
+          roundInfo={roundInfo}
+          enemyName={enemyName}
+          setEnemyName={setEnemyName}
+          setEnemyId={setEnemyId}
+          handProvided = {handProvided}
+          roundActual={roundActual}
+          setRoundActual={setRoundActual}
+          />
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+)}
