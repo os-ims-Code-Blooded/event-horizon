@@ -170,21 +170,21 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
-    <div className='grid-cols-3 mt-10 pl-16 p-5 pt-15 min-h-screen w-screen flex flex-row bg-black-hole bg-center bg-cover'>
+    <div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen justify-between flex flex-row bg-black-hole bg-center bg-cover'>
       {/* FIRST COLUMN*/}
-      <div className='m-2 flex flex-col gap-3 space-between' style={{maxWidth: "25%"}}>
+      <div className='m-2 flex flex-col justify-between' style={{ width: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}
-        <div className='flex flex-col justify-items-center'>
-          <div className='text-white'>Encounter {session} vs {enemyName}</div>
-          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundActual}</div>
+        <div className='flex flex-col gap-3' style={{height: "33%"}}>
+          <div className='text-white text-sm'>Encounter {session} VS {enemyName}</div>
+          <div className='text-white text-sm'>ROUND : {roundActual}</div>
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
-        <div className='flex pt-10'>
+        <div className='flex' style={{height: "33%"}}>
           {/* USERS SHIP*/}
           <img src='https://i.imgur.com/V6LW3e4.png' className='object-cover scale-x-[-.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
         </div>
         {/* FIRST COLUMN 3rd SECTION */}
-        <div className=''>
+        <div className='' style={{height: "33%"}}>
           <div className='text-green-600 font-bold text-center pb-2'>{user.name}</div>
           <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
             <div className='bg-slate-700 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 relative'>
@@ -213,7 +213,7 @@ if (playerHand.length <= 0){
         </div>
       </div>
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
-      <div className="flex-col flex space-between" style={{ maxWidth: "50%" }}>
+      <div className="flex-col flex justify-between" style={{minHeight: "33%"}}>
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
         <div className='flex flex-row justify-center gap-1 p-2 pt-5' style={{ maxHeight: "33%", maxWidth: "100%" }}>
           {enemyHand.map((card, index) => (
@@ -280,7 +280,7 @@ if (playerHand.length <= 0){
           </div>
         </div>
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
-        <div className="flex flex-row justify-center gap-1 p-2 pt-5" style={{ minHeight: "33%"}}>
+        <div className="flex flex-row justify-end gap-1 p-2 pt-5" style={{ minHeight: "33%"}}>
           {playerHand.map((card, index) => {
             return (
               <Card
@@ -300,9 +300,9 @@ if (playerHand.length <= 0){
         </div>
       </div>
       {/* 3RD COLUMN */}
-      <div className='flex flex-col w-full items-center' style={{maxWidth: "25%"}}>
+      <div className='flex flex-col w-full items-center justify-between' style={{ maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
-        <div className='flex flex-col items-center w-full'>
+        <div className='flex flex-col items-center w-full' style={{ height: "33%"}}>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm'>
@@ -321,12 +321,12 @@ if (playerHand.length <= 0){
             </div>
           </div>
         </div>
-        <div className='flex pt-20'>
-           <div className='justify-center h-50 w-60'>
-              <img src='https://i.imgur.com/V6LW3e4.png' className='z-1 scale-x-[-.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
-            </div>
+        {/* 3RD COLUMN : SECTION 2 SHIP */}
+        <div className='flex' style={{height: "33%"}}>
+              <img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
         </div>
-        <div className='flex flex-col items-center p-4 pt-10'>
+        {/* 3RD COLUMN : SECTION 3 */}
+        <div className='flex flex-col items-center justify-between ' style={{height: "33%"}}>
           <div>
                {
              // !turnEnded || playerAction !== '' ?
