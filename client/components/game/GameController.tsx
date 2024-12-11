@@ -115,6 +115,9 @@ export default function GameController ({
   const [playerHand, setPlayerHand] = useState(handProvided);
   
   const [expediteState, setExpediteState] = useState(false);
+
+  const [myPrevRound, setMyPrevRound] = useState([])
+  const [theirPrevRound, setTheirPrevRound] = useState([])
   
 
   
@@ -300,6 +303,8 @@ export default function GameController ({
 
         
         setEnemyLastAction(enemyPrevRound[0].action)
+        setMyPrevRound(playerPrevRound);
+        setTheirPrevRound(enemyPrevRound);
         
         
         // if (enemyPrevRound.length > playerPrevRound.length){
@@ -457,6 +462,10 @@ export default function GameController ({
           setSelfDestruct={setSelfDestruct} 
           selfDestruct={selfDestruct}
           forfeit={forfeit}
+          userRound={userRound}
+          enemyRound={enemyRound}
+          myPrevRound={myPrevRound}
+          theirPrevRound={theirPrevRound}
           />
     </div>
   )

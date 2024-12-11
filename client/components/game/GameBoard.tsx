@@ -1,6 +1,7 @@
 import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
+import FxText from './FxText';
 import sampleDeckData from './sampleDeckData';
 // import Gameplay from './Gameplay';
 
@@ -64,6 +65,11 @@ type GameBoardProp = {
   selfDestruct: any
   forfeit: any
 
+  userRound: any
+  enemyRound: any
+  myPrevRound: any
+  theirPrevRound: any
+
 }
 
 const GameBoard: FC <GameBoardProp> = ({
@@ -115,7 +121,13 @@ const GameBoard: FC <GameBoardProp> = ({
   actionClick,
   setSelfDestruct,
   selfDestruct,
-  forfeit
+  forfeit,
+
+  userRound,
+  enemyRound,
+  myPrevRound,
+  theirPrevRound
+
 }) => {
 
 
@@ -170,13 +182,18 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
-    <div className='grid-cols-3 mt-10 pl-20 p-5 pt-15 min-h-screen w-screen flex flex-row bg-black-hole bg-cover'>
+
+
+
+    <div className='grid-cols-3 mt-10 pl-40 p-25 pt-15 min-h-screen w-screen flex flex-row bg-black-hole bg-cover'>
+      
+      
       {/* FIRST COLUMN*/}
-      <div className='flex flex-col gap-3 space-between' style={{maxWidth: "25%"}}>
+      <div className='flex flex-col gap-3 space-between' style={{minWidth: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col justify-items-center'>
           <div className='text-white'>Encounter {session} vs {enemyName}</div>
-          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundDisplay}</div>
+          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundActual}</div>
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
         <div className='flex pt-10'>
@@ -212,8 +229,12 @@ if (playerHand.length <= 0){
           </div>
         </div>
       </div>
+
+
+
+
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
-      <div className="flex-col flex space-between" style={{ maxWidth: "50%" }}>
+      <div className="flex-col flex space-between justify-items-center" style={{ minWidth: "50%" }}>
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
         <div className="flex flex-row justify-items-center space-between items-center flex-grow" style={{ maxHeight: "33%", maxWidth: "100%" }}>
           {enemyHand.map((card, index) => (
@@ -261,6 +282,7 @@ if (playerHand.length <= 0){
             )}
           </div>
         </div>
+
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
         <div className="flex flex-row justify-center gap-1 p-2 pt-5">
           {playerHand.map((card, index) => {
@@ -281,8 +303,11 @@ if (playerHand.length <= 0){
           })}
         </div>
       </div>
+
+
+
       {/* 3RD COLUMN */}
-      <div className='flex flex-col w-full' style={{maxWidth: "25%"}}>
+      <div className='flex flex-col w-full justify-items-end pr-20' style={{maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
         <div className='flex flex-col items-center'>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
@@ -357,7 +382,22 @@ if (playerHand.length <= 0){
            }
            </div>
            </div>
+           {theirPrevRound.length && myPrevRound.length?
+           
+           <FxText
+               enemyName={enemyName}
+               cardToPlay={cardToPlay}
+               user={user}
+               myPrevRound={myPrevRound}
+               theirPrevRound={theirPrevRound}
+               turnEnded={turnEnded}
+           />
+          :
+            null
+          }
       </div>
+
+
     </div>
   )
 };
