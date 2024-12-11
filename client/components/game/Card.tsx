@@ -43,14 +43,14 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
   }
 
   return (
-    <div id='card' className='flex h-full w-full'>
+    <div id='card' className='flex'>
 
     {playerAction === 'LOAD' && !activeLoading?
 
     <div
     onClick={()=>cardSelect(card)}
 
-    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between hover:scale-110"
+    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md flex flex-col items-center justify-between hover:scale-110"
     >
 
       <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
@@ -73,7 +73,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     :
 
     <div
-    className="cursor-not-allowed bg-white border rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between">
+    className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between">
 
       <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
 

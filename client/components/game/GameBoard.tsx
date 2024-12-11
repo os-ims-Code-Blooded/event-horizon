@@ -170,13 +170,13 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
-    <div className='grid-cols-3 mt-10 pl-20 p-5 pt-15 min-h-screen w-screen flex flex-row bg-black-hole bg-cover'>
+    <div className='grid-cols-3 mt-10 pl-16 p-5 pt-15 min-h-screen w-screen flex flex-row bg-black-hole bg-center bg-cover'>
       {/* FIRST COLUMN*/}
-      <div className='flex flex-col gap-3 space-between' style={{maxWidth: "25%"}}>
+      <div className='m-2 flex flex-col gap-3 space-between' style={{maxWidth: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col justify-items-center'>
           <div className='text-white'>Encounter {session} vs {enemyName}</div>
-          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundDisplay}</div>
+          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundActual}</div>
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
         <div className='flex pt-10'>
@@ -215,28 +215,20 @@ if (playerHand.length <= 0){
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
       <div className="flex-col flex space-between" style={{ maxWidth: "50%" }}>
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
-        <div className="flex flex-row justify-items-center space-between items-center flex-grow" style={{ maxHeight: "33%", maxWidth: "100%" }}>
+        <div className='flex flex-row justify-center gap-1 p-2 pt-5' style={{ maxHeight: "33%", maxWidth: "100%" }}>
           {enemyHand.map((card, index) => (
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
-              className="scale-[.85] border-8 border-slate-600 rounded-lg shadow-md p-0 m-1 w-30 h-40 lg:w-40 lg:h-60 md:w-36 md:h-48 sm:w-32 sm:h-44 xl:w-52 xl:h-64 flex flex-col items-center justify-between"
+              className="border-8 border-slate-600 rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between hover:scale-110"
               key={index}
             />
           ))}
         </div>
         {/* 2ND COL: 2ND SECT : PLAYED CARDS STATUS */}
-        <div className='flex flex-row items-start' style={{ maxHeight: "33%", maxWidth: "50%" }}>
-          {/* ENEMY STATUS */}
-          <div className='flex flex-col justify-center items-start'>
-            {enemyArmed ? (
-              <div className='p-5 text-md text-red-500'>ENEMY STATUS: ARMED</div>
-            ) : (
-              <div className='p-5 text-md text-gray-500 whitespace-nowrap'>ENEMY STATUS: ARMED</div>
-            )}
-          </div>
+        <div className='flex flex-row justify-between' style={{ minHeight: "33%" }}>
 
           {/* USER'S SELECTED CARD */}
-          <div className='pt-10 m-2 items-end' style={{ maxHeight: "33%", maxWidth: "50%" }}>
+          <div className='flex flex-col justify-center items-start'>
             {cardToPlay ? (
               <div className="bg-white border-8 border-red-500 rounded-lg shadow-md p-0 m-1 w-20 h-30 sm:w-16 sm:h-24 flex flex-col justify-between hover:scale-110">
                 <h2 className="text-lg text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
@@ -255,14 +247,40 @@ if (playerHand.length <= 0){
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
               </div>
             ) : (
-              <div className='border-4 border-gray-500 rounded-lg shadow-md p-4 m-2 w-30 h-40 flex flex-col text-[1rem] text-green-500'>
+              <div className='border-4 border-gray-500 rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-green-500'>
                 <div className='pt-15'>MUNITION STATUS:</div>
+              </div>
+            )}
+          </div>
+
+          {/* ENEMY STATUS */}
+          <div className='flex flex-col justify-center items-end'>
+            {enemyArmed ? (
+              <div className="bg-white border-8 border-red-500 rounded-lg shadow-md p-0 m-1 w-20 h-30 sm:w-16 sm:h-24 flex flex-col justify-between hover:scale-110">
+                <h2 className="text-lg text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                <div className="text-center">
+                  <div>`IMAGE`</div>
+                  <p className="text-black mb-1">
+                    <strong>Attack:</strong> {cardToPlay[1]}
+                  </p>
+                  <p className="text-black mb-1">
+                    <strong>Defense:</strong> {cardToPlay[2]}
+                  </p>
+                  <p className="text-black mb-1">
+                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] : 0}
+                  </p>
+                </div>
+                <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
+              </div>
+            ) : (
+              <div className='border-4 border-error rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-error' >
+                <div className='pt-15' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
             )}
           </div>
         </div>
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
-        <div className="flex flex-row justify-center gap-1 p-2 pt-5">
+        <div className="flex flex-row justify-center gap-1 p-2 pt-5" style={{ minHeight: "33%"}}>
           {playerHand.map((card, index) => {
             return (
               <Card
@@ -282,9 +300,9 @@ if (playerHand.length <= 0){
         </div>
       </div>
       {/* 3RD COLUMN */}
-      <div className='flex flex-col w-full' style={{maxWidth: "25%"}}>
+      <div className='flex flex-col w-full items-center' style={{maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center w-full'>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm'>
