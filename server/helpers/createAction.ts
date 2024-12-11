@@ -14,16 +14,32 @@ export default async function createAction(req: any){
         select: { card_id: true }
       })
 
+      let newAction;
       // we create and store this action for later calculations
-      const newAction = await database.actions.create({
-        data: {
-          round:  { connect: { id: req.body.data.round_id}},
-          user:   { connect: { id: req.body.data.user_id}},
-          card:   { connect: { id: findCardCorrelation.card_id }},
-          action: req.body.data.action,
-          expedite: req.body.data.expedite
-        }
-      })
+      if (req.body.data.card_id === 666){
+        newAction = await database.actions.create({
+          data: {
+            round:  { connect: { id: req.body.data.round_id}},
+            user:   { connect: { id: req.body.data.user_id}},
+            card:   { connect: { id: 666 }},
+            action: req.body.data.action,
+            expedite: req.body.data.expedite
+          }
+        })
+  
+      } else {
+        newAction = await database.actions.create({
+          data: {
+            round:  { connect: { id: req.body.data.round_id}},
+            user:   { connect: { id: req.body.data.user_id}},
+            card:   { connect: { id: findCardCorrelation.card_id }},
+            action: req.body.data.action,
+            expedite: req.body.data.expedite
+          }
+        })
+
+      }
+
 
       // we return it if necessary for immediate use
       return newAction;

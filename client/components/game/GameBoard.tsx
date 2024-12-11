@@ -176,7 +176,7 @@ if (playerHand.length <= 0){
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col justify-items-center'>
           <div className='text-white'>Encounter {session} vs {enemyName}</div>
-          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundDisplay}</div>
+          <div className='pt-10 text-white sm:'>TIME: 00:00 / ROUND {roundActual}</div>
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
         <div className='flex pt-10'>
