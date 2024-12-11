@@ -89,3 +89,10 @@ darkmode cb
 .darkMode .text-text {
   color: #FFFFFF;
 }
+
+/* .card-container {
+  display: flex;
+  gap: 5px;
+  height: "33%";
+  width: "50%";
+} */

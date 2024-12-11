@@ -98,14 +98,14 @@ decks.post('/:id', async (req: AuthRequest, res) => {
       return Number(card);
     })
 
-    safetyCheck.forEach( async (card: number) => {
+    for (let i = 0; i < safetyCheck.length; i++){
       await database.user_Deck_Cards.create({
         data: {
-          userCards: {connect: {id: card}},
+          userCards: {connect: {id: safetyCheck[i]}},
           deck: {connect: {id: createDeck.id}}
         }
-      })
-    })
+      })      
+    }
 
     res.sendStatus(201);
 

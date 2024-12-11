@@ -304,7 +304,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg  flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0  z-10 ${
+                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 z-10 ${
                   allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
@@ -474,7 +474,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       {/* New Deck Modal */}
 
       {showNewDeckModal && (
-        <div className="inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
           <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3">
             <h2 className="text-xl text-center font-bold text-text mb-4">Create New Deck</h2>
             <input
