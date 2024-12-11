@@ -107,7 +107,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       const payload = {
         data: {
           deck_id: selectedDeck.id,
-          add_cards: allSelectedCards,
+          add_cards: [allSelectedCards],
         },
       };
 
@@ -166,17 +166,31 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
 
   ////////////////////////// CREATE DECK ////////////////////////////
+
+
   const createNewDeck = async () => {
+    console.log("ALL SELECTED CARDS", allSelectedCards)
+    setDeckPoints(0)
+    
     if (!newDeckName.trim() || allSelectedCards.length === 0) {
       toast.error("Please provide a deck name and select at least one card.");
       return;
     }
-
+    
+    
     try {
+
+
+      // await setAllSelectedCards(allSelectedCards.concat([666]))
+      // console.log("TRY BLOCK - ALL SELECTED CARDS", [allSelectedCards, 666].flat())
+      // let allCardsPlusPhaser = [allSelectedCards, 666].flat()
+      // setAllSelectedCards(allCardsPlusPhaser)
+
+
       await axios.post(`/profile/decks/${user.id}`, {
         data: {
           deck_name: newDeckName.trim(),
-          cards: allSelectedCards,
+          cards: allSelectedCards
         }
       });
 
@@ -202,6 +216,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       toast.error("Error creating new deck:", error);
     }
   };
+
+
 ///////////// DELETE /////////////////////////////////////////////////////////////////
   const deleteSelectedDeck = async (e) => {
     if (!selectedDeck) {
@@ -267,7 +283,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
   }, [user.id]);
 
-  console.log("currDeckVal", currDeckVal)
+  // console.log("currDeckVal", currDeckVal)
 
   /////////////////////////////////// RENDER /////////////////////////////////////////////////
   return (
@@ -288,7 +304,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0  z-10 ${
+                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 z-10 ${
                   allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
@@ -408,7 +424,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
       {/* Add Cards to Deck Button */}
       {/* {console.log("SELECTED DECK's Cards TO ADD TO:  ", cards)} */}
-      {console.log("DECK VALUE PLUS NEW POINTS", currDeckVal + deckPoints)}
+      {/* {console.log("DECK VALUE PLUS NEW POINTS", currDeckVal + deckPoints)} */}
       {selectedDeck && (
         <div className="text-center mt-4 pb-2 z-10 relative">
           <div>
@@ -456,6 +472,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         </button>
       </div>
       {/* New Deck Modal */}
+
       {showNewDeckModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
           <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3">
@@ -468,13 +485,18 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               className="w-full p-2 border border-slate-300 bg-slate-400 rounded-lg text-black mb-4 text-center"
             />
             <button
-              onClick={createNewDeck}
+              onClick={()=>{
+                setAllSelectedCards(allSelectedCards.concat([666]))
+                createNewDeck()
+              
+              }}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500 mr-2 pb-2"
             >
               Create Deck
             </button>
             <button
               onClick={() => setShowNewDeckModal(false)}
+              disabled={ deckPoints > 200 }
               className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300"
             >
               Cancel
