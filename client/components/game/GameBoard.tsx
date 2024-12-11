@@ -15,6 +15,7 @@ interface CardType {
 type GameBoardProp = {
   session: string;
   socket: any
+  roundActual: any
   user: any
   userDecks: any
   deckSelected: any
@@ -52,7 +53,6 @@ type GameBoardProp = {
   setHitPoints: any
   armor: number
 
-  roundDisplay: number
   turnEnded: any
   setTurnEnded: any
   activeLoading: any
@@ -69,6 +69,7 @@ type GameBoardProp = {
 const GameBoard: FC <GameBoardProp> = ({
   session,
   socket,
+  roundActual,
   user,
   userDecks,
   deckSelected,
@@ -108,7 +109,6 @@ const GameBoard: FC <GameBoardProp> = ({
 
   weaponArmed,
   setWeaponArmed,
-  roundDisplay,
   setTurnEnded,
   activeLoading,
   setActiveLoading,
@@ -157,7 +157,8 @@ if (playerHand.length < 3 && gameDeck.length > 0){
  
   let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
-  setPlayerHand(playerHand.concat(nextCard))
+  // setPlayerHand(playerHand.concat(nextCard))
+  setPlayerHand(playerHand)
 }
 
 if (playerHand.length <= 0){

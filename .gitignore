@@ -1,5 +1,6 @@
 client/dist
 node_modules/
 .env
-prisma/migrations
+database/prisma/migrations
 server/helpers/misc/error_logging/error_logs
+package-lock.json

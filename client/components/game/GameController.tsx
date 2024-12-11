@@ -102,8 +102,6 @@ export default function GameController ({
   //has the card been LOADed?
   const [weaponArmed, setWeaponArmed] = useState(false)
 
-  const [roundDisplay, setRoundDisplay] = useState(roundActual)
-
   const [selfDestruct, setSelfDestruct] = useState(false)
   
   const [allCards, setAllCards] = useState([])
@@ -183,7 +181,7 @@ export default function GameController ({
   const endTurn = async () =>{
 
     //send patch request to server with stringified hand and 
-
+    // setRoundActual(roundActual + 1)
     
     setLastAction(playerAction)
    
@@ -400,6 +398,7 @@ export default function GameController ({
         <GameBoard
           session={session}
           socket={socket}
+          roundActual={roundActual}
           user={user}
           userDecks={userDecks}
           deckSelected={deckSelected}
@@ -439,7 +438,7 @@ export default function GameController ({
           setHitPoints={setHitPoints}
           armor={armor}
 
-          roundDisplay={roundDisplay}
+         
           turnEnded={turnEnded}
           setTurnEnded={setTurnEnded}
           activeLoading={activeLoading}
