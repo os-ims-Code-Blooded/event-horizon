@@ -43,27 +43,27 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
   }
 
   return (
-    <>
+    <div id='card' className='flex h-full w-full'>
 
     {playerAction === 'LOAD' && !activeLoading?
 
     <div
     onClick={()=>cardSelect(card)}
 
-    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between hover:scale-110"
+    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between hover:scale-110"
     >
 
-      <h2 className="text-lg text-black font-bold mb-2 text-center">{card.name}</h2>
+      <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
 
-      <div className="text-center">
+      <div className="text-center text-sm">
         <div>`IMAGE`</div>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
           <strong>Attack:</strong> {card.damage}
         </p>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
           <strong>Defense:</strong> {card.armor}
         </p>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
   <strong>Duration:</strong> {card.duration ? card.duration : 0}
 </p>
       </div>
@@ -73,19 +73,19 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     :
 
     <div
-    className="cursor-not-allowed bg-white border rounded-lg shadow-md p-4 m-2 w-40 h-60 flex flex-col items-center justify-between">
+    className="cursor-not-allowed bg-white border rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between">
 
-      <h2 className="text-lg text-black font-bold mb-2 text-center">{card.name}</h2>
+      <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
 
       <div className="text-center">
         <div>`IMAGE`</div>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
           <strong>Attack:</strong> {card.damage}
         </p>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
           <strong>Defense:</strong> {card.armor}
         </p>
-        <p className="text-black mb-1">
+        <p className="text-black mb-1 text-sm">
   <strong>Duration:</strong> {card.duration ? card.duration : 0}
 </p>
       </div>
@@ -93,7 +93,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     </div>
     }
 
-    </>
+    </div>
 
   );
 }
