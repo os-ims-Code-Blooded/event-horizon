@@ -1,6 +1,7 @@
 import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
+import FxText from './FxText';
 import sampleDeckData from './sampleDeckData';
 // import Gameplay from './Gameplay';
 
@@ -64,6 +65,11 @@ type GameBoardProp = {
   selfDestruct: any
   forfeit: any
 
+  userRound: any
+  enemyRound: any
+  myPrevRound: any
+  theirPrevRound: any
+
 }
 
 const GameBoard: FC <GameBoardProp> = ({
@@ -115,7 +121,13 @@ const GameBoard: FC <GameBoardProp> = ({
   actionClick,
   setSelfDestruct,
   selfDestruct,
-  forfeit
+  forfeit,
+
+  userRound,
+  enemyRound,
+  myPrevRound,
+  theirPrevRound
+
 }) => {
 
 
@@ -170,6 +182,7 @@ if (playerHand.length <= 0){
 
 //////////////////////////////////////////////////////
   return (
+
     <div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen justify-between flex flex-row bg-black-hole bg-center bg-cover'>
       {/* FIRST COLUMN*/}
       <div className='m-2 flex flex-col justify-between' style={{ width: "25%"}}>
@@ -212,6 +225,10 @@ if (playerHand.length <= 0){
           </div>
         </div>
       </div>
+
+
+
+
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
       <div className="flex-col flex justify-between" style={{minHeight: "33%"}}>
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
@@ -279,6 +296,7 @@ if (playerHand.length <= 0){
             )}
           </div>
         </div>
+
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
         <div className="flex flex-row justify-end gap-1 p-2 pt-5" style={{ minHeight: "33%"}}>
           {playerHand.map((card, index) => {
@@ -299,6 +317,9 @@ if (playerHand.length <= 0){
           })}
         </div>
       </div>
+
+
+
       {/* 3RD COLUMN */}
       <div className='flex flex-col w-full items-center justify-between' style={{ maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
@@ -375,7 +396,22 @@ if (playerHand.length <= 0){
            }
            </div>
            </div>
+           {theirPrevRound.length && myPrevRound.length?
+           
+           <FxText
+               enemyName={enemyName}
+               cardToPlay={cardToPlay}
+               user={user}
+               myPrevRound={myPrevRound}
+               theirPrevRound={theirPrevRound}
+               turnEnded={turnEnded}
+           />
+          :
+            null
+          }
       </div>
+
+
     </div>
   )
 };
