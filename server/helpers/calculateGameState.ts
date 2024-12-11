@@ -11,7 +11,8 @@ export default async function calculateGameState(req: any, game: number) {
 
     // get all actions for the round specified in params
     const allRoundActions = await database.actions.findMany({
-      where: { round_id: req.body.data.round_id}
+      where: { round_id: req.body.data.round_id},
+      include: { card: true }
     })
 
     // initialize results for each user in game

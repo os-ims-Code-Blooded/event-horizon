@@ -114,9 +114,9 @@ export default function GameController ({
 
   const [gameDeck, setGameDeck] = useState(deckSelected)
 
-  const [playerHand, setPlayerHand] = useState(handProvided)
+  const [playerHand, setPlayerHand] = useState(handProvided);
   
-  
+  const [expediteState, setExpediteState] = useState(false);
   
 
   
@@ -196,6 +196,7 @@ export default function GameController ({
           "user_id": user.id,
           "action": playerAction,
           "card_id": cardId,
+          "expedite": expediteState
       }
     }, session})
   }
@@ -205,6 +206,10 @@ export default function GameController ({
   //when the client socket receives a new message, the received message state is updated
 
   useEffect(()=>{
+
+    if (playerHand.length === 0){
+      setExpediteState(true);
+    }
 
     // console.log("SESSION #####", session)
 
@@ -284,6 +289,10 @@ export default function GameController ({
       console.log("ENEMY'S HAND CARDS:", theirHand)
       setEnemyHand(theirHand)
       setPlayerHand(myHand)
+
+      if (myHand.length === 0) {
+        setExpediteState(true);
+      }
 
       if (data.Current){
         let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)

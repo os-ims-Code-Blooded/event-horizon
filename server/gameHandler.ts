@@ -23,7 +23,7 @@ export default async function gameHandler(req: any) {
         Actions_Loaded: true,
       }
     })
-    console.log("REQ BODY", req.body);
+
     // if this is the first action submitted for a round
     if (currentRound.Actions.length === 0){
 
@@ -47,8 +47,6 @@ export default async function gameHandler(req: any) {
       // acquire the current player information
       let updatePlayers = currentRound.Round_Player_Info.slice();
 
-      console.log(`Current player information to be used in calculations is: `, updatePlayers)
-
       // end the current round
       await database.rounds.update({
         where: { id: req.body.data.round_id},
@@ -66,20 +64,19 @@ export default async function gameHandler(req: any) {
       // returns an array of new players after updates
       updatePlayers = calculatePlayerState(updatePlayers, updateState, newRound.id);
 
+      // for every player, we create an updated snapshot of their health/armor on the next round
       for (let i = 0; i < updatePlayers.length; i++){
         const newPlayerInfo = await database.round_Player_Info.create({
           data: updatePlayers[i]
         })
       }
 
-      // pull all game deck states
+      // for every player, we find the current snapshot of their card deck
       const pullGameDeckStates = await database.game_Card_States.findMany({
         where: { round_id: currentRound.id }
       });
-
-      console.log(`Successfully pulled all deck states for the game, follows: `, pullGameDeckStates);
       
-      // for every item in the deckStates to create
+      // for every player, we get a snapshot of their card deck after changes
       for (let i = 0; i < pullGameDeckStates.length; i++) {
         const newState = await database.game_Card_States.create({ 
           data: {
@@ -91,6 +88,7 @@ export default async function gameHandler(req: any) {
         })
       }
 
+      // finally we generate a response to be sent to the client
       const formattedResponse = await generateResponse(newRound.id, currentRound.id);
 
       return (formattedResponse);
