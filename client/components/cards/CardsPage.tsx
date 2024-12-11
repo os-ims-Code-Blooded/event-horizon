@@ -288,7 +288,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                 key={card.id}
                 onClick={() => toggleCardSelection(card.id)}
                 style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg bg-slate-300 flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0  z-10${
+                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0  z-10 ${
                   allSelectedCards.includes(card.id)
                     ? "bg-green-500 border-green-700"
                     : "bg-white border-slate-300"
