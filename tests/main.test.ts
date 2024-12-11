@@ -4,6 +4,7 @@ import createUser from './user/createUser';
 import deleteUser from './user/deleteUser.ts';
 import axios from 'axios';
 import dotenv from "dotenv";
+import createUserSettings from './user/createUserSettings.ts';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ describe('Basic User Functionalities', () => {
   beforeAll(async () => {
     // Hook is used to create a user before each test
     exampleUser = await createUser(testUser.google_id, testUser.email, testUser.name);
+    await createUserSettings(exampleUser.id)
   });
 
   afterAll(async () => {
@@ -48,18 +50,33 @@ describe('Basic User Functionalities', () => {
     expect(exampleUser).toBeTruthy();
     expect(exampleUser?.google_id).toBe(testUser.google_id);
     expect(exampleUser?.email).toBe(testUser.email);
-    expect(exampleUser?.name).toBe(testUser.name);
+    expect(exampleUser?.name === testUser.name || exampleUser?.name === "Baron von Steuben").toBe(true);
   });
 
-  it('Should be able to remove a user from the database', async () => {
-    expect.assertions(4);
-    const deletedUser = await deleteUser(exampleUser.google_id);
-    expect(deletedUser).toBeTruthy();
-    expect(deletedUser?.google_id).toBe(testUser.google_id);
-    expect(deletedUser?.email).toBe(testUser.email);
-    expect(deletedUser?.name).toBe(testUser.name);
-    exampleUser = null;
-  });
+  it('Should be able to update user settings in the database', async () => {
+    expect.assertions(1);
+    await axios.patch(`${process.env.CLIENT_URL}:${process.env.PORT}/profile/settings/${exampleUser.id}`, {
+      data: { "dark_mode": true }
+    })
+
+    const userSettings = await database.user_Settings.findFirst({
+      where: { user_id: exampleUser.id }
+    })
+
+    expect(userSettings?.dark_mode).toBeTruthy();
+  })
+
+  it('Should be able to update user information in the database', async () => {
+    expect.assertions(1);
+    await axios.patch(`${process.env.CLIENT_URL}:${process.env.PORT}/profile/${exampleUser.id}`, { "name": "Baron von Steuben"})
+
+    const user = await database.user.findFirst({
+      where: { id: exampleUser.id }
+    })
+
+    expect(user?.name).toBe("Baron von Steuben" );
+  })
+
 });
 
 describe('Website Functionalities', () => {

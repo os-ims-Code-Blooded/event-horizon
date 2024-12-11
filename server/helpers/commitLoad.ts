@@ -1,19 +1,34 @@
 import database from "../database/index.ts";
 import shuffle from "./shuffle.ts";
 
+
 export default async function commitLoad(req: any, game: number, action: any){
 
   try {
 
-    // first find the card that they want to load
-    const payload = await database.cards.findFirst({
-      where: { id: Number(action.card_id) }
-    })
 
     /*=====================================================================*/
-    const isLethalPayload = (payload.damage > 0 && payload.armor === 0);
-    const isNonLethalPayload = (payload.armor > 0 && payload.damage === 0);
+    const isLethalPayload = (action.damage > 0 && action.armor === 0);
+    const isNonLethalPayload = (action.armor > 0 && action.damage === 0);
     /*=====================================================================*/
+
+
+    if (action.expedite && action.card.expedite) {
+
+      await database.actions_Loaded.deleteMany({
+        where: { user_id: action.user_id }
+      })
+
+      await database.actions_Loaded.create({
+        data: {
+          game:   { connect: { id: game}},
+          round:  { connect: { id: action.round_id}},
+          action: { connect: { id: action.id, user_id: action.user_id}},
+          card:   { connect: { id: action.card_id}},
+        }
+      })
+      
+    }
 
     // if must be fired, then load this shell
     if (isLethalPayload) {
@@ -81,8 +96,8 @@ export default async function commitLoad(req: any, game: number, action: any){
 
         // filter hand to find the card that we are deleting, and exlcude it
         if (Array.isArray(localHandState)){
-          localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
-          console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
+          localHandState = localHandState.filter((card) => card.card_id !== action.card_id) // removes the card for this turn from the hand
+          console.log(`Card #${action.card_id} has been removed from the hand: `, localHandState);
           localHandState.push(shuffle(localDeckState).pop());                           // push a random card to the hand
         }
 
@@ -111,7 +126,7 @@ export default async function commitLoad(req: any, game: number, action: any){
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
             action: { connect: { id: action.id, user_id: action.user_id}},
-            card:   { connect: { id: payload.id}},
+            card:   { connect: { id: action.card_id}},
           }
         })
 
@@ -134,20 +149,13 @@ export default async function commitLoad(req: any, game: number, action: any){
         let localDeckState: any = userDeck.deck;
         let localHandState: any = userDeck.hand;
 
-        console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
-        console.log(`Current Hand for user #${action.user_id}: `, localHandState);
-
         // filter hand to find the card that we are deleting, and splice it
         if (Array.isArray(localHandState)){
-          localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
-          console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
+          localHandState = localHandState.filter((card) => card.card_id !== action.card_id) // removes the card for this turn from the hand
           if (localDeckState.length > 0) {
             localHandState.push(shuffle(localDeckState).pop());                         // push a random card to the hand
           }
         }
-
-        console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
-        console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
 
         // update the stored deck with these changes
         const updatesComplete = await database.game_Card_States.updateMany({
@@ -163,15 +171,13 @@ export default async function commitLoad(req: any, game: number, action: any){
           }
         })
 
-        console.log(`Updated card states for user #${action.user_id}: `, updatesComplete);
-
         // create the damage action to store in actions_Loaded
         const damageAction = await database.actions_Loaded.create({
           data: {
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
             action: { connect: { id: action.id, user_id: action.user_id}},
-            card:   { connect: { id: payload.id}},
+            card:   { connect: { id: action.card_id}},
           }
         })
         
@@ -179,8 +185,6 @@ export default async function commitLoad(req: any, game: number, action: any){
 
     // if this must not be fired, then just add it as an effect
     } else if (isNonLethalPayload) {
-
-      console.log(`commitLoad.ts : 34 | Loading defensive Card #${payload.id} for User #${action.user_id} on Game #${game} - Round #${action.round_id}.`);
 
       // find the card state for this user, including the hand and the deck
       const userDeck = await database.game_Card_States.findFirst({
@@ -199,13 +203,9 @@ export default async function commitLoad(req: any, game: number, action: any){
       let localDeckState: any = userDeck.deck;
       let localHandState: any = userDeck.hand;
 
-      console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
-      console.log(`Current Hand for user #${action.user_id}: `, localHandState);
-
       // filter hand to find the card that we are deleting, and splice it
       if (Array.isArray(localHandState)){
-        localHandState = localHandState.filter((card) => card.card_id !== payload.id) // removes the card for this turn from the hand
-        console.log(`Card #${payload.id} has been removed from the hand: `, localHandState);
+        localHandState = localHandState.filter((card) => card.card_id !== action.card_id) // removes the card for this turn from the hand
         if (localDeckState.length > 0) {
           localHandState.push(shuffle(localDeckState).pop());                         // push a random card to the hand
         }
@@ -233,7 +233,7 @@ export default async function commitLoad(req: any, game: number, action: any){
           game:   { connect: { id: game}},
           round:  { connect: { id: action.round_id}},
           action: { connect: { id: action.id, user_id: action.user_id}},
-          card:   { connect: { id: payload.id}},
+          card:   { connect: { id: action.card_id}},
         }
       })
 

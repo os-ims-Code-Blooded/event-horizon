@@ -21,7 +21,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_AWS_FULL")
+  url      = env("DATABASE_LOCAL_URL")
 }
 
 /// Contains bi-directional friendship with 'friends' and 'friendOf' property
@@ -130,6 +130,7 @@ model Actions {
   duration Int?    @default(0)
   effect   String? @default("")
   card_id  Int?
+  expedite Boolean @default(false)
 
   card           Cards?           @relation(fields: [card_id, damage, armor, duration, effect], references: [id, damage, armor, duration, effect], onUpdate: Cascade, onDelete: Cascade)
   user           User             @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -213,6 +214,7 @@ model Cards {
   effect         String   @default("")
   score_required Int      @default(0)
   points         Int      @default(0)
+  expedite       Boolean  @default(false)
 
   User_Cards     User_Cards[]
   Actions        Actions[]
