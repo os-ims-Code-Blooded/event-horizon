@@ -386,14 +386,7 @@ if (playerHand.length <= 0){
            
            <FxText
                enemyName={enemyName}
-               enemyLastAction={enemyLastAction}
-               enemyHitPoints={enemyHitPoints}
-               enemyArmor={enemyArmor}
-               enemyCard={enemyCard}
                cardToPlay={cardToPlay}
-               playerAction={playerAction}
-               userRound={userRound}
-               enemyRound={enemyRound}
                user={user}
                myPrevRound={myPrevRound}
                theirPrevRound={theirPrevRound}

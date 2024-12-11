@@ -3,14 +3,7 @@ import { useState, useEffect } from 'react';
 
 export default function FxText({
   enemyName,
-  enemyLastAction,
-  enemyHitPoints,
-  enemyArmor,
-  enemyCard,
   cardToPlay,
-  playerAction,
-  userRound,
-  enemyRound,
   user,
   myPrevRound,
   theirPrevRound,
