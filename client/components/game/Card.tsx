@@ -43,7 +43,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
   }
 
   return (
-    <div id='card' className='flex'>
+    <div id='card' className='flex h-48 w-36'>
 
     {playerAction === 'LOAD' && !activeLoading?
 

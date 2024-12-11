@@ -27,17 +27,17 @@ export default function FxText({
 
   return(
 
-    <div className='bg-slate-400'>
-{theirPrevRound && myPrevRound && !turnEnded?
+    <div className='bg-slate-400 flex flex-col p-1 gap-1'>
+      {theirPrevRound && myPrevRound && !turnEnded?
 
-<div>
+      <div className='text-sm'>
 
 
 
 
     {/* PLAYER BLOCKS, ENEMY FIRES */}
     {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has shielded against {enemyName}'s barrage taking {theirPrevRound[0].damage / 2} damage
       </div>
     :
@@ -46,7 +46,7 @@ export default function FxText({
 
     {/* PLAYER BLOCKS, ENEMY FIRES */}
     {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action !== "FIRE" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has needlessly shielded their vessel
       </div>
     :
@@ -55,7 +55,7 @@ export default function FxText({
 
     {/* PLAYER FIRES WEAPON, ENEMY BLOCK */}
     {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage) && theirPrevRound[0].action === "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage
       </div>
     :
@@ -64,7 +64,7 @@ export default function FxText({
 
   {/* PLAYER FIRES WEAPON, NO ENEMY BLOCK */}
     {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage) && theirPrevRound[0].action !== "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has fired on {enemyName}'s vessel for {myPrevRound[0].damage} damage
       </div>
     :
@@ -73,7 +73,7 @@ export default function FxText({
 
   {/* PLAYER FIRES DEFAULT, ENEMY BLOCK */}
     {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].damage) && theirPrevRound[0].action === "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage
       </div>
     :
@@ -82,7 +82,7 @@ export default function FxText({
 
   {/* PLAYER FIRES DEFAULT, NO ENEMY BLOCK */}
     {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].damage) && theirPrevRound[0].action !== "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {user.name} has fired on {enemyName}'s vessel for {myPrevRound[0].damage} damage
       </div>
     :
@@ -92,7 +92,7 @@ export default function FxText({
 
   {/* PLAYER LOADS ARMOR */}
     {myPrevRound[0].action === "LOAD" && myPrevRound[0].armor ?
-      <div>
+      <div className='text-sm'>
         {user.name} has increased defense by {myPrevRound[0].armor}
       </div>
     :
@@ -101,7 +101,7 @@ export default function FxText({
 
   {/* PLAYER LOADS WEAPON */}
     {myPrevRound[0].action === "LOAD" && myPrevRound[0].damage && cardToPlay?
-      <div>
+      <div className='text-sm'>
         {user.name} has armed {cardToPlay[0]}
       </div>
     :
@@ -110,7 +110,7 @@ export default function FxText({
 
   {/* ENEMY LOADS WEAPON */}
     {theirPrevRound[0].action === "LOAD" && theirPrevRound[0].damage ?
-      <div>
+      <div className='text-sm'>
         {enemyName} has armed their weapon
       </div>
     :
@@ -119,7 +119,7 @@ export default function FxText({
 
   {/* ENEMY LOADS ARMOR */}
     {theirPrevRound[0].action === "LOAD" && theirPrevRound[0].armor ?
-      <div>
+      <div className='text-sm'>
         {enemyName} has increased their armor by {}
       </div>
     :
@@ -129,7 +129,7 @@ export default function FxText({
 
   {/* ENEMY FIRES WEAPON, NO PLAYER BLOCK*/}
     {(theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage) && myPrevRound[0].action !== "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {enemyName} fired on {user.name}'s vessel for {theirPrevRound[0].damage} damage
       </div>
     :
@@ -139,7 +139,7 @@ export default function FxText({
 
   {/* ENEMY FIRES WEAPON, PLAYER BLOCK*/}
     {(theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage) && myPrevRound[0].action !== "BLOCK" ?
-      <div>
+      <div className='text-sm'>
         {enemyName} fired on {user.name}'s shielded vessel for {theirPrevRound[0].damage / 2} damage
       </div>
     :
