@@ -304,7 +304,7 @@ if (playerHand.length <= 0){
               <div
               className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
           
-                <h2 className="text-md text-black font-bold mb-2 text-center">card name</h2>
+                <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
           
                 <div className="text-center">
                   <div>`IMAGE`</div>
@@ -318,7 +318,7 @@ if (playerHand.length <= 0){
             null}
           </p>
                 </div>
-                <p className="text-black text-sm text-center">card description</p>
+                <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
               </div>
                :
                 <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
@@ -447,18 +447,6 @@ if (playerHand.length <= 0){
            }
            </div>
            </div>
-           {theirPrevRound.length && myPrevRound.length?
-           <FxText
-               enemyName={enemyName}
-               cardToPlay={cardToPlay}
-               user={user}
-               myPrevRound={myPrevRound}
-               theirPrevRound={theirPrevRound}
-               turnEnded={turnEnded}
-           />
-          :
-            null
-          }
       </div>
     </div>
   )
