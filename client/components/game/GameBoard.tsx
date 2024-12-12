@@ -3,7 +3,6 @@ import Card from './Card';
 import ActionSelect from './ActionSelect';
 import FxText from './FxText';
 import sampleDeckData from './sampleDeckData';
-import { GiRosaShield } from "react-icons/gi";
 // import Gameplay from './Gameplay';
 
 
@@ -202,13 +201,13 @@ if (playerHand.length <= 0){
           <div className='text-green-600 font-bold text-center pb-2'>{user.name}</div>
           <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
             <div className='bg-slate-700 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 relative'>
-              <div className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 absolute inset-y-0"
+              <div className="bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 absolute inset-y-0 transition-all"
                 style={{ width: `${(armor/100) * 100}%` }}>
               </div>
               <div className='pl-4 h-5 justify-items-center flex-1 text-center whitespace-nowrap text-xs sm:text-sm inset-y-0 absolute'>{`Armor: ${armor}`}</div>
             </div>
             <div className='flex bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm '>
-              <div className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm"
+              <div className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all"
                 style={{ width: `${(hitPoints / 50) * 100}%` }}
               ></div>
               <div className='pl-4 h-4 flex-1 justify-items-center whitespace-nowrap justify-center text-center text-sm inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
@@ -319,14 +318,14 @@ if (playerHand.length <= 0){
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className='bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm'>
               <div
-                className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm"
+                className="bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all"
                 style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
               </div>
               <div className='pl-4 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
             </div>
             <div className='bg-slate-700 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative'>
               <div
-                className="bg-blue-400 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 absolute inset-y-0"
+                className="bg-blue-400 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 absolute inset-y-0 transition-all"
                   style={{ width: `${(enemyArmor/100) * 100}%` }}>
               </div>
               <div className='pl-4 h-5 justify-items-center text-center inset-y-0 absolute'>{`Armor: ${enemyArmor}`}</div>
