@@ -70,6 +70,8 @@ export default function SelectGame({
   const [activeUserGame, setActiveUserGame] = useState(false)
 
   const [waiting, setWaiting] = useState(false)
+
+
   
   const opponentCards = [
     {

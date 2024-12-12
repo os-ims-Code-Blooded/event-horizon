@@ -23,7 +23,11 @@ export default function ActionSelect({
             value='BLOCK'
             className='w-full aspect-square bg-gray border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            SHIELD
+            {/* SHIELD  */}
+            <img src='https://i.imgur.com/AAgKObD.png'
+            className='object-contain bg-cover'
+
+            />
           </button>
         ) : (
           <button
@@ -31,7 +35,16 @@ export default function ActionSelect({
             className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-blue-600'
             onClick={(e) => { actionClick(e) }}
           >
-            SHIELD
+            {/* SHIELD */}
+            <img src='https://i.imgur.com/AAgKObD.png'
+            className='object-contain bg-cover'
+
+            onClick={(e)=> {
+             e.target = {value: "BLOCK"}
+              actionClick(e)
+            }
+            } 
+            />
           </button>
         )}
 
@@ -40,7 +53,12 @@ export default function ActionSelect({
             value='LOAD'
             className='w-full aspect-square bg-gray text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            ARM
+            {/* ARM */}
+            <img src='https://i.imgur.com/F4VMpRz.png'
+            className='object-contain bg-cover'
+
+
+            />
           </button>
         ) : (
           <button
@@ -48,7 +66,16 @@ export default function ActionSelect({
             className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-yellow-300'
             onClick={(e) => { actionClick(e) }}
           >
-            ARM
+            {/* ARM */}
+            <img src='https://i.imgur.com/F4VMpRz.png'
+            className='object-contain bg-cover'
+            
+            onClick={(e)=> {
+             e.target = {value: "LOAD"}
+              actionClick(e)
+            }
+            } 
+            />
           </button>
         )}
 
@@ -57,7 +84,11 @@ export default function ActionSelect({
             value='FIRE'
             className='w-full aspect-square bg-gray text-white font-bold text-xs border-slate-600 border-2 sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center'
           >
-            FIRE
+            {/* FIRE */}
+            <img 
+            src='https://i.imgur.com/gXCRrZy.png' 
+            className='object-contain bg-cover' 
+            />
           </button>
         ) : (
           <button
@@ -65,7 +96,16 @@ export default function ActionSelect({
             className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
             onClick={(e) => { actionClick(e) }}
           >
-            FIRE
+            {/* FIRE */}
+            <img 
+            src='https://i.imgur.com/gXCRrZy.png'
+            className='object-contain bg-cover'
+            
+            onClick={(e)=> {
+             e.target = {value: "FIRE"}
+              actionClick(e)
+            }
+            } />
           </button>
         )}
       </div>

@@ -180,7 +180,7 @@ if (playerHand.length <= 0){
 // console.log("USER:::", user)
 // console.log("GAMEBOARD ENEMY HAND", enemyHand)
 
-//////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
   return (
 
     <div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
@@ -191,7 +191,7 @@ if (playerHand.length <= 0){
           <div className='text-text dark:text-darkText text-sm'>Encounter {session} VS {enemyName}</div>
           <div className='text-text dark:text-darkText text-sm'>ROUND : {roundActual}</div>
           {theirPrevRound.length && myPrevRound.length?
-            
+            <div>
             <FxText
                 enemyName={enemyName}
                 cardToPlay={cardToPlay}
@@ -200,8 +200,9 @@ if (playerHand.length <= 0){
                 theirPrevRound={theirPrevRound}
                 turnEnded={turnEnded}
             />
+            </div>
             :
-              null
+            <div className='bg-slate-400 flex flex-col p-1 gap-1 border-8 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:</div>
             }
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
@@ -296,22 +297,30 @@ if (playerHand.length <= 0){
 
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id) ?
 
-              <>
+            <div id='card' className='flex h-48 w-36' >
+              {/* {console.log("ENEMY CARD =====>>> ??? ", enemyCard)} */}
               {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id ?
-
-                <Card 
-                card={enemyCard} 
-                setCardToPlay={undefined} 
-                setCardId={undefined} 
-                playerAction={undefined} 
-                setActiveLoading={undefined} 
-                activeLoading={undefined} 
-                playerHand={undefined} 
-                setPlayerHand={undefined} 
-                user={undefined}/>
-
+              
+              <div
+              className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
+          
+                <h2 className="text-md text-black font-bold mb-2 text-center">card name</h2>
+          
+                <div className="text-center">
+                  <div>`IMAGE`</div>
+                  <p className="text-black mb-1 text-sm">
+                    <strong>Damage:</strong> {theirPrevRound[0].damage}
+                  </p>
+                  <p className="text-black mb-1 text-sm">
+            {theirPrevRound[0].duration ?
+            <strong>Duration: {theirPrevRound[0].duration  + 1}</strong>
+            :
+            null}
+          </p>
+                </div>
+                <p className="text-black text-sm text-center">card description</p>
+              </div>
                :
-
                 <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
                 <img
                   src="https://i.imgur.com/Uvf7DCN.png"
@@ -319,7 +328,7 @@ if (playerHand.length <= 0){
                   />
               </div>
               }
-              </>
+              </div>
 
             : (
               <div className='border-4 border-error rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-error' >
@@ -428,10 +437,12 @@ if (playerHand.length <= 0){
           <div></div>
 
           {selfDestruct?
-            <button onClick={forfeit} className='p-4 pt-4 m-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold rounded-md focus:ring-4 focus:ring-orange-600 '>SELF DESTRUCT</button>
+            <button onClick={forfeit} className='p-4 pt-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold rounded-md focus:ring-4 focus:ring-orange-600'
+            >SELF DESTRUCT<img className='object-contain h-8' src='https://i.imgur.com/mBC4Uh5.png'/>
+              </button>
           :
-            <button className='cursor-not-allowed p-4 pt-4 flex items-end justify-center bg-gray text-white text-center font-bold rounded-md'
-              >SELF DESTRUCT
+            <button className='cursor-not-allowed p-4 pt-4 flex items-end justify-end bg-gray text-white text-center font-bold rounded-md'
+              >SELF DESTRUCT<img className='object-contain h-8' src='https://i.imgur.com/mBC4Uh5.png'/>
             </button>
            }
 

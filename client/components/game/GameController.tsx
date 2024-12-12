@@ -50,7 +50,7 @@ export default function GameController ({
 
   let userRound = roundInfo.filter(round=>round.user_id === user.id)
 
-  console.log("USER ROUND", userRound)
+  // console.log("USER ROUND", userRound)
 
   let enemyRound = roundInfo.filter(round=>round.user_id !== user.id)
 
@@ -87,7 +87,7 @@ export default function GameController ({
   const [enemyArmed, setEnemyArmed] = useState(false)
 
   //the enemy's LOADed card
-  const [enemyCard, setEnemyCard] = useState('')
+  const [enemyCard, setEnemyCard] = useState([])
 
   
   //whether or not player's turn has ended
@@ -118,7 +118,8 @@ export default function GameController ({
 
   const [myPrevRound, setMyPrevRound] = useState([])
   const [theirPrevRound, setTheirPrevRound] = useState([])
-  
+
+  const [prevEnemyCardData, setPrevEnemyCardData] = useState([])  
 
   
   const getAllCards = async () => {
@@ -133,7 +134,7 @@ export default function GameController ({
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
-    // console.log("click value", e.target.value)
+    console.log("click value", e.target.value)
     
 
     setPlayerAction(e.target.value)
@@ -279,6 +280,14 @@ export default function GameController ({
       if (data.Current){
         setRoundNum(data.Current.id)
         setRoundActual(data.Current.actual)
+        
+        
+
+        // console.log("CURRENT DATA", data.Current)
+
+        let prevEnemyHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === enemyId)
+        console.log("PREVIOUS ENEMY HAND", prevEnemyHand)
+        setEnemyCard([])
 
 
 
@@ -323,7 +332,7 @@ export default function GameController ({
         // console.log("FIRED!!!")
         setEnemyArmed(false)
         if (enemyPrevRound[0]){
-          // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+          console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
           
           getAllCards();
           // console.log("ALL CARDS?", allCards)
