@@ -125,14 +125,17 @@ model Actions {
   action   String?
 
   /// if a card is specified, auto-populates data
-  damage   Int?    @default(0)
-  armor    Int?    @default(0)
-  duration Int?    @default(0)
-  effect   String? @default("")
-  card_id  Int?
-  expedite Boolean @default(false)
+  card_id     Int?
+  name        String? @default("")
+  description String? @default("")
+  damage      Int?    @default(0)
+  armor       Int?    @default(0)
+  image_url   String? @default("")
+  duration    Int?    @default(0)
+  effect      String? @default("")
+  expedite    Boolean @default(false)
 
-  card           Cards?           @relation(fields: [card_id, damage, armor, duration, effect], references: [id, damage, armor, duration, effect], onUpdate: Cascade, onDelete: Cascade)
+  card           Cards?           @relation(fields: [card_id, name, description, damage, armor, image_url, duration, effect], references: [id, name, description, damage, armor, image_url, duration, effect], onUpdate: Cascade, onDelete: Cascade)
   user           User             @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   round          Rounds           @relation(fields: [round_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   Actions_Loaded Actions_Loaded[]
