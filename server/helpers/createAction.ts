@@ -16,17 +16,16 @@ export default async function createAction(req: any){
 
       let newAction;
       // we create and store this action for later calculations
-      if (findCardCorrelation.card.expedite){
+      if (req.body.data.expedite){
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
             user:   { connect: { id: req.body.data.user_id}},
-            card:   { connect: { id: findCardCorrelation.card.id }},
+            card:   { connect: { id: req.body.data.card_id }},
             action: req.body.data.action,
             expedite: req.body.data.expedite
           }
         })
-  
       } else {
         newAction = await database.actions.create({
           data: {
@@ -34,10 +33,8 @@ export default async function createAction(req: any){
             user:   { connect: { id: req.body.data.user_id}},
             card:   { connect: { id: findCardCorrelation.card.id }},
             action: req.body.data.action,
-            expedite: req.body.data.expedite
           }
-        })
-
+        })        
       }
 
 
