@@ -1,5 +1,7 @@
 import React from 'react';
-
+import { GiRosaShield } from "react-icons/gi";
+import { GiMachineGunMagazine } from "react-icons/gi";
+import { GiRocket } from "react-icons/gi";
 export default function ActionSelect({
   playerAction, 
   enemyLastAction,
@@ -23,11 +25,7 @@ export default function ActionSelect({
             value='BLOCK'
             className='w-full aspect-square bg-gray border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            {/* SHIELD  */}
-            <img src='https://i.imgur.com/AAgKObD.png'
-            className='object-contain bg-cover'
-
-            />
+            <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
@@ -35,16 +33,7 @@ export default function ActionSelect({
             className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-blue-600'
             onClick={(e) => { actionClick(e) }}
           >
-            {/* SHIELD */}
-            <img src='https://i.imgur.com/AAgKObD.png'
-            className='object-contain bg-cover'
-
-            onClick={(e)=> {
-             e.target = {value: "BLOCK"}
-              actionClick(e)
-            }
-            } 
-            />
+            <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}} />
           </button>
         )}
 
@@ -53,12 +42,7 @@ export default function ActionSelect({
             value='LOAD'
             className='w-full aspect-square bg-gray text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            {/* ARM */}
-            <img src='https://i.imgur.com/F4VMpRz.png'
-            className='object-contain bg-cover'
-
-
-            />
+            <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
@@ -66,16 +50,7 @@ export default function ActionSelect({
             className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-yellow-300'
             onClick={(e) => { actionClick(e) }}
           >
-            {/* ARM */}
-            <img src='https://i.imgur.com/F4VMpRz.png'
-            className='object-contain bg-cover'
-            
-            onClick={(e)=> {
-             e.target = {value: "LOAD"}
-              actionClick(e)
-            }
-            } 
-            />
+            <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}} />
           </button>
         )}
 
@@ -84,51 +59,18 @@ export default function ActionSelect({
             value='FIRE'
             className='w-full aspect-square bg-gray text-white font-bold text-xs border-slate-600 border-2 sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center'
           >
-            {/* FIRE */}
-            <img 
-            src='https://i.imgur.com/gXCRrZy.png' 
-            className='object-contain bg-cover' 
-            />
+            <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}} />
           </button>
         ) : (
-          <button
-            value='FIRE'
-            className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
-            onClick={(e) => { actionClick(e) }}
-          >
-            {/* FIRE */}
-            <img 
-            src='https://i.imgur.com/gXCRrZy.png'
-            className='object-contain bg-cover'
-            
-            onClick={(e)=> {
-             e.target = {value: "FIRE"}
-              actionClick(e)
-            }
-            } />
-          </button>
+            <button
+              value='FIRE'
+              className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
+              onClick={(e) => actionClick(e) }
+            >
+              <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>
+            </button>
         )}
       </div>
-    </div>
-
-
-
-
-  
-)
+    </div>  
+  )
 }
-{/* <div className=' p-2 bg-white text-black font-bold w-96' >CURRENT ACTION SELECTED: {playerAction}</div>
-
-<div className=' p-2 bg-black text-white font-bold w-96' >ENEMY'S LAST ACTION: {enemyLastAction}
-    {enemyCard && enemyLastAction === 'FIRE' && !enemyTurnEnd ?
-    
-      <>
-      d {enemyCard[0]}
-      </>
-
-    :
-    
-      null
-    }
-
-</div> */}

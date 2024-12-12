@@ -17,7 +17,6 @@ interface CardProps {
   playerAction: any
   setActiveLoading: any
   activeLoading: any
-
   playerHand: any
   setPlayerHand: any
   user: any
