@@ -126,7 +126,7 @@ export default function SelectGame({
                       return (player.user_id !== user.id)
                     })
                     
-                    console.log("ENEMY???\n", enemy)
+                    // console.log("ENEMY???\n", enemy)
 
 
                     // if the filtered array contains an enemy

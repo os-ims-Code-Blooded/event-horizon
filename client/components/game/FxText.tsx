@@ -26,9 +26,20 @@ export default function FxText({
 
 
     {/* PLAYER BLOCKS, ENEMY FIRES */}
-    {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" ?
+    {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage?
       <div className='text-sm'>
         You shielded against {enemyName}'s barrage taking {theirPrevRound[0].damage / 2} damage
+        <div className='p-4'></div>
+      </div>
+    :
+      null
+    }
+
+
+    {/* PLAYER BLOCKS, ENEMY DEFAULT FIRES */}
+    {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id?
+      <div className='text-sm'>
+        You shielded against {enemyName}'s barrage taking 3 damage
         <div className='p-4'></div>
       </div>
     :
@@ -38,7 +49,7 @@ export default function FxText({
     {/* PLAYER BLOCKS, ENEMY FIRES */}
     {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action !== "FIRE" ?
       <div className='text-sm'>
-        You needlessly shielded their vessel
+        You needlessly shielded your vessel
         <div className='p-4'></div>
       </div>
     :
@@ -128,7 +139,7 @@ export default function FxText({
 
 
   {/* ENEMY FIRES WEAPON, NO PLAYER BLOCK*/}
-    {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage && myPrevRound[0].action !== "BLOCK" ?
+    {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].card_id && myPrevRound[0].action !== "BLOCK" ?
       <div className='text-sm'>
         {enemyName} fired on your vessel for {theirPrevRound[0].damage} damage
         <div className='p-4'></div>
@@ -139,14 +150,14 @@ export default function FxText({
 
 
   {/* ENEMY FIRES WEAPON, PLAYER BLOCK*/}
-    {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage && myPrevRound[0].action === "BLOCK" ?
+    {/* {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].card_id && myPrevRound[0].action === "BLOCK" ?
       <div className='text-sm'>
        {enemyName} fired on your shielded vessel for {theirPrevRound[0].damage / 2} damage
        <div className='p-4'></div>
       </div>
     :
       null
-    }
+    } */}
 
   {/* ENEMY FIRES DEFAULT WEAPON, PLAYER BLOCK*/}
     {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action === "BLOCK" ?
