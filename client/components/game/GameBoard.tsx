@@ -257,6 +257,9 @@ if (playerHand.length <= 0){
         {/* 2ND COL: 2ND SECT : PLAYED CARDS STATUS */}
         <div className='flex flex-row justify-between' style={{ minHeight: "33%" }}>
 
+
+
+
           {/* USER'S SELECTED CARD */}
           <div className='flex flex-col justify-center items-start'>
             {cardToPlay ? (
@@ -283,22 +286,53 @@ if (playerHand.length <= 0){
             )}
           </div>
 
+
+
+
+
+
           {/* ENEMY STATUS */}
-          <div className='flex flex-col justify-center items-end'>
-            {enemyArmed ? (
-              <div className="bg-white border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
+          <div className='flex flex-col justify-center align-middle items-end'>
+
+            {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id) ?
+
+              <>
+              {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id ?
+
+                <Card 
+                card={enemyCard} 
+                setCardToPlay={undefined} 
+                setCardId={undefined} 
+                playerAction={undefined} 
+                setActiveLoading={undefined} 
+                activeLoading={undefined} 
+                playerHand={undefined} 
+                setPlayerHand={undefined} 
+                user={undefined}/>
+
+               :
+
+                <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
                 <img
                   src="https://i.imgur.com/Uvf7DCN.png"
                   className="border-8 border-slate-600 rounded-lg shadow-md w-36 h-48 flex flex-col items-center justify-between hover:scale-110"
-                />
+                  />
               </div>
-            ) : (
+              }
+              </>
+
+            : (
               <div className='border-4 border-error rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-error' >
                 <div className='pt-15' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
             )}
+
           </div>
         </div>
+
+
+
+
 
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
         <div className="flex flex-row justify-center gap-1 p-2 pt-5 w-full h-48" style={{ minHeight: "33%", minWidth: "100%"}}>

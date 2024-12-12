@@ -50,7 +50,7 @@ export default function GameController ({
 
   let userRound = roundInfo.filter(round=>round.user_id === user.id)
 
-  // console.log("USER ROUND", userRound)
+  console.log("USER ROUND", userRound)
 
   let enemyRound = roundInfo.filter(round=>round.user_id !== user.id)
 
@@ -63,7 +63,7 @@ export default function GameController ({
 
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(userRound[0].health || 50)
-  const [armor, setArmor] = useState(userRound[0].armor || 20)
+  const [armor, setArmor] = useState(userRound[0] ? userRound[0].armor : 20)
   //the card the player has just selected
   const [cardToPlay, setCardToPlay] = useState(null)
   const [cardId, setCardId] = useState(null)
