@@ -190,11 +190,24 @@ if (playerHand.length <= 0){
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
           <div className='text-text dark:text-darkText text-sm'>Encounter {session} VS {enemyName}</div>
           <div className='text-text dark:text-darkText text-sm'>ROUND : {roundActual}</div>
+          {theirPrevRound.length && myPrevRound.length?
+            
+            <FxText
+                enemyName={enemyName}
+                cardToPlay={cardToPlay}
+                user={user}
+                myPrevRound={myPrevRound}
+                theirPrevRound={theirPrevRound}
+                turnEnded={turnEnded}
+            />
+            :
+              null
+            }
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
-        <div className='flex' style={{height: "33%"}}>
+        <div className='flex ' style={{height: "33%"}}>
           {/* USERS SHIP*/}
-          <img src='https://i.imgur.com/V6LW3e4.png' className='object-cover scale-x-[-.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
+          <img src='https://i.imgur.com/V6LW3e4.png' className='aspect-square object-scale-down scale-x-[-.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
         </div>
         {/* FIRST COLUMN 3rd SECTION */}
         <div className='' style={{height: "33%"}}>
@@ -288,7 +301,7 @@ if (playerHand.length <= 0){
         </div>
 
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
-        <div className="flex flex-row justify-center gap-1 p-2 pt-5" style={{ minHeight: "33%"}}>
+        <div className="flex flex-row justify-center gap-1 p-2 pt-5 w-full h-48" style={{ minHeight: "33%", minWidth: "100%"}}>
           {playerHand.map((card, index) => {
             return (
               <Card
@@ -311,7 +324,7 @@ if (playerHand.length <= 0){
 
 
       {/* 3RD COLUMN */}
-      <div className='flex flex-col w-full items-center justify-between' style={{ maxWidth: "25%"}}>
+      <div className='flex flex-col w-full items-center justify-between pr-5' style={{ maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
         <div className='flex flex-col items-center w-full' style={{ height: "33%"}}>
           <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
@@ -334,15 +347,15 @@ if (playerHand.length <= 0){
         </div>
         {/* 3RD COLUMN : SECTION 2 SHIP */}
         <div className='flex' style={{height: "33%"}}>
-              <img src='https://i.imgur.com/V6LW3e4.png' className='scale-x-[.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
+              <img src='https://i.imgur.com/4paq921.png' className='aspect-square object-scale-down scale-x-[.75] scale-y-[.75] max-h-50 outline outline-blue-600 rounded-full animate-outline-pulse'/>
         </div>
         {/* 3RD COLUMN : SECTION 3 */}
-        <div className='flex flex-col items-center justify-between ' style={{height: "33%"}}>
+        <div className='flex flex-col items-center' style={{height: "33%"}}>
           <div>
                {
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
-             <button className='p-4 flex items-end rounded-md justify-end bg-emerald-500  hover:bg-emerald-900 text-white font-bold focus:ring-4 focus:ring-emerald-600 '
+             <button className='p-4 flex aspect-square text-white font-bold rounded-full text-sm justify-center items-center overflow-hidden text-ellipsis text-center justify-items-end bg-emerald-500  hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 '
                onClick={(e)=>{
                  setTurnEnded(true)
                  endTurn()
@@ -358,7 +371,7 @@ if (playerHand.length <= 0){
                  }
                }}>COMMIT TURN</button>
              :
-             <button className='cursor-not-allowed p-4 flex items-end justify-end bg-gray  text-white font-bold rounded-md'
+             <button className='cursor-not-allowed p-4 flex bg-gray aspect-square text-white font-bold rounded-full text-sm justify-center items-center overflow-hidden text-ellipsis'
              >COMMIT TURN</button>
                }
            </div>
@@ -370,36 +383,29 @@ if (playerHand.length <= 0){
             :
              null
            }
-           
-           <label className="inline-flex items-center cursor-pointer">
-           <input type="checkbox" value={selfDestruct} className="sr-only peer" onClick={()=>{setSelfDestruct(!selfDestruct)}}/>
-             <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+
+           <label className="inline-flex items-center cursor-pointer justify-between pb-4">
+           <input type="checkbox" value={selfDestruct} className="sr-only peer " onClick={()=>{setSelfDestruct(!selfDestruct)}}/>
+             <div className="relative w-11 h-6 pb-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
              <span className="ms-3 text-sm font-medium text-white dark:text-white">ARM SELF DESTRUCT</span>
            </label>
-           <br></br>
+
+
+          <div></div>
+
           {selfDestruct?
-            <button onClick={forfeit} className='p-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold focus:ring-4 focus:ring-orange-600 '>SELF DESTRUCT</button>
+            <button onClick={forfeit} className='p-4 pt-4 m-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold rounded-md focus:ring-4 focus:ring-orange-600 '>SELF DESTRUCT</button>
           :
-            <button className='cursor-not-allowed p-4 flex items-end justify-center bg-gray text-white text-center font-bold rounded-md'
+            <button className='cursor-not-allowed p-4 pt-4 flex items-end justify-center bg-gray text-white text-center font-bold rounded-md'
               >SELF DESTRUCT
             </button>
            }
+
+
            </div>
            </div>
-           {theirPrevRound.length && myPrevRound.length?
-           
-           <FxText
-               enemyName={enemyName}
-               cardToPlay={cardToPlay}
-               user={user}
-               myPrevRound={myPrevRound}
-               theirPrevRound={theirPrevRound}
-               turnEnded={turnEnded}
-           />
-          :
-            null
-          }
-      </div>
+
+          </div>
 
 
     </div>

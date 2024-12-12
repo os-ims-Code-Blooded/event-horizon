@@ -54,16 +54,16 @@ export default function FxText({
     }
 
     {/* PLAYER FIRES WEAPON, ENEMY BLOCK */}
-    {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage) && theirPrevRound[0].action === "BLOCK" ?
+    {myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id  && theirPrevRound[0].action === "BLOCK" ?
       <div className='text-sm'>
-        {user.name} has fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage
+         {user.name} has fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage 
       </div>
     :
       null
     }
 
   {/* PLAYER FIRES WEAPON, NO ENEMY BLOCK */}
-    {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage) && theirPrevRound[0].action !== "BLOCK" ?
+    {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id) && theirPrevRound[0].action !== "BLOCK" ?
       <div className='text-sm'>
         {user.name} has fired on {enemyName}'s vessel for {myPrevRound[0].damage} damage
       </div>
@@ -72,18 +72,18 @@ export default function FxText({
     }
 
   {/* PLAYER FIRES DEFAULT, ENEMY BLOCK */}
-    {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].damage) && theirPrevRound[0].action === "BLOCK" ?
+    {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && theirPrevRound[0].action === "BLOCK" ?
       <div className='text-sm'>
-        {user.name} has fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage
+        {user.name} has fired on {enemyName}'s shielded vessel for 3 damage
       </div>
     :
       null
     }
 
   {/* PLAYER FIRES DEFAULT, NO ENEMY BLOCK */}
-    {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].damage) && theirPrevRound[0].action !== "BLOCK" ?
+    {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && theirPrevRound[0].action !== "BLOCK" ?
       <div className='text-sm'>
-        {user.name} has fired on {enemyName}'s vessel for {myPrevRound[0].damage} damage
+        {user.name} has fired on {enemyName}'s vessel for 5 damage
       </div>
     :
       null
@@ -128,7 +128,7 @@ export default function FxText({
 
 
   {/* ENEMY FIRES WEAPON, NO PLAYER BLOCK*/}
-    {(theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage) && myPrevRound[0].action !== "BLOCK" ?
+    {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage && myPrevRound[0].action !== "BLOCK" ?
       <div className='text-sm'>
         {enemyName} fired on {user.name}'s vessel for {theirPrevRound[0].damage} damage
       </div>
@@ -138,13 +138,34 @@ export default function FxText({
 
 
   {/* ENEMY FIRES WEAPON, PLAYER BLOCK*/}
-    {(theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage) && myPrevRound[0].action !== "BLOCK" ?
+    {theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage && myPrevRound[0].action === "BLOCK" ?
       <div className='text-sm'>
-        {enemyName} fired on {user.name}'s shielded vessel for {theirPrevRound[0].damage / 2} damage
+       {enemyName} fired on {user.name}'s shielded vessel for {theirPrevRound[0].damage / 2} damage
       </div>
     :
       null
     }
+
+  {/* ENEMY FIRES DEFAULT WEAPON, PLAYER BLOCK*/}
+    {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action === "BLOCK" ?
+      <div className='text-sm'>
+       {enemyName} fired on {user.name}'s shielded vessel for 3 damage
+      </div>
+    :
+      null
+    }
+
+  {/* ENEMY FIRES DEFAULT WEAPON, NO PLAYER BLOCK*/}
+  {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action !== "BLOCK" ?
+      <div className='text-sm'>
+        {enemyName} fired on {user.name}'s vessel for 5 damage
+      </div>
+    :
+      null
+    }
+
+
+
   </div>
 
 :

@@ -28,7 +28,7 @@ export default function ActionSelect({
         ) : (
           <button
             value='BLOCK'
-            className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
+            className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-blue-600'
             onClick={(e) => { actionClick(e) }}
           >
             SHIELD
@@ -45,7 +45,7 @@ export default function ActionSelect({
         ) : (
           <button
             value='LOAD'
-            className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
+            className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-yellow-300'
             onClick={(e) => { actionClick(e) }}
           >
             ARM
@@ -62,7 +62,7 @@ export default function ActionSelect({
         ) : (
           <button
             value='FIRE'
-            className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
+            className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
             onClick={(e) => { actionClick(e) }}
           >
             FIRE
