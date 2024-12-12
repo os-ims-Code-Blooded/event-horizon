@@ -213,6 +213,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
+    
     if (playerHand.length === 0){
       setExpediteState(true);
     }

@@ -144,7 +144,7 @@ const GameBoard: FC <GameBoardProp> = ({
     damage: 10,
     armor: 0,
     description: 'last-resort shield-to-phaser power conversion',
-    id: 666
+    id: 5
   }]
 
 /////////// discard a card /////////////////////////////////////////
