@@ -11,17 +11,17 @@ export default async function createAction(req: any){
       // this vets and verifies that the player currently possesses the card that they are attempting to play
       const findCardCorrelation = await database.user_Cards.findFirst({ 
         where: { id: Number(req.body.data.card_id) },
-        select: { card_id: true }
+        include: { card: true }
       })
 
       let newAction;
       // we create and store this action for later calculations
-      if (req.body.data.card_id === 666){
+      if (findCardCorrelation.card.expedite){
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
             user:   { connect: { id: req.body.data.user_id}},
-            card:   { connect: { id: 666 }},
+            card:   { connect: { id: findCardCorrelation.card.id }},
             action: req.body.data.action,
             expedite: req.body.data.expedite
           }
@@ -32,7 +32,7 @@ export default async function createAction(req: any){
           data: {
             round:  { connect: { id: req.body.data.round_id}},
             user:   { connect: { id: req.body.data.user_id}},
-            card:   { connect: { id: findCardCorrelation.card_id }},
+            card:   { connect: { id: findCardCorrelation.card.id }},
             action: req.body.data.action,
             expedite: req.body.data.expedite
           }

@@ -19,14 +19,30 @@ export default async function commitLoad(req: any, game: number, action: any){
         where: { user_id: action.user_id }
       })
 
-      await database.actions_Loaded.create({
-        data: {
-          game:   { connect: { id: game}},
-          round:  { connect: { id: action.round_id}},
-          action: { connect: { id: action.id, user_id: action.user_id}},
-          card:   { connect: { id: action.card_id}},
-        }
-      })
+      if (action.card.damage) {
+
+        await database.actions_Loaded.create({
+          data: {
+            game:   { connect: { id: game}},
+            round:  { connect: { id: action.round_id}},
+            action: { connect: { id: action.id, user_id: action.user_id}},
+            card:   { connect: { id: action.card_id}},
+          }
+        })
+
+      } else if (action.card.armor) {
+        
+        await database.round_Effects.create({
+          data: {
+            game:   { connect: { id: game}},
+            round:  { connect: { id: action.round_id}},
+            action: { connect: { id: action.id, user_id: action.user_id}},
+            card:   { connect: { id: action.card_id}},
+          }
+        })
+
+      }
+
       
     }
 
