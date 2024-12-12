@@ -25,7 +25,7 @@ export default function ActionSelect({
             value='BLOCK'
             className='w-full aspect-square bg-gray border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            <GiRosaShield style={{fontSize: 50}} onClick={(e) => { actionClick(e) }}/>
+            <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
@@ -33,7 +33,7 @@ export default function ActionSelect({
             className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
             onClick={(e) => { actionClick(e) }}
           >
-            <GiRosaShield style={{fontSize: 50}} onClick={(e) => { actionClick(e) }}/>
+            <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}} />
           </button>
         )}
 
@@ -42,7 +42,7 @@ export default function ActionSelect({
             value='LOAD'
             className='w-full aspect-square bg-gray text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
-            <GiMachineGunMagazine style={{fontSize: 50}} onClick={(e) => { actionClick(e) }}/>
+            <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
@@ -50,7 +50,7 @@ export default function ActionSelect({
             className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
             onClick={(e) => { actionClick(e) }}
           >
-            <GiMachineGunMagazine style={{fontSize: 50}} onClick={(e) => { actionClick(e) }} />
+            <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}} />
           </button>
         )}
 
@@ -59,7 +59,7 @@ export default function ActionSelect({
             value='FIRE'
             className='w-full aspect-square bg-gray text-white font-bold text-xs border-slate-600 border-2 sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center'
           >
-            <GiRocket style={{fontSize: 50, transform: "rotate(270deg)"}} onClick={(e) => { actionClick(e) }}/>
+            <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}} />
           </button>
         ) : (
             <button
@@ -67,7 +67,7 @@ export default function ActionSelect({
               className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
               onClick={(e) => actionClick(e) }
             >
-              <GiRocket style={{fontSize: 50, transform: "rotate(270deg)"}} onClick={(e) => actionClick(e) }/>
+              <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>
             </button>
         )}
       </div>
