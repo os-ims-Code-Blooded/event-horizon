@@ -26,7 +26,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
 
   const cardSelect = (card: CardType) =>{
 
-    // console.log("CARD CLICKED: ", card)
+    console.log("CARD CLICKED: ", card)
     setCardId(card.id)
 
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
@@ -42,14 +42,14 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
   }
 
   return (
-    <div id='card' className='flex h-48 w-36'>
+    <div id='card' className='flex h-48 w-36' >
 
     {playerAction === 'LOAD' && !activeLoading?
 
     <div
     onClick={()=>cardSelect(card)}
 
-    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md flex flex-col items-center justify-between hover:scale-110"
+    className="bg-white border-8 border-yellow-300 rounded-lg shadow-md flex flex-col items-center justify-between w-full hover:scale-110"
     >
 
       <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
@@ -72,7 +72,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     :
 
     <div
-    className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between">
+    className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
 
       <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
 

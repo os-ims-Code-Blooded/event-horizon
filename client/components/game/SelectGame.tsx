@@ -70,6 +70,8 @@ export default function SelectGame({
   const [activeUserGame, setActiveUserGame] = useState(false)
 
   const [waiting, setWaiting] = useState(false)
+
+
   
   const opponentCards = [
     {
@@ -101,7 +103,8 @@ export default function SelectGame({
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
 
-                  console.log("ROUND DATA", round.data["Current Round Actual"])
+                  // console.log("ROUND DATA", round.data["Current Round Actual"])
+                  console.log("ROUND DATA", round.data)
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
                   setRoundActual(round.data["Current Round Actual"])
@@ -123,7 +126,7 @@ export default function SelectGame({
                       return (player.user_id !== user.id)
                     })
                     
-                    console.log("ENEMY???\n", enemy)
+                    // console.log("ENEMY???\n", enemy)
 
 
                     // if the filtered array contains an enemy
