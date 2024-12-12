@@ -206,7 +206,8 @@ if (playerHand.length <= 0){
             />
             </div>
             :
-            <div className='bg-slate-400 flex flex-col p-1 gap-1 border-8 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:</div>
+            // null
+            <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:</div>
             }
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
