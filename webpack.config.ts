@@ -17,6 +17,10 @@ module.exports = {
      ".mjs": [".mjs", ".mts"]
     }
   },
+  watchOptions: {
+    poll: true,
+    ignored: /node_modules/
+  },
   watch: true,
   plugins: [
     new HTMLWebpackPlugin({

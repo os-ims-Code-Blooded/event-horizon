@@ -17,7 +17,7 @@ export default function FxText({
 
   return(
 
-    <div className='bg-slate-400 flex flex-col p-1 gap-1 border-8 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:
+    <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:
       {theirPrevRound && myPrevRound && !turnEnded?
 
       <div className='text-sm'>
