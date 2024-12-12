@@ -76,12 +76,6 @@ CB Secondary COLOR
   filter: invert(0.75);
 }
 
-/* 
-darkmode cb
-*/
-/* .dark.cbMode .bg-third.bg-third.bg-third {
-  background-color: #0F52BA !important;
-} */
 .cbMode .bg-fifth {
   background-color: #0F52BA !important;
 }
@@ -90,9 +84,3 @@ darkmode cb
   color: #FFFFFF;
 }
 
-/* .card-container {
-  display: flex;
-  gap: 5px;
-  height: "33%";
-  width: "50%";
-} */
