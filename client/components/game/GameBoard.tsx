@@ -3,6 +3,7 @@ import Card from './Card';
 import ActionSelect from './ActionSelect';
 import FxText from './FxText';
 import sampleDeckData from './sampleDeckData';
+import { GiRosaShield } from "react-icons/gi";
 // import Gameplay from './Gameplay';
 
 
@@ -387,7 +388,6 @@ if (playerHand.length <= 0){
            </div>
            </div>
            {theirPrevRound.length && myPrevRound.length?
-           
            <FxText
                enemyName={enemyName}
                cardToPlay={cardToPlay}
