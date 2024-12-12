@@ -121,7 +121,11 @@ export default function GameController ({
 
   const [prevEnemyCardData, setPrevEnemyCardData] = useState([])  
 
-  
+  // EFFECTS
+  const [healthBarShake, setHealthBarShake] = useState(false);
+  const [shieldBarShake, setShieldBarShake] = useState(false);
+
+
   const getAllCards = async () => {
     try {
       const response = await axios.get(`/cards/`);
@@ -231,44 +235,48 @@ export default function GameController ({
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
 
-      // if (data.Current) {
+      if (data.Current) {
 
-      //   // Current player information
-      //   let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-      //   let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        // Current player information
+        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
-      //   // Previous player information
-      //   let playerPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-      //   let enemyPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        // Previous player information
+        let playerPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
-      //   // if the player has lost health this round, then display an effect
-      //   // if (playerCurrRound[0].health < playerPrevRound[0].health) {
-      //   //   // setToggleHealthDangerEffect(true);
-      //   //   setTimeout(() => {
-      //   //     // setToggleHealthDangerEffect(false);
-      //   //   }, 1000)
-      //   // }
+        // if the player has lost health this round, then display an effect
+        if (playerCurrRound[0].health < playerPrevRound[0].health) {
+          setHealthBarShake(true);
+          setTimeout(() => {
+            setHealthBarShake(false);
+          }, 1000)
+        }
+         // if the enemy player has lost health this round, then display an effect
+         if (enemyCurrRound[0].health < enemyPrevRound[0].health) {
+          setHealthBarShake(true);
+          setTimeout(() => {
+            setHealthBarShake(false);
+          }, 1000)
+        }
 
-      //   // if the player's armor was just broken, then display an effect
-      //   // if (playerCurrRound[0].armor === 0 && playerPrevRound[0].armor > 0) {
-      //   //   // setToggleShatteredArmorEffect(true);
-      //   //   setTimeout(() => {
-      //   //     // setToggleShatteredArmorEffect(true);
-      //   //   }, 1000)
-      //   // }
-        
-      //   // // if the player's armor is now less than it was, but it is not broken
-      //   // if (playerCurrRound[0].armor < playerPrevRound[0].armor) {
-      //   //   // setToggleArmorDamagedEffect(true);
-      //   //   setTimeout(() => {
-      //   //     // setToggleArmorDamagedEffect(true);
-      //   //   }, 1000)
-      //   // }
+        // if the player's armor is now less than it was, but it is not broken
+        if (playerCurrRound[0].armor < playerPrevRound[0].armor) {
+          setShieldBarShake(true);
+          setTimeout(() => {
+            setShieldBarShake(false);
+          }, 1000)
+        }
 
-      //   // enableVFX(playerPrevRound, playerCurrRound)
-      //   // enableVFX(enemyPrevRound, enemyCurrRound)
+         // if the enemy's armor is now less than it was, but it is not broken
+         if (enemyCurrRound[0].armor < enemyPrevRound[0].armor) {
+          setShieldBarShake(true);
+          setTimeout(() => {
+            setShieldBarShake(false);
+          }, 1000)
+        }
 
-      // }
+      }
 
 
       if (data.user_id){
@@ -280,14 +288,6 @@ export default function GameController ({
       if (data.Current){
         setRoundNum(data.Current.id)
         setRoundActual(data.Current.actual)
-        
-        
-
-        // console.log("CURRENT DATA", data.Current)
-
-        let prevEnemyHand = data.Previous.Game_Card_States.filter(cardState=>cardState.user_id === enemyId)
-        console.log("PREVIOUS ENEMY HAND", prevEnemyHand)
-        setEnemyCard([])
 
 
 
@@ -332,7 +332,7 @@ export default function GameController ({
         // console.log("FIRED!!!")
         setEnemyArmed(false)
         if (enemyPrevRound[0]){
-          console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+          // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
           
           getAllCards();
           // console.log("ALL CARDS?", allCards)
@@ -475,6 +475,8 @@ export default function GameController ({
           enemyRound={enemyRound}
           myPrevRound={myPrevRound}
           theirPrevRound={theirPrevRound}
+          healthBarShake={healthBarShake}
+          shieldBarShake={shieldBarShake}
           />
     </div>
   )
