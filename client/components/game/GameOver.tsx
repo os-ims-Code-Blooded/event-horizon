@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import FxText from './FxText';
 
 export default function GameOver ({
   gameWinner,
@@ -17,8 +18,17 @@ export default function GameOver ({
       <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
         <br></br>
         <br></br>
-        <h1 className='text-xl'>GAME OVER BRUV</h1>
-        <h1 className='test-lg'>you won</h1>
+        <h1 className='text-xl'>GAME OVER</h1>
+
+        <FxText 
+        enemyName={undefined} 
+        cardToPlay={undefined} 
+        user={undefined} 
+        myPrevRound={undefined} 
+        theirPrevRound={undefined} 
+        turnEnded={undefined}/>
+
+        <h1 className='test-lg'>victory is yours</h1>
         
         {/* <br></br>
         <br></br>
@@ -45,7 +55,7 @@ export default function GameOver ({
   <br></br>
   <br></br>
   <h1 className='text-xl'>GAME OVER BRUV</h1>
-  <h1 className='test-lg'>you lost</h1>
+  <h1 className='test-lg'>all is lost</h1>
   
   {/* <br></br>
   <br></br>

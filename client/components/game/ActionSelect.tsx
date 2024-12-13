@@ -3,7 +3,7 @@ import { GiRosaShield } from "react-icons/gi";
 import { GiMachineGunMagazine } from "react-icons/gi";
 import { GiRocket } from "react-icons/gi";
 export default function ActionSelect({
-  playerAction, 
+  playerAction,
   enemyLastAction,
   cardToPlay,
   turnEnded,
@@ -64,7 +64,7 @@ export default function ActionSelect({
         ) : (
             <button
               value='FIRE'
-              className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis'
+              className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
               onClick={(e) => actionClick(e) }
             >
               <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>
