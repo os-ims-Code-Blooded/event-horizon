@@ -147,24 +147,17 @@ app.post('/api/logout', (req: AuthRequest, res) => {
 const server = https.createServer(app)
 
 //creates an io server using the http server made with the express server
-//I don't know why
+
+const URL = process.env.TEST_URL ? process.env.TEST_URL : `${CLIENT_URL}:${PORT}`
+
 const io = new Server(server, {
-  //some kind of cors options object, idk
   cors: {
-    origin: `${CLIENT_URL}:${PORT}`,
+    origin: `${URL}`,
     methods: ["GET", "POST"],
     credentials: true,
-  },
-  // cors: {
-  //   origin: `${CLIENT_URL}:${PORT}`,
-  //   methods: ["GET", "POST"],
-  //   credentials: true,
-  // },
+  }
 })
-//............./////////////...........................
-//trying some crap out
 
-//............./////////////...........................
 server.listen(PORT, () => {
     database.$connect()
         .then((connectionEstablished) => {
