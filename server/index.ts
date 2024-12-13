@@ -7,10 +7,10 @@ import path from 'path';
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from './database/index.ts';
-import http from 'http'
+import https from 'https';
+import http from 'http';
 import cors from 'cors'
 import { Server } from 'socket.io'
-import { it } from 'node:test';
 import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
@@ -145,32 +145,31 @@ app.post('/api/logout', (req: AuthRequest, res) => {
 //////// WEBSOCKET ///////////////////////////
 
 //makes an http server with the express server
-const server = http.createServer(app)
+let server;
 
 //creates an io server using the http server made with the express server
-//I don't know why
+
+const URL = process.env.TEST_URL ? process.env.TEST_URL : `${CLIENT_URL}:${PORT}`
+
+if (process.env.TEST_URL) {
+  server = https.createServer(app);
+} else {
+  server = http.createServer(app);
+}
+
 const io = new Server(server, {
-  //some kind of cors options object, idk
   cors: {
-    origin: `${CLIENT_URL}:${PORT}`,
+    origin: `${URL}`,
     methods: ["GET", "POST"],
     credentials: true,
-  },
-  // cors: {
-  //   origin: `${CLIENT_URL}:${PORT}`,
-  //   methods: ["GET", "POST"],
-  //   credentials: true,
-  // },
+  }
 })
-//............./////////////...........................
-//trying some crap out
 
-//............./////////////...........................
 server.listen(PORT, () => {
     database.$connect()
         .then((connectionEstablished) => {
           console.log(`Prisma has connected to the database...`);
-          console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
+          console.log("Server listening on: ",CLIENT_URL + ':' + PORT);
         })
         .catch((error) => {
           errorHandler(error);
@@ -276,26 +275,19 @@ io.on('connection', (socket)=>{
 
   })
 
-////////////////////////////////////////
+
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
     console.log("data", data)
       io.in(session).emit('game_over', data)
 
   })
-//////////////////////////////////////////
-  //when a user disconnects
+
   socket.on('disconnect', () => {
-    // console.log('user disconnected');
-
     users = users.filter(user=>user!==sockId)
-    // console.log("USERS:", users)
-
     players = users.length;
-    // console.log("CURRENT PLAYERS CONNECTED:", players)
-
   });
 
 })
 
-///////////////////////////////////////////
+

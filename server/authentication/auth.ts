@@ -6,10 +6,12 @@ import generateRandomName from './generateRandomName.ts';
 
 const auth = Router();
 
+const URL = process.env.TRUE_URL ? process.env.TRUE_URL : `${process.env.CLIENT_URL}:${process.env.PORT}`;
+
 passport.use(new GoogleStrategy({
   clientID:     process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `${process.env.CLIENT_URL}:${process.env.PORT}/auth/google/callback`,
+  callbackURL: `${URL}/auth/google/callback`,
   passReqToCallback   : true
 },
 async function(request: any, accessToken: any, refreshToken: any, profile: any, done: any) {

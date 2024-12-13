@@ -144,7 +144,7 @@ const GameBoard: FC <GameBoardProp> = ({
     damage: 10,
     armor: 0,
     description: 'last-resort shield-to-phaser power conversion',
-    id: 666
+    id: 5
   }]
 
 /////////// discard a card /////////////////////////////////////////
@@ -204,10 +204,15 @@ if (playerHand.length <= 0){
                 theirPrevRound={theirPrevRound}
                 turnEnded={turnEnded}
             />
+
             </div>
+
             :
             // null
-            <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>LAST ROUND:</div>
+            <div>
+              <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>STATUS REPORT:</div>
+
+            </div>
             }
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
@@ -242,6 +247,10 @@ if (playerHand.length <= 0){
               enemyTurnEnd={enemyTurnEnd}
             />
           </div>
+
+          <div className='h-4'></div>
+          <div className='text-sm'>cards remaining: {gameDeck.length}</div>
+
         </div>
       </div>
 
@@ -363,6 +372,7 @@ if (playerHand.length <= 0){
                 setPlayerHand={setPlayerHand}
                 user={user}
                 activeLoading={activeLoading}
+                turnEnded={turnEnded}
               />
             );
           })}

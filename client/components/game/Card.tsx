@@ -20,13 +20,14 @@ interface CardProps {
   playerHand: any
   setPlayerHand: any
   user: any
+  turnEnded: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded }) => {
 
   const cardSelect = (card: CardType) =>{
 
-    console.log("CARD CLICKED: ", card)
+    // console.log("CARD CLICKED: ", card)
     setCardId(card.id)
 
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
@@ -37,14 +38,13 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
     // console.log("PLAYER HAND", playerHand)
 
     // setPlayerHand(playerHand.filter((handCard: { card_id: number; })=> handCard.card_id !== card.id))
-   
 
   }
 
   return (
     <div id='card' className='flex h-48 w-36' >
 
-    {playerAction === 'LOAD' && !activeLoading?
+    {playerAction === 'LOAD' && !turnEnded?
 
     <div
     onClick={()=>cardSelect(card)}
@@ -63,7 +63,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
           <strong>Defense:</strong> {card.armor}
         </p>
         <p className="text-black mb-1 text-sm">
-  <strong>Duration:</strong> {card.duration ? card.duration : 0}
+  <strong>Duration:</strong> {card.damage ? card.duration + 1 : card.duration}
 </p>
       </div>
       <p className="text-black text-sm text-center">{card.description}</p>
@@ -85,7 +85,7 @@ const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoadi
           <strong>Defense:</strong> {card.armor}
         </p>
         <p className="text-black mb-1 text-sm">
-  <strong>Duration:</strong> {card.duration ? card.duration : 0}
+  <strong>Duration:</strong> {card.duration}
 </p>
       </div>
       <p className="text-black text-sm text-center">{card.description}</p>

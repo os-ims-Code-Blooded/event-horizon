@@ -195,16 +195,32 @@ export default function GameController ({
    
     // console.log("*** CARD ID ***\n", cardId)
 
-    socket.emit('end_turn', {
-      "body":{
-        "data": {
-          "round_id": roundNum,
-          "user_id": user.id,
-          "action": playerAction,
-          "card_id": cardId,
-          "expedite": expediteState
-      }
-    }, session})
+    if (cardToPlay && cardToPlay[0] === 'Phaser Charge' && playerAction === "FIRE"){
+      socket.emit('end_turn', {
+        "body":{
+          "data": {
+            "round_id": roundNum,
+            "user_id": user.id,
+            "action": playerAction,
+            "card_id": 5,
+            "expedite": true
+        }
+      }, session})
+    } else {
+
+      socket.emit('end_turn', {
+        "body":{
+          "data": {
+            "round_id": roundNum,
+            "user_id": user.id,
+            "action": playerAction,
+            "card_id": cardId,
+            "expedite": expediteState
+        }
+      }, session})
+
+    }
+
   }
 
 
@@ -213,6 +229,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
+    
     if (playerHand.length === 0){
       setExpediteState(true);
     }
@@ -296,7 +313,7 @@ export default function GameController ({
 
       let theirHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
 
-      console.log("ENEMY'S HAND CARDS:", theirHand)
+      // console.log("ENEMY'S HAND CARDS:", theirHand)
       setEnemyHand(theirHand)
       setPlayerHand(myHand)
 

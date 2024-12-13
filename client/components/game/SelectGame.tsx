@@ -21,12 +21,13 @@ const socket = io("http://localhost:3000", {
   }
 });
 
-// const socket = io("http://ec2-18-226-17-160.us-east-2.compute.amazonaws.com:3000", {
+// const socket = io("https://eventhorizongame.live", {
 //   withCredentials: true,
 //   extraHeaders: {
 //     "my-custom-header": "abcd"
 //   }
 // });
+
 ////////////////////////////
 
 
