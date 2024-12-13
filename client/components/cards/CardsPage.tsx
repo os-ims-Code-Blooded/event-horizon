@@ -345,13 +345,13 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
               <div
                 key={deckCard.id}
-                className={`relative bg-white border border-slate-300 hover:scale-110 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 relative' 
+                className={`relative bg-white border border-slate-300 hover:scale-110 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 h-48 w-auto' 
                   ${
                     selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
                       : ""
                   }`}
-                style={{ flex: '0 0 25%', minWidth: "144px", aspectRatio: "3/4" }}
+                // style={{ flex: '0 0 25%', minWidth: "72px", aspectRatio: "3/4" }}
                 onClick={() => toggleDeckCardSelection(deckCard.id)}
               >
                 {/* Card Content */}
@@ -449,7 +449,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
               placeholder="Deck Name"
               value={newDeckName}
               onChange={(e) => setNewDeckName(e.target.value)}
-              className="w-full p-2 border border-slate-300 bg-slate-400 rounded-lg text-black mb-4 text-center"
+              className="w-full p-2 border gap-3 border-slate-300 bg-slate-400 rounded-lg text-black mb-4 text-center"
             />
             <button
               onClick={()=>{
@@ -478,7 +478,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
       </div>
 
-  <div className="flex-col flex justify-start" style={{ width: "50%"}}>
+  <div className="flex-col flex justify-start" style={{ width: "70%"}}>
     <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10">
 
       <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
@@ -490,16 +490,16 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
 
       {/* All Cards Section */}
-      <div className='h-auto justify-items-center justify-between z-10 relative'>
+      <div className='h-auto justify-items-center justify-between z-10 relative gap-3 w-full' style={{ minWidth: '70%',  }}>
         <h2 className="text-white text-xl mb-4 text-center z-10 relative">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-        <div className="grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 h-68 w-full max-w-screen-md gap-3 px-4 justify-start items-center z-10 relative" style={{ minWidth: '50%' }}>
+        <div className="grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 h-68 w-auto gap-3 px-4 justify-start items-center z-10 relative" style={{ aspectRatio: "3/4"  }}>
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
               <div
-              className={` border rounded-lg shadow-md flex flex-col h-48 w-36 items-center justify-between hover:scale-110 cursor-pointer 
+              className={` border rounded-lg shadow-md flex flex-col h-48 w-auto items-center justify-between hover:scale-110 cursor-pointer 
                   ${allSelectedCards.includes(card.id)
                   ? "bg-green-500 border-green-700"
                   : "bg-white border-slate-300"
@@ -548,7 +548,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
 
 
-    <div className="flex-col flex justify-end" style={{ width: "25%"}}></div>
+    <div className="flex-col flex justify-end" style={{ width: "5%"}}></div>
 
 
 
