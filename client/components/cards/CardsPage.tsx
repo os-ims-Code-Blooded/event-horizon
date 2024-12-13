@@ -290,7 +290,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 <div className='m-2 flex flex-col' style={{ width: "25%"}}>
 
   {/* Create New Deck */}
-<div className="text-center mt-8 pl-16 pt-24 z-10 relative flex flex-col gap-3 w-1/2 justify-center items-center justify-items-center">
+<div className="text-center mt-8 pt-24 z-10 relative flex flex-col gap-3 justify-center items-center justify-items-center" style={{width: "100%"}}>
         <button
           onClick={() => setShowNewDeckModal(true)}
           disabled={allSelectedCards.length === 0 || deckPoints > 200} // Disable if no cards selected OR if deck value above 200
@@ -484,6 +484,10 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
       <h1 className="font-extrabold text-text dark:text-darkText text-3xl text-center pt-8 pb-1 z-10 relative">Armory</h1>
       <div className="border-t-4 border-yellow-400 w-3/5 pb-5 z-10 relative"></div>
+
+
+
+
 
       {/* All Cards Section */}
       <div className='h-auto justify-items-center justify-between z-10 relative'>

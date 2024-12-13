@@ -45,7 +45,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         })
 
       }
-
+      return
       
     }
 

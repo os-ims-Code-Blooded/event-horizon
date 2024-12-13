@@ -104,7 +104,7 @@ export default function GameController ({
 
   const [selfDestruct, setSelfDestruct] = useState(false)
   
-  const [allCards, setAllCards] = useState([])
+  // const [allCards, setAllCards] = useState([])
 
   const [cardReplacement, setCardReplacement] = useState([])
 
@@ -195,19 +195,6 @@ export default function GameController ({
    
     // console.log("*** CARD ID ***\n", cardId)
 
-    if (cardToPlay && cardToPlay[0] === 'Phaser Charge' && playerAction === "FIRE"){
-      socket.emit('end_turn', {
-        "body":{
-          "data": {
-            "round_id": roundNum,
-            "user_id": user.id,
-            "action": playerAction,
-            "card_id": 5,
-            "expedite": true
-        }
-      }, session})
-    } else {
-
       socket.emit('end_turn', {
         "body":{
           "data": {
@@ -219,7 +206,7 @@ export default function GameController ({
         }
       }, session})
 
-    }
+
 
   }
 
@@ -351,8 +338,8 @@ export default function GameController ({
         if (enemyPrevRound[0]){
           // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
           
-          getAllCards();
-          // console.log("ALL CARDS?", allCards)
+          // getAllCards();
+          // // console.log("ALL CARDS?", allCards)
           
           
           
