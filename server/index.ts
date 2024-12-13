@@ -7,10 +7,9 @@ import path from 'path';
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from './database/index.ts';
-import http from 'http'
+import https from 'https';
 import cors from 'cors'
 import { Server } from 'socket.io'
-import { it } from 'node:test';
 import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
@@ -145,7 +144,7 @@ app.post('/api/logout', (req: AuthRequest, res) => {
 //////// WEBSOCKET ///////////////////////////
 
 //makes an http server with the express server
-const server = http.createServer(app)
+const server = https.createServer(app)
 
 //creates an io server using the http server made with the express server
 //I don't know why
