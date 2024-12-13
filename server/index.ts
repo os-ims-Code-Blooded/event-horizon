@@ -275,26 +275,19 @@ io.on('connection', (socket)=>{
 
   })
 
-////////////////////////////////////////
+
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
     console.log("data", data)
       io.in(session).emit('game_over', data)
 
   })
-//////////////////////////////////////////
-  //when a user disconnects
+
   socket.on('disconnect', () => {
-    // console.log('user disconnected');
-
     users = users.filter(user=>user!==sockId)
-    // console.log("USERS:", users)
-
     players = users.length;
-    // console.log("CURRENT PLAYERS CONNECTED:", players)
-
   });
 
 })
 
-///////////////////////////////////////////
+

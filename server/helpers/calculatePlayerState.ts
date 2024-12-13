@@ -19,8 +19,6 @@ export default function calculatePlayerState(players: any, updates: any, nextRou
 
   })
 
-  console.log("Players after damage/buffs added: ", updatedPlayers)
-
   updatedPlayers = players.map((player: any) => {
     const damageReceived = (player.armor <= 0) ? player.armor : 0;
     const newArmor = (player.armor > 0) ? player.armor : 0;
@@ -34,8 +32,6 @@ export default function calculatePlayerState(players: any, updates: any, nextRou
     }
 
   })
-
-  console.log("Players after calculations complete: ", updatedPlayers)
 
   return updatedPlayers;
 
