@@ -23,14 +23,14 @@ export default function ActionSelect({
         {activeLoading || turnEnded ? (
           <button
             value='BLOCK'
-            className='w-full aspect-square bg-gray border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
+            className='w-full aspect-square bg-gray border-slate-600 border-2 text-text dark:text-darkText font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
             <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
             value='BLOCK'
-            className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-blue-600'
+            className='w-full aspect-square bg-blue-600 hover:bg-blue-900 border-slate-600 border-2 text-text dark:text-darkText font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-blue-600'
             onClick={(e) => { actionClick(e) }}
           >
             <GiRosaShield style={{fontSize: 50, pointerEvents: "none"}} />
@@ -40,14 +40,14 @@ export default function ActionSelect({
         {turnEnded ? (
           <button
             value='LOAD'
-            className='w-full aspect-square bg-gray text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
+            className='w-full aspect-square bg-gray text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center overflow-hidden text-ellipsis'
           >
             <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}}/>
           </button>
         ) : (
           <button
             value='LOAD'
-            className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-black font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-yellow-300'
+            className='w-full aspect-square bg-yellow-300 hover:bg-yellow-600 border-slate-600 border-2 text-text dark:text-darkText font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-yellow-300'
             onClick={(e) => { actionClick(e) }}
           >
             <GiMachineGunMagazine style={{fontSize: 50, pointerEvents: "none"}} />
@@ -57,14 +57,14 @@ export default function ActionSelect({
         {activeLoading || turnEnded ? (
           <button
             value='FIRE'
-            className='w-full aspect-square bg-gray text-white font-bold text-xs border-slate-600 border-2 sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center'
+            className='w-full aspect-square bg-gray text-text dark:text-darkText font-bold text-xs border-slate-600 border-2 sm:text-sm md:text-base lg:text-lg rounded-full cursor-not-allowed flex justify-center items-center'
           >
             <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}} />
           </button>
         ) : (
             <button
               value='FIRE'
-              className='w-full aspect-square bg-red-600 hover:bg-red-900 text-white border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
+              className='w-full aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
               onClick={(e) => actionClick(e) }
             >
               <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>

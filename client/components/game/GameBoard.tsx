@@ -224,14 +224,14 @@ if (playerHand.length <= 0){
         <div className='' style={{height: "33%"}}>
           <div className='text-green-600 font-bold text-center pb-2'>{user.name}</div>
           <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
-            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 relative ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
-              <div className={`bg-blue-400 h-5 rounded-full text-center justify-items-center text-white text-sm pt-5 absolute inset-y-0 ${shieldBarShake ? 'animate-shake transition-all' : ''}`}
+            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative ${ armor === 0 ? 'animate-pulse' : ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
+              <div className={`bg-blue-400 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 absolute inset-y-0 ${shieldBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(armor/100) * 100}%` }}>
               </div>
               <div className='pl-4 h-5 justify-items-center flex-1 text-center whitespace-nowrap text-xs sm:text-sm inset-y-0 absolute'>{`Armor: ${armor}`}</div>
             </div>
-            <div className={`flex bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
-              <div className={`bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all ${healthBarShake ? 'animate-shake transition-all' : ''}`}
+            <div className={`flex bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
+              <div className={`bg-error h-5 rounded-full text-center justify-items-end text-text dark:text-darkText text-sm transition-all ${ hitPoints <= 25 ? 'animate-pulse' : ''} ${healthBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(hitPoints / 50) * 100}%` }}
               ></div>
               <div className='pl-4 h-4 flex-1 justify-items-center whitespace-nowrap justify-center text-center text-sm inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
@@ -389,12 +389,12 @@ if (playerHand.length <= 0){
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className={`bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
               <div
-                className={`bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all ${healthBarShake ? 'animate-shake transition-all' : ''}`}
+                className={`bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all ${enemyHitPoints <= 25 ? 'animate-pulse': ''}${healthBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
               </div>
               <div className='pl-4 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
             </div>
-            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
+            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative ${enemyArmor === 0 ? 'animate-pulse' :  ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
               <div
                 className={`bg-blue-400 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 absolute inset-y-0 transition-all ${shieldBarShake ? 'animate-shake transition-all' : ''}`}
                   style={{ width: `${(enemyArmor/100) * 100}%` }}>
