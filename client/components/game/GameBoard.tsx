@@ -368,6 +368,7 @@ if (playerHand.length <= 0){
                 setPlayerHand={setPlayerHand}
                 user={user}
                 activeLoading={activeLoading}
+                turnEnded={turnEnded}
               />
             );
           })}

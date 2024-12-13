@@ -287,7 +287,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   return (
     <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10 min-h-screen w-screen">
       <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
-      <h1 className="font-extrabold text-text dark:text-darkText text-3xl text-center pt-8 pb-1 z-10 relative">Cards Page</h1>
+      <h1 className="font-extrabold text-text dark:text-darkText text-3xl text-center pt-8 pb-1 z-10 relative">Armory</h1>
       <div className="border-t-4 border-yellow-400 w-3/5 pb-5 z-10 relative"></div>
       {/* All Cards Section */}
       <div className='h-auto w-screen justify-items-center z-10 relative'>
