@@ -285,7 +285,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
   /////////////////////////////////// RENDER /////////////////////////////////////////////////
   return (
-<div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen flex flex-row justify-center'>
+<div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen flex flex-row gap-4 justify-between'>
 
 <div className='m-2 flex flex-col' style={{ width: "25%"}}>
 
@@ -303,6 +303,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           Create New Deck
         </button>
       </div>
+
+      <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Card Values: {deckPoints}/200</h4>
 
 
  {/* Deck Buttons */}
@@ -335,7 +337,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           <h2 className="text-white text-xl mb-4 z-10 relative justify-between">
             Cards in {selectedDeck.deck_name}
           </h2>
-          <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 w-full max-w-screen-md gap-3 px-10 justify-start items-center z-10 relative " style={{ minWidth: '50%' }}>
+          <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full max-w-screen-md gap-1 justify-start items-center z-10 relative " style={{ minWidth: '70%' }}>
             
 
 
@@ -345,13 +347,14 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
               <div
                 key={deckCard.id}
-                className={`relative bg-white border border-slate-300 hover:scale-110 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 h-48 w-auto' 
+                className={`relative bg-white border border-slate-300 hover:scale-110 hover:z-20 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 h-48 w-32' 
                   ${
                     selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
                       : ""
                   }`}
-                // style={{ flex: '0 0 25%', minWidth: "72px", aspectRatio: "3/4" }}
+                style={{ flex: '0 0 25%', minWidth: "32px", aspectRatio: "3/4" }}
+                // style={{ minWidth: '70%' }}
                 onClick={() => toggleDeckCardSelection(deckCard.id)}
               >
                 {/* Card Content */}
@@ -490,20 +493,21 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
 
       {/* All Cards Section */}
-      <div className='h-auto justify-items-center justify-between z-10 relative gap-3 w-full' style={{ minWidth: '70%',  }}>
+      <div className='h-auto justify-items-center justify-between z-10 relative gap-3 w-full' style={{ minWidth: '70%'}}>
         <h2 className="text-white text-xl mb-4 text-center z-10 relative">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
-        <div className="grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 h-68 w-auto gap-3 px-4 justify-start items-center z-10 relative" style={{ aspectRatio: "3/4"  }}>
+        <div className="grid xl:grid-cols-8 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 h-48 w-min-32 gap-3 px-4 justify-start justify-items-center z-10 relative">
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
               <div
-              className={` border rounded-lg shadow-md flex flex-col h-48 w-auto items-center justify-between hover:scale-110 cursor-pointer 
+              className={` border rounded-lg shadow-md flex flex-col h-48 w-32 items-center justify-between hover:scale-110 cursor-pointer 
                   ${allSelectedCards.includes(card.id)
                   ? "bg-green-500 border-green-700"
                   : "bg-white border-slate-300"
                               }"`}
+                  // style={{  minWidth: '70%', maxWidth: '75%'}}
                   key={card.id}
                   onClick={() => toggleCardSelection(card.id)}
 
@@ -534,7 +538,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
       </div>
       {/* deck creation points counter */}
     <div>
-    <h4 className="text-text dark:text-darkText text-base mb-4 text-center z-10 relative">Current Card Values: {deckPoints}/200</h4>
+    
     </div>
 
 
