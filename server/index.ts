@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import database from './database/index.ts';
 import https from 'https';
+import http from 'http';
 import cors from 'cors'
 import { Server } from 'socket.io'
 import profile from './routes/user/profile.ts';
@@ -144,11 +145,17 @@ app.post('/api/logout', (req: AuthRequest, res) => {
 //////// WEBSOCKET ///////////////////////////
 
 //makes an http server with the express server
-const server = https.createServer(app)
+let server;
 
 //creates an io server using the http server made with the express server
 
 const URL = process.env.TEST_URL ? process.env.TEST_URL : `${CLIENT_URL}:${PORT}`
+
+if (process.env.TEST_URL) {
+  server = https.createServer(app);
+} else {
+  server = http.createServer(app);
+}
 
 const io = new Server(server, {
   cors: {
@@ -162,7 +169,7 @@ server.listen(PORT, () => {
     database.$connect()
         .then((connectionEstablished) => {
           console.log(`Prisma has connected to the database...`);
-          console.log("Server listening on Port",CLIENT_URL + ':' + PORT);
+          console.log("Server listening on: ",CLIENT_URL + ':' + PORT);
         })
         .catch((error) => {
           errorHandler(error);
