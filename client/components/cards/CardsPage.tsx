@@ -180,13 +180,6 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     
     try {
 
-
-      // await setAllSelectedCards(allSelectedCards.concat([666]))
-      // console.log("TRY BLOCK - ALL SELECTED CARDS", [allSelectedCards, 666].flat())
-      // let allCardsPlusPhaser = [allSelectedCards, 666].flat()
-      // setAllSelectedCards(allCardsPlusPhaser)
-
-
       await axios.post(`/profile/decks/${user.id}`, {
         data: {
           deck_name: newDeckName.trim(),
@@ -486,9 +479,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
             />
             <button
               onClick={()=>{
-                setAllSelectedCards(allSelectedCards.concat([666]))
                 createNewDeck()
-              
               }}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500 mr-2 pb-2"
             >
