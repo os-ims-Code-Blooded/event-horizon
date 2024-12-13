@@ -3,7 +3,7 @@ import { GiRosaShield } from "react-icons/gi";
 import { GiMachineGunMagazine } from "react-icons/gi";
 import { GiRocket } from "react-icons/gi";
 export default function ActionSelect({
-  playerAction, 
+  playerAction,
   enemyLastAction,
   cardToPlay,
   turnEnded,
