@@ -195,7 +195,7 @@ export default function GameController ({
    
     // console.log("*** CARD ID ***\n", cardId)
 
-    if (cardToPlay[0] === 'Phaser Charge' && playerAction === "FIRE"){
+    if (cardToPlay && cardToPlay[0] === 'Phaser Charge' && playerAction === "FIRE"){
       socket.emit('end_turn', {
         "body":{
           "data": {

@@ -180,6 +180,10 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
     
     try {
 
+      // console.log("TRY BLOCK - ALL SELECTED CARDS", [allSelectedCards, 5].flat())
+      // let allCardsPlusPhaser = [allSelectedCards, 5].flat()
+      // setAllSelectedCards(allCardsPlusPhaser)
+
       await axios.post(`/profile/decks/${user.id}`, {
         data: {
           deck_name: newDeckName.trim(),
