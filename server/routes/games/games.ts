@@ -17,7 +17,6 @@ games.get('/:id', async (req: AuthRequest, res) => {
       where: { user_id: Number(req.params.id) },
       include: { game: true}
     })
-    console.log("*** GAMES ***\n", games)
 
     const userHasOpenGame = games.reduce((accum, curr) => {
       if (curr.game.status === true) {
@@ -26,8 +25,6 @@ games.get('/:id', async (req: AuthRequest, res) => {
         return accum;
       }
     }, null)
-    
-    console.log("*** USER HAS OPEN GAMES ***\n", userHasOpenGame)
 
     if (!userHasOpenGame){
       res.sendStatus(404);
@@ -146,9 +143,6 @@ games.post('/', async (req: AuthRequest, res) => {
         return deckCard.userCards;
       }).flat();
 
-      console.log(`Deck cards found: `, getPlayerDeckCards);
-      console.log(`Mapped cards are: `, mapCards);
-
       let startingDeck; 
       let startingHand;
       
@@ -208,9 +202,6 @@ games.post('/', async (req: AuthRequest, res) => {
       const mapCards = getPlayerDeckCards.map((deckCard) => {
         return deckCard.userCards;
       }).flat();
-
-      console.log(`Deck cards found: `, getPlayerDeckCards);
-      console.log(`Mapped cards are: `, mapCards);
 
       let startingDeck; 
       let startingHand;

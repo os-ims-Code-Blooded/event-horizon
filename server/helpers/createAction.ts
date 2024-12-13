@@ -16,7 +16,9 @@ export default async function createAction(req: any){
 
       let newAction;
       // we create and store this action for later calculations
+
       if (req.body.data.expedite){
+        console.log(`Received an expedited request from client; card supplied by client was #${req.body.data.card_id} with no translation required.`)
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
@@ -27,6 +29,7 @@ export default async function createAction(req: any){
           }
         })
       } else {
+        console.log(`Received a normal request from client; card supplied by client was #${req.body.data.card_id} => #${findCardCorrelation.card.id}`)
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
@@ -50,7 +53,6 @@ export default async function createAction(req: any){
         }
       })
 
-      console.log(`createAction.ts : 11 | New action for User #${newAction.user_id} on Round #${newAction.round_id}; action type '${newAction.action}'.`);
       return newAction;
     }
   } catch (error) {

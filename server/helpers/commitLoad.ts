@@ -1,4 +1,5 @@
 import database from "../database/index.ts";
+import cards from "../routes/cards/cards.ts";
 import shuffle from "./shuffle.ts";
 
 
@@ -14,6 +15,8 @@ export default async function commitLoad(req: any, game: number, action: any){
 
 
     if (action.expedite && action.card.expedite) {
+
+      console.log(`Processing an expedited load request for user #${action.user_id} with card #${action.card_id}.`)
 
       await database.actions_Loaded.deleteMany({
         where: { user_id: action.user_id }
@@ -102,9 +105,6 @@ export default async function commitLoad(req: any, game: number, action: any){
         let localDeckState: any = userDeck.deck;
         let localHandState: any = userDeck.hand;
 
-        console.log(`Current Deck for user #${action.user_id}: `, localDeckState);
-        console.log(`Current Hand for user #${action.user_id}: `, localHandState);
-
         // add the card back to the deck
         if (Array.isArray(localDeckState)) {
           localDeckState.push(card)
@@ -113,12 +113,8 @@ export default async function commitLoad(req: any, game: number, action: any){
         // filter hand to find the card that we are deleting, and exlcude it
         if (Array.isArray(localHandState)){
           localHandState = localHandState.filter((card) => card.card_id !== action.card_id) // removes the card for this turn from the hand
-          console.log(`Card #${action.card_id} has been removed from the hand: `, localHandState);
           localHandState.push(shuffle(localDeckState).pop());                           // push a random card to the hand
         }
-
-        console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
-        console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
 
         // update the stored deck with parsedDeck being turned back into a string
         const updatesComplete = await database.game_Card_States.updateMany({
@@ -134,7 +130,6 @@ export default async function commitLoad(req: any, game: number, action: any){
           }
         })
 
-        console.log(`Updated card states for user #${action.user_id}: `, updatesComplete);
         
         // create the damage action to store in actions_Loaded
         const damageAction = await database.actions_Loaded.create({
@@ -227,9 +222,6 @@ export default async function commitLoad(req: any, game: number, action: any){
         }
       }
 
-      console.log(`Updated Deck for user #${action.user_id}: `, localDeckState);
-      console.log(`Updated Hand for user #${action.user_id}: `, localHandState);
-
       // update the stored deck with these changes
       const updatesComplete = await database.game_Card_States.updateMany({
         where: {
@@ -252,8 +244,6 @@ export default async function commitLoad(req: any, game: number, action: any){
           card:   { connect: { id: action.card_id}},
         }
       })
-
-      console.log(`commitLoad.ts : 38 | Defensive Card #${defensiveAction.card_id} added as an effect for User #${defensiveAction.user_id} on Game #${defensiveAction.game_id} - Round #${defensiveAction.round_id}.`);
 
     }
 

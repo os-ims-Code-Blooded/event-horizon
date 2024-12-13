@@ -213,7 +213,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
 
       // create an array of only the card IDs from the previous pull
       let validationCheck = validationPull.map((card:any) => card.card_id);
-      console.log("***VALIDATION CHECK***", validationCheck)
+
       safetyCheck = safetyCheck.reduce((accum: any, curr: any) => {
         // if the deck does not include the card that we are deleting
         if (!validationCheck.includes(curr)){

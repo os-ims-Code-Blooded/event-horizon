@@ -21,7 +21,7 @@ profile.use('/settings', settings);
 profile.get('/:id', async (req: AuthRequest, res) => {
 
   try {
-    console.log('User fetch server', req.user);
+
     // if no user specified
     if (!req.params.id){
       res.sendStatus(203);
@@ -88,7 +88,7 @@ profile.get('/', async (req: AuthRequest, res) => {
 })
 
 profile.get('/top-scores/:id', async (req: AuthRequest, res) => {
-  // console.log('REQ', req);
+
   try {
     //find top 10 users sorted by highest score
     const topUsers = await database.user.findMany({
@@ -98,7 +98,7 @@ profile.get('/top-scores/:id', async (req: AuthRequest, res) => {
         },
       take: 10,
     });
-    // console.log('Top users', topUsers);
+
     // check if any users are returned
     if (!topUsers || topUsers.length === 0) {
       res.sendStatus(404);
@@ -196,7 +196,7 @@ profile.delete('/:id', async (req: AuthRequest, res) => {
 
 profile.patch('/:id', async (req: AuthRequest, res) => {
   try {
-    console.log('req bod', req.body);
+
     // if no patch specified, indicate nothing received
     if (!req.body){
       res.sendStatus(203);
@@ -211,7 +211,7 @@ profile.patch('/:id', async (req: AuthRequest, res) => {
         },
         data: data
       })
-      console.log('user updated?', user);
+
       res.status(200).send(user);
 
     }
