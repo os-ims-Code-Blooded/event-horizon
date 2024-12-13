@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import Card from '../game/Card.tsx';
 
 type Deck = {
   id: number;
@@ -297,28 +298,40 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           {allCards.length > 0 ? (
             allCards.map((card) => (
 
-              <div
-                key={card.id}
-                onClick={() => toggleCardSelection(card.id)}
-                style={{ flex: '0 0 25%', minWidth: "120px", aspectRatio: "3/4" }}
-                className={`relative border rounded-lg pt-3 pb-3 mx-1 my-1 shadow-lg flex flex-col justify-items-center text-black text-center cursor-pointer flex-shrink-0 z-10 ${
-                  allSelectedCards.includes(card.id)
-                    ? "bg-green-500 border-green-700"
-                    : "bg-white border-slate-300"
-                }`}
-              >
-                <div className="font-semibold pb-1 z-10 relative">{card.name}</div>
-                <div className="px-1 z-10 relative">{card.image_url || "IMAGE"}</div>
-                <div className="pt-4 text-sm z-10 relative">{card.description}</div>
-                <div className="absolute bottom-0 right-0 left-0 flex z-10 flex-row justify-between px-1">
-                  <div className="p-1 z-10 relative">
-                    <strong>ATK:</strong> {card.damage}
+
+
+
+
+
+              <div 
+              className={` border rounded-lg shadow-md flex flex-col h-48 w-36 items-center justify-between hover:scale-110 cursor-pointer 
+                  ${allSelectedCards.includes(card.id)
+                  ? "bg-green-500 border-green-700"
+                  : "bg-white border-slate-300"
+                              }"`}
+                  key={card.id}
+                  onClick={() => toggleCardSelection(card.id)}
+                  
+                  >
+
+                    <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
+
+                    <div className="text-center">
+                      <div>`IMAGE`</div>
+                      <p className="text-black mb-1 text-sm">
+                        <strong>Attack:</strong> {card.damage}
+                      </p>
+                      <p className="text-black mb-1 text-sm">
+                        <strong>Defense:</strong> {card.armor}
+                      </p>
+                      <p className="text-black mb-1 text-sm">
+                <strong>Duration:</strong> {card.duration ? card.duration : 0}
+              </p>
+                    </div>
+                    <p className="text-black text-xs text-center">{card.description}</p>
                   </div>
-                  <div className="p-1 z-10 relative">
-                    <strong>AMR:</strong> {card.armor}
-                  </div>
-                </div>
-              </div>
+
+
 
             ))
           ) : (
@@ -446,9 +459,6 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
             Add Selected Cards to {selectedDeck.deck_name}
           </button>
         }
-
-
-
         </div>
       )}
 
@@ -468,6 +478,11 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           Create New Deck
         </button>
       </div>
+
+
+
+
+
       {/* New Deck Modal */}
 
       {showNewDeckModal && (
