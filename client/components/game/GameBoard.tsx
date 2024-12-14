@@ -73,6 +73,10 @@ type GameBoardProp = {
   healthBarShake: Boolean
   volume: any
   playCardSFX: any
+  playSwitchSFX: any
+  roundSoundsPlayed: any
+  setRoundSoundsPlayed: any
+  soundVolume: any
 
 }
 
@@ -135,7 +139,11 @@ const GameBoard: FC <GameBoardProp> = ({
   shieldBarShake,
   volume,
 
-  playCardSFX
+  playCardSFX,
+  playSwitchSFX,
+  roundSoundsPlayed,
+  setRoundSoundsPlayed,
+  soundVolume
 
 }) => {
 
@@ -211,6 +219,9 @@ if (playerHand.length <= 0){
                 myPrevRound={myPrevRound}
                 theirPrevRound={theirPrevRound}
                 turnEnded={turnEnded}
+                setRoundSoundsPlayed={setRoundSoundsPlayed}
+                roundSoundsPlayed={roundSoundsPlayed}
+                soundVolume={soundVolume}
                 volume={volume}
             />
 
@@ -455,7 +466,13 @@ if (playerHand.length <= 0){
            }
 
            <label className="inline-flex items-center cursor-pointer justify-between pb-4">
-           <input type="checkbox" value={selfDestruct} className="sr-only peer " onClick={()=>{setSelfDestruct(!selfDestruct)}}/>
+           <input type="checkbox" 
+           value={selfDestruct} className="sr-only peer " 
+           onClick={()=>{
+
+            playSwitchSFX()
+            setSelfDestruct(!selfDestruct)
+            }}/>
              <div className="relative w-11 h-6 pb-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
              <span className="ms-3 text-sm font-medium text-white dark:text-white">ARM SELF DESTRUCT</span>
            </label>

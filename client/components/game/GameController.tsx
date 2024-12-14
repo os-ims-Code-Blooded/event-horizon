@@ -11,6 +11,8 @@ import shieldcharge from '../../sfx/shieldcharge.wav'
 import committurn from '../../sfx/committurn.wav'
 import loadclack from '../../sfx/loadclack.wav'
 import cardsnap from '../../sfx/cardsnap.wav'
+import toggleswitch from '../../sfx/toggleswitch.wav'
+import selfdestruct from '../../sfx/selfdestruct.wav'
 
 //creates front-end socket connection to the server
 // const socket = io("http://localhost:8080", {
@@ -132,12 +134,18 @@ export default function GameController ({
   const [healthBarShake, setHealthBarShake] = useState(false);
   const [shieldBarShake, setShieldBarShake] = useState(false);
 
+  const [roundSoundsPlayed, setRoundSoundsPlayed] = useState(false)
+
+  const [soundVolume, setSoundVolume] = useState(0.3)
+
   ///////////////// SFX ////////////////////////////////////
-  const [playFireSFX] = useSound(whooshpew, {volume: 0.3});
-  const [playBlockSFX] = useSound(shieldcharge, {volume: 0.3});
-  const [endTurnSFX] = useSound(committurn, {volume: 0.3});
-  const [playLoadSFX] = useSound(loadclack, {volume: 0.3});
-  const [playCardSFX] = useSound(cardsnap, {volume: 0.3});
+  const [playFireSFX] = useSound(whooshpew, {volume: soundVolume});
+  const [playBlockSFX] = useSound(shieldcharge, {volume: soundVolume});
+  const [endTurnSFX] = useSound(committurn, {volume: soundVolume});
+  const [playLoadSFX] = useSound(loadclack, {volume: soundVolume});
+  const [playCardSFX] = useSound(cardsnap, {volume: soundVolume});
+  const [playSwitchSFX] = useSound(toggleswitch, {volume: soundVolume});
+  const [playDestructSFX] = useSound(selfdestruct, {volume: soundVolume});
 
 
 
@@ -154,6 +162,9 @@ export default function GameController ({
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
+
+    setRoundSoundsPlayed(true)
+
     console.log("click value", e.target.value)
 
     if (e.target.value === "FIRE"){
@@ -195,6 +206,7 @@ export default function GameController ({
     try{
 
       if (selfDestruct){
+        playDestructSFX()
 
         let gameOver = await axios.patch(`/games/${session}`, {
 
@@ -218,6 +230,7 @@ export default function GameController ({
 
 //////////// END TURN ////////////////////////////////
   const endTurn = async () =>{
+    setRoundSoundsPlayed(true)
     endTurnSFX()
 
     //send patch request to server with stringified hand and 
@@ -267,6 +280,8 @@ export default function GameController ({
     })
 
     socket.on('received_rounds_data', (data: any) => {
+
+      setRoundSoundsPlayed(true)
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
@@ -341,17 +356,21 @@ export default function GameController ({
       }
 
       if (data.Current){
+
+        setRoundSoundsPlayed(false)
+
+
         let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
         let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
         let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
-        
+
         setEnemyLastAction(enemyPrevRound[0].action)
         setMyPrevRound(playerPrevRound);
         setTheirPrevRound(enemyPrevRound);
-        
-        
+
+
         // if (enemyPrevRound.length > playerPrevRound.length){
       //   setEnemyWaiting(true)
       // }
@@ -361,28 +380,28 @@ export default function GameController ({
         // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
-      
-      
-      
+
+
+
       if (enemyPrevRound[0].action === 'FIRE'){
         // console.log("FIRED!!!")
         setEnemyArmed(false)
-        if (enemyPrevRound[0]){
-          // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
-          
-          // getAllCards();
-          // // console.log("ALL CARDS?", allCards)
-          
-          
-          
-        }
+        // if (enemyPrevRound[0]){
+        //   // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
+
+        //   // getAllCards();
+        //   // // console.log("ALL CARDS?", allCards)
+
+
+
+        // }
       }
-      
-      
-      if (enemyPrevRound[0].action === 'FIRE'){
-          // console.log("FIRED!!!")
-          setEnemyArmed(false)
-        }
+
+
+      // if (enemyPrevRound[0].action === 'FIRE'){
+      //     // console.log("FIRED!!!")
+      //     setEnemyArmed(false)
+      //   }
 
         //checks if both players have committed a turn for this round
 
@@ -515,6 +534,10 @@ export default function GameController ({
           shieldBarShake={shieldBarShake}
 
           playCardSFX={playCardSFX}
+          playSwitchSFX={playSwitchSFX}
+          setRoundSoundsPlayed={setRoundSoundsPlayed}
+          roundSoundsPlayed={roundSoundsPlayed}
+          soundVolume={soundVolume}
           volume={volume}
           />
     </div>

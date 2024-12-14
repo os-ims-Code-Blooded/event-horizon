@@ -1,12 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
 import FxText from './FxText';
+import useSound from 'use-sound';
+
+import gameover from '../../sfx/gameover.wav'
+import youwin from '../../sfx/youwin.wav'
+
+
 
 export default function GameOver ({
   gameWinner,
   user,
   volume
 }){
+
+  const [playGameOverSFX] = useSound(gameover, {volume: 0.3});
+  const [playYouWinSFX] = useSound(youwin, {volume: 0.3});
+
 
 
 
@@ -31,10 +41,10 @@ export default function GameOver ({
             volume={volume}
             />
 
-            <h1 className='test-lg'>victory is yours</h1>
-            
-            {/* <br></br>
-            <br></br>
+        <h1 className='test-lg'>victory is yours {playYouWinSFX()}</h1>
+        
+        {/* <br></br>
+        <br></br>
 
             <button className='p-4 bg-orange-500'>Rematch</button>
 
@@ -53,15 +63,16 @@ export default function GameOver ({
 
     :
 
-    <div className='mt-15 p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white h-full '>
-    <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
-      <br></br>
-      <br></br>
-      <h1 className='text-xl'>GAME OVER BRUV</h1>
-      <h1 className='test-lg'>all is lost</h1>
-      
-      {/* <br></br>
-      <br></br>
+<div className='mt-15 p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white h-full '>
+<div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
+  <br></br>
+  <br></br>
+  <h1 className='text-xl'>GAME OVER BRUV</h1>
+
+  <h1 className='test-lg'>all is lost  {playGameOverSFX()}</h1>
+  
+  {/* <br></br>
+  <br></br>
 
       <button className='p-4 bg-orange-500'>Rematch</button>
 
