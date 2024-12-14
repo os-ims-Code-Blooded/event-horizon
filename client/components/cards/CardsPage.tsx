@@ -484,7 +484,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   <div className="flex-col flex justify-start" style={{ width: "70%"}}>
     <div className="grid-cols-3 sm:grid-cols-1 md:grid-cols-2 justify-items-center pt-10">
 
-      <div className='bg-starfield-light dark:bg-starfield inset-0 absolute z-9'></div>
+      <div className='bg-starfield-light dark:bg-starfield h-[200vh] inset-0 absolute z-9'></div>
       <h1 className="font-extrabold text-text dark:text-darkText text-3xl text-center pt-8 pb-1 z-10 relative">Armory</h1>
       <div className="border-t-4 border-yellow-400 w-3/5 pb-5 z-10 relative"></div>
 
@@ -494,7 +494,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
       {/* All Cards Section */}
       <div className='h-auto justify-items-center justify-between z-10 relative gap-3 w-full' style={{ minWidth: '70%'}}>
-        <h2 className="text-white text-xl mb-4 text-center z-10 relative">All Cards</h2>
+        <h2 className="text-text dark:text-darkText text-xl mb-4 text-center z-10 relative">All Cards</h2>
         <ToastContainer position="bottom-right" />
 
         <div className="grid xl:grid-cols-8 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 h-48 w-min-32 gap-3 px-4 justify-start justify-items-center z-10 relative">
@@ -532,7 +532,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
             ))
           ) : (
-            <p className="text-slate-300 z-10 relative">No cards available.</p>
+            <p className="text-text dark:text-darkText z-10 relative">No cards available.</p>
           )}
         </div>
       </div>
