@@ -6,6 +6,7 @@ export default async function createAction(req: any){
 
     const cardSubmission = req.body.data.card_id ? req.body.data.card_id : null;
     
+    // new code block checks if player already has an action for this round
     const actionExists = await database.actions.findFirst({
       where: {
         AND: [
@@ -14,7 +15,8 @@ export default async function createAction(req: any){
         ]
       }
     })
-    
+
+    // moved outside of code blocks for ease of access
     let newAction;
 
     if (cardSubmission){
