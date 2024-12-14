@@ -1,0 +1,62 @@
+import React, { FC, useEffect, useState } from 'react';
+
+const GameplayOverview = () => {
+
+  return (
+    <div id='gameplayOverview' style={{ width: "80%"}}>
+      <span>
+        <p>
+          Event Horizon is a turn-based card battling game; each player is allowed one action per every turn (round). Whenever a player starts a game, 
+          they begin with 50 Hull Integrity and 20 Armor on the first round. As players receive damage, these values will decrement 
+          and will eventually become reduced to zero (0). An example of this information can be viewed below!
+        </p>
+      </span>
+
+      <div className='justify-center items-center justify-items-center pt-4 pb-4'>
+        <div style={{height: "33%", width: "66%"}}>
+          <div className='text-green-600 font-bold text-center pb-2'>Player One</div>
+            <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
+              
+              <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative`}>
+                <div className={`bg-blue-400 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 absolute inset-y-0`} style={{ width: `${(20/100) * 100}%`, minWidth: '40%' }}></div>
+                <div className='pl-4 h-5 justify-items-center flex-1 text-center whitespace-nowrap text-xs sm:text-sm inset-y-0 absolute'>{`Armor: ${20}`}</div>
+              </div>
+
+              <div className={`flex bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm`}>
+                <div className={`bg-error h-5 rounded-full text-center justify-items-end text-text dark:text-darkText text-sm transition-all`} style={{ width: `${(50 / 50) * 100}%`, minWidth: '40%' }}></div>
+                <div className='pl-4 h-4 flex-1 justify-items-center whitespace-nowrap justify-center text-center text-sm inset-y-0 absolute'>{`Hull Integrity: ${50} / 50`}</div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <span>
+        <p>
+          Your goal is to try to survive, and defeat your enemy! We have established visual indicators for the health bars that we have shown above. 
+          Whenever you take damage to your armor or health, those bars will briefly shake. If you aren't sure what happened on the previous round, you can
+          look at your enemy's munition status to see what card they used against you on the previous turn. If this still isn't clear, you may also look at
+          the combat log (in the top left of your screen) to see what actions were taken on the previous round!
+        </p>
+      </span>
+
+      <div className='justify-center items-center justify-items-center pt-4 pb-4'>
+        <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>
+        <p>STATUS REPORT:</p>
+        <p>You fired on Player Two's vessel for 10 damage.</p>
+        <p>Player Two upgraded their armor!</p>
+        </div>
+      </div>
+
+      <span>
+        <p>
+          We recommend that new players also read about basic game mechanics, so that they are aware of their options when playing the game. There's more to
+          your strategy than just playing a card, and what you choose to do on a round can make a significant difference!
+        </p>
+      </span>
+
+    </div>
+  )
+
+}
+
+export default GameplayOverview;
