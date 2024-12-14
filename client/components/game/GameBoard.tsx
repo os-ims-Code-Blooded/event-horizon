@@ -77,6 +77,7 @@ type GameBoardProp = {
   roundSoundsPlayed: any
   setRoundSoundsPlayed: any
   soundVolume: any
+  
 
 }
 

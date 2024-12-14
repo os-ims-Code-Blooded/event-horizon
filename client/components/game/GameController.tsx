@@ -128,7 +128,6 @@ export default function GameController ({
   const [myPrevRound, setMyPrevRound] = useState([])
   const [theirPrevRound, setTheirPrevRound] = useState([])
 
-  const [prevEnemyCardData, setPrevEnemyCardData] = useState([])  
 
   // EFFECTS
   const [healthBarShake, setHealthBarShake] = useState(false);
@@ -136,16 +135,18 @@ export default function GameController ({
 
   const [roundSoundsPlayed, setRoundSoundsPlayed] = useState(false)
 
-  const [soundVolume, setSoundVolume] = useState(0.3)
+  const [soundVolume, setSoundVolume] = useState(volume.volume)
+
+  console.log("VOLUME!!!!!!!!!!", volume)
 
   ///////////////// SFX ////////////////////////////////////
-  const [playFireSFX] = useSound(whooshpew, {volume: soundVolume});
-  const [playBlockSFX] = useSound(shieldcharge, {volume: soundVolume});
-  const [endTurnSFX] = useSound(committurn, {volume: soundVolume});
-  const [playLoadSFX] = useSound(loadclack, {volume: soundVolume});
-  const [playCardSFX] = useSound(cardsnap, {volume: soundVolume});
-  const [playSwitchSFX] = useSound(toggleswitch, {volume: soundVolume});
-  const [playDestructSFX] = useSound(selfdestruct, {volume: soundVolume});
+  const [playFireSFX] = useSound(whooshpew, volume);
+  const [playBlockSFX] = useSound(shieldcharge, volume);
+  const [endTurnSFX] = useSound(committurn, volume);
+  const [playLoadSFX] = useSound(loadclack, volume);
+  const [playCardSFX] = useSound(cardsnap, volume);
+  const [playSwitchSFX] = useSound(toggleswitch, volume);
+  const [playDestructSFX] = useSound(selfdestruct, volume);
 
 
 
@@ -261,6 +262,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
+     console.log("--------->>> VOLUME <<<---------", volume)
     
     if (playerHand.length === 0){
       setExpediteState(true);

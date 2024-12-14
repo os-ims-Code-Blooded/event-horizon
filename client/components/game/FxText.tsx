@@ -25,13 +25,13 @@ export default function FxText({
 }){
 
 
-  const [playTakeHitSFX] = useSound(takehit, {volume: soundVolume});
-  const [playEnemyAlertSFX] = useSound(enemyalert, {volume: soundVolume});
-  const [playLandHitSFX] = useSound(landhit, {volume: soundVolume});
-  const [playEnemyBlockSFX] = useSound(enemyblock, {volume: soundVolume});
-  const [playBlockSFX] = useSound(blockhit, {volume: soundVolume});
-  const [playDefaultHitSFX] = useSound(defaulthit, {volume: soundVolume});
-  const [playFreeShieldSFX] = useSound(freeshield, {volume: soundVolume});
+  const [playTakeHitSFX] = useSound(takehit, volume);
+  const [playEnemyAlertSFX] = useSound(enemyalert, volume);
+  const [playLandHitSFX] = useSound(landhit, volume);
+  const [playEnemyBlockSFX] = useSound(enemyblock, volume);
+  const [playBlockSFX] = useSound(blockhit, volume);
+  const [playDefaultHitSFX] = useSound(defaulthit, volume);
+  const [playFreeShieldSFX] = useSound(freeshield, volume);
 
 
   useEffect(()=>{
