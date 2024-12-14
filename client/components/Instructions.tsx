@@ -34,10 +34,10 @@ const Instructions: FC<InstructionProps> = ({user }) => {
     <div id='main' className='pt-20 justify-center items-center justify-items-center bg-starfield-light dark:bg-starfield'>
 
       {/* This section only handles the "Tabs" view and selection */}
-      <div id='tabs-selection' className='text-white'>
+      <div id='tabs-selection' className='text-text dark:text-darkText'>
         {
           tabs.map((tab) => (
-            <button key={tab.id} className={`pl-3 pr-3 ${currentTab === tab.id ? 'animate-pulse bg-yellow-300 text-black' : 'text-white'}`} onClick={() => setCurrentTab(tab.id)}>
+            <button key={tab.id} className={`pl-3 pr-3 ${currentTab === tab.id ? 'animate-pulse bg-yellow-300 text-black' : 'text-text dark:text-darkText'}`} onClick={() => setCurrentTab(tab.id)}>
               {tab.label}
             </button>
           ))
