@@ -6,6 +6,7 @@ type LandingProps = {
   handleLogin: Function;
   isDarkMode: Boolean;
   isCbMode: Boolean;
+  volume: any;
 };
 
 const LandingPage: FC<LandingProps> = ({ user, handleLogin, isDarkMode, isCbMode}) => {

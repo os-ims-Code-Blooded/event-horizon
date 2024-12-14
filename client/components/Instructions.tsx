@@ -7,6 +7,7 @@ import PostGameOverview from './instructions/PostGameOverview';
 
 type InstructionProps = {
   user: Object | null;
+  volume: any;
 };
 
 const Instructions: FC<InstructionProps> = ({user }) => {

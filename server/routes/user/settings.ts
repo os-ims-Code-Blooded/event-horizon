@@ -97,6 +97,7 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
     }
 
     if(req.body.data.sfx_volume){
+      console.log(req.body.data);
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { sfx_volume: req.body.data.sfx_volume }

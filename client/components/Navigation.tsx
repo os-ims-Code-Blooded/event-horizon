@@ -3,21 +3,53 @@ import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 type NavProps = {
-  user: Object | null;
+  user: any;
   toggleDarkMode: () => void;
   handleLogin: Function;
   cbMode: () => void;
   isDarkMode: Boolean;
+  volume: any;
+  fetchUser: () => void;
+  setVolume: any;
 };
 
-const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({setVolume, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
+  const [tempVolume, setTempVolume] = useState({volume: 0.5})
+ 
 
-  // Toggle volume slider
-  const handleVolumeButtonClick = () => {
+  const toggleVolSlider = () => {
     setIsSliderOpen(!isSliderOpen)
+  }
+
+  // Handle slider value change
+   const handleSliderChange = (event: any) => {
+    const newVolume = parseFloat(event.target.value)
+    console.log(newVolume);
+    console.log(tempVolume);
+    setTempVolume({volume: newVolume})
+  }
+
+  const handleConfirmVolume = async () => {
+    setVolume({volume: tempVolume })
+    if(!user){
+      setIsSliderOpen(false);
+      return;
+    }
+
+    try {
+      await axios.patch(`/profile/settings/${user.id}`, {
+        data: {
+         sfx_volume: tempVolume.volume,
+        }
+      });
+      fetchUser();
+    } catch (error) {
+      console.error('Error updating volume:', error)
+    }
+    setIsSliderOpen(false);
   }
 
   const handleLogout = () => {
@@ -141,7 +173,42 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
 
       {/* Theme Toggle Buttons */}
       <div className="flex items-center space-x-2">
-        <button onClick={toggleDarkMode} className="hover:text-blue-600">
+        {/* Volume button */}
+        <button
+          onClick={toggleVolSlider}
+          className="p-2 bg-fifth dark:bg-third rounded-full dark:hover:bg-purple-400 hover:bg-orange-500 transition-all"
+        >
+          🔊
+        </button>
+
+        {isSliderOpen && (
+          <div className="absolute right-[10px] top-full mt-2 w-40 bg-fifth items-center justify-center justify-items-center dark:!bg-third text-text p-2 shadow-text dark:shadow-darkText rounded-lg shadow-sm ">
+            <h3 className="font-semibold mb-2 text-text dark:text-darkText">Adjust Volume</h3>
+
+            {/* Volume slider */}
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.10"
+              value={tempVolume.volume}
+              onChange={handleSliderChange}
+              className="w-full h-2 bg-orange-300 dark:bg-purple-300 rounded-lg appearance-none cursor-pointer"
+            />
+            <span className='pl-14 font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
+
+            <div className="flex justify-between items-center mt-3">
+              {/* Confirm button */}
+              <button
+                onClick={handleConfirmVolume}
+                className="bg-green-500 text-text dark:text-darkText px-3 py-1 rounded-lg hover:bg-green-600 transition-all"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        )}
+        <button onClick={toggleDarkMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 rounded-full">
           {isDarkMode ?
             <svg data-toggle-icon="moon" className="w-3.5 h-3.5 " xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
               <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"></path>
@@ -151,7 +218,7 @@ const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user,
           </svg>
         }
         </button>
-        <button onClick={cbMode} className="hover:text-blue-600">
+        <button onClick={cbMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 rounded-full">
           👁️
         </button>
       </div>
