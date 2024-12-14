@@ -56,6 +56,18 @@ module.exports = {
           'postcss-loader'
         ],
       },
+      {
+        test: /\.wav$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash].[ext]',
+              outputPath: 'assets/audio'
+            }
+          }
+        ]
+      }
     ]
   }
 };

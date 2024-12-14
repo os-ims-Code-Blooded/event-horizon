@@ -3,9 +3,8 @@
 module.exports = {
   content: [
     './client/**/*.html',
-    './client/**/*.js',
+    // './client/**/*.js',
     './client/**/*.jsx',
-    './client/**/*.ts',
     './client/**/*.tsx',
     './node_modules/react-toastify/dist/ReactToastify.css',
   ],

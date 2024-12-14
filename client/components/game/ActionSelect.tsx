@@ -2,6 +2,8 @@ import React from 'react';
 import { GiRosaShield } from "react-icons/gi";
 import { GiMachineGunMagazine } from "react-icons/gi";
 import { GiRocket } from "react-icons/gi";
+import useSound from 'use-sound';
+
 export default function ActionSelect({
   playerAction,
   enemyLastAction,
@@ -65,7 +67,10 @@ export default function ActionSelect({
             <button
               value='FIRE'
               className='w-full aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
-              onClick={(e) => actionClick(e) }
+              onClick={(e) => {
+                actionClick(e);
+                FireSFX();
+              }}
             >
               <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>
             </button>
