@@ -7,9 +7,10 @@ type LandingProps = {
   isDarkMode: Boolean;
   isCbMode: Boolean;
   volume: any;
+  click13: any;
 };
 
-const LandingPage: FC<LandingProps> = ({ user, handleLogin, isDarkMode, isCbMode}) => {
+const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode, isCbMode}) => {
 
   return (
     <div className='pt-15 max-h-screen' aria-label="Landing Page">
@@ -29,6 +30,7 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin, isDarkMode, isCbMode
               <div className="w-28 h-28 rounded-full bg-slate-700 relative z-10">
                   <Link
                   to="/title-menu"
+                  onClick={click13}
                   type="button"
                   className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center font-semibold text-center dark:hover:bg-slate-300 hover:bg-green-700"
                   aria-label="Go to Title Menu and start playing"
@@ -50,7 +52,11 @@ const LandingPage: FC<LandingProps> = ({ user, handleLogin, isDarkMode, isCbMode
                   <Link
                   to="/login"
                   type="button"
-                  onClick={() => handleLogin()}
+                  onClick={() => {
+                    click13();
+                    handleLogin();
+
+                  }}
                   className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center font-semibold text-center dark:hover:bg-slate-300 hover:bg-green-700"
                   aria-label="Sign Up or Login"
                 >

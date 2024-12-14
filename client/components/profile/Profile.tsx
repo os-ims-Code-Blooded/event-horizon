@@ -6,9 +6,11 @@ type ProfileProps = {
   user: any;
   fetchUser: Function;
   volume: any;
+  click13: any;
+  click6: any;
 };
 
-const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
+const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
 
   return (
     <div className="text-white min-h-screen h-full flex items-center justify-center pb-5"
@@ -26,6 +28,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
             <Link
               type="button"
               to="/settings"
+              onClick={click13}
               replace={true}
               aria-label="Go to Settings"
               className="absolute inset-0 m-auto w-32 h-32 z-10 bg-neutral dark:bg-slate-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:bg-slate-300"
@@ -37,6 +40,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
             <Link
               type="button"
               to="/leaderboard"
+              onClick={click13}
               replace={true}
               aria-label="Go to Leaderboard"
               className="absolute inset-0 m-auto w-32 z-10 h-32 bg-fourth dark:bg-blue-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:bg-slate-300"
@@ -47,6 +51,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
           <div className="w-36 h-36 rounded-full bg-slate-700 z-10 relative">
             <Link
               type="button"
+              onClick={click13}
               to="/friends"
               replace={true}
               aria-label="Go to Friends"
@@ -58,6 +63,7 @@ const Profile: FC<ProfileProps> = ({user, fetchUser}) => {
           <div className="w-36 h-36 rounded-full z-10 bg-slate-700 relative">
             <Link
               type="button"
+              onClick={click13}
               to="/cards"
               replace={true}
               aria-label="Go to Cards"
