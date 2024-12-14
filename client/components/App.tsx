@@ -16,7 +16,6 @@ import CardsPage from './cards/CardsPage.tsx';
 import Settings from './profile/Settings.tsx';
 import axios from 'axios';
 import useSound from 'use-sound';
-import whooshpew from '../sfx/whooshpew.wav';
 
 interface User {
   id: number;
@@ -33,9 +32,6 @@ export default function App (){
   const [userSettings, setUserSettings] = useState(null)
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // SFX
-  const [playFireSFX] = useSound(whooshpew, {volume: 0.3});
-  
   const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {
@@ -160,16 +156,6 @@ export default function App (){
     setCbMode(!isCbMode);
   };
 
-  // const playSound = (e: any) => {
-  //   const soundName = e.target.value;
-  //   switch (soundName) {
-  //     case 'Fire':
-  //       new Audio('../sfx/whooshpew.wav')
-  //       break;
-  //     default:
-  //       console.warn('Sound not found');
-  //   }
-  // };
 
   //if no user, fetch user on render
   useEffect(() => {
@@ -202,7 +188,7 @@ export default function App (){
         />
         <Route
           path="/title-menu"
-          element={isAuthenticated ? <TitleMenu playFireSFX={playFireSFX} user={user} /> : <Navigate to='/'/>}
+          element={isAuthenticated ? <TitleMenu user={user} /> : <Navigate to='/'/>}
         />
         <Route
           path="/instructions"
