@@ -35,6 +35,7 @@ export default function App (){
 
   // SFX
   const [playFireSFX] = useSound(whooshpew, {volume: 0.3});
+  
   const navigate = useNavigate();
   // dark mode toggle
   const toggleDarkMode = () => {

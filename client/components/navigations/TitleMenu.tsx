@@ -14,13 +14,19 @@ const TitleMenu: FC<TitleProps> = ({user, playFireSFX}) => {
     <div className="flex items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
       <div className="flex flex-row text-center space-between gap-3">
         <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>
+
+
         {/* How To Play Button Container */}
+
+
         <div className="w-28 h-28 rounded-full bg-slate-700 relative">
           <button 
             value='Fire'
             className="absolute inset-0 z-10 m-auto w-24 h-24 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:bg-slate-300"
            onClick={playFireSFX}></button>
         </div>
+
+
         <div className="w-28 h-28 rounded-full bg-slate-700 relative">
           <Link
             to="/instructions"

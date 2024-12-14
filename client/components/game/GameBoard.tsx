@@ -2,7 +2,7 @@ import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
 import FxText from './FxText';
-import sampleDeckData from './sampleDeckData';
+
 // import Gameplay from './Gameplay';
 
 
@@ -72,6 +72,8 @@ type GameBoardProp = {
   shieldBarShake: Boolean
   healthBarShake: Boolean
 
+  playCardSFX: any
+
 }
 
 const GameBoard: FC <GameBoardProp> = ({
@@ -130,9 +132,14 @@ const GameBoard: FC <GameBoardProp> = ({
   myPrevRound,
   theirPrevRound,
   healthBarShake,
-  shieldBarShake
+  shieldBarShake,
+
+  playCardSFX
 
 }) => {
+
+
+  //////// SFX //////////////////////////////////////////
 
 
 
@@ -245,6 +252,7 @@ if (playerHand.length <= 0){
               actionClick={actionClick}
               enemyCard={enemyCard}
               enemyTurnEnd={enemyTurnEnd}
+              
             />
           </div>
 
@@ -373,6 +381,7 @@ if (playerHand.length <= 0){
                 user={user}
                 activeLoading={activeLoading}
                 turnEnded={turnEnded}
+                playCardSFX={playCardSFX}
               />
             );
           })}

@@ -12,7 +12,8 @@ export default function ActionSelect({
   activeLoading,
   actionClick,
   enemyCard,
-  enemyTurnEnd
+  enemyTurnEnd,
+  
   
 }){
 
@@ -69,7 +70,7 @@ export default function ActionSelect({
               className='w-full aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'
               onClick={(e) => {
                 actionClick(e);
-                FireSFX();
+              
               }}
             >
               <GiRocket style={{fontSize: 50, transform: "rotate(270deg)", pointerEvents: "none"}}/>
