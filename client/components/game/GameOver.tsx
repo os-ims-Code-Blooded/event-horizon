@@ -1,11 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
 import FxText from './FxText';
+import useSound from 'use-sound';
+
+import gameover from '../../sfx/gameover.wav'
+import youwin from '../../sfx/youwin.wav'
+
+
 
 export default function GameOver ({
   gameWinner,
   user
 }){
+
+  const [playGameOverSFX] = useSound(gameover, {volume: 0.3});
+  const [playYouWinSFX] = useSound(youwin, {volume: 0.3});
+
 
 
 
@@ -28,7 +38,7 @@ export default function GameOver ({
         theirPrevRound={undefined} 
         turnEnded={undefined}/>
 
-        <h1 className='test-lg'>victory is yours</h1>
+        <h1 className='test-lg'>victory is yours {playYouWinSFX()}</h1>
         
         {/* <br></br>
         <br></br>
@@ -55,7 +65,8 @@ export default function GameOver ({
   <br></br>
   <br></br>
   <h1 className='text-xl'>GAME OVER BRUV</h1>
-  <h1 className='test-lg'>all is lost</h1>
+
+  <h1 className='test-lg'>all is lost  {playGameOverSFX()}</h1>
   
   {/* <br></br>
   <br></br>
