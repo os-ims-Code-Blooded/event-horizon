@@ -22,7 +22,6 @@ export default async function calculateGameState(req: any, game: number) {
       action_results[action.user_id].damage = 0;
       action_results[action.user_id].isBlocking = false;
     })
-    console.log("ALL ROUND ACTIONS ---->", allRoundActions)
     // for every user in action results
     for (const key in action_results) {
 

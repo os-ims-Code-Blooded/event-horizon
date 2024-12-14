@@ -36,7 +36,7 @@ export default async function createAction(req: any){
           data: {
             round:  { connect: { id: req.body.data.round_id}},
             user:   { connect: { id: req.body.data.user_id}},
-            card:   { connect: { id: req.body.data.card_id }},
+            card:   { connect: { id: findCardCorrelation.card.id }},
             action: req.body.data.action,
             expedite: req.body.data.expedite
           }
