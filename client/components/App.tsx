@@ -31,6 +31,7 @@ export default function App (){
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [volume, setVolume] = useState({volume: 0.2})
 
   const navigate = useNavigate();
   // dark mode toggle
@@ -68,6 +69,8 @@ export default function App (){
         const userSetting = await axios.get(`/profile/settings/${response.data.user.id}`);
         // set userSettings
         setUserSettings(userSetting.data);
+        console.log(userSetting);
+        setVolume({volume: userSetting.data.sfx_volume});
 
         if(userSetting.data.colorblind_mode && !isCbMode){
           const root = document.documentElement;
