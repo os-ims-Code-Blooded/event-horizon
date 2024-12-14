@@ -31,7 +31,7 @@ const Instructions: FC<InstructionProps> = ({user }) => {
   const [currentTab, setCurrentTab] = useState(tabs[0].id)
 
   return (
-    <div id='main' className='pt-20 justify-center items-center justify-items-center'>
+    <div id='main' className='pt-20 justify-center items-center justify-items-center bg-starfield-light dark:bg-starfield'>
 
       {/* This section only handles the "Tabs" view and selection */}
       <div id='tabs-selection' className='text-white'>
@@ -45,7 +45,7 @@ const Instructions: FC<InstructionProps> = ({user }) => {
       </div>
 
       {/* This dynamically renders content based on the "Tab" selected in the DIV above */}
-      <div id='tab-content' className='pt-16 bg-slate-700 justify-center items-center justify-items-center' style={{width: "80%"}}>
+      <div id='tab-content' className='pt-16 justify-center items-center justify-items-center' style={{width: "80%"}}>
         {tab_content[currentTab]}
       </div>
 
