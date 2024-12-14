@@ -24,8 +24,19 @@ export default async function gameHandler(req: any) {
       }
     })
 
+    // if action is found belonging to player
+    const playerHasAction = currentRound.Actions.filter((action) => action.user_id === req.body.data.user_id)
+
     // if this is the first action submitted for a round
-    if (currentRound.Actions.length === 0){
+    if (playerHasAction.length > 0) {
+      await createAction(req);
+      return {
+        "Success": true,
+        "Message": `Action #1 created for User #${req.body.data.user_id} in Game #${currentRound.game_id} - Round #${currentRound.id}.`,
+        "Waiting": true,
+        "user_id": req.body.data.user_id
+      }
+    } else if (currentRound.Actions.length === 0){
 
       await createAction(req);
       return {
