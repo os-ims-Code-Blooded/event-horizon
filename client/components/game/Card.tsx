@@ -21,12 +21,14 @@ interface CardProps {
   setPlayerHand: any
   user: any
   turnEnded: any
+  playCardSFX: any
 }
 
-const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded }) => {
+const Card: FC<CardProps> = ({ card, setCardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded, playCardSFX }) => {
 
   const cardSelect = (card: CardType) =>{
 
+    playCardSFX()
     // console.log("CARD CLICKED: ", card)
     setCardId(card.id)
 

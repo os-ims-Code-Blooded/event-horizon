@@ -5,6 +5,12 @@ import { useState, useEffect } from 'react';
 import GameBoard from './GameBoard';
 import axios from 'axios';
 
+import useSound from 'use-sound';
+import whooshpew from '../../sfx/whooshpew.wav'
+import shieldcharge from '../../sfx/shieldcharge.wav'
+import committurn from '../../sfx/committurn.wav'
+import loadclack from '../../sfx/loadclack.wav'
+import cardsnap from '../../sfx/cardsnap.wav'
 
 //creates front-end socket connection to the server
 // const socket = io("http://localhost:8080", {
@@ -125,7 +131,16 @@ export default function GameController ({
   const [healthBarShake, setHealthBarShake] = useState(false);
   const [shieldBarShake, setShieldBarShake] = useState(false);
 
+  ///////////////// SFX ////////////////////////////////////
+  const [playFireSFX] = useSound(whooshpew, {volume: 0.3});
+  const [playBlockSFX] = useSound(shieldcharge, {volume: 0.3});
+  const [endTurnSFX] = useSound(committurn, {volume: 0.3});
+  const [playLoadSFX] = useSound(loadclack, {volume: 0.3});
+  const [playCardSFX] = useSound(cardsnap, {volume: 0.3});
 
+
+
+  ////////////////////////////////////////////////////////
   const getAllCards = async () => {
     try {
       const response = await axios.get(`/cards/`);
@@ -139,9 +154,24 @@ export default function GameController ({
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
     console.log("click value", e.target.value)
+
+    if (e.target.value === "FIRE"){
+
+      playFireSFX()
+    }
+
+    if (e.target.value === "BLOCK"){
+
+      playBlockSFX()
+    }
+    if (e.target.value === "LOAD"){
+
+      playLoadSFX()
+    }
     
 
     setPlayerAction(e.target.value)
+    
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
       // console.log("***********CARD TO PLAY:\n", cardToPlay)
@@ -187,6 +217,7 @@ export default function GameController ({
 
 //////////// END TURN ////////////////////////////////
   const endTurn = async () =>{
+    endTurnSFX()
 
     //send patch request to server with stringified hand and 
     // setRoundActual(roundActual + 1)
@@ -481,6 +512,8 @@ export default function GameController ({
           theirPrevRound={theirPrevRound}
           healthBarShake={healthBarShake}
           shieldBarShake={shieldBarShake}
+
+          playCardSFX={playCardSFX}
           />
     </div>
   )
