@@ -14,8 +14,8 @@ export default function GameOver ({
   volume
 }){
 
-  const [playGameOverSFX] = useSound(gameover, {volume: 0.3});
-  const [playYouWinSFX] = useSound(youwin, {volume: 0.3});
+  const [playGameOverSFX] = useSound(gameover, volume);
+  const [playYouWinSFX] = useSound(youwin, volume);
 
 
 
@@ -31,7 +31,7 @@ export default function GameOver ({
             <br></br>
             <h1 className='text-xl'>GAME OVER</h1>
 
-            <FxText
+            {/* <FxText
             enemyName={undefined}
             cardToPlay={undefined}
             user={undefined} 
@@ -39,7 +39,7 @@ export default function GameOver ({
             theirPrevRound={undefined} 
             turnEnded={undefined}
             volume={volume}
-            />
+            /> */}
 
         <h1 className='test-lg'>victory is yours {playYouWinSFX()}</h1>
         
