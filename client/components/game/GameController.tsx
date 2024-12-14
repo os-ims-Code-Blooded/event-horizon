@@ -41,7 +41,8 @@ export default function GameController ({
   enemyHand,
   setEnemyHand,
   roundActual,
-  setRoundActual
+  setRoundActual,
+  volume
  }){
 
   //TOP LEVEL GAME COMPONENT
@@ -514,6 +515,7 @@ export default function GameController ({
           shieldBarShake={shieldBarShake}
 
           playCardSFX={playCardSFX}
+          volume={volume}
           />
     </div>
   )

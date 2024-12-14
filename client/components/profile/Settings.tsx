@@ -4,6 +4,7 @@ import axios from 'axios';
 type SettingsProps = {
   user: any;
   fetchUser: ()=> void;
+  volume: any;
 };
 const Settings = ({user, fetchUser}) =>{
 
@@ -29,7 +30,6 @@ const Settings = ({user, fetchUser}) =>{
   // function to send update request to Users_Settings
   const updateUserSetting = async (field: string, value: boolean) => {
     try {
-      console.log('FIELD - VALUE', {[field]: value})
       await axios.patch(`/profile/settings/${user.id}`, {
         data: {
           [field]: value,

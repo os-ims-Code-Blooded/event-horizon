@@ -183,44 +183,48 @@ export default function App (){
         handleLogin={handleLogin}
         cbMode={toggleCbMode}
         isDarkMode={isDarkMode}
+        volume={volume}
+        fetchUser={fetchUser}
+        setVolume={setVolume}
       />
       <Routes>
         <Route
           path="/"
-          element={<LandingPage user={user} isDarkMode={isDarkMode} isCbMode={isCbMode} handleLogin={handleLogin}/>}
+          element={<LandingPage user={user} volume={volume}isDarkMode={isDarkMode} isCbMode={isCbMode} handleLogin={handleLogin}/>}
         />
         <Route
           path="/title-menu"
-          element={isAuthenticated ? <TitleMenu user={user} /> : <Navigate to='/'/>}
+          element={isAuthenticated ? <TitleMenu volume={volume} user={user} /> : <Navigate to='/'/>}
         />
         <Route
           path="/instructions"
-          element={<Instructions user={user} />}
+          element={<Instructions volume={volume} user={user} />}
         />
         <Route
           path="/user-profile"
-          element={isAuthenticated ? <Profile user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
+          element={isAuthenticated ? <Profile volume={volume} user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
         />
         <Route
           path="/settings"
-          element={isAuthenticated && user ? <Settings user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
+          element={isAuthenticated && user ? <Settings volume={volume} user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
         />
         <Route
           path="/cards"
-          element={isAuthenticated && user ? <CardsPage user={user} /> : <Navigate to='/' />}
+          element={isAuthenticated && user ? <CardsPage volume={volume} user={user} /> : <Navigate to='/' />}
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame user={user}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame volume={volume} user={user}/> : <Navigate to='/' />}
         />
         <Route
           path="/leaderboard"
-          element={isAuthenticated ? <LeaderBoard user={user}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <LeaderBoard volume={volume} user={user}/> : <Navigate to='/' />}
         />
         <Route
           path="/friends"
           element={isAuthenticated ?
             <Friends
+              volume={volume}
               user={user}
               handleAddFriend={handleAddFriend}
               handleInvite={handleInvite}

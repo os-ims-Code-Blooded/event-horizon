@@ -4,6 +4,7 @@ import LeaderBoard from '../leaderboard/Leaderboard';
 
 type TitleProps = {
   user: Object | null;
+  volume: any;
 };
 
 const TitleMenu: FC<TitleProps> = ({user}) => {

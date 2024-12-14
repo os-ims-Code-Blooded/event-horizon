@@ -5,6 +5,7 @@ import axios from 'axios';
 type ProfileProps = {
   user: any;
   fetchUser: Function;
+  volume: any;
 };
 
 const Profile: FC<ProfileProps> = ({user, fetchUser}) => {

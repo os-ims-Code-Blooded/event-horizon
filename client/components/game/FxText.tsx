@@ -7,7 +7,8 @@ export default function FxText({
   user,
   myPrevRound,
   theirPrevRound,
-  turnEnded
+  turnEnded,
+  volume
 
 
 }){
