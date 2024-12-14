@@ -60,7 +60,8 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
 
     const options = [
       'dark_mode',
-      'colorblind_mode'
+      'colorblind_mode',
+      'sfx_volume'
     ]
 
     if (!req.body.data){
@@ -92,6 +93,13 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
       await database.user_Settings.update({
         where: { user_id: Number(req.params.id) },
         data: { colorblind_mode: req.body.data.colorblind_mode }
+      })
+    }
+
+    if(req.body.data.sfx_volume){
+      await database.user_Settings.update({
+        where: { user_id: Number(req.params.id) },
+        data: { sfx_volume: req.body.data.sfx_volume }
       })
     }
 
