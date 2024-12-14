@@ -40,10 +40,10 @@ const decks = [
 
 
 export default function SelectGame({
-  user
+  user,
+  volume
 }){
-  
-  
+
   const [playClicked, setPlayClicked] = useState(false)
   const [makeClicked, setMakeClicked] = useState(false)
   const [deckSelected, setDeckSelected] = useState([])
@@ -51,18 +51,17 @@ export default function SelectGame({
   const [handProvided, setHandProvided] = useState([])
 
   const [handSize, setHandSize] = useState(3)
-  
+
   const [gameOver, setGameOver] = useState(false)
   const [gameWinner, setGameWinner] = useState(null)
   const [userDecks, setUserDecks] = useState<any[]>([])
-  
+
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
   const [roundNum, setRoundNum] = useState(1)
 
   const [roundActual, setRoundActual] = useState(1)
 
-  
   const [enemyId, setEnemyId] = useState(null)
   const [enemyName, setEnemyName] = useState('')
 
@@ -72,8 +71,6 @@ export default function SelectGame({
 
   const [waiting, setWaiting] = useState(false)
 
-
-  
   const opponentCards = [
     {
     },
@@ -84,7 +81,7 @@ export default function SelectGame({
   ];
 
   const [enemyHand, setEnemyHand] = useState(opponentCards)
-  
+
 
   useEffect( () => {
 
@@ -99,7 +96,7 @@ export default function SelectGame({
             if (game.data) {
 
               setWaiting(true)
-          
+
               setDeckWasChosen(true)
 
               axios.get(`/games/rounds/${game.data.id}`)
@@ -125,12 +122,12 @@ export default function SelectGame({
                   // I don't know if putting an event listener here is an issue
                   // this might need to be somewhere else?
                   socket.on('session_players', (data: any) => {
-            
+
                     // when we receive emission, see if there is an enemy
                     const enemy = data.filter((player) => {
                       return (player.user_id !== user.id)
                     })
-                    
+
                     // console.log("ENEMY???\n", enemy)
 
 
@@ -141,7 +138,7 @@ export default function SelectGame({
                       setRoundInfo(data)            // set the current round information
                       setWaiting(false)
                       setPlayClicked(true)          // then trigger Game Board conditional render
-                     
+
                     }
                   })
                 })
@@ -152,11 +149,11 @@ export default function SelectGame({
           })
 
       })
-      .catch((err) => { 
+      .catch((err) => {
         console.error(err)
       })
   }, [])
-  
+
 
 
 
@@ -167,13 +164,13 @@ export default function SelectGame({
     function to request to delete the game and end the "matchmaking" request.
   =================================================================================*/
   const onClickPlay = async () => {
-      
+
     try {
 
 
       const game = await axios.post('/games', { "user_id": user.id });
       const round = await axios.get(`/games/rounds/${game.data.id}`);
-      
+
       setSession(game.data.id);
       setRoundNum(round.data["Current Round"]);
       setDeckSelected(round.data["Current Deck"]);
@@ -184,7 +181,7 @@ export default function SelectGame({
       // console.log(`******** Current ROUND DATA: `, round.data);
       // console.log(`Current Deck: `, round.data["Current Deck"]);
       // console.log(`Current Hand: `, round.data["Current Hand"]);
-      
+
 
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
@@ -197,9 +194,9 @@ export default function SelectGame({
 
           return (player.user_id !== user.id)
         })
-        
+
         if (deckSelected){
-        
+
         }
 
         // console.log("ON CLICK PLAY ENEMY", enemy)
@@ -259,7 +256,7 @@ export default function SelectGame({
   ===============================================================================*/
   const handleDeckSelect = (e) =>{
 
-    /* 
+    /*
     This should be unnecessary now given how we are managing the states on the
     server side. When you select a deck in here, the server will use this when
     you click play game to create the deck state entry for you on this game.
@@ -268,7 +265,7 @@ export default function SelectGame({
       .then((response) => {
 
         console.log(`Fetching cards for selected deck:`, response);
-        
+
         const cards = response.data
         setDeckWasChosen(true)
         setDeckSelected(cards)
@@ -322,6 +319,7 @@ return(
            setEnemyHand={setEnemyHand}
            roundActual={roundActual}
            setRoundActual={setRoundActual}
+           volume={volume}
           />
           </div>
           }
@@ -344,7 +342,7 @@ return(
                   </select>
                 </div>
               <br></br>
-              
+
                 {deckWasChosen?
                 <div className='z-10 relative'>
                 {waiting ?
@@ -354,7 +352,7 @@ return(
                     <button onClick={onClickStopSearch} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
                     <div className='p-2'></div>
                   <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
-                  </div>  
+                  </div>
                   :
 
                   <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
@@ -388,7 +386,7 @@ return(
       :
       <div className='z-10 relative'>
         {gameOver ?
-          <GameOver gameWinner={gameWinner} user={user}/>
+          <GameOver gameWinner={gameWinner} volume={volume} user={user}/>
         :
         <div className='h-full z-10 relative'>
     <GameController
@@ -412,6 +410,7 @@ return(
     setEnemyHand={setEnemyHand}
     roundActual={roundActual}
     setRoundActual={setRoundActual}
+    volume={volume}
 />
         </div>
         }

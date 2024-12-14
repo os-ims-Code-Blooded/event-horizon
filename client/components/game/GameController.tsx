@@ -43,7 +43,8 @@ export default function GameController ({
   enemyHand,
   setEnemyHand,
   roundActual,
-  setRoundActual
+  setRoundActual,
+  volume
  }){
 
   //TOP LEVEL GAME COMPONENT
@@ -537,6 +538,7 @@ export default function GameController ({
           setRoundSoundsPlayed={setRoundSoundsPlayed}
           roundSoundsPlayed={roundSoundsPlayed}
           soundVolume={soundVolume}
+          volume={volume}
           />
     </div>
   )

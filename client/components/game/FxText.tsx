@@ -19,8 +19,8 @@ export default function FxText({
   turnEnded,
   roundSoundsPlayed,
   setRoundSoundsPlayed,
-  soundVolume
-
+  soundVolume,
+  volume
 
 }){
 

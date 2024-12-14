@@ -8,6 +8,7 @@ type FriendsProp = {
   handleAddFriend: (friendId: string) => void;
   fetchUser: Function;
   getFriends: Function;
+  volume: any;
 };
 
 const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: FriendsProp) => {

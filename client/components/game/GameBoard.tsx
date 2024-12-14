@@ -71,7 +71,7 @@ type GameBoardProp = {
   theirPrevRound: any
   shieldBarShake: Boolean
   healthBarShake: Boolean
-
+  volume: any
   playCardSFX: any
   playSwitchSFX: any
   roundSoundsPlayed: any
@@ -137,6 +137,7 @@ const GameBoard: FC <GameBoardProp> = ({
   theirPrevRound,
   healthBarShake,
   shieldBarShake,
+  volume,
 
   playCardSFX,
   playSwitchSFX,
@@ -221,6 +222,7 @@ if (playerHand.length <= 0){
                 setRoundSoundsPlayed={setRoundSoundsPlayed}
                 roundSoundsPlayed={roundSoundsPlayed}
                 soundVolume={soundVolume}
+                volume={volume}
             />
 
             </div>
@@ -263,6 +265,7 @@ if (playerHand.length <= 0){
               actionClick={actionClick}
               enemyCard={enemyCard}
               enemyTurnEnd={enemyTurnEnd}
+              volume={volume}
               
             />
           </div>
