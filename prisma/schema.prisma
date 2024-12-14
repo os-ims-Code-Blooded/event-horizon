@@ -283,6 +283,7 @@ model User_Settings {
   user_id         Int     @unique
   dark_mode       Boolean @default(false)
   colorblind_mode Boolean @default(false)
+  sfx_volume      Float     @default(0.2)
 
   user User @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }

@@ -13,6 +13,12 @@ type NavProps = {
 const NavigationBar: FC<NavProps> = ({ cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isSliderOpen, setIsSliderOpen] = useState(false);
+
+  // Toggle volume slider
+  const handleVolumeButtonClick = () => {
+    setIsSliderOpen(!isSliderOpen)
+  }
 
   const handleLogout = () => {
     axios.post('/api/logout')
