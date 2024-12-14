@@ -80,6 +80,8 @@ export default function App (){
         console.log(userSetting);
         setVolume({volume: userSetting.data.sfx_volume});
 
+        const root = document.documentElement;
+
         if(userSetting.data.colorblind_mode && !isCbMode){
           const root = document.documentElement;
           root.classList.add('cbMode');
@@ -91,7 +93,7 @@ export default function App (){
         }
         if(userSetting.data.dark_mode && !isDarkMode){
           toggleDarkMode();
-        } else if(userSetting.data.dark_mode !== undefined && isDarkMode){
+        }  else if(userSetting.data.dark_mode === false && root.classList.contains('dark')) {
           toggleDarkMode();
         }
 
