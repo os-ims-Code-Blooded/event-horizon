@@ -41,7 +41,7 @@ export default async function createAction(req: any){
             expedite: req.body.data.expedite
           }
         })
-
+        return newAction
       } else if (req.body.data.expedite){
         
         console.log(`Received an expedited request from client; card supplied by client was #${req.body.data.card_id} with no translation required.`)
@@ -54,6 +54,7 @@ export default async function createAction(req: any){
             expedite: req.body.data.expedite
           }
         })
+        return newAction;
 
       } else {
         console.log(`Received a normal request from client; card supplied by client was #${req.body.data.card_id} => #${findCardCorrelation.card.id}`)
@@ -64,13 +65,11 @@ export default async function createAction(req: any){
             card:   { connect: { id: findCardCorrelation.card.id }},
             action: req.body.data.action,
           }
-        })        
+        })   
+        return newAction;
+     
       }
-
-
-      // we return it if necessary for immediate use
-      return newAction;
-  
+      
     } else {
 
       if (actionExists) {
@@ -83,6 +82,8 @@ export default async function createAction(req: any){
             expedite: req.body.data.expedite
           }
         })
+        return newAction;
+
       } else {
         console.log(`Received a normal request from client; no card was supplied by the client.`)
         newAction = await database.actions.create({
@@ -92,9 +93,9 @@ export default async function createAction(req: any){
             action:   req.body.data.action,
           }
         })
+        return newAction;
       }
 
-      return newAction;
     }
   } catch (error) {
     throw new Error(error);

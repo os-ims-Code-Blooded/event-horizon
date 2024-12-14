@@ -173,7 +173,7 @@ const discard = (cardName: any) =>{
 
 /////// check if out of cards //////////////////////////////////////////
 
-// console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
+console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
 
 if (reloaded && cardReplacement[0].user_id === user.id){
   console.log("RELOADED!")
@@ -187,7 +187,7 @@ if (reloaded && cardReplacement[0].user_id === user.id){
 
 if (playerHand.length < 3 && gameDeck.length > 0){
  
-  let nextCard = [gameDeck.pop()]
+  // let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
   // setPlayerHand(playerHand.concat(nextCard))
   setPlayerHand(playerHand)
