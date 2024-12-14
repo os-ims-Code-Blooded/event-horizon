@@ -41,7 +41,8 @@ const decks = [
 
 export default function SelectGame({
   user,
-  volume
+  volume,
+  playMusic
 }){
 
   const [playClicked, setPlayClicked] = useState(false)
@@ -81,10 +82,16 @@ export default function SelectGame({
   ];
 
   const [enemyHand, setEnemyHand] = useState(opponentCards)
+  const [musicPlayed, setMusicPlayed] = useState(false)
 
-
+  if (!musicPlayed){
+    playMusic();
+    setMusicPlayed(true)
+  } 
+  
+  
   useEffect( () => {
-
+    
     // on arrival to this page, attempt to get the decks available
     // this allows the user to select from their current card decks
     axios.get(`/profile/decks/${user.id}`)

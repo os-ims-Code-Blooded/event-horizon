@@ -19,6 +19,7 @@ import useSound from 'use-sound';
 import eclick13 from '../sfx/electronic-click13.wav';
 import eclick6 from '../sfx/electronic-click6.wav';
 import sClick from '../sfx/sclick.wav';
+import music from '../sfx/music-goblincave.wav'
 
 interface User {
   id: number;
@@ -40,6 +41,7 @@ export default function App (){
   const [click13] = useSound(eclick13, volume);
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
+  const [playMusic] = useSound(music, volume);
 
   const navigate = useNavigate();
   // dark mode toggle
@@ -223,7 +225,7 @@ export default function App (){
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame volume={volume} user={user}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame playMusic={playMusic} volume={volume} user={user}/> : <Navigate to='/' />}
         />
         <Route
           path="/leaderboard"
