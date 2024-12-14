@@ -98,6 +98,10 @@ export default function SelectGame({
           .then((game) => {
             if (game.data) {
 
+              setWaiting(true)
+          
+              setDeckWasChosen(true)
+
               axios.get(`/games/rounds/${game.data.id}`)
                 .then((round) => {
 
@@ -137,7 +141,7 @@ export default function SelectGame({
                       setRoundInfo(data)            // set the current round information
                       setWaiting(false)
                       setPlayClicked(true)          // then trigger Game Board conditional render
-                      setDeckWasChosen(true)
+                     
                     }
                   })
                 })
@@ -224,6 +228,9 @@ export default function SelectGame({
     try {
       if (session) {
         await axios.delete(`/games/${session}`);
+        setWaiting(false)
+        setPlayClicked(false) 
+        setDeckWasChosen(false)
         // we also need to re-enable buttons so they can click play game again
       }
     } catch (error) {
@@ -337,15 +344,24 @@ return(
                   </select>
                 </div>
               <br></br>
+              
                 {deckWasChosen?
                 <div className='z-10 relative'>
                 {waiting ?
+
+
+                  <div className='flex flex-row p-2'>
+                    <button onClick={onClickStopSearch} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
+                    <div className='p-2'></div>
                   <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
+                  </div>  
                   :
+
                   <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
                     <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={onClickPlay}>PLAY NOW!</button>
                   </div>
                 }
+
                   <div className='flex flex-row z-10 relative'></div>
                   <br></br>
                 </div>

@@ -195,7 +195,7 @@ if (playerHand.length <= 0){
           <div className='text-text dark:text-darkText text-sm'>Encounter {session} VS {enemyName}</div>
           <div className='text-text dark:text-darkText text-sm'>ROUND : {roundActual}</div>
           {theirPrevRound.length && myPrevRound.length?
-            <div>
+            <div>STATUS REPORT:
             <FxText
                 enemyName={enemyName}
                 cardToPlay={cardToPlay}
