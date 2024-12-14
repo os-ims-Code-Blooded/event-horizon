@@ -294,7 +294,7 @@ return(
     <div className='h-full z-10 relative'>
       {gameOver?
       <>
-        <GameOver gameWinner={gameWinner} user={user}/>
+        <GameOver volume={volume} gameWinner={gameWinner} user={user}/>
       </>
         :
         <div className='h-full z-10 relative'>

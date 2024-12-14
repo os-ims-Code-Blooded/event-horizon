@@ -16,6 +16,9 @@ import CardsPage from './cards/CardsPage.tsx';
 import Settings from './profile/Settings.tsx';
 import axios from 'axios';
 import useSound from 'use-sound';
+import eclick13 from '../sfx/electronic-click13.wav';
+import eclick6 from '../sfx/electronic-click6.wav';
+import sClick from '../sfx/sclick.wav';
 
 interface User {
   id: number;
@@ -24,6 +27,7 @@ interface User {
   username: String;
 }
 
+
 export default function App (){
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
@@ -31,7 +35,11 @@ export default function App (){
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [volume, setVolume] = useState({volume: 0.2})
+  const [volume, setVolume] = useState({volume: 0.2});
+
+  const [click13] = useSound(eclick13, volume);
+  const [click6] = useSound(eclick6, volume);
+  const [clickS] = useSound(sClick, volume);
 
   const navigate = useNavigate();
   // dark mode toggle
@@ -186,15 +194,16 @@ export default function App (){
         volume={volume}
         fetchUser={fetchUser}
         setVolume={setVolume}
+        clickS={clickS}
       />
       <Routes>
         <Route
           path="/"
-          element={<LandingPage user={user} volume={volume}isDarkMode={isDarkMode} isCbMode={isCbMode} handleLogin={handleLogin}/>}
+          element={<LandingPage user={user} click13={click13} volume={volume}isDarkMode={isDarkMode} isCbMode={isCbMode} handleLogin={handleLogin}/>}
         />
         <Route
           path="/title-menu"
-          element={isAuthenticated ? <TitleMenu volume={volume} user={user} /> : <Navigate to='/'/>}
+          element={isAuthenticated ? <TitleMenu click13={click13} click6={click6} volume={volume} user={user} /> : <Navigate to='/'/>}
         />
         <Route
           path="/instructions"
@@ -202,7 +211,7 @@ export default function App (){
         />
         <Route
           path="/user-profile"
-          element={isAuthenticated ? <Profile volume={volume} user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
+          element={isAuthenticated ? <Profile volume={volume} click13={click13} click6={click6} user={user} fetchUser={fetchUser} /> : <Navigate to='/' />}
         />
         <Route
           path="/settings"

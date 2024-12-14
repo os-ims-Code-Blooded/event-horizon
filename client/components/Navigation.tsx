@@ -11,9 +11,10 @@ type NavProps = {
   volume: any;
   fetchUser: () => void;
   setVolume: any;
+  clickS: any;
 };
 
-const NavigationBar: FC<NavProps> = ({setVolume, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -21,14 +22,13 @@ const NavigationBar: FC<NavProps> = ({setVolume, fetchUser, volume, cbMode, isDa
  
 
   const toggleVolSlider = () => {
+    clickS();
     setIsSliderOpen(!isSliderOpen)
   }
 
   // Handle slider value change
    const handleSliderChange = (event: any) => {
     const newVolume = parseFloat(event.target.value)
-    console.log(newVolume);
-    console.log(tempVolume);
     setTempVolume({volume: newVolume})
   }
 
@@ -132,7 +132,7 @@ const NavigationBar: FC<NavProps> = ({setVolume, fetchUser, volume, cbMode, isDa
   );
 
   return (
-    <nav className="fixed z-50 top-0 w-full p-4 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text dark:text-darkText">
+    <nav className="fixed z-50 top-0 w-full p-4 h-10 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text dark:text-darkText">
       {/* Navigation Links */}
       <div className="hidden sm:flex items-center gap-x-8">
         {displayedItems
