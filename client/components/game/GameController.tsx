@@ -135,14 +135,16 @@ export default function GameController ({
 
   const [roundSoundsPlayed, setRoundSoundsPlayed] = useState(false)
 
+  const [soundVolume, setSoundVolume] = useState(0.3)
+
   ///////////////// SFX ////////////////////////////////////
-  const [playFireSFX] = useSound(whooshpew, {volume: 0.3});
-  const [playBlockSFX] = useSound(shieldcharge, {volume: 0.3});
-  const [endTurnSFX] = useSound(committurn, {volume: 0.3});
-  const [playLoadSFX] = useSound(loadclack, {volume: 0.3});
-  const [playCardSFX] = useSound(cardsnap, {volume: 0.3});
-  const [playSwitchSFX] = useSound(toggleswitch, {volume: 0.3});
-  const [playDestructSFX] = useSound(selfdestruct, {volume: 0.3});
+  const [playFireSFX] = useSound(whooshpew, {volume: soundVolume});
+  const [playBlockSFX] = useSound(shieldcharge, {volume: soundVolume});
+  const [endTurnSFX] = useSound(committurn, {volume: soundVolume});
+  const [playLoadSFX] = useSound(loadclack, {volume: soundVolume});
+  const [playCardSFX] = useSound(cardsnap, {volume: soundVolume});
+  const [playSwitchSFX] = useSound(toggleswitch, {volume: soundVolume});
+  const [playDestructSFX] = useSound(selfdestruct, {volume: soundVolume});
 
 
 
@@ -159,6 +161,9 @@ export default function GameController ({
 
 ///////////CHOOSING ACTIONS/////////////////////////////////////
   const actionClick = (e) =>{
+
+    setRoundSoundsPlayed(true)
+
     console.log("click value", e.target.value)
 
     if (e.target.value === "FIRE"){
@@ -224,6 +229,7 @@ export default function GameController ({
 
 //////////// END TURN ////////////////////////////////
   const endTurn = async () =>{
+    setRoundSoundsPlayed(true)
     endTurnSFX()
 
     //send patch request to server with stringified hand and 
@@ -273,6 +279,8 @@ export default function GameController ({
     })
 
     socket.on('received_rounds_data', (data: any) => {
+
+      setRoundSoundsPlayed(true)
 
       console.log("*** ROUND RESPONSE DATA ***\n", data)
 
@@ -528,6 +536,7 @@ export default function GameController ({
           playSwitchSFX={playSwitchSFX}
           setRoundSoundsPlayed={setRoundSoundsPlayed}
           roundSoundsPlayed={roundSoundsPlayed}
+          soundVolume={soundVolume}
           />
     </div>
   )

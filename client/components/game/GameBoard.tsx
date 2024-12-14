@@ -76,6 +76,7 @@ type GameBoardProp = {
   playSwitchSFX: any
   roundSoundsPlayed: any
   setRoundSoundsPlayed: any
+  soundVolume: any
 
 }
 
@@ -140,7 +141,8 @@ const GameBoard: FC <GameBoardProp> = ({
   playCardSFX,
   playSwitchSFX,
   roundSoundsPlayed,
-  setRoundSoundsPlayed
+  setRoundSoundsPlayed,
+  soundVolume
 
 }) => {
 
@@ -218,6 +220,7 @@ if (playerHand.length <= 0){
                 turnEnded={turnEnded}
                 setRoundSoundsPlayed={setRoundSoundsPlayed}
                 roundSoundsPlayed={roundSoundsPlayed}
+                soundVolume={soundVolume}
             />
 
             </div>
