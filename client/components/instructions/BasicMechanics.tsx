@@ -105,7 +105,7 @@ const BasicMechanics = () => {
           The block mechanism is one of the most important functions that your ship is capable of performing.
           Whenever a ship attempts to block, it enables active shielding that will reduce incoming damage by 50%
           regardless of the current armor that the ship possesses. However, it's important to note that shielding
-          consumes significant power...as a result your ship is unable to perform any actions on the same turn.
+          consumes significant power...as a result your ship is unable to perform any other actions on the same turn.
         </p>
       </div>
 
@@ -123,12 +123,12 @@ const BasicMechanics = () => {
         </div>
 
         <p className='pl-8'>
-          The load mechanism is the means by which your ship activates auxillary defense measures and prepares
+          The load mechanism is the means by which your ship activates auxiliary defense measures and prepares
           armaments. In layman's terms, this mechanism allows for you to deploy a card for use during gameplay!
-          After loading a defensive card, defensive effects will apply on the following turn...but not on the same turn!
+          After loading a defensive card, defensive effects will be applied on the following turn... but not on the current turn!
           If you need to immediately mitigate incoming damage, you should BLOCK. If you want to augment your defense for
           subsequent turns, then you would LOAD a defensive card. Any offensive (damage) card that is played will be loaded,
-          but your ship must FIRE in order for the card to take effect.
+          but your ship must FIRE on a subsequent round in order for the card to take effect.
         </p>
         
       </div>
@@ -177,7 +177,7 @@ const BasicMechanics = () => {
 
         <p className='pl-8'>
           The fire mechanism provides your vessel with two options. If no card is loaded it performs a basic attack for
-          five (5) damage; if a card has been loaded, then it will use the damage from that card against your enemy...this
+          five (5) damage; if an offensive card has been loaded, then it will use the damage from that card against your enemy... this
           also includes any effects such as damage over time! Timing is a critical consideration with the fire mechanism,
           just because you have a card loaded does not mean that you have to attack on the next turn! Furthermore, you can
           deploy these cards strategically to slowly diminish your opponent's defenses.

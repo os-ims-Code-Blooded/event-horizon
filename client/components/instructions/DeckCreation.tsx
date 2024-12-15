@@ -35,9 +35,9 @@ const DeckCreation = () => {
 
       <span>
         <p>
-          In Event Horizon, cards are the primary means by which you develop and extend your strategy. As you
-          continue playing Event Horizon, you will accrue a score and unlock new cards as you play! These cards can
-          be used in a deck, which is a predefined set of cards that you wish to take into a game. Here are some of
+          In Event Horizon, cards are the primary means by which you develop and execute your strategy. As you
+          continue playing Event Horizon, you will accrue a score and unlock new cards These cards can
+          be used to build a deck, which is a predefined set of cards that you wish to take into a game. Here are some of
           the cards that are currently available!
         </p>
       </span>
@@ -100,7 +100,7 @@ const DeckCreation = () => {
           Whenever you are creating a deck, the items that you select are restricted based on a
           points value. Whenever you select a card, you can see how many "points" it requires in
           order to be included in your deck. Although a card might offer a substantial amount of 
-          damage, it means that you will have less cards to use throughout a game...and there is
+          damage, it means that you will have fewer cards to use throughout a game... and there is
           also the possibility that the enemy strategy mitigates this damage!
         </p>
       </span>
