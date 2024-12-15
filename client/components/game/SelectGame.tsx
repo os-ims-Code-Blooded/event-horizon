@@ -42,7 +42,11 @@ const decks = [
 export default function SelectGame({
   user,
   volume,
-  playMusic
+  playMusic,
+  click13,
+  click6,
+  playHeavyClickSFX
+
 }){
 
   const [playClicked, setPlayClicked] = useState(false)
@@ -229,6 +233,7 @@ export default function SelectGame({
     This function should enable a user to stop searching for a game (if none found)
   =================================================================================*/
   const onClickStopSearch = async () => {
+    click13()
     try {
       if (session) {
         await axios.delete(`/games/${session}`);
@@ -262,6 +267,7 @@ export default function SelectGame({
     Handles deck selection for entering a game
   ===============================================================================*/
   const handleDeckSelect = (e) =>{
+    click13()
 
     /*
     This should be unnecessary now given how we are managing the states on the
@@ -339,7 +345,8 @@ return(
         <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
         <div className='p-6 justify-items-center flex flex-col items-center gap-3 z-10 relative'>
                 <div className='pt-8 z-10 relative'>
-                  <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onChange={(e)=>{handleDeckSelect(e)}}>
+                  <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onClick={()=>{click13()}} onChange={(e)=>{
+                    handleDeckSelect(e)}}>
                     <option className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-600 z-10 relative' value="">--select deck--</option>
                     {userDecks.map((deck, index)=>{
                       return(
@@ -356,14 +363,18 @@ return(
 
 
                   <div className='flex flex-row p-2'>
-                    <button onClick={onClickStopSearch} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
+                    <button onClick={()=>{
+                      playHeavyClickSFX()
+                      onClickStopSearch()}} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
                     <div className='p-2'></div>
                   <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
                   </div>
                   :
 
                   <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
-                    <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={onClickPlay}>PLAY NOW!</button>
+                    <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={()=>{
+                      playHeavyClickSFX()
+                      onClickPlay()}}>PLAY NOW!</button>
                   </div>
                 }
 
@@ -376,16 +387,17 @@ return(
                     <br></br>
                   </div>
                 }
-          <div className="w-32 h-32 rounded-full bg-slate-700 z-10 relative">
+          {/* <div className="w-32 h-32 rounded-full bg-slate-700 z-10 relative">
             <button className='bg-fifth dark:bg-third inset-0 z-10 m-auto h-28 w-28 rounded-full text-text dark:text-darkText absolute shadow-sm shadow-white hover:bg-orange-500 dark:hover:bg-purple-500' onClick={onClickMake}>CUSTOMIZE!</button>
           </div>
-          <br></br>
+          <br></br> */}
           <div>
             {!makeClicked? null
             :
-              <div className='flex flex-row p-4 z-10 relative'>
-                <MakeGame />
-              </div>
+            null
+              // <div className='flex flex-row p-4 z-10 relative'>
+              //   <MakeGame />
+              // </div>
             }
           </div>
         </div>

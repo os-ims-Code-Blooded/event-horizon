@@ -325,7 +325,7 @@ if (playerHand.length <= 0){
                     <strong>Defense:</strong> {cardToPlay[2]}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] : 0}
+                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] + 1 : 1}
                   </p>
                 </div>
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
@@ -363,7 +363,7 @@ if (playerHand.length <= 0){
                   </p>
                   <p className="text-black mb-1 text-sm">
             {theirPrevRound[0].duration ?
-            <strong>Duration: {theirPrevRound[0].duration  + 1}</strong>
+            <strong>Duration: {theirPrevRound[0].duration + 1}</strong>
             :
             null}
           </p>
@@ -453,7 +453,8 @@ if (playerHand.length <= 0){
                {
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
-             <button className='p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 border-slate-700 text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 '
+             <button 
+             className={`p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 ${playerAction === "BLOCK" ? 'border-blue-600' : null} ${playerAction === "FIRE" ? 'border-red-600' : null }  ${playerAction === "LOAD" &&  activeLoading? 'border-yellow-300' : null } ${!playerAction?'border-slate-700' : null } text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 `}
                onClick={(e)=>{
                  setTurnEnded(true)
                  endTurn()

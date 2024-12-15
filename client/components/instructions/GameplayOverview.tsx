@@ -44,7 +44,7 @@ const GameplayOverview = () => {
       <div className='pt-6 pb-6'>
         <span>
           <p>
-            Your goal is to try to survive, and defeat your enemy! We have established visual indicators for the health bars that we have shown above. 
+            Your goal is to try to survive, and defeat your enemy! Visual indicators for the health bars are shown above. 
             Whenever you take damage to your armor or health, those bars will briefly shake. If you aren't sure what happened on the previous round, you can
             look at your enemy's munition status to see what card they used against you on the previous turn. If this still isn't clear, you may also look at
             the combat log (in the top left of your screen) to see what actions were taken on the previous round!

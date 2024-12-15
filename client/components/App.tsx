@@ -241,7 +241,7 @@ export default function App (){
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame playMusic={playMusic} volume={volume} user={user}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame playMusic={playMusic} volume={volume} user={user} click13={click13} click6={click6} playHeavyClickSFX={playHeavyClickSFX}/> : <Navigate to='/' />}
         />
         <Route
           path="/leaderboard"
