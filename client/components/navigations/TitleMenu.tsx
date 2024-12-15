@@ -9,9 +9,10 @@ type TitleProps = {
   volume: any;
   click13: any;
   click6: any;
+  playHeavyClickSFX: any;
 };
 
-const TitleMenu: FC<TitleProps> = ({user, click13, click6}) => {
+const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) => {
 
   const [showCreditsModal, setShowCreditsModal] = useState(false)
 
@@ -65,14 +66,18 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6}) => {
       <div className='px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300 z-10'>
         <div>
 
+
+
           {showCreditsModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-gray p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-1/2 gap-3 z-50">
-              <h2 className="text-xl text-center font-bold text-text mb-4">Credits</h2>
+            <div className="bg-slate-600 p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-1/2 gap-3 z-50 shadow">
+              <h2 className="text-2xl text-center font-bold text-white mb-4">Credits</h2>
               
              <Credits/>
               <button
-                onClick={() => setShowCreditsModal(false)}
+                onClick={() => {
+                  playHeavyClickSFX()
+                  setShowCreditsModal(false)}}
                 className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300"
               >
                 close
@@ -81,7 +86,9 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6}) => {
           </div>
           )}
 
-          <button onClick={()=>{setShowCreditsModal(!showCreditsModal)}}>credits</button>
+          <button onClick={()=>{
+            playHeavyClickSFX()
+            setShowCreditsModal(!showCreditsModal)}}>credits</button>
         </div>
 
 

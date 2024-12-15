@@ -20,6 +20,7 @@ import useSound from 'use-sound';
 import eclick13 from '../sfx/electronic-click13.wav';
 import eclick6 from '../sfx/electronic-click6.wav';
 import sClick from '../sfx/sclick.wav';
+import heavyclick from '../sfx/heavyclick.wav'
 import music from '../sfx/music-goblincave.wav'
 
 interface User {
@@ -42,6 +43,7 @@ export default function App (){
   const [click13] = useSound(eclick13, volume);
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
+  const [playHeavyClickSFX] = useSound(heavyclick, volume);
   const [isMuted, setIsMuted] = useState(false);
   const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : volume.volume });
 
@@ -219,7 +221,7 @@ export default function App (){
         />
         <Route
           path="/title-menu"
-          element={isAuthenticated ? <TitleMenu click13={click13} click6={click6} volume={volume} user={user} /> : <Navigate to='/'/>}
+          element={isAuthenticated ? <TitleMenu playHeavyClickSFX={playHeavyClickSFX} click13={click13} click6={click6} volume={volume} user={user} /> : <Navigate to='/'/>}
         />
         <Route
           path="/instructions"

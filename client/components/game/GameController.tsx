@@ -14,6 +14,7 @@ import cardsnap from '../../sfx/cardsnap.wav'
 import toggleswitch from '../../sfx/toggleswitch.wav'
 import selfdestruct from '../../sfx/selfdestruct.wav'
 
+
 //creates front-end socket connection to the server
 // const socket = io("http://localhost:8080", {
 //   withCredentials: true,
@@ -150,6 +151,7 @@ export default function GameController ({
   const [playCardSFX] = useSound(cardsnap, volume);
   const [playSwitchSFX] = useSound(toggleswitch, volume);
   const [playDestructSFX] = useSound(selfdestruct, volume);
+  const [playHeavyClickSFX] = useSound(heavyclick, volume);
 
 
 
