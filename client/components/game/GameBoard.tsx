@@ -59,7 +59,8 @@ type GameBoardProp = {
   activeLoading: any
   setActiveLoading: any
   actionClick: any
-
+  setIsClicked: any
+  isClicked: any;
   discard: any
   setSelfDestruct: any
   selfDestruct: any
@@ -93,7 +94,8 @@ const GameBoard: FC <GameBoardProp> = ({
   setGameDeck,
   playerHand,
   setPlayerHand,
-
+  setIsClicked,
+  isClicked,
 
   playerAction,
   setPlayerAction,
@@ -204,13 +206,13 @@ if (playerHand.length <= 0){
 ///////////////////////////////////////////////////////
   return (
 
-    <div className='grid-cols-3 mt-10 p-5 pt-15 min-h-screen w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
+    <div className='grid-cols-3 mt-10 p-5 pb-3 pt-15 min-h-screen w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
       {/* FIRST COLUMN*/}
       <div className='m-2 flex flex-col justify-between' style={{ width: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
-          <div className='text-text dark:text-darkText text-sm'>Encounter {session} VS {enemyName}</div>
-          <div className='text-text dark:text-darkText text-sm'>ROUND : {roundActual}</div>
+          <div className='text-text dark:text-darkText text-sm'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
+          <div className='text-text dark:text-darkText text-sm'><span className='text-fifth'>ROUND</span>: <span className='text-success font-extrabold'>{roundActual}</span></div>
           {theirPrevRound.length && myPrevRound.length?
             <div>STATUS REPORT:
             <FxText
@@ -243,19 +245,19 @@ if (playerHand.length <= 0){
         </div>
         {/* FIRST COLUMN 3rd SECTION */}
         <div className='' style={{height: "33%"}}>
-          <div className='text-green-600 font-bold text-center pb-2'>{user.name}</div>
+          <div className='text-green-600 font-bold underline decoration-solid text-center pb-2'>{user.name} <span className='text-slate-400 font-bold'>[{user.score}]</span></div>
           <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
-            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative ${ armor === 0 ? 'animate-pulse' : ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
+            <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative ${ armor === 0 ? 'animate-pulse' : ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
               <div className={`bg-blue-400 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 absolute inset-y-0 ${shieldBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(armor/100) * 100}%` }}>
               </div>
-              <div className='pl-4 h-5 justify-items-center flex-1 text-center whitespace-nowrap text-xs sm:text-sm inset-y-0 absolute'>{`Armor: ${armor}`}</div>
+              <div className='pl-4 h-5 justify-items-center flex-1 text-text dark:text-darkText text-center whitespace-nowrap text-xs sm:text-sm inset-y-0 absolute'>{`Armor: ${armor}`}</div>
             </div>
             <div className={`flex bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-center text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
               <div className={`bg-error h-5 rounded-full text-center justify-items-end text-text dark:text-darkText text-sm transition-all ${ hitPoints <= 25 ? 'animate-pulse' : ''} ${healthBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(hitPoints / 50) * 100}%` }}
               ></div>
-              <div className='pl-4 h-4 flex-1 justify-items-center whitespace-nowrap justify-center text-center text-sm inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
+              <div className='pl-4 h-4 flex-1 justify-items-center text-text dark:text-darkText whitespace-nowrap justify-center text-center text-sm inset-y-0 absolute'>{`Hull Integrity: ${hitPoints} / 50`}</div>
             </div>
             <ActionSelect
               playerAction={playerAction}
@@ -272,7 +274,7 @@ if (playerHand.length <= 0){
           </div>
 
           <div className='h-4'></div>
-          <div className='text-sm'>cards remaining: {gameDeck.length}</div>
+          <div className='text-sm text-text dark:text-darkText'>Cards left: {gameDeck.length}</div>
 
         </div>
       </div>
@@ -301,7 +303,14 @@ if (playerHand.length <= 0){
           {/* USER'S SELECTED CARD */}
           <div className='flex flex-col justify-center items-start'>
             {cardToPlay ? (
-              <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110">
+              <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
+                onClick={() => {
+                  setCardToPlay(null);
+                  setActiveLoading(false);
+                  setIsClicked(null);
+                  setPlayerAction(null);
+                }}
+              >
                 <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                 <div className="text-center">
                   <div>`IMAGE`</div>
@@ -318,7 +327,7 @@ if (playerHand.length <= 0){
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
               </div>
             ) : (
-              <div className='border-4 border-gray-500 rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-green-500'>
+              <div className='border-4 rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-success'>
                 <div className='pt-15'>MUNITION STATUS:</div>
               </div>
             )}
@@ -397,6 +406,9 @@ if (playerHand.length <= 0){
                 activeLoading={activeLoading}
                 turnEnded={turnEnded}
                 playCardSFX={playCardSFX}
+                cardToPlay={cardToPlay}
+                setIsClicked={setIsClicked}
+                isClicked={isClicked}
               />
             );
           })}
@@ -409,21 +421,21 @@ if (playerHand.length <= 0){
       <div className='flex flex-col w-full items-center justify-between pr-5' style={{ maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
         <div className='flex flex-col items-center w-full' style={{ height: "33%"}}>
-          <div className='text-error font-bold text-center'>{enemyName || 'No Player'}</div>
+          <div className='text-error font-bold underline decoration-solid text-center'>{enemyName || 'No Player'} <span className='text-slate-400 font-bold no-underline'>[{user.score}]</span></div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
-            <div className={`bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
+            <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
               <div
-                className={`bg-error h-5 rounded-full text-center justify-items-end text-white text-sm transition-all ${enemyHitPoints <= 25 ? 'animate-pulse': ''}${healthBarShake ? 'animate-shake transition-all' : ''}`}
+                className={`bg-error h-5 rounded-full text-center justify-items-end text-text dark:text-darkText text-sm transition-all ${enemyHitPoints <= 25 ? 'animate-pulse': ''}${healthBarShake ? 'animate-shake transition-all' : ''}`}
                 style={{ width: `${(enemyHitPoints / 50) * 100}%` }}>
               </div>
-              <div className='pl-4 h-5 justify-items-center text-center inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
+              <div className='pl-4 h-5 justify-items-center text-center text-text dark:text-darkText inset-y-0 absolute'>{`Hull Integrity: ${enemyHitPoints} / 50`}</div>
             </div>
-            <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative ${enemyArmor === 0 ? 'animate-pulse' :  ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
+            <div className={`bg-slate-500 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 relative ${enemyArmor === 0 ? 'animate-pulse' :  ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
               <div
                 className={`bg-blue-400 h-5 rounded-full text-center justify-items-end justify-end items-end text-white text-sm pt-5 absolute inset-y-0 transition-all ${shieldBarShake ? 'animate-shake transition-all' : ''}`}
                   style={{ width: `${(enemyArmor/100) * 100}%` }}>
               </div>
-              <div className='pl-4 h-5 justify-items-center text-center inset-y-0 absolute'>{`Armor: ${enemyArmor}`}</div>
+              <div className='pl-4 h-5 justify-items-center text-center text-text dark:text-darkText inset-y-0 absolute'>{`Armor: ${enemyArmor}`}</div>
             </div>
           </div>
         </div>
@@ -437,7 +449,7 @@ if (playerHand.length <= 0){
                {
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
-             <button className='p-4 flex aspect-square text-white font-bold rounded-full text-sm justify-center items-center overflow-hidden text-ellipsis text-center justify-items-end bg-emerald-500  hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 '
+             <button className='p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 border-slate-700 text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 '
                onClick={(e)=>{
                  setTurnEnded(true)
                  endTurn()
@@ -453,40 +465,36 @@ if (playerHand.length <= 0){
                  }
                }}>COMMIT TURN</button>
              :
-             <button className='cursor-not-allowed p-4 flex bg-gray aspect-square text-white font-bold rounded-full text-sm justify-center items-center overflow-hidden text-ellipsis'
+             <button className='cursor-not-allowed p-3 flex bg-gray aspect-square border-8 border-slate-700 text-white font-bold rounded-full text-sm justify-center items-center overflow-hidden text-ellipsis'
              >COMMIT TURN</button>
                }
            </div>
-           <div className='items center flex flex-col pt-10'>
+           <div className='items center flex flex-col pt-4'>
              {enemyWaiting?
                <div className='text-error text-[1rem] text-center animate-pulse' >
-                 opponent waiting
+                 Opponent waiting
                </div>
             :
              null
            }
 
-           <label className="inline-flex items-center cursor-pointer justify-between pb-4">
+           <label className="inline-flex justify-items-center items-center cursor-pointer justify-between pb-2">
            <input type="checkbox" 
-           value={selfDestruct} className="sr-only peer " 
-           onClick={()=>{
-
-            playSwitchSFX()
-            setSelfDestruct(!selfDestruct)
+            value={selfDestruct} className="sr-only peer " 
+            onClick={()=>{
+              playSwitchSFX()
+              setSelfDestruct(!selfDestruct)
             }}/>
-             <div className="relative w-11 h-6 pb-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
-             <span className="ms-3 text-sm font-medium text-white dark:text-white">ARM SELF DESTRUCT</span>
+             <div className="relative w-11 h-6 pb-1 bg-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+             <span className="ms-3 text-sm font-medium text-text dark:text-darkText ">ARM SELF DESTRUCT</span>
            </label>
-
-
           <div></div>
-
           {selfDestruct?
-            <button onClick={forfeit} className='p-4 pt-4 flex items-end justify-end bg-orange-500  hover:bg-orange-900 text-white font-bold rounded-md focus:ring-4 focus:ring-orange-600'
+            <button onClick={forfeit} className='p-1 pt-1 pb-1 flex text-center justify-items-center items-center justify-center animate-pulse bg-orange-500  hover:bg-orange-900 text-text dark:text-darkText font-bold rounded-md focus:ring-4 focus:ring-orange-600'
             >SELF DESTRUCT<img className='object-contain h-8' src='https://i.imgur.com/mBC4Uh5.png'/>
               </button>
           :
-            <button className='cursor-not-allowed p-4 pt-4 flex items-end justify-end bg-gray text-white text-center font-bold rounded-md'
+            <button className='cursor-not-allowed p-1 pt-1 pb-1 flex text-center justify-items-center items-center justify-center bg-gray text-text dark:text-darkText font-bold rounded-md'
               >SELF DESTRUCT<img className='object-contain h-8' src='https://i.imgur.com/mBC4Uh5.png'/>
             </button>
            }

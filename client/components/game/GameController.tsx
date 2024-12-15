@@ -68,7 +68,8 @@ export default function GameController ({
   //player selected action of BLOCK, LOAD or FIRE
   const [playerAction, setPlayerAction] = useState('')
   const [lastAction, setLastAction] = useState('')
-
+  const [isClicked, setIsClicked] = useState(null);
+  
 
   //player's remaining hit points
   const [hitPoints, setHitPoints] = useState(userRound[0].health || 50)
@@ -486,7 +487,8 @@ export default function GameController ({
           setGameDeck={setGameDeck}
           playerHand={playerHand}
           setPlayerHand={setPlayerHand}
-
+          setIsClicked={setIsClicked}
+          isClicked={isClicked}
 
           handSize={handSize}
           cardReplacement={cardReplacement}

@@ -42,7 +42,17 @@ export default function App (){
   const [click13] = useSound(eclick13, volume);
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
-  const [playMusic] = useSound(music, volume);
+  const [isMuted, setIsMuted] = useState(false);
+  const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : volume.volume });
+
+  const handleToggleMute = () => {
+    setIsMuted((prev) => !prev);
+    if (!isMuted) {
+      stop();
+    } else {
+      playMusic();
+    }
+  };
 
   const navigate = useNavigate();
   // dark mode toggle
@@ -200,6 +210,7 @@ export default function App (){
         fetchUser={fetchUser}
         setVolume={setVolume}
         clickS={clickS}
+        handleToggleMute={handleToggleMute}
       />
       <Routes>
         <Route

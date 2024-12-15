@@ -37,6 +37,9 @@ CB Secondary COLOR
 .cbMode .text-error {
   color: #1f78b4;
 }
+.cbMode .text-success {
+  color: #0F52BA
+}
 .cbMode .bg-error {
   background-color: #ff7f00;
 }
@@ -83,4 +86,5 @@ CB Secondary COLOR
 .darkMode .text-text {
   color: #FFFFFF;
 }
+
 

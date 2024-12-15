@@ -12,9 +12,10 @@ type NavProps = {
   fetchUser: () => void;
   setVolume: any;
   clickS: any;
+  handleToggleMute: () => void;
 };
 
-const NavigationBar: FC<NavProps> = ({setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -196,7 +197,7 @@ const NavigationBar: FC<NavProps> = ({setVolume, clickS, fetchUser, volume, cbMo
               className="w-full h-2 bg-orange-300 dark:bg-purple-300 rounded-lg appearance-none cursor-pointer"
             />
             <span className='pl-14 font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
-
+            <button onClick={handleToggleMute}>🎵</button>
             <div className="flex justify-between items-center mt-3">
               {/* Confirm button */}
               <button
