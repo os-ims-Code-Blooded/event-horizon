@@ -45,7 +45,7 @@ export default function App (){
   const [clickS] = useSound(sClick, volume);
   const [playHeavyClickSFX] = useSound(heavyclick, volume);
   const [isMuted, setIsMuted] = useState(false);
-  const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : volume.volume });
+  const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : 0.2} );
 
   const handleToggleMute = () => {
     setIsMuted((prev) => !prev);
@@ -81,7 +81,6 @@ export default function App (){
     try {
 
       const response = await axios.get('/api/auth-check');
-      console.log('auth response', response);
       setIsAuthenticated(response.data.isAuthenticated);
 
       // Fetch user profile if authenticated
@@ -92,7 +91,6 @@ export default function App (){
         const userSetting = await axios.get(`/profile/settings/${response.data.user.id}`);
         // set userSettings
         setUserSettings(userSetting.data);
-        console.log(userSetting);
         setVolume({volume: userSetting.data.sfx_volume});
 
         const root = document.documentElement;

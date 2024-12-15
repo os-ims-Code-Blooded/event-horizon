@@ -425,7 +425,7 @@ if (playerHand.length <= 0){
       <div className='flex flex-col w-full items-center justify-between pr-5' style={{ maxWidth: "25%"}}>
         {/* 3RD COLUMN: 1ST SECTION */}
         <div className='flex flex-col items-center w-full' style={{ height: "33%"}}>
-          <div className='text-error font-bold underline decoration-solid text-center'>{enemyName || 'No Player'} <span className='text-slate-400 font-bold no-underline'>[{user.score}]</span></div>
+          <div className='text-error font-bold underline decoration-solid text-center'>{enemyName || 'No Player'}</div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
               <div

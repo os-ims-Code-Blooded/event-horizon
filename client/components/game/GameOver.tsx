@@ -41,7 +41,7 @@ export default function GameOver ({
             volume={volume}
             /> */}
 
-        <h1 className='test-lg'>victory is yours {playYouWinSFX()}</h1>
+        <h1 className='test-lg'>Victory is yours {playYouWinSFX()}</h1>
         
         {/* <br></br>
         <br></br>
@@ -69,7 +69,7 @@ export default function GameOver ({
   <br></br>
   <h1 className='text-xl'>GAME OVER BRUV</h1>
 
-  <h1 className='test-lg'>all is lost  {playGameOverSFX()}</h1>
+  <h1 className='test-lg'>All is lost  {playGameOverSFX()}</h1>
   
   {/* <br></br>
   <br></br>

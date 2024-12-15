@@ -28,15 +28,15 @@ const LeaderBoard = ({user, fullScreen=true}) => {
     <div
       className={`${
         fullScreen ? 'h-screen' : 'h-full'
-      } w-full bg-starfield text-white dark:text-slate-200 flex flex-col items-center rounded-md pt-15`}
+      } w-full bg-starfield text-white dark:text-slate-200 flex flex-col items-center rounded-lg pt-15`}
     >
       <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
-      <table className="table-auto border-collapse border border-slate-500">
-        <thead>
+      <table className="table-auto border-collapse border border-slate-500 rounded-lg">
+        <thead className='rounded-t-md'>
           <tr className="bg-slate-700">
-            <th className="border border-slate-600 px-4 py-2">Rank</th>
-            <th className="border border-slate-600 px-4 py-2">Name</th>
-            <th className="border border-slate-600 px-4 py-2">Score</th>
+            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Rank</th>
+            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Name</th>
+            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Score</th>
           </tr>
         </thead>
         <tbody>

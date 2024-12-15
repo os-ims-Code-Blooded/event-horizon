@@ -196,8 +196,10 @@ const NavigationBar: FC<NavProps> = ({handleToggleMute, setVolume, clickS, fetch
               onChange={handleSliderChange}
               className="w-full h-2 bg-orange-300 dark:bg-purple-300 rounded-lg appearance-none cursor-pointer"
             />
-            <span className='pl-14 font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
-            <button onClick={handleToggleMute}>🎵</button>
+            <div className='flex flex-row gap-6 justify-between'>
+              <span className='font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
+              <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🎵</button>
+            </div>
             <div className="flex justify-between items-center mt-3">
               {/* Confirm button */}
               <button

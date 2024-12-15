@@ -90,6 +90,7 @@ export default function SelectGame({
 
   if (!musicPlayed){
     playMusic();
+    console.log('music played');
     setMusicPlayed(true)
   } 
   
