@@ -17,6 +17,7 @@ import games from './routes/games/games.ts';
 import gameHandler from './gameHandler.ts';
 import cards from './routes/cards/cards.ts';
 import errorHandler from './helpers/misc/error_logging/errorHandler.ts';
+import closeStagnantGames from './helpers/misc/closeStagnantGames.ts';
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -188,6 +189,7 @@ server.listen(PORT, () => {
   let oneUserEndedTurn = true
 
   const halfHour = 60 * 30 * 1000; 
+  const fiveMinutes = 60 * 5 * 1000;
 
   setInterval( async () => {
     try {
@@ -200,6 +202,24 @@ server.listen(PORT, () => {
       console.error(`Error during routine database maintenance: failure to purge closed games: `, error);
     }
   }, halfHour);
+
+  setInterval ( async () => {
+    try {
+      
+      const updates = await closeStagnantGames();
+
+      updates.forEach((update) => {
+        io.in(`${update.id}`).emit('game_over', { GameComplete: update })
+      })
+
+    } catch (error) {
+
+      errorHandler(error);
+      console.error(`Error on interval force closure of stagnant games: `, error);
+      
+    }
+
+  }, fiveMinutes)
 
   //when the server establishes a connection, it shall do the following:
 
