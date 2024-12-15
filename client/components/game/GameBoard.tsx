@@ -33,6 +33,8 @@ type GameBoardProp = {
   setGameDeck: any
   playerHand: any
   setPlayerHand: any
+  cardsRemain: any
+  setCardsRemain: any
 
   enemyName: any
   enemyAction: any
@@ -106,6 +108,8 @@ const GameBoard: FC <GameBoardProp> = ({
   setCardReplacement,
   reloaded,
   setReloaded,
+  cardsRemain,
+  setCardsRemain,
 
   endTurn,
   turnEnded,
@@ -176,7 +180,7 @@ const discard = (cardName: any) =>{
 
 /////// check if out of cards //////////////////////////////////////////
 
-console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
+// console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
 
 if (reloaded && cardReplacement[0].user_id === user.id){
   console.log("RELOADED!")
@@ -274,7 +278,7 @@ if (playerHand.length <= 0){
           </div>
 
           <div className='h-4'></div>
-          <div className='text-sm text-text dark:text-darkText'>Cards left: {gameDeck.length}</div>
+          <div className='text-sm'>cards remaining: {cardsRemain}</div>
 
         </div>
       </div>
