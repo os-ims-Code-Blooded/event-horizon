@@ -454,7 +454,7 @@ if (playerHand.length <= 0){
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
              <button 
-             className={`p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 ${playerAction === "BLOCK" ? 'border-blue-600' : null} ${playerAction === "FIRE" ? 'border-red-600' : null }  ${playerAction === "LOAD" &&  activeLoading? 'border-yellow-300' : null } border-slate-700 text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 `}
+             className={`p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 ${playerAction === "BLOCK" ? 'border-blue-600' : null} ${playerAction === "FIRE" ? 'border-red-600' : null }  ${playerAction === "LOAD" &&  activeLoading? 'border-yellow-300' : null } ${!playerAction?'border-slate-700' : null } text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 `}
                onClick={(e)=>{
                  setTurnEnded(true)
                  endTurn()
