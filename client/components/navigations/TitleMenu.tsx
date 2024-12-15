@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import {Link} from 'react-router-dom';
 import LeaderBoard from '../leaderboard/Leaderboard';
 
+import Credits from '../profile/Credits.tsx';
+
 type TitleProps = {
   user: Object | null;
   volume: any;
@@ -56,6 +58,44 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6}) => {
       </div>
       <div className="pt-20 relative z-10 grid sm:grid grid-col-1">
         <LeaderBoard user={user} fullScreen={false} />
+      </div>
+      <div className='p-4'></div>
+      <div className='bg-red-600 z-10'>
+        <Credits/>
+
+        {showNewDeckModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)] p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center gap-3 z-50">
+            <h2 className="text-xl text-center font-bold text-text mb-4">Create New Deck</h2>
+            <input
+              type="text"
+              placeholder="Deck Name"
+              value={newDeckName}
+              onChange={(e) => setNewDeckName(e.target.value)}
+              className="w-full p-2 border gap-3 border-slate-300 bg-slate-400 rounded-lg text-black mb-4 text-center"
+            />
+            <button
+              onClick={()=>{
+                createNewDeck()
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-500 mr-2 pb-2"
+            >
+              Create Deck
+            </button>
+            <button
+              onClick={() => setShowNewDeckModal(false)}
+              disabled={ deckPoints > 200 }
+              className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+
+
+
       </div>
     </div>
   );
