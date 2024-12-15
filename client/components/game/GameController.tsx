@@ -151,7 +151,7 @@ export default function GameController ({
   const [playCardSFX] = useSound(cardsnap, volume);
   const [playSwitchSFX] = useSound(toggleswitch, volume);
   const [playDestructSFX] = useSound(selfdestruct, volume);
-  const [playHeavyClickSFX] = useSound(heavyclick, volume);
+ 
 
 
 
