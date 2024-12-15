@@ -325,7 +325,7 @@ if (playerHand.length <= 0){
                     <strong>Defense:</strong> {cardToPlay[2]}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] : 0}
+                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] + 1 : 1}
                   </p>
                 </div>
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
@@ -363,7 +363,7 @@ if (playerHand.length <= 0){
                   </p>
                   <p className="text-black mb-1 text-sm">
             {theirPrevRound[0].duration ?
-            <strong>Duration: {theirPrevRound[0].duration  + 1}</strong>
+            <strong>Duration: {theirPrevRound[0].duration + 1}</strong>
             :
             null}
           </p>

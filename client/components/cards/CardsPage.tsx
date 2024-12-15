@@ -369,7 +369,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                     <strong>Defense:</strong> {deckCard.armor}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                <strong>Duration:</strong> {deckCard.duration ? deckCard.duration : 0}
+                <strong>Duration:</strong> {deckCard.duration ? deckCard.duration + 1 : 1}
                 </p>
                 </div>
                 <p className="text-black text-xs text-center">{deckCard.description}</p>
@@ -524,7 +524,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                         <strong>Defense:</strong> {card.armor}
                       </p>
                       <p className="text-black mb-1 text-sm">
-                <strong>Duration:</strong> {card.duration ? card.duration : 0}
+                <strong>Duration:</strong> {card.duration ? card.duration + 1 : 1}
               </p>
                     </div>
                     <p className="text-black text-xs text-center">{card.description}</p>
