@@ -482,6 +482,13 @@ if (playerHand.length <= 0){
             :
              null
            }
+             {turnEnded && !enemyWaiting?
+               <div className='text-amber-400 text-[1rem] text-center animate-pulse' >
+                 Waiting for opponent
+               </div>
+            :
+             null
+           }
 
            <label className="inline-flex justify-items-center items-center cursor-pointer justify-between pb-2">
            <input type="checkbox" 
