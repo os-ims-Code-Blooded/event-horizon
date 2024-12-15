@@ -77,7 +77,7 @@ export default async function createAction(req: any){
         newAction = await database.actions.update({
           where: { id: actionExists.id },
           data: {
-            card: null,
+            card: { disconnect: true},
             action: req.body.data.action,
             expedite: req.body.data.expedite
           }
