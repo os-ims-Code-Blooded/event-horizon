@@ -14,6 +14,7 @@ import cardsnap from '../../sfx/cardsnap.wav'
 import toggleswitch from '../../sfx/toggleswitch.wav'
 import selfdestruct from '../../sfx/selfdestruct.wav'
 
+
 //creates front-end socket connection to the server
 // const socket = io("http://localhost:8080", {
 //   withCredentials: true,
@@ -138,7 +139,9 @@ export default function GameController ({
 
   const [soundVolume, setSoundVolume] = useState(volume.volume)
 
-  console.log("VOLUME!!!!!!!!!!", volume)
+  const [cardsRemain, setCardsRemain] = useState(gameDeck.length)
+
+  // console.log("VOLUME!!!!!!!!!!", volume)
 
   ///////////////// SFX ////////////////////////////////////
   const [playFireSFX] = useSound(whooshpew, volume);
@@ -148,6 +151,7 @@ export default function GameController ({
   const [playCardSFX] = useSound(cardsnap, volume);
   const [playSwitchSFX] = useSound(toggleswitch, volume);
   const [playDestructSFX] = useSound(selfdestruct, volume);
+ 
 
 
 
@@ -263,7 +267,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
-     console.log("--------->>> VOLUME <<<---------", volume)
+    //  console.log("--------->>> VOLUME <<<---------", volume)
     
     if (playerHand.length === 0){
       setExpediteState(true);
@@ -360,6 +364,9 @@ export default function GameController ({
 
       if (data.Current){
 
+
+        // console.log("*************\n", data.Current.Game_Card_States.filter((deckState)=>deckState.user_id === user.id)[0])
+        setCardsRemain(data.Current.Game_Card_States.filter((deckState)=>deckState.user_id === user.id)[0].deck.length)
         setRoundSoundsPlayed(false)
 
 
@@ -367,6 +374,8 @@ export default function GameController ({
         let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
         let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
         let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+
+        
 
 
         setEnemyLastAction(enemyPrevRound[0].action)
@@ -502,6 +511,8 @@ export default function GameController ({
           cardToPlay={cardToPlay}
           setCardToPlay={setCardToPlay}
           setCardId={setCardId}
+          cardsRemain={cardsRemain}
+          setCardsRemain={setCardsRemain}
 
           enemyName={enemyName}
           enemyAction={enemyAction}
