@@ -31,13 +31,13 @@ const Instructions: FC<InstructionProps> = ({user }) => {
   const [currentTab, setCurrentTab] = useState(tabs[0].id)
 
   return (
-    <div id='main' className='pt-20 justify-center items-center justify-items-center bg-starfield-light dark:bg-starfield'>
+    <div id='main' className='pt-20 justify-center items-center justify-items-center min-h-screen max-h-[200vh] h-auto bg-starfield-light dark:bg-starfield'>
 
       {/* This section only handles the "Tabs" view and selection */}
-      <div id='tabs-selection' className='text-text dark:text-darkText'>
+      <div id='tabs-selection' className='text-text dark:text-darkText rounded-t-lg'>
         {
           tabs.map((tab) => (
-            <button key={tab.id} className={`pl-3 pr-3 ${currentTab === tab.id ? 'animate-pulse bg-yellow-300 text-black' : 'text-text dark:text-darkText'}`} onClick={() => setCurrentTab(tab.id)}>
+            <button key={tab.id} className={`pl-3 pr-3 ${currentTab === tab.id ? 'transition-all animate-pulse bg-yellow-300 pt-2 text-black font-bold' : 'bg-radial-custom dark:bg-radial-dark'} rounded-t-lg`} onClick={() => setCurrentTab(tab.id)}>
               {tab.label}
             </button>
           ))
@@ -45,7 +45,7 @@ const Instructions: FC<InstructionProps> = ({user }) => {
       </div>
 
       {/* This dynamically renders content based on the "Tab" selected in the DIV above */}
-      <div id='tab-content' className='pt-16 justify-center items-center justify-items-center' style={{width: "80%"}}>
+      <div id='tab-content' className='pt-12 justify-center items-center justify-items-center text-text dark:text-darkText bg-radial-custom dark:bg-radial-dark rounded-xl' style={{width: "80%"}}>
         {tab_content[currentTab]}
       </div>
 
