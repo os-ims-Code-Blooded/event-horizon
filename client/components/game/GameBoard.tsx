@@ -347,45 +347,41 @@ if (playerHand.length <= 0){
           {/* ENEMY STATUS */}
           <div className='flex flex-col justify-center align-middle items-end'>
 
-            {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id) ?
+            {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
 
-            <div id='card' className='flex h-48 w-36' >
-              {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
-
-              <div
-              className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
-
-                <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
-
-                <div className="text-center">
-                  <div>`IMAGE`</div>
-                  <p className="text-black mb-1 text-sm">
-                    <strong>Damage:</strong> {theirPrevRound[0].damage}
-                  </p>
-                  <p className="text-black mb-1 text-sm">
-            {theirPrevRound[0].duration ?
-            <strong>Duration: {theirPrevRound[0].duration + 1}</strong>
-            :
-            null}
-          </p>
+                <div id='card' className='flex h-48 w-36' >
+                    {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
+                         <div
+                            className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
+                            <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
+                            <div className="text-center">
+                                <div>`IMAGE`</div>
+                                <p className="text-black mb-1 text-sm">
+                                  <strong>Damage:</strong> {theirPrevRound[0].damage}
+                                </p>
+                                <p className="text-black mb-1 text-sm">
+                                  <strong>Duration: {theirPrevRound[0].duration + 1 || 1}</strong>
+                                </p>
+                             </div>
+                             <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
+                        </div>
+                    :
+                        <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
+                          <img
+                            src="https://i.imgur.com/Uvf7DCN.png"
+                            className="border-8 border-slate-600 rounded-lg shadow-md w-36 h-48 flex flex-col items-center justify-between hover:scale-110"
+                            />
+                         </div>
+                    }
                 </div>
-                <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
-              </div>
-               :
-                <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
-                <img
-                  src="https://i.imgur.com/Uvf7DCN.png"
-                  className="border-8 border-slate-600 rounded-lg shadow-md w-36 h-48 flex flex-col items-center justify-between hover:scale-110"
-                  />
-              </div>
-              }
-              </div>
 
-            : (
+            :
+
+
               <div className='border-4 border-error rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-error' >
                 <div className='pt-15' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
-            )}
+            }
 
           </div>
         </div>
