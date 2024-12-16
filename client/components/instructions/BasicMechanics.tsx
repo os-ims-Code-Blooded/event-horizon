@@ -29,7 +29,8 @@ const BasicMechanics = () => {
   })
 
   return (
-    <div id='basicMechanics' style={{ width: "80%"}}>
+    <div id='basicMechanics' style={{ width: "80%", display: "flex", flexDirection: "column",
+      justifyContent: "center", justifyItems: "center"}}>
     
       {/* This section will display all buttons contained in one row, with very brief description */}
       <div id='basicMechanics-Overview' className='text-center'>

@@ -3,7 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 const Matchmaking = () => {
 
   return (
-    <div id='matchmaking' className='' style={{ width: "80%"}}>
+    <div id='matchmaking' className='' style={{ width: "80%", display: "flex", flexDirection: "column",
+      justifyContent: "center", justifyItems: "center", alignItems: "center", padding: "16px"}}>
       <h2 className='text-center text-2xl text-text dark:text-darkText'>Before You Search For A Game</h2>
       <div className='self-center justify-self-center' style={{width: '60%', minWidth:'60%'}}>
         <ol className='pt-4' style={{listStyleType: "decimal"}}>
