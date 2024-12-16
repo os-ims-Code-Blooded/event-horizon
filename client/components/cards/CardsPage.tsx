@@ -58,12 +58,13 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   // toggling for cards displayed in allCards to add to a deck
 
   const toggleCardSelection = (cardId: number) => {
+    
     setAllSelectedCards((prevSelected) =>
       prevSelected.includes(cardId)
         ? prevSelected.filter((id) => id !== cardId)
         : [...prevSelected, cardId]
     );
-
+    console.log(allSelectedCards);
 
     // console.log("CARD ID", cardId)
     // console.log("cards", allCards)

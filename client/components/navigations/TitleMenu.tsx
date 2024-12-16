@@ -18,7 +18,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
+    <div className="flex pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
       <div className="flex flex-row text-center space-between gap-3">
         <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>
 
