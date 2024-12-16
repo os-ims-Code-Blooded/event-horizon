@@ -351,7 +351,7 @@ if (playerHand.length <= 0){
 
             <div id='card' className='flex h-48 w-36' >
               {/* {console.log("ENEMY CARD =====>>> ??? ", enemyCard)} */}
-              {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id ?
+              {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
               
               <div
               className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
