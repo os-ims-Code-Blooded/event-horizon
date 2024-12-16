@@ -224,14 +224,14 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
         }
       }, [])
 
-      safetyCheck.forEach( async (card: number) => {
+      for (let i = 0; i < safetyCheck.length; i++) {
         await database.user_Deck_Cards.create({
           data: {
-            userCards: {connect: {id: card}},
+            userCards: {connect: {id: safetyCheck[i]}},
             deck: {connect: {id: Number(req.body.data.deck_id)}}
           }
         })
-      }) 
+      }
     }
 
     res.sendStatus(200);
