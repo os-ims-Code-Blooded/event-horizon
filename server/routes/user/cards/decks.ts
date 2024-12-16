@@ -203,7 +203,8 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
 
     if (req.body.data.add_cards){
       // convert all card IDs supplied for adding to deck to numbers for database safety
-      let safetyCheck = req.body.data.add_cards.map((card:any) => Number(card));
+
+      let safetyCheck = req.body.data.add_cards.flat().map((card:any) => Number(card));
 
       // pull all cards for the deck we are modifying
       const validationPull = await database.user_Deck_Cards.findMany({
