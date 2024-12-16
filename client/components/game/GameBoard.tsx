@@ -176,10 +176,10 @@ const discard = (cardName: any) =>{
 
 /////// check if out of cards //////////////////////////////////////////
 
-console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
+// console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
 
 if (reloaded && cardReplacement[0].user_id === user.id){
-  console.log("RELOADED!")
+  // console.log("RELOADED!")
   setGameDeck(gameDeck.concat(cardReplacement[0].card))
   setReloaded(false)
   setCardReplacement([])

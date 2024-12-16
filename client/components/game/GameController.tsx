@@ -138,7 +138,7 @@ export default function GameController ({
 
   const [soundVolume, setSoundVolume] = useState(volume.volume)
 
-  console.log("VOLUME!!!!!!!!!!", volume)
+  // console.log("VOLUME!!!!!!!!!!", volume)
 
   ///////////////// SFX ////////////////////////////////////
   const [playFireSFX] = useSound(whooshpew, volume);
@@ -167,7 +167,7 @@ export default function GameController ({
 
     setRoundSoundsPlayed(true)
 
-    console.log("click value", e.target.value)
+    // console.log("click value", e.target.value)
 
     if (e.target.value === "FIRE"){
 
@@ -263,7 +263,7 @@ export default function GameController ({
 
   useEffect(()=>{
 
-     console.log("--------->>> VOLUME <<<---------", volume)
+    //  console.log("--------->>> VOLUME <<<---------", volume)
     
     if (playerHand.length === 0){
       setExpediteState(true);
@@ -286,7 +286,7 @@ export default function GameController ({
 
       setRoundSoundsPlayed(true)
 
-      console.log("*** ROUND RESPONSE DATA ***\n", data)
+      // console.log("*** ROUND RESPONSE DATA ***\n", data)
 
 
       if (data.Current) {
