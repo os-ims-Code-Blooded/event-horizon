@@ -350,14 +350,13 @@ if (playerHand.length <= 0){
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id) ?
 
             <div id='card' className='flex h-48 w-36' >
-              {/* {console.log("ENEMY CARD =====>>> ??? ", enemyCard)} */}
               {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
-              
+
               <div
               className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
-          
+
                 <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
-          
+
                 <div className="text-center">
                   <div>`IMAGE`</div>
                   <p className="text-black mb-1 text-sm">
