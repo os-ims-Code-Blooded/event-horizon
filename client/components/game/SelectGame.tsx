@@ -45,7 +45,9 @@ export default function SelectGame({
   playMusic,
   click13,
   click6,
-  playHeavyClickSFX
+  playHeavyClickSFX,
+  musicPlayed,
+  setMusicPlayed
 
 }){
 
@@ -86,7 +88,7 @@ export default function SelectGame({
   ];
 
   const [enemyHand, setEnemyHand] = useState(opponentCards)
-  const [musicPlayed, setMusicPlayed] = useState(false)
+
 
   if (!musicPlayed){
     playMusic();

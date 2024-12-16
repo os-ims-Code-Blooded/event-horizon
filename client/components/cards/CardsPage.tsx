@@ -58,7 +58,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   // toggling for cards displayed in allCards to add to a deck
 
   const toggleCardSelection = (cardId: number) => {
-    
+
     setAllSelectedCards((prevSelected) =>
       prevSelected.includes(cardId)
         ? prevSelected.filter((id) => id !== cardId)
@@ -72,15 +72,15 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
     // console.log("current card", currCard)
     // console.log("SELECTED CARDS", allSelectedCards)
-    !allSelectedCards.includes(cardId) ? 
-    
-    setDeckPoints(deckPoints + ((currCard[0].armor + currCard[0].damage) * (currCard[0].duration + 1)))
-    
-    :
-    
-    setDeckPoints(deckPoints - ((currCard[0].armor + currCard[0].damage) * (currCard[0].duration + 1)))
+    !allSelectedCards.includes(cardId) ?
 
-    
+    setDeckPoints(deckPoints + ((currCard[0].armor + currCard[0].damage) * (currCard[0].armor? currCard[0].duration: currCard[0].duration + 1)))
+
+    :
+
+    setDeckPoints(deckPoints - ((currCard[0].armor + currCard[0].damage) * (currCard[0].armor? currCard[0].duration: currCard[0].duration + 1)))
+
+
   };
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -348,7 +348,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
               <div
                 key={deckCard.id}
-                className={`relative bg-white border border-slate-300 hover:scale-110 hover:z-20 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 h-48 w-32' 
+                className={`relative bg-white border border-slate-300 hover:scale-110 hover:z-20 mx-1 first:ml-0 my-1 rounded-lg shadow-lg flex-col justify-items-center text-black text-center flex-shrink-0 z-10 h-48 w-32'
                   ${
                     selectedCardsInDeck.includes(deckCard.id)
                       ? "border-error border-4 animate-pulse"
@@ -370,7 +370,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                     <strong>Defense:</strong> {deckCard.armor}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                <strong>Duration:</strong> {deckCard.duration ? deckCard.duration + 1 : 1}
+                <strong>Duration:</strong> {deckCard.armor > 0 ? deckCard.duration : deckCard.duration + 1}
                 </p>
                 </div>
                 <p className="text-black text-xs text-center">{deckCard.description}</p>
@@ -526,7 +526,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
                         <strong>Defense:</strong> {card.armor}
                       </p>
                       <p className="text-black mb-1 text-sm">
-                        <strong>Duration:</strong> {card.duration ? card.duration + 1 : 1}
+                        <strong>Duration:</strong> {card.armor > 0 ? card.duration : card.duration + 1}
                       </p>
                     </div>
                     <p className="text-black text-xs text-center">{card.description}</p>

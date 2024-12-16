@@ -40,6 +40,8 @@ export default function App (){
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [volume, setVolume] = useState({volume: 0.2});
 
+  const [musicPlayed, setMusicPlayed] = useState(false)
+
   const [click13] = useSound(eclick13, volume);
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
@@ -240,7 +242,7 @@ export default function App (){
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame playMusic={playMusic} volume={volume} user={user} click13={click13} click6={click6} playHeavyClickSFX={playHeavyClickSFX}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame playMusic={playMusic} musicPlayed={musicPlayed} setMusicPlayed={setMusicPlayed} volume={volume} user={user} click13={click13} click6={click6} playHeavyClickSFX={playHeavyClickSFX}/> : <Navigate to='/' />}
         />
         <Route
           path="/leaderboard"

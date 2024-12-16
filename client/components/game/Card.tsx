@@ -59,8 +59,8 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
           <p className="text-black mb-1 text-sm">
             <strong>Defense:</strong> {card.armor}
           </p>
-          <p className="text-black mb-1 text-sm">
-            <strong>Duration:</strong> {card.duration + 1}
+          <p className="text-black mb-1 text-sm"> 
+            <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
         <p className="text-black text-sm text-center">{card.description}</p>
@@ -78,7 +78,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
             <strong>Defense:</strong> {card.armor}
           </p>
           <p className="text-black mb-1 text-sm">
-            <strong>Duration:</strong> {card.duration + 1}
+            <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
         <p className="text-black text-sm text-center">{card.description}</p>
