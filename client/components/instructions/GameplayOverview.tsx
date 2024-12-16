@@ -3,7 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 const GameplayOverview = () => {
 
   return (
-    <div id='gameplayOverview' style={{ width: "80%"}}>
+    <div id='gameplayOverview' style={{ width: "80%", display: "flex", flexDirection: "column",
+      justifyContent: "center", justifyItems: "center"}}>
       
       <div className='text-center justify-items-center items-center self-center pb-4'>
         <span>

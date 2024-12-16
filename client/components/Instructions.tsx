@@ -31,7 +31,8 @@ const Instructions: FC<InstructionProps> = ({user }) => {
   const [currentTab, setCurrentTab] = useState(tabs[0].id)
 
   return (
-    <div id='main' className='pt-20 justify-center items-center justify-items-center min-h-screen max-h-[200vh] h-auto bg-starfield-light dark:bg-starfield'>
+    <div id='main' className='pt-20 justify-center items-center justify-items-center min-h-screen max-h-[200vh] h-auto bg-starfield-light dark:bg-starfield' style={{display: "flex", flexDirection: "column",
+      justifyContent: "center", justifyItems: "center", alignItems: "center"}}>
 
       {/* This section only handles the "Tabs" view and selection */}
       <div id='tabs-selection' className='text-text dark:text-darkText rounded-t-lg'>
