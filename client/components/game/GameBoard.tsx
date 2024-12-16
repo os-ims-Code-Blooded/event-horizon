@@ -327,7 +327,7 @@ if (playerHand.length <= 0){
                     <strong>Defense:</strong> {cardToPlay[2]}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] + 1 : 1}
+                    <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
                   </p>
                 </div>
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>

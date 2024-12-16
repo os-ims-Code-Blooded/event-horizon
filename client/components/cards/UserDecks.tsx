@@ -61,6 +61,7 @@ const UserDecks: FC<userDeckProps> = () => {
                   <h3 className="font-semibold">{card.name}</h3>
                   <p>Attack: {card.attack}</p>
                   <p>Defense: {card.defense}</p>
+                  <p>Duration:  {card.description}</p>
                   <p>{card.description}</p>
                 </div>
               ))}
