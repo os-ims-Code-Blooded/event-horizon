@@ -33,6 +33,8 @@ type GameBoardProp = {
   setGameDeck: any
   playerHand: any
   setPlayerHand: any
+  cardsRemain: any
+  setCardsRemain: any
 
   enemyName: any
   enemyAction: any
@@ -106,6 +108,8 @@ const GameBoard: FC <GameBoardProp> = ({
   setCardReplacement,
   reloaded,
   setReloaded,
+  cardsRemain,
+  setCardsRemain,
 
   endTurn,
   turnEnded,
@@ -274,7 +278,7 @@ if (playerHand.length <= 0){
           </div>
 
           <div className='h-4'></div>
-          <div className='text-sm text-text dark:text-darkText'>Cards left: {gameDeck.length}</div>
+          <div className='text-sm'>cards remaining: {cardsRemain}</div>
 
         </div>
       </div>
@@ -321,7 +325,7 @@ if (playerHand.length <= 0){
                     <strong>Defense:</strong> {cardToPlay[2]}
                   </p>
                   <p className="text-black mb-1 text-sm">
-                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] : 0}
+                    <strong>Duration:</strong> {cardToPlay[5] ? cardToPlay[5] + 1 : 1}
                   </p>
                 </div>
                 <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
@@ -359,7 +363,7 @@ if (playerHand.length <= 0){
                   </p>
                   <p className="text-black mb-1 text-sm">
             {theirPrevRound[0].duration ?
-            <strong>Duration: {theirPrevRound[0].duration  + 1}</strong>
+            <strong>Duration: {theirPrevRound[0].duration + 1}</strong>
             :
             null}
           </p>
@@ -449,7 +453,8 @@ if (playerHand.length <= 0){
                {
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
-             <button className='p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 border-slate-700 text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 '
+             <button 
+             className={`p-3 flex aspect-square text-text dark:text-darkText font-bold rounded-full text-sm justify-center items-center overflow-hidden border-8 ${playerAction === "BLOCK" ? 'border-blue-600' : null} ${playerAction === "FIRE" ? 'border-red-600' : null }  ${playerAction === "LOAD" &&  activeLoading? 'border-yellow-300' : null } ${!playerAction?'border-slate-700' : null } text-ellipsis text-center justify-items-end bg-emerald-500 hover:border-slate-500 hover:bg-emerald-900 focus:ring-4 focus:ring-emerald-600 `}
                onClick={(e)=>{
                  setTurnEnded(true)
                  endTurn()
@@ -473,6 +478,13 @@ if (playerHand.length <= 0){
              {enemyWaiting?
                <div className='text-error text-[1rem] text-center animate-pulse' >
                  Opponent waiting
+               </div>
+            :
+             null
+           }
+             {turnEnded && !enemyWaiting?
+               <div className='text-amber-400 text-[1rem] text-center animate-pulse' >
+                 Waiting for opponent
                </div>
             :
              null

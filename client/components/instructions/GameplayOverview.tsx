@@ -4,6 +4,13 @@ const GameplayOverview = () => {
 
   return (
     <div id='gameplayOverview' style={{ width: "80%"}}>
+      
+      <div className='text-center justify-items-center items-center self-center pb-4'>
+        <span>
+          <h2 className='text-2xl'>What does a game look like in Event Horizon?</h2>
+        </span>
+      </div>
+
       <span>
         <p>
           Event Horizon is a turn-based card battling game; each player is allowed one action per every turn (round). Whenever a player starts a game, 
@@ -11,6 +18,10 @@ const GameplayOverview = () => {
           and will eventually become reduced to zero (0). An example of this information can be viewed below!
         </p>
       </span>
+      
+      <div className='pb-8 pt-8'>
+          <hr></hr>
+      </div>
 
       <div className='justify-center items-center justify-items-center pt-4 pb-4'>
         <div style={{height: "33%", width: "66%"}}>
@@ -30,14 +41,16 @@ const GameplayOverview = () => {
         </div>
       </div>
 
-      <span>
-        <p>
-          Your goal is to try to survive, and defeat your enemy! We have established visual indicators for the health bars that we have shown above. 
-          Whenever you take damage to your armor or health, those bars will briefly shake. If you aren't sure what happened on the previous round, you can
-          look at your enemy's munition status to see what card they used against you on the previous turn. If this still isn't clear, you may also look at
-          the combat log (in the top left of your screen) to see what actions were taken on the previous round!
-        </p>
-      </span>
+      <div className='pt-6 pb-6'>
+        <span>
+          <p>
+            Your goal is to try to survive, and defeat your enemy! Visual indicators for the health bars are shown above. 
+            Whenever you take damage to your armor or health, those bars will briefly shake. If you aren't sure what happened on the previous round, you can
+            look at your enemy's munition status to see what card they used against you on the previous turn. If this still isn't clear, you may also look at
+            the combat log (in the top left of your screen) to see what actions were taken on the previous round!
+          </p>
+        </span>
+      </div>
 
       <div className='justify-center items-center justify-items-center pt-4 pb-4'>
         <div className='shadow-lg shadow-black bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg w-2/3'>
@@ -47,12 +60,14 @@ const GameplayOverview = () => {
         </div>
       </div>
 
-      <span>
-        <p>
-          We recommend that new players also read about basic game mechanics, so that they are aware of their options when playing the game. There's more to
-          your strategy than just playing a card, and what you choose to do on a round can make a significant difference!
-        </p>
-      </span>
+      <div className='pt-6 pb-6'>
+        <span>
+          <p>
+            We recommend that new players also read about basic game mechanics, so that they are aware of their options when playing the game. There's more to
+            your strategy than just playing a card, and what you choose to do on a round can make a significant difference!
+          </p>
+        </span>
+      </div>
 
     </div>
   )
