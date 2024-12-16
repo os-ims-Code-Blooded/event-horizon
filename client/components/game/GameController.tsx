@@ -139,7 +139,6 @@ export default function GameController ({
 
   const [soundVolume, setSoundVolume] = useState(volume.volume)
 
-
   const [cardsRemain, setCardsRemain] = useState(gameDeck.length)
 
   // console.log("VOLUME!!!!!!!!!!", volume)
