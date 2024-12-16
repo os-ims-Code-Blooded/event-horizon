@@ -429,6 +429,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
           <button
             onClick={() => {
               addCardsToDeck();
+              setDeckPoints(0)
             }}
             className="px-4 py-2 bg-green-600 text-text dark:text-darkText rounded-lg z-10 relative shadow hover:bg-green-500"
           >
