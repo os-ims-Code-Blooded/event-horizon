@@ -211,6 +211,7 @@ export default function App (){
         setVolume={setVolume}
         clickS={clickS}
         handleToggleMute={handleToggleMute}
+        isMuted={isMuted}
       />
       <Routes>
         <Route

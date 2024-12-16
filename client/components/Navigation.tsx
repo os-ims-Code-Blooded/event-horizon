@@ -13,9 +13,10 @@ type NavProps = {
   setVolume: any;
   clickS: any;
   handleToggleMute: () => void;
+  isMuted: Boolean;
 };
 
-const NavigationBar: FC<NavProps> = ({handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({isMuted, handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -198,7 +199,11 @@ const NavigationBar: FC<NavProps> = ({handleToggleMute, setVolume, clickS, fetch
             />
             <div className='flex flex-row gap-6 justify-between'>
               <span className='font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
-              <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🎵</button>
+              {isMuted ?
+                <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🔇</button>
+                :
+                <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🎵</button>
+              }
             </div>
             <div className="flex justify-between items-center mt-3">
               {/* Confirm button */}
