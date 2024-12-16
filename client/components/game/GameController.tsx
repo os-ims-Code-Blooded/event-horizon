@@ -139,8 +139,11 @@ export default function GameController ({
 
   const [soundVolume, setSoundVolume] = useState(volume.volume)
 
+<<<<<<< HEAD
+=======
   const [cardsRemain, setCardsRemain] = useState(gameDeck.length)
 
+>>>>>>> d0b31f22d5dabf31a75a16f51bb1c478bedb7592
   // console.log("VOLUME!!!!!!!!!!", volume)
 
   ///////////////// SFX ////////////////////////////////////
@@ -171,7 +174,7 @@ export default function GameController ({
 
     setRoundSoundsPlayed(true)
 
-    console.log("click value", e.target.value)
+    // console.log("click value", e.target.value)
 
     if (e.target.value === "FIRE"){
 
@@ -290,7 +293,7 @@ export default function GameController ({
 
       setRoundSoundsPlayed(true)
 
-      console.log("*** ROUND RESPONSE DATA ***\n", data)
+      // console.log("*** ROUND RESPONSE DATA ***\n", data)
 
 
       if (data.Current) {
