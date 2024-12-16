@@ -145,7 +145,7 @@ export default function SelectGame({
 
                     // if the filtered array contains an enemy
                     if (enemy.length > 0) {
-                      console.log("ENEMY!", enemy)
+                      //console.log("ENEMY!", enemy)
                       setEnemyName(enemy[0].name);  // set that enemy's name
                       setEnemyId(enemy[0].user_id); // set that enemy's user ID
                       setRoundInfo(data)            // set the current round information
