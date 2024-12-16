@@ -118,7 +118,7 @@ export default function SelectGame({
                   setRoundNum(round.data["Current Round"]);
 
                   // console.log("ROUND DATA", round.data["Current Round Actual"])
-                  console.log("ROUND DATA", round.data)
+                  // console.log("ROUND DATA", round.data)
                   setSession(game.data.id);
                   setRoundNum(round.data["Current Round"]);
                   setRoundActual(round.data["Current Round Actual"])

@@ -12,6 +12,7 @@ interface CardType {
   armor: number;
   description: string;
   id: number;
+  duration: number;
 }
 type GameBoardProp = {
   session: string;
@@ -166,6 +167,7 @@ const GameBoard: FC <GameBoardProp> = ({
     name: 'Phaser Charge',
     damage: 10,
     armor: 0,
+    duration: 0,
     description: 'last-resort shield-to-phaser power conversion',
     id: 5
   }]
