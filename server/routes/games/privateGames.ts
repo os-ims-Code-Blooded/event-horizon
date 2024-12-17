@@ -45,6 +45,30 @@ privateGames.get('/invites', async (req: AuthRequest, res) => {
 
 })
 
+// in this case, we provide the game_id (included on the invite) for the invite we are refusing
+privateGames.delete('/invites/:id', async (req: AuthRequest, res) => {
+
+  try {
+
+    // deletes the invite from records
+    const deleteInvite = await database.game_invites.deleteMany({
+      where: { game_id: Number(req.params.id)}
+    })
+
+    // also deletes the game that was initialized for the invite (also cascading deletes)
+    const deleteGameIfExists = await database.games.deleteMany({
+      where: { id: Number(req.params.id)}
+    })
+
+    res.sendStatus(200);
+
+  } catch (error) {
+    errorHandler(error);
+    console.error(`Error on request to refuse invite for player #${req.user.id}.`)
+  }
+
+})
+
 // This is used in SelectGame.tsx to join a game
 // client will submit a game_id that is provided by the get '/invites' route above to join
 // if game is found (should always be found with our implementation) then return relevant data
