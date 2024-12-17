@@ -68,8 +68,8 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
           {showCreditsModal && (
-          <div className="flex align-middle items-center justify-center bg-black bg-opacity-50 z-15">
-            <div className="bg-slate-600 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40">
+          <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle ">
+            <div className="bg-slate-600 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40 ">
               <h2 className="text-2xl pt-2 justify-center text-center font-bold text-white mb-4">Credits</h2>
               
              <Credits/>
@@ -104,7 +104,6 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
 }
-    <div className='p-4'></div>
     </div>
   );
 };
