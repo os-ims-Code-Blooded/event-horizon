@@ -5,9 +5,9 @@
 /* 
 CB PRIMARY COLOR
 */
-.cbMode .bg-primary {
+/* .cbMode .bg-primary {
   background-color: #1f78b4;
-}
+} */
 
 .cbMode .text-text {
   color: #000000;
@@ -31,14 +31,20 @@ CB Secondary COLOR
 }
 
 .cbMode {
-  background-color: #1f78b4;
+  /* background-color: #1f78b4; */
   color: #000;
 }
 .cbMode .text-error {
-  color: #1f78b4;
+  color: #000000;
 }
-.cbMode .text-success {
+/* .cbMode .text-success {
   color: #0F52BA
+}
+.cbMode .border-success {
+  color: #0F52BA
+} */
+.cbMode .border-error {
+  background-color: #ff7f00;
 }
 .cbMode .bg-error {
   background-color: #ff7f00;
@@ -79,9 +85,9 @@ CB Secondary COLOR
   filter: invert(0.75);
 }
 
-.cbMode .bg-fifth {
-  background-color: #0F52BA !important;
-}
+/* .cbMode .bg-fifth {
+  background-color: #0F52BA;
+} */
 
 .darkMode .text-text {
   color: #FFFFFF;

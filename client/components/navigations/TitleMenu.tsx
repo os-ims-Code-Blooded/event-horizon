@@ -18,8 +18,8 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
   return (
-    <div className="box-border grid pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
-      <div className="flex flex-row text-center space-between gap-2">
+    <div className="box-border flex pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text pb-1 dark:text-darkText flex-col" aria-label="Title Menu">
+      <div className="flex flex-row text-center gap-2">
         <div className='bg-starfield-light dark:bg-starfield absolute max-h-screen inset-0 z-9'></div>
 
 
@@ -30,7 +30,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             to="/instructions"
             onClick={click13}
             replace={true}
-            className="absolute inset-0 z-10 m-auto w-24 h-24 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:bg-slate-300"
+            className="absolute inset-0 z-10 m-auto w-24 h-24 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-purple-800 hover:bg-orange-700"
           >
             How To Play
           </Link>
@@ -41,7 +41,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             to="/user-profile"
             onClick={click13}
             replace={true}
-            className="absolute inset-0 z-10 m-auto w-24 h-24 bg-neutral text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:bg-slate-300"
+            className="absolute inset-0 z-10 m-auto w-24 h-24 bg-neutral text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-600 hover:bg-slate-600"
           >
             Profile
           </Link>
@@ -52,14 +52,14 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             to="/game-board"
             onClick={click6}
             replace={true}
-            className="absolute inset-0 z-10 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-slate-300 hover:animate-pulse"
+            className="absolute inset-0 z-10 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-emerald-800 hover:animate-pulse"
 
           >
             Play!
           </Link>
         </div>
       </div>
-      <div className="relative z-10 grid sm:grid grid-col-1">
+      <div className="relative z-10 pt-2 grid sm:grid grid-col-1">
         <LeaderBoard user={user} fullScreen={false} />
       </div>
       <div className='p-4'></div>
@@ -70,14 +70,14 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
           {showCreditsModal && (
           <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle ">
             <div className="bg-slate-600 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40 ">
-              <h2 className="text-2xl pt-2 justify-center text-center font-bold text-white mb-4">Credits</h2>
+              <h2 className="text-2xl pt-2 justify-center text-center font-bold text-text dark:text-darkText mb-4">Credits</h2>
               
              <Credits/>
               <button
                 onClick={() => {
                   playHeavyClickSFX()
                   setShowCreditsModal(false)}}
-                className="px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300"
+                className="px-4 py-2 bg-slate-700 text-darkText rounded-lg shadow hover:text-text hover:bg-slate-300"
               >
                 close
               </button>
@@ -90,7 +90,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 {!showCreditsModal? 
 
-      <div className='px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300 z-10'>
+      <div className='relative px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:text-text hover:bg-slate-500 z-10'>
           <button onClick={()=>{
             playHeavyClickSFX()
             setShowCreditsModal(!showCreditsModal)}}>credits

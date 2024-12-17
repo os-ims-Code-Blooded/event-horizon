@@ -99,7 +99,7 @@ const Settings = ({user, fetchUser}) =>{
 
   return (
     <div
-      className="pt-10 flex flex-col items-center gap-5 text-white p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
+      className="pt-10 flex flex-col items-center gap-5 text-text dark:text-darkText p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="User Settings Page"
     >
       <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>

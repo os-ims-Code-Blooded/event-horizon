@@ -40,7 +40,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
   }
 
   return (
-    <div id='card' className='flex h-48 w-36' >
+    <div id='card' className='flex h-48 w-36 min-w-[144px] max-h-[200px]' >
 
     {playerAction === 'LOAD' && !turnEnded?
       <div

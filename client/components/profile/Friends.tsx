@@ -84,10 +84,10 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
 
   return (
     <div
-      className="pt-10 flex flex-col items-center bg-starfield p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
+      className="pt-10 flex flex-col items-center bg-starfield-light dark:bg-starfield p-6 rounded-lg shadow-md h-screen sm:grid-cols-1"
       aria-label="Friends or Search Results"
     >
-      <h1 className="text-2xl font-bold text-white mb-4 pt-5">
+      <h1 className="text-2xl font-bold text-text dark:text-darkText mb-4 pt-5">
         {showSearch ? 'Search Results' : "Your Friend's List"}
       </h1>
 
@@ -98,12 +98,12 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
             placeholder="Search for users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 rounded bg-slate-500 text-text text-center focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="w-full px-4 py-2 rounded bg-slate-500 dark:bg-slate-600 text-text placeholder-text dark:placeholder-darkText dark:text-darkText text-center focus:outline-none focus:ring-2 focus:ring-yellow-500"
             aria-label="Search input"
           />
           <button
             onClick={handleSearch}
-            className="mt-2 w-full px-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-300"
+            className="mt-2 w-full px-4 py-2 rounded bg-yellow-500 text-text dark:text-darkText hover:bg-yellow-300 dark:hover:bg-yellow-600"
           >
             Search
           </button>
@@ -118,10 +118,10 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
               className={`flex justify-between items-center py-4 px-6 rounded-md transition-colors cursor-pointer ${
                 selectedFriendId === friend.id
                   ? 'bg-blue-700 text-white'
-                  : 'bg-slate-600 text-white hover:bg-slate-400'
+                  : 'bg-slate-600 text-white hover:bg-slate-500 '
               }`}
               onClick={() => handleSelectFriend(friend.id)}
-              aria-label={`Friend ${friend.name || friend.email}`}
+              aria-label={`Friend ${friend.name}`}
             >
               <button
                 className="font-red hover:bg-slate-300"
@@ -131,7 +131,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                 }}
                 aria-label={`Delete friend ${friend.name || friend.email}`}
               >
-                {currentList === friends ? <div>🗑</div> : ''}
+                {currentList === friends ? <div>💥</div> : ''}
               </button>
               <span className="font-medium">{friend.name || friend.email}</span>
               {!showSearch && (
@@ -162,14 +162,14 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
         <button
           onClick={toggleSearch}
           className={`px-4 py-2 rounded ${
-            showSearch ? 'bg-gray-500 hover:bg-slate-600' : 'bg-blue-500 hover:bg-blue-600'
+            showSearch ? 'bg-slate-500 text-text dark:text-darkText hover:bg-slate-400' : 'bg-blue-500 text-text dark:text-darkText hover:bg-blue-600'
           } text-text`}
           aria-label={showSearch ? 'Back to Friends' : 'Find a New Friend'}
         >
           {showSearch ? 'Back to Friends' : 'Find a New Friend'}
         </button>
         <button
-          className={`px-4 py-2 rounded text-text ${
+          className={`px-4 py-2 rounded dark:text-darkText text-text ${
             selectedFriendId
               ? 'bg-yellow-600 hover:bg-yellow-400'
               : 'bg-slate-500 cursor-not-allowed'
