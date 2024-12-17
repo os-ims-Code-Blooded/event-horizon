@@ -332,7 +332,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
         </div>
       </div>
 
-      {/* Selected Deck Actions */}
+      {/* Selected Deck actions */}
       {selectedDeck && (
         <div className="text-center mt-4 flex flex-col z-10 relative">
           <h2 className="text-white text-xl mb-4 z-10 relative justify-between">

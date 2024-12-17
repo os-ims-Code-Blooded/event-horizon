@@ -160,13 +160,13 @@ export default function GameController ({
     try {
       const response = await axios.get(`/cards/`);
       // console.log("ALL CARD DATA?", response)
-      setAllCards(response.data)
+      // setAllCards(response.data)
     } catch (error) {
       console.error("Error fetching all cards:", error);
     }
   };
 
-///////////CHOOSING ACTIONS/////////////////////////////////////
+///////////CHOOSING actions/////////////////////////////////////
   const actionClick = (e) =>{
 
     setRoundSoundsPlayed(true)
@@ -296,12 +296,12 @@ export default function GameController ({
       if (data.Current) {
 
         // Current player information
-        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        let playerCurrRound = data.Current.game_player_information.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyCurrRound = data.Current.game_player_information.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
         // Previous player information
-        let playerPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-        let enemyPrevRound = data.Previous.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        let playerPrevRound = data.Previous.game_player_information.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyPrevRound = data.Previous.game_player_information.filter((round: { user_id: any; })=>round.user_id !== user.id)
 
         // if the player has lost health this round, then display an effect
         if (playerCurrRound[0].health < playerPrevRound[0].health) {
@@ -349,10 +349,10 @@ export default function GameController ({
 
 
 
-      let myHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
+      let myHand = data.Current.game_card_states.filter(cardState=>cardState.user_id === user.id).map(enemyCardState=>enemyCardState.hand).flat();
 
 
-      let theirHand = data.Current.Game_Card_States.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
+      let theirHand = data.Current.game_card_states.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
 
       // console.log("ENEMY'S HAND CARDS:", theirHand)
       setEnemyHand(theirHand)
@@ -365,15 +365,15 @@ export default function GameController ({
       if (data.Current){
 
 
-        // console.log("*************\n", data.Current.Game_Card_States.filter((deckState)=>deckState.user_id === user.id)[0])
-        setCardsRemain(data.Current.Game_Card_States.filter((deckState)=>deckState.user_id === user.id)[0].deck.length)
+        // console.log("*************\n", data.Current.game_card_states.filter((deckState)=>deckState.user_id === user.id)[0])
+        setCardsRemain(data.Current.game_card_states.filter((deckState)=>deckState.user_id === user.id)[0].deck.length)
         setRoundSoundsPlayed(false)
 
 
-        let playerCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id === user.id)
-        let enemyCurrRound = data.Current.Round_Player_Info.filter((round: { user_id: any; })=>round.user_id !== user.id)
-        let playerPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id === user.id)
-        let enemyPrevRound = data.Previous.Actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
+        let playerCurrRound = data.Current.game_player_information.filter((round: { user_id: any; })=>round.user_id === user.id)
+        let enemyCurrRound = data.Current.game_player_information.filter((round: { user_id: any; })=>round.user_id !== user.id)
+        let playerPrevRound = data.Previous.actions.filter((action: { user_id: any; })=>action.user_id === user.id)
+        let enemyPrevRound = data.Previous.actions.filter((action: { user_id: any; })=>action.user_id !== user.id)
 
         
 
