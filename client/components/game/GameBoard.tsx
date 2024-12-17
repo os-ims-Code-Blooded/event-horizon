@@ -295,7 +295,7 @@ if (playerHand.length <= 0){
           {enemyHand.map((card, index) => (
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
-              className="border-8 border-slate-600 rounded-lg shadow-md w-42 h-48 flex flex-col items-center justify-between hover:scale-110"
+              className="border-8 border-slate-600 rounded-lg shadow-md w-32 h-40 flex flex-col items-center justify-between hover:scale-110"
               key={index}
             />
           ))}
@@ -313,7 +313,7 @@ if (playerHand.length <= 0){
             <>{!turnEnded?
               (
               
-                <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
+                <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
                   onClick={() => {
                     if (playerAction === "LOAD" && !weaponArmed){
 
@@ -346,7 +346,7 @@ if (playerHand.length <= 0){
 
               (
 
-                <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110">
+                <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110">
                   <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                   <div className="text-center">
                     <div>`IMAGE`</div>
@@ -371,7 +371,7 @@ if (playerHand.length <= 0){
 
 
             (
-              <div className='border-4 rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-success'>
+              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-success'>
                 <div className='pt-15'>MUNITION STATUS:</div>
               </div>
             )}
@@ -404,7 +404,7 @@ if (playerHand.length <= 0){
                              <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
                         </div>
                     :
-                        <div className=" border-4 border-red-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
+                        <div className=" border-4 border-error rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
                             className="border-8 border-slate-600 rounded-lg shadow-md w-36 h-48 flex flex-col items-center justify-between hover:scale-110"
