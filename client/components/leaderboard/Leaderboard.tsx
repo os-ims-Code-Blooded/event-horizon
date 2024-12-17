@@ -28,7 +28,7 @@ const LeaderBoard = ({user, fullScreen=true}) => {
     <div
       className={`${
         fullScreen ? 'h-screen' : 'h-full'
-      } w-full bg-starfield text-white dark:text-slate-200 flex flex-col items-center rounded-lg pt-15`}
+      } w-full bg-starfield text-white dark:text-slate-200 flex flex-col items-center rounded-lg`}
     >
       <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
       <table className="table-auto border-collapse border border-slate-500 rounded-lg">

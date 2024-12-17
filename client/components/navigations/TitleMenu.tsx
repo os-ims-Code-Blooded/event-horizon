@@ -18,9 +18,9 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
   return (
-    <div className="flex pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
-      <div className="flex flex-row text-center space-between gap-3">
-        <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>
+    <div className="box-border grid pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text dark:text-darkText flex-col" aria-label="Title Menu">
+      <div className="flex flex-row text-center space-between gap-2">
+        <div className='bg-starfield-light dark:bg-starfield absolute max-h-screen inset-0 z-9'></div>
 
 
         {/* How To Play Button Container */}
@@ -59,7 +59,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
           </Link>
         </div>
       </div>
-      <div className="pt-20 relative z-10 grid sm:grid grid-col-1">
+      <div className="relative z-10 grid sm:grid grid-col-1">
         <LeaderBoard user={user} fullScreen={false} />
       </div>
       <div className='p-4'></div>
