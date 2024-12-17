@@ -10,7 +10,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
       include: {
         round_effects: true,
         game_player_information: true,
-        Actions: true,
+        actions: true,
         actions_loaded: true,
         game_card_states: true
       }
@@ -49,7 +49,7 @@ export default async function generateResponse(newRound: number, prevRound: numb
       include: {
         round_effects: true,
         game_player_information: true,
-        Actions: true,
+        actions: true,
         actions_loaded: true,
         game_card_states: true
       }

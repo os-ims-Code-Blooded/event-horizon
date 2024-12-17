@@ -46,7 +46,7 @@ model user {
   friendOf                friends[]                 @relation("Friendships")
   selectedDeck            user_decks?               @relation("SelectedDeck", fields: [selectedDeckId], references: [id])
   game_player_information game_player_information[]
-  Actions                 actions[]
+  actions                 actions[]
   user_settings           user_settings[]
   game_card_states        game_card_states[]
   private_connections     private_connections[]
@@ -140,7 +140,7 @@ model rounds {
 
   game                    games                     @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   game_player_information game_player_information[]
-  Actions                 actions[]
+  actions                 actions[]
 
   game_card_states game_card_states[]
 }

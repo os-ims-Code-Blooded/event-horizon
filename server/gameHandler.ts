@@ -19,13 +19,13 @@ export default async function gameHandler(req: any) {
       include: {
         round_effects: true,
         game_player_information: true,
-        Actions: true,
+        actions: true,
         actions_loaded: true,
       }
     })
 
     // if action is found belonging to player
-    const playerHasAction = currentRound.Actions.filter((action) => action.user_id === req.body.data.user_id)
+    const playerHasAction = currentRound.actions.filter((action) => action.user_id === req.body.data.user_id)
 
     // if this is the first action submitted for a round
     if (playerHasAction.length > 0) {
@@ -36,7 +36,7 @@ export default async function gameHandler(req: any) {
         "Waiting": true,
         "user_id": req.body.data.user_id
       }
-    } else if (currentRound.Actions.length === 0){
+    } else if (currentRound.actions.length === 0){
 
       await createAction(req);
       return {
@@ -47,7 +47,7 @@ export default async function gameHandler(req: any) {
       }
 
     // else if this is the second (and last) action submitted for a round
-    } else if (currentRound.Actions.length > 0){
+    } else if (currentRound.actions.length > 0){
 
       // create the action for this user
       await createAction(req);

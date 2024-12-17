@@ -10,13 +10,13 @@ export default async function calculateGameState(req: any, game: number) {
     const action_results: any = {};
 
     // get all actions for the round specified in params
-    const allRoundActions = await database.actions.findMany({
+    const allRoundactions = await database.actions.findMany({
       where: { round_id: req.body.data.round_id},
       include: { card: true }
     })
 
     // initialize results for each user in game
-    allRoundActions.forEach((action) => {
+    allRoundactions.forEach((action) => {
       action_results[action.user_id] = {};
       action_results[action.user_id].armor = 0;
       action_results[action.user_id].damage = 0;
@@ -35,15 +35,15 @@ export default async function calculateGameState(req: any, game: number) {
     }
 
     // for every action on the current round
-    for (let i = 0; i < allRoundActions.length; i++){
+    for (let i = 0; i < allRoundactions.length; i++){
 
-      const action = allRoundActions[i].action;
-      const user = allRoundActions[i].user_id;
-      const card = allRoundActions[i].card_id;
+      const action = allRoundactions[i].action;
+      const user = allRoundactions[i].user_id;
+      const card = allRoundactions[i].card_id;
 
       if (action === 'FIRE'){
 
-        const attackDamage = await commitAttack(req, game, allRoundActions[i]); // Attacks always return a damage number value
+        const attackDamage = await commitAttack(req, game, allRoundactions[i]); // Attacks always return a damage number value
         action_results[user]['damage'] += attackDamage;
 
       } else if (action === 'LOAD'){
@@ -51,7 +51,7 @@ export default async function calculateGameState(req: any, game: number) {
         if (!card) {
           throw new Error (`Invalid LOAD operation; no card specified.`)
         } else {
-          await commitLoad(req, game, allRoundActions[i]);
+          await commitLoad(req, game, allRoundactions[i]);
         }
 
       } else if (action === 'BLOCK'){
