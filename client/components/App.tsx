@@ -34,6 +34,7 @@ interface User {
 export default function App (){
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
+  const [userInvites, setUserInvites] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
@@ -111,6 +112,14 @@ export default function App (){
         }  else if(userSetting.data.dark_mode === false && root.classList.contains('dark')) {
           toggleDarkMode();
         }
+
+        //fetch user invites
+        const userInvs = await axios.get(`/games/private/invites`)
+        
+        if(userInvs){
+          setUserInvites(userInvs.data.Pending);
+        }
+        console.log('user invs', userInvs);
 
         // update cards if necessary
         await axios.post(`/profile/collections/${response.data.user.id}`)
@@ -201,7 +210,7 @@ export default function App (){
   }, [user]);
 
   return (
-    <>
+    <div className='h-full w-full justify-items-center'>
       <NavigationBar
         toggleDarkMode={toggleDarkMode}
         user={user}
@@ -214,6 +223,7 @@ export default function App (){
         clickS={clickS}
         handleToggleMute={handleToggleMute}
         isMuted={isMuted}
+        userInvites={userInvites}
       />
       <Routes>
         <Route
@@ -264,6 +274,6 @@ export default function App (){
              <Navigate to='/'/>}
         />
       </Routes>
-    </>
+    </div>
   );
 }
