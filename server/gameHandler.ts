@@ -17,10 +17,10 @@ export default async function gameHandler(req: any) {
     const currentRound = await database.rounds.findFirst({
       where: { id: Number(req.body.data.round_id)},
       include: {
-        Round_Effects: true,
-        Round_Player_Info: true,
+        round_effects: true,
+        game_player_information: true,
         Actions: true,
-        Actions_Loaded: true,
+        actions_loaded: true,
       }
     })
 
@@ -56,7 +56,7 @@ export default async function gameHandler(req: any) {
       const updateState = await calculateGameState(req, currentRound.game_id);
 
       // acquire the current player information
-      let updatePlayers = currentRound.Round_Player_Info.slice();
+      let updatePlayers = currentRound.game_player_information.slice();
 
       // end the current round
       await database.rounds.update({
@@ -77,19 +77,19 @@ export default async function gameHandler(req: any) {
 
       // for every player, we create an updated snapshot of their health/armor on the next round
       for (let i = 0; i < updatePlayers.length; i++){
-        const newPlayerInfo = await database.round_Player_Info.create({
+        const newPlayerInfo = await database.game_player_information.create({
           data: updatePlayers[i]
         })
       }
 
       // for every player, we find the current snapshot of their card deck
-      const pullGameDeckStates = await database.game_Card_States.findMany({
+      const pullGameDeckStates = await database.game_card_states.findMany({
         where: { round_id: currentRound.id }
       });
       
       // for every player, we get a snapshot of their card deck after changes
       for (let i = 0; i < pullGameDeckStates.length; i++) {
-        const newState = await database.game_Card_States.create({ 
+        const newState = await database.game_card_states.create({ 
           data: {
             user: { connect: { id: pullGameDeckStates[i].user_id}},
             round: { connect: { id: newRound.id} },

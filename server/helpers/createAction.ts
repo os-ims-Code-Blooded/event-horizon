@@ -22,7 +22,7 @@ export default async function createAction(req: any){
     if (cardSubmission){
 
       // this vets and verifies that the player currently possesses the card that they are attempting to play
-      const findCardCorrelation = await database.user_Cards.findFirst({ 
+      const findCardCorrelation = await database.user_cards.findFirst({ 
         where: { id: Number(req.body.data.card_id) },
         include: { card: true }
       })

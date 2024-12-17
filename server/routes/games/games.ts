@@ -4,16 +4,18 @@ import database from '../../database/index.ts';
 import rounds from './rounds.ts';
 import shuffle from '../../helpers/shuffle.ts';
 import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
+import privateGames from './privateGames.ts';
 
 const games = express.Router();
 games.use('/rounds', rounds);
+games.use('/private', privateGames);
 
 // provide the player ID, and this will tell you if there is a game
 games.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
-    const games = await database.user_Games.findMany({
+    const games = await database.public_connections.findMany({
       where: { user_id: Number(req.params.id) },
       include: { game: true}
     })
@@ -63,10 +65,13 @@ games.post('/', async (req: AuthRequest, res) => {
     // first try to find all open games
     const openGames = await database.games.findMany({
       where: {
-        status: true,
+        AND: [
+          { status: true },
+          { private: false }
+        ]
       },
       include: {
-        User_Games: true,
+        public_connections: true,
       },
     });
     
@@ -79,10 +84,10 @@ games.post('/', async (req: AuthRequest, res) => {
     const filteredGames = openGames.filter((game) => {
 
       // filters active games, prevents joining if already two players in a game
-      const withinUserLimit = game.User_Games.length < 2;
+      const withinUserLimit = game.public_connections.length < 2;
 
       // filters active games, confirming that you aren't already in one
-      const isNotUser = game.User_Games.reduce((accum, curr) => {
+      const isNotUser = game.public_connections.reduce((accum, curr) => {
         if (curr.user_id === req.body.user_id){
           return false;
         } else {
@@ -107,13 +112,13 @@ games.post('/', async (req: AuthRequest, res) => {
     // if there are no open games
     if (filteredGames.length === 0) {
 
-      console.log(`No active games found in database.`)
+      console.log(`No active games found in database for user #${req.user.id}.`)
 
       // create a new game session with the user's socket
       const newGame = await database.games.create({})
 
       // https://www.prisma.io/docs/orm/prisma-client/queries/relation-queries#connect-multiple-records
-      const addUserToNewGame = await database.user_Games.create({
+      const addUserToNewGame = await database.public_connections.create({
         data: {
           user: { connect: { id: req.body.user_id } },
           game: { connect: { id: newGame.id } }
@@ -124,7 +129,7 @@ games.post('/', async (req: AuthRequest, res) => {
         data: { game: { connect: { id: addUserToNewGame.game_id} } }
       })
 
-      const initPlayerInfo = await database.round_Player_Info.create({
+      const initPlayerInfo = await database.game_player_information.create({
         data: { 
           round: { connect: { id: initRound.id}},
           user: { connect: { id: user.id} }
@@ -132,7 +137,7 @@ games.post('/', async (req: AuthRequest, res) => {
       })
 
       // find the cards in that deck
-      const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
+      const getPlayerDeckCards = await database.user_deck_cards.findMany({
         where: { deck_id: user.selectedDeckId },
         include: {
           userCards: true
@@ -155,7 +160,7 @@ games.post('/', async (req: AuthRequest, res) => {
       }
 
       // create them as a state to be used throughout game
-      const makePlayerDeckState = await database.game_Card_States.create({
+      const makePlayerDeckState = await database.game_card_states.create({
         data: {
           round: { connect: { id: initRound.id} },
           user: { connect: { id: user.id } },
@@ -173,7 +178,7 @@ games.post('/', async (req: AuthRequest, res) => {
 
       console.log(`Game found in database, attempting to add user to game.`)
 
-      const addUserToGame = await database.user_Games.create({
+      const addUserToGame = await database.public_connections.create({
         data: {
           user: { connect: { id: req.body.user_id } },
           game: { connect: { id: filteredGames[0].id } },
@@ -184,7 +189,7 @@ games.post('/', async (req: AuthRequest, res) => {
         where: { game_id: addUserToGame.game_id }
       })
 
-      const initPlayerInfo = await database.round_Player_Info.create({
+      const initPlayerInfo = await database.game_player_information.create({
         data: { 
           round: { connect: { id: startingRound.id}},
           user: { connect: { id: user.id} }
@@ -192,7 +197,7 @@ games.post('/', async (req: AuthRequest, res) => {
       })
 
       // find the cards in that deck
-      const getPlayerDeckCards = await database.user_Deck_Cards.findMany({
+      const getPlayerDeckCards = await database.user_deck_cards.findMany({
         where: { deck_id: user.selectedDeckId },
         include: {
           userCards: true
@@ -215,7 +220,7 @@ games.post('/', async (req: AuthRequest, res) => {
       }
 
       // create them as a state to be used throughout game
-      const makePlayerDeckState = await database.game_Card_States.create({
+      const makePlayerDeckState = await database.game_card_states.create({
         data: {
           round: { connect: { id: startingRound.id} },
           user: { connect: { id: user.id } },
@@ -246,7 +251,7 @@ games.patch('/:id', async (req: AuthRequest, res) => {
 
     if (req.body.data.user_id) {
 
-      const findConnections = await database.user_Games.findMany({
+      const findConnections = await database.public_connections.findMany({
         where: { game_id: Number(req.params.id) }
       });
 
@@ -335,10 +340,10 @@ games.delete('/:id', async (req: AuthRequest, res) => {
 
     const game = await database.games.findFirst({
       where: { id: Number(req.params.id)},
-      include: { User_Games: true }
+      include: { public_connections: true }
     })
 
-    if ( game.User_Games.length > 1) {
+    if ( game.public_connections.length > 1) {
       console.error(`This route is for ending a game search, but two users were found.`);
       console.error(`If users do not want to play this game, they must surrender.`)
       res.sendStatus(203);

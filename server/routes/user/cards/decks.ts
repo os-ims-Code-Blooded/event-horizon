@@ -11,7 +11,7 @@ decks.get('/:id', async (req: AuthRequest, res) => {
 
   try {
 
-    const allDecksAndCards = await database.user_Decks.findMany({
+    const allDecksAndCards = await database.user_decks.findMany({
       where: { user_id: Number(req.params.id) }
     })
     
@@ -35,15 +35,15 @@ decks.get('/specific/:id', async (req: AuthRequest, res) => {
 
   try {
 
-    const specificDeck = await database.user_Decks.findFirst({
+    const specificDeck = await database.user_decks.findFirst({
       where: { id: Number(req.params.id) },
-      include: { User_Decks_Cards: true}
+      include: { user_decks_cards: true}
     })
     
     if (!specificDeck) {
       res.sendStatus(404);
     } else {
-      res.status(200).send(specificDeck.User_Decks_Cards);
+      res.status(200).send(specificDeck.user_decks_cards);
 
     }
 
@@ -86,7 +86,7 @@ decks.post('/:id', async (req: AuthRequest, res) => {
     }
 
     // creates the actual card deck for a user
-    const createDeck = await database.user_Decks.create({
+    const createDeck = await database.user_decks.create({
       data: {
         deck_name: req.body.data.deck_name,
         user_id: Number(req.params.id)
@@ -99,7 +99,7 @@ decks.post('/:id', async (req: AuthRequest, res) => {
     })
 
     for (let i = 0; i < safetyCheck.length; i++){
-      await database.user_Deck_Cards.create({
+      await database.user_deck_cards.create({
         data: {
           userCards: {connect: {id: safetyCheck[i]}},
           deck: {connect: {id: createDeck.id}}
@@ -157,7 +157,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
 
     // if we have specified that we want to update a deck's name, update the deck name
     if (req.body.data.deck_name){
-      await database.user_Decks.update({
+      await database.user_decks.update({
         where: {
           user_id: Number(req.params.id),
           id: Number(req.body.data.deck_id)
@@ -175,7 +175,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
       const safetyCheck = req.body.data.delete_cards.map((card:any) => Number(card));
 
       // pull all cards for the deck we are modifying
-      const validationPull = await database.user_Deck_Cards.findMany({
+      const validationPull = await database.user_deck_cards.findMany({
         where: { deck_id: Number(req.body.data.deck_id) },
         select: { card_id: true }
       })
@@ -193,7 +193,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
         }
       }, [])
 
-      await database.user_Deck_Cards.deleteMany({
+      await database.user_deck_cards.deleteMany({
         where: {
           card_id: { in: validationCheck},
           deck_id: Number(req.body.data.deck_id)
@@ -207,7 +207,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
       let safetyCheck = req.body.data.add_cards.flat().map((card:any) => Number(card));
 
       // pull all cards for the deck we are modifying
-      const validationPull = await database.user_Deck_Cards.findMany({
+      const validationPull = await database.user_deck_cards.findMany({
         where: { deck_id: Number(req.body.data.deck_id) },
         select: { card_id: true }
       })
@@ -226,7 +226,7 @@ decks.patch('/:id', async (req: AuthRequest, res) => {
       }, [])
 
       for (let i = 0; i < safetyCheck.length; i++) {
-        await database.user_Deck_Cards.create({
+        await database.user_deck_cards.create({
           data: {
             userCards: {connect: {id: safetyCheck[i]}},
             deck: {connect: {id: Number(req.body.data.deck_id)}}
@@ -250,7 +250,7 @@ decks.delete('/:id', async (req: AuthRequest, res) => {
 
   try {
 
-    const deleteDeck = await database.user_Decks.delete({
+    const deleteDeck = await database.user_decks.delete({
       where: {
         id: Number(req.params.id)
       }

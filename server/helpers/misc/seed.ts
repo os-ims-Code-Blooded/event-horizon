@@ -176,7 +176,7 @@ async function seed() {
         {
             "name": "Tsar Bomba",
             "description": "Who needs SALT treaties?",
-            "damage": 75,
+            "damage": 70,
             "armor": 0,
             "image_url": "",
             "duration": 0,
@@ -335,7 +335,7 @@ async function seed() {
             "damage": 0,
             "armor": 15,
             "image_url": "",
-            "duration": 0,
+            "duration": 1,
             "effect": "",
             "score_required": 350,
             "points": 0,
@@ -379,7 +379,7 @@ async function seed() {
         },
         {
             "name": "Ion Beam",
-            "description": "Tachion particle inversion with a polarization bypass and extra pickles",
+            "description": "Tachion particle inversion polarization bypass w/extra pickles",
             "damage": 15,
             "armor": 0,
             "image_url": "",
@@ -436,28 +436,103 @@ async function seed() {
             "score_required": 2000,
             "points": 0,
             "expedite": false
+        },
+        {
+            "name": "Eternal Block",
+            "description": "no, f*** you",
+            "damage": 0,
+            "armor": 65,
+            "image_url": "",
+            "duration": 1,
+            "effect": "",
+            "score_required": 1000001,
+            "points": 0,
+            "expedite": false
+        },
+        {
+            "name": "One-Shot",
+            "description": "f*** you",
+            "damage": 135,
+            "armor": 0,
+            "image_url": "",
+            "duration": 0,
+            "effect": "",
+            "score_required": 1000000,
+            "points": 200,
+            "expedite": false
+        },
+        {
+            "name": "Deflector Repolarization",
+            "description": "brought to you by your \"friends\" in engineering",
+            "damage": 0,
+            "armor": 15,
+            "image_url": "",
+            "duration": 1,
+            "effect": "",
+            "score_required": 7500,
+            "points": 0,
+            "expedite": false
+        },
+        {
+            "name": "Triage Crew",
+            "description": "and a pizza party for everyone if we don't die",
+            "damage": 0,
+            "armor": 5,
+            "image_url": "",
+            "duration": 5,
+            "effect": "",
+            "score_required": 10000,
+            "points": 0,
+            "expedite": false
+        },
+        {
+            "name": "Double Plasma Shield",
+            "description": "yo dawg we put a shield in your shield...",
+            "damage": 0,
+            "armor": 20,
+            "image_url": "",
+            "duration": 2,
+            "effect": "",
+            "score_required": 0,
+            "points": 0,
+            "expedite": false
+        },
+        {
+            "name": "Gauss Repeater Railgun",
+            "description": "magnets",
+            "damage": 15,
+            "armor": 0,
+            "image_url": "",
+            "duration": 2,
+            "effect": "",
+            "score_required": 15000,
+            "points": 0,
+            "expedite": false
         }
     ]
 
     await database.$connect();
 
-    await database.user_Decks.deleteMany(); // unnecessary, but as a fail-safe
+    await database.user_decks.deleteMany(); // unnecessary, but as a fail-safe
 
-    await database.user_Cards.deleteMany(); // unnecessary, but as a fail-safe
+    await database.user_cards.deleteMany(); // unnecessary, but as a fail-safe
 
     await database.cards.deleteMany();
 
-    await database.cards.createMany({ data: cards });
+    const newCards = await database.cards.createMany({ data: cards });
+
+    const xx = newCards.count;
 
     console.log(`
     +=====================================================================================+
-    | Database seed successful; several cards have been populated in the database...      |
+    | Database seed successful; ${xx} cards have been populated in the database...           |
     +-------------------------------------------------------------------------------------+
     | Please remember the following and consider them as you create new cards:            |
     |                                                                                     |
     | 1) Due to the nature of how damage is calculated, a damage card may only do damage. |
     | 2) For damage cards, subtract -1 from any damage effect duration.                   |
     | 3) For defensive cards, must have a duration of at least 1.                         |
+    |                                                                                     |
     | These considerations are due to how our algorithms process these cards.             |
     +=====================================================================================+
     `);

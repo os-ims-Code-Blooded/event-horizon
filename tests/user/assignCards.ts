@@ -14,7 +14,7 @@ export default async function assignCards(googleID: string){
 
     await axios.post(`${process.env.CLIENT_URL}:${process.env.PORT}/profile/collections/${findUser?.id}`);
 
-    const userHasCards = await database.user_Cards.findMany({
+    const userHasCards = await database.user_cards.findMany({
       where: { user_id: findUser?.id}
     })
 

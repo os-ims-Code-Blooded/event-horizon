@@ -53,7 +53,7 @@ export default async function closeStagnantGames() {
         })
 
         // find the opponent's information for update
-        let opponent = await database.user_Games.findFirst({
+        let opponent = await database.public_connections.findFirst({
           where: {
             NOT: [
               {user_id: victor},
