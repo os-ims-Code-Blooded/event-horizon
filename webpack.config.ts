@@ -1,4 +1,5 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const path = require('path');
 
 module.exports = {
@@ -25,7 +26,8 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: path.resolve(__dirname, 'client', 'index.html')
-    })
+    }),
+      new FaviconsWebpackPlugin('client/blackhole.jpeg'),
   ],
   module: {
     rules: [
