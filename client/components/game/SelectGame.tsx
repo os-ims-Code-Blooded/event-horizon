@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { io } from "socket.io-client";
 import GameController from './GameController';
 import GameOver from './GameOver.tsx';
+import GameTable from './GamesTable.tsx';
 import UserDecks from './../cards/UserDecks.tsx'
 import { use } from 'passport';
 ////////////////////////////
@@ -311,6 +312,8 @@ return(
 
 
 
+
+
     {activeUserGame?
     <div className='h-full z-10 relative'>
       {gameOver?
@@ -348,9 +351,19 @@ return(
 
     :
     
+
+    
     <div className='z-10 relative'>
+
+
+
       {!playClicked?
       <div className='pt-20 flex h-full items-center justify-center min-h-screen z-10 relative'>
+
+
+
+
+
         <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
         <div className='p-6 justify-items-center flex flex-col items-center gap-3 z-10 relative'>
                 <div className='pt-8 z-10 relative'>
@@ -396,19 +409,15 @@ return(
                     <br></br>
                   </div>
                 }
-          {/* <div className="w-32 h-32 rounded-full bg-slate-700 z-10 relative">
-            <button className='bg-fifth dark:bg-third inset-0 z-10 m-auto h-28 w-28 rounded-full text-text dark:text-darkText absolute shadow-sm shadow-white hover:bg-orange-500 dark:hover:bg-purple-500' onClick={onClickMake}>CUSTOMIZE!</button>
-          </div>
-          <br></br> */}
-          <div>
-            {!makeClicked? null
-            :
-            null
-              // <div className='flex flex-row p-4 z-10 relative'>
-              //   <MakeGame />
-              // </div>
-            }
-          </div>
+       
+
+
+                
+                  {/* INVITES LIST */}
+                  <GameTable playHeavyClickSFX={playHeavyClickSFX}/>
+
+
+
         </div>
       </div>
       :
@@ -448,24 +457,7 @@ return(
     }
 
 
-{/* INVITES LIST */}
-<div>
-    <table>
-      <thead>
-        <tr>
-          <th>username</th>
-          <th>game status</th>
-          <th>accept</th>
-          <th>decline</th>
-        </tr>
-      </thead>
 
-    </table>
-      <caption>
-        You have {null || 0} pending invites
-      </caption>
-
-</div>
 
 
   </div>
