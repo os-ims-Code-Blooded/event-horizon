@@ -45,7 +45,7 @@ export default function FxText({
       {/* PLAYER BLOCKS, ENEMY FIRES */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage?
         <div className='text-sm text-text dark:text-darkText'>
-          You shielded against {enemyName}'s barrage taking {theirPrevRound[0].damage / 2} damage 
+          You shielded against {enemyName}'s barrage taking {theirPrevRound[0].damage / 2} damage
           {!roundSoundsPlayed? playBlockSFX():null}
           {/* {setRoundSoundsPlayed(true)} */}
           <div className='p-4'></div>
@@ -69,9 +69,7 @@ export default function FxText({
       {/* PLAYER BLOCKS, ENEMY DOES NOT FIRE */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action !== "FIRE" ?
         <div className='text-sm text-text dark:text-darkText'>
-          You needlessly shielded your vessel
-
-          {!roundSoundsPlayed ? playFreeShieldSFX() : null }
+          You needlessly shielded your vessel <>{!roundSoundsPlayed ? playFreeShieldSFX() : null }</>
 
           {/* {setRoundSoundsPlayed(true)} */}
           <div className='p-4'></div>
@@ -82,7 +80,7 @@ export default function FxText({
       {/* PLAYER FIRES WEAPON, ENEMY BLOCK */}
       {myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id  && theirPrevRound[0].action === "BLOCK" ?
         <div className='text-sm text-text dark:text-darkText'>
-          You fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage 
+          You fired on {enemyName}'s shielded vessel for {myPrevRound[0].damage / 2} damage
           {/* {playEnemyBlockSFX()} */}
           {!roundSoundsPlayed? playEnemyBlockSFX():null}
           <div className='p-4'></div>
@@ -186,26 +184,30 @@ export default function FxText({
       :
         null
       } */}
+
+
     {/* ENEMY FIRES DEFAULT WEAPON, PLAYER BLOCK*/}
-      {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action === "BLOCK" ?
-        <div className='text-sm text-text dark:text-darkText'>
-        {enemyName} fired on your shielded vessel for 3 damage
-        <div className='p-4'></div>
-        </div>
-      :
-        null
-      }
+      {/* {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action === "BLOCK" ? */}
+        {/* <div className='text-sm text-text dark:text-darkText'> */}
+        {/* {enemyName} fired on your shielded vessel for 3 damage */}
+        {/* <div className='p-4'></div> */}
+        {/* </div> */}
+      {/* : */}
+        {/* null */}
+      {/* } */}
     {/* ENEMY FIRES DEFAULT WEAPON, NO PLAYER BLOCK*/}
-      {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action !== "BLOCK" ?
-          <div className='text-sm text-text dark:text-darkText'>
-            {enemyName} fired on your vessel for 5 damage
+      {/* {theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id && myPrevRound[0].action !== "BLOCK" ? */}
+          {/* <div className='text-sm text-text dark:text-darkText'> */}
+            {/* {enemyName} fired on your vessel for 5 damage */}
             {/* {playDefaultHitSFX()} */}
-            {!roundSoundsPlayed? playDefaultHitSFX():null}
-            <div className='p-4'></div>
-          </div>
-        :
-          null
-        }
+            {/* {!roundSoundsPlayed? playDefaultHitSFX():null} */}
+            {/* <div className='p-4'></div> */}
+          {/* </div> */}
+        {/* : */}
+          {/* null */}
+        {/* } */}
+
+        
     </div>
     :
       null

@@ -305,7 +305,7 @@ export default function SelectGame({
 /*===============================================================================*/
 
 return(
-  <div >
+  <div className='max-h-full max-w-full'>
     <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
     {activeUserGame?
     <div className='h-full z-10 relative'>

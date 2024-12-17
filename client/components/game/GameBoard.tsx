@@ -212,7 +212,7 @@ if (playerHand.length <= 0){
 ///////////////////////////////////////////////////////
   return (
 
-    <div className='grid-cols-3 mt-10 p-5 pb-3 pt-15 min-h-screen w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
+    <div className='grid-cols-3 mt-10 p-5 pb-3 pt-15 h-[80vh] w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
       {/* FIRST COLUMN*/}
       <div className='m-2 flex flex-col justify-between' style={{ width: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}
@@ -308,31 +308,69 @@ if (playerHand.length <= 0){
 
           {/* USER'S SELECTED CARD */}
           <div className='flex flex-col justify-center items-start'>
-            {cardToPlay ? (
-              <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
-                onClick={() => {
-                  setCardToPlay(null);
-                  setActiveLoading(false);
-                  setIsClicked(null);
-                  setPlayerAction(null);
-                }}
-              >
-                <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
-                <div className="text-center">
-                  <div>`IMAGE`</div>
-                  <p className="text-black mb-1 text-sm">
-                    <strong>Attack:</strong> {cardToPlay[1]}
-                  </p>
-                  <p className="text-black mb-1 text-sm">
-                    <strong>Defense:</strong> {cardToPlay[2]}
-                  </p>
-                  <p className="text-black mb-1 text-sm">
-                    <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
-                  </p>
+            {cardToPlay ? 
+            
+            <>{!turnEnded?
+              (
+              
+                <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
+                  onClick={() => {
+                    if (playerAction === "LOAD" && !weaponArmed){
+
+                      setCardToPlay(null);
+                      setActiveLoading(false);
+                      setIsClicked(null);
+                      setPlayerAction(null);
+
+                    }
+                  }}
+                >
+                  <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                  <div className="text-center">
+                    <div>`IMAGE`</div>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Attack:</strong> {cardToPlay[1]}
+                    </p>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Defense:</strong> {cardToPlay[2]}
+                    </p>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
+                    </p>
+                  </div>
+                  <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
                 </div>
-                <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
-              </div>
-            ) : (
+              )
+
+              :
+
+              (
+
+                <div className="bg-white border-4 border-green-500 rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110">
+                  <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                  <div className="text-center">
+                    <div>`IMAGE`</div>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Attack:</strong> {cardToPlay[1]}
+                    </p>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Defense:</strong> {cardToPlay[2]}
+                    </p>
+                    <p className="text-black mb-1 text-sm">
+                      <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
+                    </p>
+                  </div>
+                  <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
+                </div>
+              )
+
+            }</>
+
+
+            :
+
+
+            (
               <div className='border-4 rounded-lg shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-success'>
                 <div className='pt-15'>MUNITION STATUS:</div>
               </div>
