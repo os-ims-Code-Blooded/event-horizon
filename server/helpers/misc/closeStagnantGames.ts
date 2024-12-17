@@ -18,12 +18,12 @@ export default async function closeStagnantGames() {
           ]
         },
         include: {
-          Actions: true
+          actions: true
         }
       })
   
       // filter all games to find those with less than 2 actions on a round
-      stagnantGames = stagnantGames.filter((game) => game.Actions.length === 1)
+      stagnantGames = stagnantGames.filter((game) => game.actions.length === 1)
 
       const updates = [];
       
@@ -35,7 +35,7 @@ export default async function closeStagnantGames() {
         })
   
         // find the victor (whoever is waiting for a response)
-        const victor = stagnantGames[i].Actions[0].user_id;
+        const victor = stagnantGames[i].actions[0].user_id;
   
         // set the victor and end the game
         const gameOver = await database.games.update({
@@ -53,7 +53,7 @@ export default async function closeStagnantGames() {
         })
 
         // find the opponent's information for update
-        let opponent = await database.user_Games.findFirst({
+        let opponent = await database.public_connections.findFirst({
           where: {
             NOT: [
               {user_id: victor},

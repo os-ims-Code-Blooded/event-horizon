@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../helpers/misc/types.ts';
 import database from '../../database/index.ts';
 import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
+import games from '../games/games.ts';
 
 const games_history = express.Router();
 
@@ -11,7 +12,7 @@ games_history.get('/won/:id', async (req: AuthRequest, res) => {
   try {
 
     // find all games associated with a user
-    let userGames = await database.user_Games.findMany({
+    let userGames = await database.public_connections.findMany({
       where: {
         user_id: Number(req.params.id)
       }
@@ -56,7 +57,7 @@ games_history.get('/lost/:id', async (req: AuthRequest, res) => {
   try {
 
     // find all games associated with the user
-    const userGames = await database.user_Games.findMany({
+    const userGames = await database.public_connections.findMany({
       where: {
         user_id: Number(req.params.id)
       },
@@ -99,7 +100,7 @@ games_history.get('/lost/:id', async (req: AuthRequest, res) => {
     const formatGamesPossLost = gamesPossLost.map((game) => game.id)
 
     // see if there were users in that game
-    const wereOpponentsInGame = await database.user_Games.findMany({
+    const wereOpponentsInGame = await database.public_connections.findMany({
       where: {
         game_id: { in: formatGamesPossLost}
       }

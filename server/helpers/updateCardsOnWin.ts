@@ -33,7 +33,7 @@ export default async function updateCardsOnWin(userID: string | number) {
     }, [])
 
     // find all cards that the user has been assigned
-    const userCards = await database.user_Cards.findMany({
+    const userCards = await database.user_cards.findMany({
       where: {
         user_id: Number(userID)
       }
@@ -58,7 +58,7 @@ export default async function updateCardsOnWin(userID: string | number) {
 
       // we use a loop here because createMany cannot be used for relationships
       cardsToAdd.forEach( async (id) => {
-        await database.user_Cards.create({
+        await database.user_cards.create({
           data: {
             card: { connect: { id: Number(id) } },
             user: { connect: { id: Number(userID) } }

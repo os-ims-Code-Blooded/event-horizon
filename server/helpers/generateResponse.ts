@@ -8,15 +8,15 @@ export default async function generateResponse(newRound: number, prevRound: numb
     const newInfo = await database.rounds.findFirst({
       where: { id: newRound},
       include: {
-        Round_Effects: true,
-        Round_Player_Info: true,
-        Actions: true,
-        Actions_Loaded: true,
-        Game_Card_States: true
+        round_effects: true,
+        game_player_information: true,
+        actions: true,
+        actions_loaded: true,
+        game_card_states: true
       }
     })
 
-    const isResolved = await reviewWinConditions(newInfo.Round_Player_Info, newInfo.game_id);
+    const isResolved = await reviewWinConditions(newInfo.game_player_information, newInfo.game_id);
     let gameOver = null;
 
     if (isResolved) {
@@ -30,6 +30,13 @@ export default async function generateResponse(newRound: number, prevRound: numb
         } 
       });
 
+      // if the game was private, delete that invite from our records
+      if (gameOver.private) {
+        await database.game_invites.deleteMany({
+          where: { game_id: gameOver.id}
+        })
+      }
+
       await database.rounds.update({
         where: { id: newRound},
         data: { end_date: new Date() }
@@ -40,11 +47,11 @@ export default async function generateResponse(newRound: number, prevRound: numb
     const prevInfo = await database.rounds.findFirst({
       where: { id: prevRound},
       include: {
-        Round_Effects: true,
-        Round_Player_Info: true,
-        Actions: true,
-        Actions_Loaded: true,
-        Game_Card_States: true
+        round_effects: true,
+        game_player_information: true,
+        actions: true,
+        actions_loaded: true,
+        game_card_states: true
       }
     })
 

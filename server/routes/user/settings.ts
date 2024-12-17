@@ -9,7 +9,7 @@ settings.get(`/:id` , async (req: AuthRequest, res) => {
 
   try {
 
-    const userSettings = await database.user_Settings.findFirst({
+    const userSettings = await database.user_settings.findFirst({
       where: { user_id: Number(req.params.id)}
     })
 
@@ -31,12 +31,12 @@ settings.get(`/:id` , async (req: AuthRequest, res) => {
 
 //   try {
 
-//     const foundUserSettings = await database.user_Settings.findFirst({
+//     const foundUserSettings = await database.user_settings.findFirst({
 //       where: { user_id: Number(req.params.id)}
 //     })
 
 //     if (!foundUserSettings) {
-//       const userSettings = await database.user_Settings.create({
+//       const userSettings = await database.user_settings.create({
 //         data: {
 //           user: { connect: { id: Number(req.params.id)} },
 //         }
@@ -83,14 +83,14 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
     }
 
     if (req.body.data.dark_mode !== undefined && typeof req.body.data.dark_mode === "boolean") {
-      await database.user_Settings.update({
+      await database.user_settings.update({
         where: { user_id: Number(req.params.id) },
         data: { dark_mode: req.body.data.dark_mode }
       })
     }
     
     if (req.body.data.colorblind_mode !== undefined && typeof req.body.data.colorblind_mode === "boolean") {
-      await database.user_Settings.update({
+      await database.user_settings.update({
         where: { user_id: Number(req.params.id) },
         data: { colorblind_mode: req.body.data.colorblind_mode }
       })
@@ -98,7 +98,7 @@ settings.patch(`/:id`, async (req: AuthRequest, res) => {
 
     if(req.body.data.sfx_volume){
       console.log(req.body.data);
-      await database.user_Settings.update({
+      await database.user_settings.update({
         where: { user_id: Number(req.params.id) },
         data: { sfx_volume: req.body.data.sfx_volume }
       })

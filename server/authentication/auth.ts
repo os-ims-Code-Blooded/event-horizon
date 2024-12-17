@@ -34,7 +34,7 @@ async function(request: any, accessToken: any, refreshToken: any, profile: any, 
       }
     });
 
-    await database.user_Settings.upsert({
+    await database.user_settings.upsert({
       where: {
         user_id: user.id,
       },

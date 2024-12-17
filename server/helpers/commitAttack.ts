@@ -5,7 +5,7 @@ export default async function commitAttack(req: any, game: number, action: any){
   try {
 
     // first find the loaded card that they want to fire
-    const payload = await database.actions_Loaded.findFirst({
+    const payload = await database.actions_loaded.findFirst({
       where: {
         user_id: Number(action.user_id),
         game_id: game
@@ -23,7 +23,7 @@ export default async function commitAttack(req: any, game: number, action: any){
       const damage = payload.damage;
       
       // create it as an effect
-      const newEffect = await database.round_Effects.create({
+      const newEffect = await database.round_effects.create({
         data: {
           round:    { connect: { id: req.body.data.round_id}},
           game:     { connect: { id: game }},
@@ -33,7 +33,7 @@ export default async function commitAttack(req: any, game: number, action: any){
       })
 
       // remove the item from the loaded armaments
-      await database.actions_Loaded.delete({
+      await database.actions_loaded.delete({
         where: { id: payload.id }
       })
 
@@ -45,7 +45,7 @@ export default async function commitAttack(req: any, game: number, action: any){
       const damage = payload.damage;
 
       // remove the item from the loaded armaments
-      await database.actions_Loaded.delete({
+      await database.actions_loaded.delete({
         where: { id: payload.id }
       })
 

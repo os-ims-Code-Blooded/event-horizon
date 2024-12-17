@@ -105,65 +105,6 @@ export default function SelectGame({
     axios.get(`/profile/decks/${user.id}`)
       .then((response) => {
         setUserDecks(response.data)
-
-        axios.get(`/games/${user.id}`)
-          .then((game) => {
-            if (game.data) {
-
-              setWaiting(true)
-
-              setDeckWasChosen(true)
-
-              axios.get(`/games/rounds/${game.data.id}`)
-                .then((round) => {
-
-                  setSession(game.data.id);
-                  setRoundNum(round.data["Current Round"]);
-
-                  // console.log("ROUND DATA", round.data["Current Round Actual"])
-                  // console.log("ROUND DATA", round.data)
-                  setSession(game.data.id);
-                  setRoundNum(round.data["Current Round"]);
-                  setRoundActual(round.data["Current Round Actual"])
-
-                  setDeckSelected(round.data["Current Deck"]);
-                  setHandProvided(round.data["Current Hand"]);
-
-                  // console.log(`Current Deck: `, round.data["Current Deck"]);
-                  // console.log(`Current Hand: `, round.data["Current Hand"]);
-
-                  socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
-
-                  // I don't know if putting an event listener here is an issue
-                  // this might need to be somewhere else?
-                  socket.on('session_players', (data: any) => {
-
-                    // when we receive emission, see if there is an enemy
-                    const enemy = data.filter((player) => {
-                      return (player.user_id !== user.id)
-                    })
-
-                    // console.log("ENEMY???\n", enemy)
-
-
-                    // if the filtered array contains an enemy
-                    if (enemy.length > 0) {
-                      //console.log("ENEMY!", enemy)
-                      setEnemyName(enemy[0].name);  // set that enemy's name
-                      setEnemyId(enemy[0].user_id); // set that enemy's user ID
-                      setRoundInfo(data)            // set the current round information
-                      setWaiting(false)
-                      setPlayClicked(true)          // then trigger Game Board conditional render
-
-                    }
-                  })
-                })
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-          })
-
       })
       .catch((err) => {
         console.error(err)

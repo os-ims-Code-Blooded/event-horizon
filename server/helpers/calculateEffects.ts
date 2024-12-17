@@ -5,7 +5,7 @@ export default async function calculateEffects(game: any, user: number){
   try {
 
     // find all active effects for user
-    const activeEffects = await database.round_Effects.findMany({
+    const activeEffects = await database.round_effects.findMany({
       where: { 
         AND: [
           { user_id: user },
@@ -28,13 +28,13 @@ export default async function calculateEffects(game: any, user: number){
 
       // if effect has expired, delete the effect
       if (effect.time_elapsed >= effect.duration){
-        await database.round_Effects.delete({ where: {id: effect.id} })
+        await database.round_effects.delete({ where: {id: effect.id} })
 
       // else increment effect
       } else {
         effects.damage += effect.damage;
         effects.armor += effect.armor;
-        await database.round_Effects.update({
+        await database.round_effects.update({
           where: {id: effect.id},
           data: {time_elapsed: effect.time_elapsed + 1}
         })

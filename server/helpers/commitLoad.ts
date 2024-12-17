@@ -18,13 +18,13 @@ export default async function commitLoad(req: any, game: number, action: any){
 
       console.log(`Processing an expedited load request for user #${action.user_id} with card #${action.card_id}.`)
 
-      await database.actions_Loaded.deleteMany({
+      await database.actions_loaded.deleteMany({
         where: { user_id: action.user_id }
       })
 
       if (action.card.damage) {
 
-        await database.actions_Loaded.create({
+        await database.actions_loaded.create({
           data: {
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
@@ -35,7 +35,7 @@ export default async function commitLoad(req: any, game: number, action: any){
 
       } else if (action.card.armor) {
         
-        await database.round_Effects.create({
+        await database.round_effects.create({
           data: {
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
@@ -53,7 +53,7 @@ export default async function commitLoad(req: any, game: number, action: any){
     if (isLethalPayload) {
 
       // find out if they already have a card loaded
-      const alreadyLoaded = await database.actions_Loaded.findFirst({
+      const alreadyLoaded = await database.actions_loaded.findFirst({
         where: {
           AND: [
             {  user_id: action.user_id },
@@ -69,7 +69,7 @@ export default async function commitLoad(req: any, game: number, action: any){
       if (alreadyLoaded) {
 
         // delete that entry from the actions that are loaded for them
-        await database.actions_Loaded.deleteMany({
+        await database.actions_loaded.deleteMany({
           where: { 
             AND: [
               { user_id: action.user_id },
@@ -79,7 +79,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         })
 
         // find the card state for this user, including the hand and the deck
-        const userDeck = await database.game_Card_States.findFirst({
+        const userDeck = await database.game_card_states.findFirst({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -93,7 +93,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         });
 
         // find the user-card relationship for the card that they previously played (server expects this to be a User_Card relation when sent from client)
-        const card = await database.user_Cards.findFirst({
+        const card = await database.user_cards.findFirst({
           where: {
             AND: [
               { user_id: action.user_id },
@@ -117,7 +117,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         }
 
         // update the stored deck with parsedDeck being turned back into a string
-        const updatesComplete = await database.game_Card_States.updateMany({
+        const updatesComplete = await database.game_card_states.updateMany({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -131,8 +131,8 @@ export default async function commitLoad(req: any, game: number, action: any){
         })
 
         
-        // create the damage action to store in actions_Loaded
-        const damageAction = await database.actions_Loaded.create({
+        // create the damage action to store in actions_loaded
+        const damageAction = await database.actions_loaded.create({
           data: {
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
@@ -144,7 +144,7 @@ export default async function commitLoad(req: any, game: number, action: any){
       } else {
 
         // find the card state for this user, including the hand and the deck
-        const userDeck = await database.game_Card_States.findFirst({
+        const userDeck = await database.game_card_states.findFirst({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -169,7 +169,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         }
 
         // update the stored deck with these changes
-        const updatesComplete = await database.game_Card_States.updateMany({
+        const updatesComplete = await database.game_card_states.updateMany({
           where: {
             AND: [
               { round_id: action.round_id},
@@ -182,8 +182,8 @@ export default async function commitLoad(req: any, game: number, action: any){
           }
         })
 
-        // create the damage action to store in actions_Loaded
-        const damageAction = await database.actions_Loaded.create({
+        // create the damage action to store in actions_loaded
+        const damageAction = await database.actions_loaded.create({
           data: {
             game:   { connect: { id: game}},
             round:  { connect: { id: action.round_id}},
@@ -198,7 +198,7 @@ export default async function commitLoad(req: any, game: number, action: any){
     } else if (isNonLethalPayload) {
 
       // find the card state for this user, including the hand and the deck
-      const userDeck = await database.game_Card_States.findFirst({
+      const userDeck = await database.game_card_states.findFirst({
         where: {
           AND: [
             { round_id: action.round_id},
@@ -223,7 +223,7 @@ export default async function commitLoad(req: any, game: number, action: any){
       }
 
       // update the stored deck with these changes
-      const updatesComplete = await database.game_Card_States.updateMany({
+      const updatesComplete = await database.game_card_states.updateMany({
         where: {
           AND: [
             { round_id: action.round_id},
@@ -236,7 +236,7 @@ export default async function commitLoad(req: any, game: number, action: any){
         }
       })
 
-      const defensiveAction = await database.round_Effects.create({
+      const defensiveAction = await database.round_effects.create({
         data: {
           game:   { connect: { id: game}},
           round:  { connect: { id: action.round_id}},

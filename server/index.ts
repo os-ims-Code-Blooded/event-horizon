@@ -253,7 +253,7 @@ io.on('connection', (socket)=>{
       socket.join(data)
 
       // finds player information for all players currently in-game
-      const findPlayerInfo = await database.round_Player_Info.findMany({
+      const findPlayerInfo = await database.game_player_information.findMany({
         where: { round_id: Number(roundNum)},
       })
 

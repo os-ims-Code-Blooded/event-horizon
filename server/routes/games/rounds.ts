@@ -47,7 +47,7 @@ rounds.get('/:id', async (req: AuthRequest, res) => {
         }
       }, {id: 0})
 
-      let userState = await database.game_Card_States.findMany({
+      let userState = await database.game_card_states.findMany({
         where: { round_id: findMostRecent.id }
       })
 

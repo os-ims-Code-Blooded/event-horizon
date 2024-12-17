@@ -36,8 +36,8 @@ profile.get('/:id', async (req: AuthRequest, res) => {
           friends: true,
           friendOf: true,
           Games: true,
-          User_Cards: true,
-          User_Decks: true
+          user_cards: true,
+          user_decks: true
         }
       })
 

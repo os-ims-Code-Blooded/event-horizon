@@ -5,6 +5,7 @@ import deleteUser from './user/deleteUser.ts';
 import axios from 'axios';
 import dotenv from "dotenv";
 import createUserSettings from './user/createUserSettings.ts';
+//? import * as $ from 'jquery';
 
 dotenv.config();
 
@@ -59,7 +60,7 @@ describe('Basic User Functionalities', () => {
       data: { "dark_mode": true }
     })
 
-    const userSettings = await database.user_Settings.findFirst({
+    const userSettings = await database.user_settings.findFirst({
       where: { user_id: exampleUser.id }
     })
 
@@ -80,6 +81,14 @@ describe('Basic User Functionalities', () => {
 });
 
 describe('Website Functionalities', () => {
+
+  it('Should render the landing page at the entry point', async () => {
+
+  })
+
+})
+
+describe('API Functionalities', () => {
 
   beforeAll(async () => {
     // Hook is used to create a user before each test
@@ -118,7 +127,7 @@ describe('Website Functionalities', () => {
       } 
     })
 
-    const findUserDecks = await database.user_Decks.findFirst({
+    const findUserDecks = await database.user_decks.findFirst({
       where: {
         AND: [
           {user_id: exampleUser.id},

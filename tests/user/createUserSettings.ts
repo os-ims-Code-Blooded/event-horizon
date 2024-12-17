@@ -4,7 +4,7 @@ export default async function createUserSettings(userID: number) {
 
   try {
 
-    const newUser = database.user_Settings.create({
+    const newUser = database.user_settings.create({
       data: { user_id: userID}
     })
 

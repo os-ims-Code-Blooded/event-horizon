@@ -10,7 +10,7 @@ collections.get('/:id', async (req: AuthRequest, res) => {
 
   try {
     
-    const cards = await database.user_Cards.findMany({
+    const cards = await database.user_cards.findMany({
       where: { user_id: Number(req.params.id) }
     })
 
@@ -36,7 +36,7 @@ collections.post('/:id', async (req: AuthRequest, res) => {
     // find the user's score and their current cards
     const user = await database.user.findUnique({
       where: { id: Number(req.params.id) },
-      include: { User_Cards: true }
+      include: { user_cards: true }
     })
 
     // find cards where the score required is less than or equal to user score
@@ -48,7 +48,7 @@ collections.post('/:id', async (req: AuthRequest, res) => {
     const earnedCards = allCards.map((card) => card.id)
 
     // the current cards that have been given to a user
-    const userCurrentCards = user.User_Cards.map((card) => card.card_id)
+    const userCurrentCards = user.user_cards.map((card) => card.card_id)
 
     // I have earned these cards, they are assigned to my account and me as a user [1, 2, 3, 4...]
     // I have TECHNICALLY earned these cards, but have not been given them yet [...5, 6, 7]
@@ -61,7 +61,7 @@ collections.post('/:id', async (req: AuthRequest, res) => {
       const local = [];
 
       for (let i = 0; i < cardsToAdd.length; i++) {
-        local.push(database.user_Cards.create({
+        local.push(database.user_cards.create({
           data: {
             card: { connect: { id: Number(cardsToAdd[i]) } },
             user: { connect: { id: Number(req.params.id) } }
