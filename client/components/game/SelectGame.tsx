@@ -451,18 +451,19 @@ return(
 {/* INVITES LIST */}
 <div>
     <table>
-      <caption>
-        You have {null || 0} pending invites
-      </caption>
       <thead>
         <tr>
           <th>username</th>
           <th>game status</th>
-          <th></th>
+          <th>accept</th>
+          <th>decline</th>
         </tr>
       </thead>
 
     </table>
+      <caption>
+        You have {null || 0} pending invites
+      </caption>
 
 </div>
 
