@@ -305,8 +305,12 @@ export default function SelectGame({
 /*===============================================================================*/
 
 return(
+
   <div className='max-h-full max-w-full'>
-    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
+    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'></div>
+
+
+
     {activeUserGame?
     <div className='h-full z-10 relative'>
       {gameOver?
@@ -343,6 +347,7 @@ return(
     </div>
 
     :
+    
     <div className='z-10 relative'>
       {!playClicked?
       <div className='pt-20 flex h-full items-center justify-center min-h-screen z-10 relative'>
@@ -441,5 +446,27 @@ return(
       }
     </div>
     }
+
+
+{/* INVITES LIST */}
+<div>
+    <table>
+      <thead>
+        <tr>
+          <th>username</th>
+          <th>game status</th>
+          <th>accept</th>
+          <th>decline</th>
+        </tr>
+      </thead>
+
+    </table>
+      <caption>
+        You have {null || 0} pending invites
+      </caption>
+
+</div>
+
+
   </div>
 )}
