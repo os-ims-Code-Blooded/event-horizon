@@ -63,15 +63,14 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
         <LeaderBoard user={user} fullScreen={false} />
       </div>
       <div className='p-4'></div>
-      <div className='px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300 z-10'>
         <div>
 
 
 
           {showCreditsModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-slate-600 p-8 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-1/2 gap-3 z-50 shadow">
-              <h2 className="text-2xl text-center font-bold text-white mb-4">Credits</h2>
+          <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle ">
+            <div className="bg-slate-600 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40 ">
+              <h2 className="text-2xl pt-2 justify-center text-center font-bold text-white mb-4">Credits</h2>
               
              <Credits/>
               <button
@@ -82,18 +81,29 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
               >
                 close
               </button>
+              <div className='p-4'></div>
             </div>
           </div>
           )}
 
-          <button onClick={()=>{
-            playHeavyClickSFX()
-            setShowCreditsModal(!showCreditsModal)}}>credits</button>
         </div>
 
+{!showCreditsModal? 
 
-
+      <div className='px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:bg-slate-300 z-10'>
+          <button onClick={()=>{
+            playHeavyClickSFX()
+            setShowCreditsModal(!showCreditsModal)}}>credits
+          </button>
       </div>
+
+
+:
+
+      null
+
+
+}
     </div>
   );
 };
