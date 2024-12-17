@@ -363,5 +363,80 @@ games.delete('/:id', async (req: AuthRequest, res) => {
 
 })
 
+// this is used to get a post-game summary
+games.get('/end-game-summary/:id', async (req: AuthRequest, res) => {
+  
+  try {
+
+    // find the game that we are looking for
+    const game = await database.games.findFirst({
+      where: { id: Number(req.params.id) },
+      include: {
+        rounds: {
+          include: {
+            game_player_information: true,
+            actions: true
+          }
+        }
+      }
+    })
+
+    if (!game) {
+      res.status(404);
+      return;
+    }
+
+    // initialize a response that we will begin adding items to
+    const response: any = {};
+
+    // this gets every round ID, sorts them, and creates keys for it in the response object
+    game.rounds
+        .map((round) => round.actual)
+        .sort()
+        .reverse()
+        .forEach((round: any) => { 
+          response[round] = {};
+        });
+
+    // this formats the "Player Information" block for each round that we detected
+    game.rounds
+        .forEach((round) => {
+
+          const playerNames: any = {};
+
+          response[round.actual]["Player Information"] = round.game_player_information.map((player) => {
+            
+            playerNames[player.user_id] = player.name;
+
+            return {
+              username: player.name,
+              health: player.health,
+              armor: player.armor
+            }
+          })
+
+          response[round.actual]["Player Actions"] = round.actions.map((action) => {
+            return {
+              action_taken_by: playerNames[action.user_id],
+              action_type: action.action,
+              card_name: action.name.length > 0 ? action.name : "No Card Played",
+              damage: action.damage,
+              armor: action.armor,
+              duration: action.duration
+            }
+          })
+        })
+
+    res.status(200).send(response);
+
+
+  } catch (error) {
+  
+    errorHandler(error);
+    console.error(`Error on fetching post-game overview for recently ended game.`)
+
+  }
+
+})
 
 export default games;

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { User, AuthRequest } from '../../helpers/misc/types.ts';
 import database from '../../database/index.ts';
 import errorHandler from '../../helpers/misc/error_logging/errorHandler.ts';
+import games from '../games/games.ts';
 
 const games_history = express.Router();
 
