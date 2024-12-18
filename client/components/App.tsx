@@ -36,6 +36,7 @@ export default function App (){
   const [friends, setFriends] = useState([]);
   const [userInvites, setUserInvites] = useState([]);
   const [userAcceptedInvs, setUserAcceptedInvs] = useState([]);
+  const [acceptedOutgoingInvs, setAcceptedOutgoingInvs] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
@@ -119,9 +120,12 @@ export default function App (){
         //fetch user invites
         const userInvs = await axios.get(`/games/private/invites`)
 
+
+        
         if(userInvs){
           setUserInvites(userInvs.data.Incoming.Pending);
           setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
+          setAcceptedOutgoingInvs(userInvs.data.Outgoing.Accepted)
         }
         console.log('user invs', userInvs);
 
@@ -280,6 +284,7 @@ export default function App (){
             userAcceptedInvs={userAcceptedInvs}
             setUserAcceptedInvs={setUserAcceptedInvs}
             setUserInvites={setUserInvites}
+            acceptedOutgoingInvs={acceptedOutgoingInvs}
 
             />
             : 
