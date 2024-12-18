@@ -118,8 +118,8 @@ export default function App (){
         const userInvs = await axios.get(`/games/private/invites`)
         
         if(userInvs){
-          setUserInvites(userInvs.data.Pending);
-          setUserAcceptedInvs(userInvs.data.Accepted);
+          setUserInvites(userInvs.data.Incoming.Pending);
+          setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
         }
         console.log('user invs', userInvs);
 
@@ -161,8 +161,16 @@ export default function App (){
     }
   };
   // game inv handler?
-  const handleInvite = (friendId: string) => {
+  const handleInvite = async (friendId: number) => {
     console.log(`Sending inv to friend ${friendId}`);
+    console.log('type id', typeof friendId);
+    try {
+      const sentInv = await axios.post(`/games/private/create/${friendId}`);
+      console.log('sent invite', sentInv);
+    } catch (error) {
+      console.error('Failed to send game invite to friend');
+    }
+
   };
   //add friend handler
   const handleAddFriend = async (friendId: string) => {
@@ -226,6 +234,8 @@ export default function App (){
         handleToggleMute={handleToggleMute}
         isMuted={isMuted}
         userInvites={userInvites}
+        setUserAcceptedInvs={setUserAcceptedInvs}
+        setUserInvites={setUserInvites}
       />
       <Routes>
         <Route
