@@ -48,9 +48,14 @@ export default function SelectGame({
   click6,
   playHeavyClickSFX,
   musicPlayed,
-  setMusicPlayed
+  setMusicPlayed,
+  userInvites,
+  setUserAcceptedInvs,
+  setUserInvites
 
 }){
+
+  console.log(userInvites)
 
   const [playClicked, setPlayClicked] = useState(false)
   const [makeClicked, setMakeClicked] = useState(false)
@@ -355,7 +360,12 @@ return(
 
                 
                   {/* INVITES LIST */}
-                  <GameTable playHeavyClickSFX={playHeavyClickSFX}/>
+                  <GameTable 
+                  playHeavyClickSFX={playHeavyClickSFX}
+                  userInvites={userInvites}
+                  setUserAcceptedInvs={setUserAcceptedInvs}
+                  setUserInvites={setUserInvites}
+                  />
 
 
 
