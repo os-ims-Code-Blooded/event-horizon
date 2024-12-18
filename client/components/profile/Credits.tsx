@@ -34,7 +34,7 @@ export default function Credits ({
               anomaex, metzik, dasbutcher84,
               gregorquendel, timwalters, matrixxx,
               wertstahl, spiceprogram, samsterbirdies,
-              juskiddink, franq
+              juskiddink, franq, pigeonfriend, GameAudio
               </p>
           </div>
         </div>
