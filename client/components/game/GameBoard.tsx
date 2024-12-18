@@ -211,8 +211,7 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-
-    <div className='grid-cols-3 mt-10 p-5 pb-3 pt-15 h-[80vh] w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
+    <div className='grid-cols-3 mt-10 p-1 pt-15 h-screen w-screen justify-between flex flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
       {/* FIRST COLUMN*/}
       <div className='m-2 flex flex-col justify-between' style={{ width: "25%"}}>
         {/* FIRST COLUMN 1st SECTION */}

@@ -253,8 +253,8 @@ export default function SelectGame({
 
 return(
 
-  <div className='max-h-full max-w-full'>
-    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'></div>
+  <div className='pt-15 h-full max-w-full'>
+    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 pt-15 absolute h-full'></div>
 
 
 

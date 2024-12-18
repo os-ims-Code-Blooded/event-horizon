@@ -16,13 +16,13 @@ import CardsPage from './cards/CardsPage.tsx';
 import Settings from './profile/Settings.tsx';
 import axios from 'axios';
 import useSound from 'use-sound';
-
+import sparkly from '../sfx/sparkle.wav';
 import eclick13 from '../sfx/electronic-click13.wav';
 import eclick6 from '../sfx/electronic-click6.wav';
 import sClick from '../sfx/sclick.wav';
 import heavyclick from '../sfx/heavyclick.wav'
 import music from '../sfx/music-goblincave.wav'
-
+import bonk from '../sfx/bonk.wav';
 interface User {
   id: number;
   name: String;
@@ -45,6 +45,8 @@ export default function App (){
   const [musicPlayed, setMusicPlayed] = useState(false)
 
   const [click13] = useSound(eclick13, volume);
+  const [accept] = useSound(sparkly, volume);
+  const [decl] = useSound(bonk, volume);
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
   const [playHeavyClickSFX] = useSound(heavyclick, volume);
@@ -116,7 +118,7 @@ export default function App (){
 
         //fetch user invites
         const userInvs = await axios.get(`/games/private/invites`)
-        
+
         if(userInvs){
           setUserInvites(userInvs.data.Incoming.Pending);
           setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
@@ -231,6 +233,8 @@ export default function App (){
         fetchUser={fetchUser}
         setVolume={setVolume}
         clickS={clickS}
+        accept={accept}
+        decl={decl}
         handleToggleMute={handleToggleMute}
         isMuted={isMuted}
         userInvites={userInvites}

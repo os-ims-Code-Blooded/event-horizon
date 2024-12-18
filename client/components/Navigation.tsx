@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import GameTable from './game/GamesTable';
@@ -13,14 +13,16 @@ type NavProps = {
   fetchUser: () => void;
   setVolume: any;
   clickS: any;
+  accept: any;
+  decl: any;
   handleToggleMute: () => void;
   isMuted: Boolean;
   userInvites: any;
-  setUserInvites: () => void;
-  setUserAcceptedInvs: () => void;
+  setUserInvites: any;
+  setUserAcceptedInvs: any;
 };
 
-const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, accept, decl, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -34,22 +36,28 @@ const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userI
     setInviteTableOpen(!inviteTableOpen);
   }
 
-  const acceptInv = async(gameId) => {
+  const acceptInv = async(gameId: number) => {
     // POST    /games/private/join/:id     =>
     // this allows any user associated with an invite to join a game (and also accept an invite);
     //  the :id we pass in here is the game_id
     try{
       const acceptedInv = await axios.post(`/games/private/join/${gameId}`);
-      console.log('accepted invite', acceptedInv.data);
-      await axios.get(``)
+      // console.log('accepted invite', acceptedInv.data);
+      const retrievedInvites = await axios.get(`/games/private/invites`);
+      accept();
+      setUserInvites(retrievedInvites.data.Incoming.Pending);
+      setUserAcceptedInvs(retrievedInvites.data.Incoming.Accepted);
     } catch(error) {
       console.error('Failed to Accept invite');
     }
   }
-  const declineInv = async(gameId) => {
+  const declineInv = async(gameId: number) => {
     try{
       await axios.delete(`/games/private/invites/${gameId}`);
-
+      const retrievedInvites = await axios.get(`/games/private/invites`);
+      decl();
+      setUserInvites(retrievedInvites.data.Incoming.Pending);
+      setUserAcceptedInvs(retrievedInvites.data.Incoming.Accepted);
     } catch(error) {
       console.error('Failed to decline Game Invite');
     }
@@ -223,7 +231,7 @@ const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userI
       </button>
         {/* Notification Window */}
       {inviteTableOpen && (
-        <div className="absolute top-8 right-0 mt-2 w-64 bg-fifth dark:bg-third border border-slate-200 rounded-lg shadow-lg z-50">
+        <div className="absolute top-8 right-0 mt-2 w-72 bg-fifth dark:bg-third border border-slate-200 rounded-lg shadow-lg z-50">
           <div className="p-1 rounded-sm bg-fifth dark:bg-third border-b border-slate-300">
             <h3 className="font-bold text-text text-center dark:text-darkText">Invites</h3>
           </div>
