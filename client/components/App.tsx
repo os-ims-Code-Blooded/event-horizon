@@ -277,6 +277,7 @@ export default function App (){
             playHeavyClickSFX={playHeavyClickSFX}
 
             userInvites={userInvites}
+            userAcceptedInvs={userAcceptedInvs}
             setUserAcceptedInvs={setUserAcceptedInvs}
             setUserInvites={setUserInvites}
 
