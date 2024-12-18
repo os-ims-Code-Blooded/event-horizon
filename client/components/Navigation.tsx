@@ -16,9 +16,11 @@ type NavProps = {
   handleToggleMute: () => void;
   isMuted: Boolean;
   userInvites: any;
+  setUserInvites: () => void;
+  setUserAcceptedInvs: () => void;
 };
 
-const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -30,6 +32,27 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
   const notificationToggle = () => {
     clickS();
     setInviteTableOpen(!inviteTableOpen);
+  }
+
+  const acceptInv = async(gameId) => {
+    // POST    /games/private/join/:id     =>
+    // this allows any user associated with an invite to join a game (and also accept an invite);
+    //  the :id we pass in here is the game_id
+    try{
+      const acceptedInv = await axios.post(`/games/private/join/${gameId}`);
+      console.log('accepted invite', acceptedInv.data);
+      await axios.get(``)
+    } catch(error) {
+      console.error('Failed to Accept invite');
+    }
+  }
+  const declineInv = async(gameId) => {
+    try{
+      await axios.delete(`/games/private/invites/${gameId}`);
+
+    } catch(error) {
+      console.error('Failed to decline Game Invite');
+    }
   }
   //toggles volume slider open/close
   //also invokes sound effect
@@ -213,11 +236,15 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
                   </div>
                   <div className="flex space-x-2">
                     <button 
-                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-success rounded-md hover:bg-green-600">
+                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-success rounded-md hover:bg-green-600"
+                      onClick={() => acceptInv(invite.game_id)}
+                      >
                       Accept
                     </button>
                     <button 
-                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-error rounded-md hover:bg-red-600">
+                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-error rounded-md hover:bg-red-600"
+                      onClick={() => declineInv(invite.game_id)}
+                      >
                       Decline
                     </button>
                   </div>

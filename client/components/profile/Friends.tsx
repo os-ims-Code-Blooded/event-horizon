@@ -4,21 +4,21 @@ import axios from 'axios';
 type FriendsProp = {
   user: any;
   friends: any[];
-  handleInvite: (friendId: string) => void;
-  handleAddFriend: (friendId: string) => void;
+  handleInvite: (friendId: number) => void;
+  handleAddFriend: (friendId: number) => void;
   fetchUser: Function;
   getFriends: Function;
   volume: any;
 };
 
 const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: FriendsProp) => {
-  const [selectedFriendId, setSelectedFriendId] = useState<string | null>(null);
+  const [selectedFriendId, setSelectedFriendId] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
 
-  const handleSelectFriend = (friendId: string) => {
+  const handleSelectFriend = (friendId: number) => {
     setSelectedFriendId((prev) => (prev === friendId ? null : friendId));
   };
 
@@ -43,7 +43,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
     setSelectedFriendId(null);
   };
 
-  const handleAddFriendClick = async (friendId: string) => {
+  const handleAddFriendClick = async (friendId: number) => {
     try {
       await handleAddFriend(friendId);
       setSelectedFriendId(null);
@@ -53,7 +53,7 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
     }
   };
 
-  const promptDelete = (friendId: string) => {
+  const promptDelete = (friendId: number) => {
     setSelectedFriendId(friendId);
     setShowDeletePrompt(true);
   };
@@ -129,11 +129,11 @@ const Friends = ({ user, getFriends, friends, handleInvite, handleAddFriend }: F
                   e.stopPropagation();
                   promptDelete(friend.id);
                 }}
-                aria-label={`Delete friend ${friend.name || friend.email}`}
+                aria-label={`Delete friend ${friend.name}`}
               >
                 {currentList === friends ? <div>💥</div> : ''}
               </button>
-              <span className="font-medium">{friend.name || friend.email}</span>
+              <span className="font-medium">{friend.name}</span>
               {!showSearch && (
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-sm text-green-400">Wins: {friend.wins || 0}</span>
