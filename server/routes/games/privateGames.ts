@@ -15,13 +15,8 @@ privateGames.get('/invites', async (req: AuthRequest, res) => {
     // find all the game invites that exist for the user
     // these will be displayed so that the user can click 'Join Game' to join a game
     // they each have a game_id property that is used in the POST request to join the game
-    const existingInvites = await database.game_invites.findMany({
-      where: {
-        OR: [
-          {from: req.user.id},
-          {to: req.user.id}
-        ]
-      },
+    const outgoingInvites = await database.game_invites.findMany({
+      where: { from: req.user.id},
       include: {
         invitee: {
           select: {
@@ -36,14 +31,36 @@ privateGames.get('/invites', async (req: AuthRequest, res) => {
       }
     })
 
-    if (!existingInvites) {
+    const incomingInvites = await database.game_invites.findMany({
+      where: { to: req.user.id },
+      include: {
+        invitee: {
+          select: {
+            name: true
+          }
+        },
+        invitedTo: {
+          select: {
+            name: true
+          }
+        },
+      }
+    })
+
+    if (!outgoingInvites && !incomingInvites) {
       res.sendStatus(404);
     } else {
 
       // we return an object containing pre-sorted accepted and pending invites
       const invites: any = {
-        "Accepted": existingInvites.filter((invite) => invite.accepted === true),
-        "Pending": existingInvites.filter((invite) => invite.accepted === false)
+        "Outgoing":  {
+          "Accepted": outgoingInvites.filter((invite) => invite.accepted === true),
+          "Pending": outgoingInvites.filter((invite) => invite.accepted === false)
+        },
+        "Incoming": {
+          "Accepted": incomingInvites.filter((invite) => invite.accepted === true),
+          "Pending": incomingInvites.filter((invite) => invite.accepted === false)
+        }
       }
 
       res.status(200).send(invites);
