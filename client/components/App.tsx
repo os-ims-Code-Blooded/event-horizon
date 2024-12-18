@@ -35,6 +35,7 @@ export default function App (){
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
   const [userInvites, setUserInvites] = useState([]);
+  const [userAcceptedInvs, setUserAcceptedInvs] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCbMode, setCbMode] = useState(false);
   const [userSettings, setUserSettings] = useState(null)
@@ -118,6 +119,7 @@ export default function App (){
         
         if(userInvs){
           setUserInvites(userInvs.data.Pending);
+          setUserAcceptedInvs(userInvs.data.Accepted);
         }
         console.log('user invs', userInvs);
 

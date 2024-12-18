@@ -209,7 +209,7 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
               userInvites.map((invite, index) => (
                 <div key={invite.id} className="flex items-center justify-between p-4 border-b border-slate-100">
                   <div>
-                    <p className="text-sm font-medium text-text dark:text-darkText">{invite.from}</p>
+                    <p className="text-sm font-medium text-text dark:text-darkText">{invite.invitee.name}</p>
                   </div>
                   <div className="flex space-x-2">
                     <button 
