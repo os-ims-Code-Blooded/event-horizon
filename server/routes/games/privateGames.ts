@@ -340,8 +340,8 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
     // invite the player to the game
     const inviteToGame = await database.game_invites.create({
       data: {
-        invitee: { connect: { id: Number(req.params.id)}},
-        invitedTo: { connect: { id: req.user.id}},
+        invitee: { connect: { id: user.id}},
+        invitedTo: { connect: { id: Number(req.params.id)}},
         game: { connect: { id: newGame.id}}
       }
     })
@@ -349,7 +349,7 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
     // add a user to the new game
     const addUserToNewGame = await database.private_connections.create({
       data: {
-        user: { connect: { id: req.body.user_id } },
+        user: { connect: { id: user.id } },
         game: { connect: { id: newGame.id } }
       }
     });
@@ -363,7 +363,7 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
     const initPlayerInfo = await database.game_player_information.create({
       data: { 
         round: { connect: { id: initRound.id}},
-        user: { connect: { id: req.user.id} }
+        user: { connect: { id: user.id} }
       }
     })
 
@@ -394,19 +394,19 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
     const makePlayerDeckState = await database.game_card_states.create({
       data: {
         round: { connect: { id: initRound.id} },
-        user: { connect: { id: req.user.id } },
+        user: { connect: { id: user.id } },
         deck: startingDeck,
         hand: startingHand
       }
     })
 
-    console.log(`Creating new game #${newGame.id} for user #${req.body.user_id}.`)
+    console.log(`Creating new game #${newGame.id} for user #${user.id}.`)
 
     res.status(201).send(newGame);
 
   } catch (error) {
     errorHandler(error);
-    console.error(`Error on POST request to create a new private game.`)
+    console.error(`Error on POST request to create a new private game.`, error);
     res.sendStatus(500);
   }
 })
