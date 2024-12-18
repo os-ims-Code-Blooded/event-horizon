@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import GameTable from './game/GamesTable';
 
 type NavProps = {
   user: any;
@@ -22,19 +23,28 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [tempVolume, setTempVolume] = useState({volume: 0.5})
- 
+  const [inviteTableOpen, setInviteTableOpen] = useState(false);
 
+
+  //Invite notification window toggle open/close
+  const notificationToggle = () => {
+    clickS();
+    setInviteTableOpen(!inviteTableOpen);
+  }
+  //toggles volume slider open/close
+  //also invokes sound effect
   const toggleVolSlider = () => {
     clickS();
     setIsSliderOpen(!isSliderOpen)
   }
 
-  // Handle slider value change
+  // Handle volume slider value change
    const handleSliderChange = (event: any) => {
+    //temp value for slider
     const newVolume = parseFloat(event.target.value)
     setTempVolume({volume: newVolume})
   }
-
+  // On confirm, sends patch request to change users saved volume setting
   const handleConfirmVolume = async () => {
     setVolume({volume: tempVolume })
     if(!user){
@@ -55,9 +65,11 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
     setIsSliderOpen(false);
   }
 
+  // Sends post request to log user out
   const handleLogout = () => {
     axios.post('/api/logout')
       .then(() => {
+        //changes window to Landing page
         window.location.href = '/';
       })
       .catch((err) => {
@@ -173,9 +185,12 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
           </div>
         )}
       </div>
-      {/* Theme Toggle Buttons */}
-      <div className=" flex flex-row items-center">
-      <button className="mx-4 text-slate-600 transition-colors duration-300 transform lg:block dark:text-slate-200 hover:text-slate-700 dark:hover:text-slate-400 focus:text-slate-700 dark:focus:text-slate-400 focus:outline-none hover:" aria-label="show notifications" >
+      {/* Right Side icons div  */}
+      <div className=" relative flex flex-row items-center">
+        {/* Notification button alert*/}
+      <button className="mx-4 text-slate-600 transition-colors duration-300 transform lg:block dark:text-slate-200 hover:text-slate-700 dark:hover:text-slate-400 focus:text-slate-700 dark:focus:text-slate-400 focus:outline-none hover:" aria-label="show notifications"
+        onClick={notificationToggle}
+      >
           <svg className="relative w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="currentColor"/>
           </svg>
@@ -183,14 +198,48 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
             <span className="absolute top-0 right-0 items-center justify-center px-1 py-1 rounded-full bg-error text-xs font-medium text-white"> </span>
           )}
       </button>
+        {/* Notification Window */}
+      {inviteTableOpen && (
+        <div className="absolute top-8 right-0 mt-2 w-64 bg-fifth dark:bg-third border border-slate-200 rounded-lg shadow-lg z-50">
+          <div className="p-1 rounded-sm bg-fifth dark:bg-third border-b border-slate-300">
+            <h3 className="font-bold text-text text-center dark:text-darkText">Invites</h3>
+          </div>
+          <div className="max-h-60 overflow-y-auto">
+            {userInvites.length > 0 ? (
+              userInvites.map((invite, index) => (
+                <div key={invite.id} className="flex items-center justify-between p-4 border-b border-slate-100">
+                  <div>
+                    <p className="text-sm font-medium text-text dark:text-darkText">{invite.from}</p>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button 
+                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-success rounded-md hover:bg-green-600">
+                      Accept
+                    </button>
+                    <button 
+                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-error rounded-md hover:bg-red-600">
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-4 text-center text-sm text-text dark:text-darkText">
+                No new Game invites.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
         {/* Volume button */}
         <button
           onClick={toggleVolSlider}
           className="p-2 bg-fifth dark:bg-third rounded-full dark:hover:bg-purple-400 hover:bg-orange-500 transition-all"
-        >
+          >
           🔊
         </button>
 
+          {/* Theme Toggle Buttons */}
         {isSliderOpen && (
           <div className="absolute right-[10px] top-full mt-2 w-40 bg-fifth items-center justify-center justify-items-center dark:!bg-third text-text p-2 shadow-text dark:shadow-darkText rounded-lg shadow-sm ">
             <h3 className="font-semibold mb-2 text-text dark:text-darkText">Adjust Volume</h3>
@@ -225,7 +274,7 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
           </div>
         )}
         
-        <button onClick={toggleDarkMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 rounded-full">
+        <button onClick={toggleDarkMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 p-2 rounded-full">
           {isDarkMode ?
             <svg data-toggle-icon="moon" className="w-3.5 h-3.5 " xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
               <path d="M17.8 13.75a1 1 0 0 0-.859-.5A7.488 7.488 0 0 1 10.52 2a1 1 0 0 0 0-.969A1.035 1.035 0 0 0 9.687.5h-.113a9.5 9.5 0 1 0 8.222 14.247 1 1 0 0 0 .004-.997Z"></path>
@@ -235,7 +284,7 @@ const NavigationBar: FC<NavProps> = ({userInvites, isMuted, handleToggleMute, se
           </svg>
         }
         </button>
-        <button onClick={cbMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 rounded-full">
+        <button onClick={cbMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 p-2 rounded-full">
           👁️
         </button>
       </div>
