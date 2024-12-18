@@ -21,6 +21,18 @@ privateGames.get('/invites', async (req: AuthRequest, res) => {
           {from: req.user.id},
           {to: req.user.id}
         ]
+      },
+      include: {
+        invitee: {
+          select: {
+            name: true
+          }
+        },
+        invitedTo: {
+          select: {
+            name: true
+          }
+        },
       }
     })
 
@@ -400,3 +412,4 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
 })
 
 export default privateGames;
+
