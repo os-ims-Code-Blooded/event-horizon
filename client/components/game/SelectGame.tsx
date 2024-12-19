@@ -36,8 +36,8 @@ export default function SelectGame({
   setUserAcceptedInvs,
   setUserInvites,
   userAcceptedInvs,
-  acceptedOutgoingInvs
-
+  acceptedOutgoingInvs,
+  decl
 }){
 
   console.log(userInvites)
@@ -282,6 +282,7 @@ return(
            roundActual={roundActual}
            setRoundActual={setRoundActual}
            volume={volume}
+           
           />
           </div>
           }
@@ -373,6 +374,7 @@ return(
                   setActiveUserGame={setActiveUserGame}
                   setRoundInfo={setRoundInfo}
                   deckSelected={deckSelected}
+                  decl={decl}
 
                   />
 

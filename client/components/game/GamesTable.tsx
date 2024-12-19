@@ -24,6 +24,7 @@ export default function GameTable({
   setActiveUserGame,
   setRoundInfo,
   deckSelected,
+  decl,
 
   user
 
@@ -83,6 +84,19 @@ export default function GameTable({
 
   }
 
+
+  const declineInv = async(gameId: number) => {
+    try{
+      await axios.delete(`/games/private/invites/${gameId}`);
+      const retrievedInvites = await axios.get(`/games/private/invites`);
+      decl();
+      setUserInvites(retrievedInvites.data.Incoming.Pending);
+      setUserAcceptedInvs(retrievedInvites.data.Incoming.Accepted);
+    } catch(error) {
+      console.error('Failed to decline Game Invite');
+    }
+  }
+
 ///////////////// RENDER RETURN //////////////////////////////
   return(
 <div className='bg-red-300 w-full'>
@@ -139,6 +153,7 @@ export default function GameTable({
                 <td className="px-6 py-4">
                 <button onClick={()=>{
                       playHeavyClickSFX()
+                      declineInv(invite.game_id)
                     }}
                     className='w-8 h-8 aspect-square bg-error hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-error'>X</button>
                 </td>

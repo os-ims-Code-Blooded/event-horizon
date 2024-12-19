@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import SelectDeck from '../cards/SelectDeckModal';
 
 type FriendsProp = {
   user: any;
   friends: any[];
-  handleInvite: (friendId: number) => void;
+  startInvite: (friendId: number) => void;
   handleAddFriend: (friendId: number) => void;
   fetchUser: Function;
   getFriends: Function;
@@ -12,7 +13,7 @@ type FriendsProp = {
   socket: any;
 };
 
-const Friends = ({ socket, user, getFriends, friends, handleInvite, handleAddFriend }: FriendsProp) => {
+const Friends = ({ socket, user, getFriends, friends, startInvite, handleAddFriend, volume }: FriendsProp) => {
   const [selectedFriendId, setSelectedFriendId] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -88,6 +89,7 @@ const Friends = ({ socket, user, getFriends, friends, handleInvite, handleAddFri
       className="pt-10 flex flex-col items-center bg-starfield-light dark:bg-starfield p-6 rounded-lg shadow-md h-screen w-screen sm:grid-cols-1"
       aria-label="Friends or Search Results"
     >
+
       <h1 className="text-2xl font-bold text-text dark:text-darkText mb-4 pt-5">
         {showSearch ? 'Search Results' : "Your Friend's List"}
       </h1>
@@ -176,7 +178,7 @@ const Friends = ({ socket, user, getFriends, friends, handleInvite, handleAddFri
               : 'bg-slate-500 cursor-not-allowed'
           }`}
           onClick={() => {
-            selectedFriendId && handleInvite(selectedFriendId);
+            selectedFriendId && startInvite(selectedFriendId);
             setSelectedFriendId(null);
           }}
           disabled={!selectedFriendId}

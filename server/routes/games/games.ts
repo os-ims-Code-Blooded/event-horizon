@@ -251,9 +251,19 @@ games.patch('/:id', async (req: AuthRequest, res) => {
 
     if (req.body.data.user_id) {
 
-      const findConnections = await database.public_connections.findMany({
+      let isPrivate = false;
+
+      let findConnections = await database.public_connections.findMany({
         where: { game_id: Number(req.params.id) }
       });
+
+      if (findConnections.length === 0) {
+        findConnections = await database.private_connections.findMany({
+          where: { game_id: Number(req.params.id) }
+        });
+
+        isPrivate = true;
+      }
 
       const findOpponentID = findConnections.reduce((accum, curr) => {
         if (curr.user_id !== Number(req.body.data.user_id)) { return curr.user_id }
@@ -303,6 +313,12 @@ games.patch('/:id', async (req: AuthRequest, res) => {
           }
         })
         /*============================================================*/
+
+        if (isPrivate) {
+          await database.game_invites.deleteMany({
+            where: { game_id: Number(req.params.id) }
+          })
+        }
   
         console.log(`Game terminated; victor for game session #${req.params.id} is #${findOpponentID}.`)
         res.status(200).send({ GameComplete: updateGame });
@@ -320,6 +336,12 @@ games.patch('/:id', async (req: AuthRequest, res) => {
           end_date: new Date()
         }
       })
+
+      if (updateGame.private) {
+        await database.game_invites.deleteMany({
+          where: { game_id: Number(req.params.id) }
+        })
+      }
       
       console.log(`Game terminated; no victor specified for game session #${req.params.id} upon termination.`);
       res.status(200).send({ GameTerminated: updateGame });
@@ -340,10 +362,13 @@ games.delete('/:id', async (req: AuthRequest, res) => {
 
     const game = await database.games.findFirst({
       where: { id: Number(req.params.id)},
-      include: { public_connections: true }
+      include: { 
+        public_connections: true,
+        private_connections: true 
+      }
     })
 
-    if ( game.public_connections.length > 1) {
+    if ( game.public_connections.length > 1 || game.private_connections.length > 1) {
       console.error(`This route is for ending a game search, but two users were found.`);
       console.error(`If users do not want to play this game, they must surrender.`)
       res.sendStatus(203);
