@@ -31,6 +31,7 @@ export default function SelectGame({
   musicPlayed,
   setMusicPlayed,
   socket,
+
   userInvites,
   setUserAcceptedInvs,
   setUserInvites,
@@ -244,8 +245,8 @@ export default function SelectGame({
 
 return(
 
-  <div className='pt-15 h-full max-w-full'>
-    <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 pt-15 absolute h-full'></div>
+  <div className='max-h-screen min-h-screen min-w-screen max-w-screen'>
+    <div className=' bg-starfield-light dark:bg-starfield inset-0 z-9 absolute h-screen'></div>
 
 
 
@@ -387,29 +388,29 @@ return(
           <GameOver gameWinner={gameWinner} volume={volume} user={user}/>
         :
         <div className='h-full z-10 relative'>
-    <GameController
-    session={session}
-    socket={socket}
-    user={user}
-    setGameOver={setGameOver}
-    setGameWinner={setGameWinner}
-    userDecks={userDecks}
-    deckSelected={deckSelected}
-    handSize={handSize}
-    roundNum={roundNum}
-    setRoundNum={setRoundNum}
-    enemyId={enemyId}
-    roundInfo={roundInfo}
-    enemyName={enemyName}
-    setEnemyName={setEnemyName}
-    setEnemyId={setEnemyId}
-    handProvided = {handProvided}
-    enemyHand={enemyHand}
-    setEnemyHand={setEnemyHand}
-    roundActual={roundActual}
-    setRoundActual={setRoundActual}
-    volume={volume}
-/>
+          <GameController
+          session={session}
+          socket={socket}
+          user={user}
+          setGameOver={setGameOver}
+          setGameWinner={setGameWinner}
+          userDecks={userDecks}
+          deckSelected={deckSelected}
+          handSize={handSize}
+          roundNum={roundNum}
+          setRoundNum={setRoundNum}
+          enemyId={enemyId}
+          roundInfo={roundInfo}
+          enemyName={enemyName}
+          setEnemyName={setEnemyName}
+          setEnemyId={setEnemyId}
+          handProvided = {handProvided}
+          enemyHand={enemyHand}
+          setEnemyHand={setEnemyHand}
+          roundActual={roundActual}
+          setRoundActual={setRoundActual}
+          volume={volume}
+      />
         </div>
         }
       </div>

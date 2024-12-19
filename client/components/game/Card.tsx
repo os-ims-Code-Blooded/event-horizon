@@ -40,7 +40,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
   }
 
   return (
-    <div id='card' className='flex h-48 w-36 min-w-[144px] max-h-[200px]' >
+    <div id='card' className='flex flex-shrink w-40 min-w-[120px] aspect-[3/4]' >
 
     {playerAction === 'LOAD' && !turnEnded?
       <div
@@ -48,7 +48,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
           cardSelect(card);
           setIsClicked(card.id);
         }}
-        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success' : 'border-yellow-300' } rounded-lg shadow-md flex flex-col items-center justify-between w-full hover:scale-110`}
+        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success z-20 scale-110' : 'border-yellow-300' } aspect-[3/4] rounded-lg h-auto w-auto shadow-md flex flex-col items-center justify-between hover:z-20 hover:scale-110`}
       >
         <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
         <div className="text-center text-sm">
@@ -67,7 +67,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
       </div>
       :
       <div
-      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
+      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center aspect-[3/4] justify-between hover:z-20 hover:scale-110 h-auto w-auto">
         <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
         <div className="text-center">
           <div>`IMAGE`</div>
