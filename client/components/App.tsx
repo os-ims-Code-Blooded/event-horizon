@@ -353,6 +353,7 @@ export default function App (){
             setUserInvites={setUserInvites}
             acceptedOutgoingInvs={acceptedOutgoingInvs}
             socket={socket}  
+            decl={decl}
             />
             : 
             <Navigate to='/' />}
