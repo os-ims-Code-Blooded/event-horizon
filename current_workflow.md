@@ -21,7 +21,7 @@ const [privateGameID, setPrivateGameID] = useState<null | number>(null); // this
         volume={volume}
         toggleModal={togglePublicModal}
         callback={onClickPlay}
-        callbackParams={openGame.game_id}
+        callbackParams={null}
       />
     </div>
   ) : (
@@ -49,22 +49,30 @@ useEffect(() => {
 
 ```ts
 const startSearchPublicGame = () => {
-  togglePublicModal(true); // this will open modal for user to select a deck, then it will conduct an onClickPlay
+  if (activeGame) {
+    onClickPlay();
+  } else {
+    togglePublicModal(true); // this will open modal for user to select a deck, then it will conduct an onClickPlay
+  }
 };
 ```
 
 5. For an on-click to join a private game, we need to do something else because how these endpoints work are drastically different.
 
 ```ts
-const startSearchPrivateGame = () => {
-  togglePrivateModal(true); // this will open modal for user to select a deck, then it will conduct a joinPrivateSession
+const startSearchPrivateGame = (privateGameID) => {
+  if (privateGameID.accepted) {
+    joinPrivateGame(privateGameID);
+  } else {
+    togglePrivateModal(true); // this will open modal for user to select a deck, then it will conduct a joinPrivateSession
+  }
 };
 ```
 
 6. This will render a modal that appears different, but is using a different callback.
 
 ```ts
-<div id="Public-modal">
+<div id="Private-modal">
   {showModal ? (
     <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle">
       <SelectDeck
