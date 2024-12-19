@@ -29,10 +29,6 @@ export default function GameTable({
 
 }){
 
-
-  console.log("!!! USER INVITES !!!", userInvites)
-
-
   const joinPrivateGame = async (openGame) =>{
 
     console.log("join this game")
@@ -41,20 +37,14 @@ export default function GameTable({
 
       const game = await axios.post(`/games/private/join/${openGame.game_id}`, { "user_id": user.id });
 
-      console.log("GAAAAME", game)
-      console.log("USER", user)
+      setSession(openGame.game_id);               // we derive the game ID from the invite
+      setRoundNum(game.data["Current Round"]);    // all of this data is made available from Axios request
+      setDeckSelected(game.data["Current Deck"]);
+      setHandProvided(game.data["Current Hand"]);
+      setRoundActual(game.data["Current Round Actual"]);
 
-      const round = await axios.get(`/games/private/rounds/${openGame.data.id}`);
-
-      setSession(openGame.game_id);
-      setRoundNum(game["Current Round"]);
-      setDeckSelected(round.data["Current Deck"]);
-      setHandProvided(round.data["Current Hand"]);
-      setRoundActual(round.data["Current Round Actual"])
-
-
-
-      socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
+      // we changed the game_id emission here because it was referencing something that didn't exist
+      socket.emit("join_session", openGame.game_id, user, game.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?
@@ -62,12 +52,10 @@ export default function GameTable({
 
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
-
           return (player.user_id !== user.id)
         })
 
         if (deckSelected){
-
         }
 
         // console.log("ON CLICK PLAY ENEMY", enemy)
@@ -189,7 +177,7 @@ export default function GameTable({
         })}
 
 
-        {/* {acceptedOutgoingInvs.map((invite)=>{
+         {acceptedOutgoingInvs.map((invite)=>{
           console.log("ACCEPTED INVITES", invite)
           return(
             <tr className="bg-gray border-b dark:bg-slate-800 dark:border-slate-700">
@@ -211,7 +199,7 @@ export default function GameTable({
               </td>
             </tr>
           )
-        })} */}
+        })}
 
 
 

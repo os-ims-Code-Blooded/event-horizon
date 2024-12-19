@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import '../style.css';
+import { io } from "socket.io-client";
 import SelectGame from './game/SelectGame.tsx';
 import Profile from './profile/Profile.tsx';
 import LeaderBoard from './leaderboard/Leaderboard.tsx';
@@ -31,6 +32,7 @@ interface User {
 }
 
 
+
 export default function App (){
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
@@ -54,6 +56,24 @@ export default function App (){
   const [isMuted, setIsMuted] = useState(false);
   const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : 0.2} );
 
+
+  ////////////////////////////
+  //creates front-end socket connection to the server
+  const socket = io("http://localhost:3000", {
+    withCredentials: true,
+    extraHeaders: {
+      "my-custom-header": "abcd"
+    }
+  });
+
+  // const socket = io("https://eventhorizongame.live", {
+  //   withCredentials: true,
+  //   extraHeaders: {
+  //     "my-custom-header": "abcd"
+  //   }
+  // });
+
+////////////////////////////
   const handleToggleMute = () => {
     setIsMuted((prev) => !prev);
     if (!isMuted) {
@@ -127,7 +147,7 @@ export default function App (){
           setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
           setAcceptedOutgoingInvs(userInvs.data.Outgoing.Accepted)
         }
-        console.log('user invs', userInvs);
+        // console.log('user invs', userInvs);
 
         // update cards if necessary
         await axios.post(`/profile/collections/${response.data.user.id}`)
@@ -168,11 +188,12 @@ export default function App (){
   };
   // game inv handler?
   const handleInvite = async (friendId: number) => {
-    console.log(`Sending inv to friend ${friendId}`);
-    console.log('type id', typeof friendId);
+    // console.log(`Sending inv to friend ${friendId}`);
+    // console.log('type id', typeof friendId);
     try {
       const sentInv = await axios.post(`/games/private/create/${friendId}`);
-      console.log('sent invite', sentInv);
+      console.log('Sent invite', sentInv.data.invite);
+      socket.emit('send_invite', sentInv.data.invite, friendId);
     } catch (error) {
       console.error('Failed to send game invite to friend');
     }
@@ -223,6 +244,27 @@ export default function App (){
     if (user && friends.length === 0) {
       getFriends();
     }
+    if(user){
+      // console.log('user id', user.id);
+      socket.emit('register_user', String(user.id));
+      socket.on('incoming_invite', (data: any) => {
+
+        // console.log('received invite', data);
+
+        axios.get(`/games/private/invites`)
+          .then((userInvs) => {
+            setUserInvites(userInvs.data.Incoming.Pending);
+            setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
+            console.log('New invites fetched')
+          })
+          .catch((err) => {
+            console.error('failed to updated invites')
+          });
+
+        // setUserAcceptedInvs(data.Incoming.Accepted);
+      })
+
+    }
   }, [user]);
 
   return (
@@ -244,6 +286,7 @@ export default function App (){
         userInvites={userInvites}
         setUserAcceptedInvs={setUserAcceptedInvs}
         setUserInvites={setUserInvites}
+        socket={socket}
       />
       <Routes>
         <Route
@@ -285,10 +328,11 @@ export default function App (){
             setUserAcceptedInvs={setUserAcceptedInvs}
             setUserInvites={setUserInvites}
             acceptedOutgoingInvs={acceptedOutgoingInvs}
-
+            socket={socket}  
             />
             : 
             <Navigate to='/' />}
+
         />
         <Route
           path="/leaderboard"
@@ -305,6 +349,7 @@ export default function App (){
               friends={friends}
               fetchUser={fetchUser}
               getFriends={getFriends}
+              socket={socket}
               />
                :
              <Navigate to='/'/>}

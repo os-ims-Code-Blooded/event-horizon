@@ -5,30 +5,11 @@ import axios from 'axios'
 import { useEffect } from 'react';
 
 ////////////////////////////
-import { io } from "socket.io-client";
 import GameController from './GameController';
 import GameOver from './GameOver.tsx';
 import GameTable from './GamesTable.tsx';
 import UserDecks from './../cards/UserDecks.tsx'
 import { use } from 'passport';
-////////////////////////////
-
-////////////////////////////
-//creates front-end socket connection to the server
-const socket = io("http://localhost:3000", {
-  withCredentials: true,
-  extraHeaders: {
-    "my-custom-header": "abcd"
-  }
-});
-
-// const socket = io("https://eventhorizongame.live", {
-//   withCredentials: true,
-//   extraHeaders: {
-//     "my-custom-header": "abcd"
-//   }
-// });
-
 ////////////////////////////
 
 
@@ -49,6 +30,8 @@ export default function SelectGame({
   playHeavyClickSFX,
   musicPlayed,
   setMusicPlayed,
+  socket
+
   userInvites,
   setUserAcceptedInvs,
   setUserInvites,
