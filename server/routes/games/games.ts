@@ -251,6 +251,8 @@ games.patch('/:id', async (req: AuthRequest, res) => {
 
     if (req.body.data.user_id) {
 
+      let isPrivate = false;
+
       let findConnections = await database.public_connections.findMany({
         where: { game_id: Number(req.params.id) }
       });
@@ -259,6 +261,8 @@ games.patch('/:id', async (req: AuthRequest, res) => {
         findConnections = await database.private_connections.findMany({
           where: { game_id: Number(req.params.id) }
         });
+
+        isPrivate = true;
       }
 
       const findOpponentID = findConnections.reduce((accum, curr) => {
@@ -309,6 +313,12 @@ games.patch('/:id', async (req: AuthRequest, res) => {
           }
         })
         /*============================================================*/
+
+        if (isPrivate) {
+          await database.game_invites.deleteMany({
+            where: { game_id: Number(req.params.id) }
+          })
+        }
   
         console.log(`Game terminated; victor for game session #${req.params.id} is #${findOpponentID}.`)
         res.status(200).send({ GameComplete: updateGame });
@@ -326,6 +336,12 @@ games.patch('/:id', async (req: AuthRequest, res) => {
           end_date: new Date()
         }
       })
+
+      if (updateGame.private) {
+        await database.game_invites.deleteMany({
+          where: { game_id: Number(req.params.id) }
+        })
+      }
       
       console.log(`Game terminated; no victor specified for game session #${req.params.id} upon termination.`);
       res.status(200).send({ GameTerminated: updateGame });
