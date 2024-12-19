@@ -31,27 +31,43 @@ export default function SelectGame({
   musicPlayed,
   setMusicPlayed,
   socket
+
+  userInvites,
+  setUserAcceptedInvs,
+  setUserInvites,
+  userAcceptedInvs
+
 }){
 
+  console.log(userInvites)
+
   const [playClicked, setPlayClicked] = useState(false)
+
   const [makeClicked, setMakeClicked] = useState(false)
+
   const [deckSelected, setDeckSelected] = useState([])
+
   const [deckWasChosen, setDeckWasChosen] = useState(false)
+
   const [handProvided, setHandProvided] = useState([])
 
   const [handSize, setHandSize] = useState(3)
 
   const [gameOver, setGameOver] = useState(false)
+
   const [gameWinner, setGameWinner] = useState(null)
+
   const [userDecks, setUserDecks] = useState<any[]>([])
 
   //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
+
   const [roundNum, setRoundNum] = useState(1)
 
   const [roundActual, setRoundActual] = useState(1)
 
   const [enemyId, setEnemyId] = useState(null)
+
   const [enemyName, setEnemyName] = useState('')
 
   const [roundInfo, setRoundInfo] = useState([])
@@ -76,11 +92,11 @@ export default function SelectGame({
     playMusic();
     // console.log('music played');
     setMusicPlayed(true)
-  } 
-  
-  
+  }
+
+
   useEffect( () => {
-    
+
     // on arrival to this page, attempt to get the decks available
     // this allows the user to select from their current card decks
     axios.get(`/profile/decks/${user.id}`)
@@ -98,13 +114,12 @@ export default function SelectGame({
 
   /*===============================================================================
     This function begins searching for a game; it technically creates a session if
-    a session is not found. As a result, we have to use the onClickStopSearch 
+    a session is not found. As a result, we have to use the onClickStopSearch
     function to request to delete the game and end the "matchmaking" request.
   =================================================================================*/
   const onClickPlay = async () => {
 
     try {
-
 
       const game = await axios.post('/games', { "user_id": user.id });
       const round = await axios.get(`/games/rounds/${game.data.id}`);
@@ -165,7 +180,7 @@ export default function SelectGame({
       if (session) {
         await axios.delete(`/games/${session}`);
         setWaiting(false)
-        setPlayClicked(false) 
+        setPlayClicked(false)
         setDeckWasChosen(false)
         // we also need to re-enable buttons so they can click play game again
       }
@@ -336,7 +351,28 @@ return(
 
                 
                   {/* INVITES LIST */}
-                  <GameTable playHeavyClickSFX={playHeavyClickSFX}/>
+                  <GameTable 
+                  playHeavyClickSFX={playHeavyClickSFX}
+                  userInvites={userInvites}
+                  userAcceptedInvs={userAcceptedInvs}
+                  setUserAcceptedInvs={setUserAcceptedInvs}
+                  setUserInvites={setUserInvites}
+                  socket={socket}
+
+                  setSession={setSession}
+                  setRoundNum={setRoundNum}
+                  setDeckSelected={setDeckSelected}
+                  setHandProvided={setHandProvided}
+                  setRoundActual={setRoundActual}
+                  user={user}
+
+                  setEnemyName={setEnemyName}
+                  setEnemyId={setEnemyId}
+                  setActiveUserGame={setActiveUserGame}
+                  setRoundInfo={setRoundInfo}
+                  deckSelected={deckSelected}
+
+                  />
 
 
 

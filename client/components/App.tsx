@@ -311,7 +311,23 @@ export default function App (){
         />
         <Route
           path="/game-board"
-          element={isAuthenticated ? <SelectGame playMusic={playMusic} socket={socket} musicPlayed={musicPlayed} setMusicPlayed={setMusicPlayed} volume={volume} user={user} click13={click13} click6={click6} playHeavyClickSFX={playHeavyClickSFX}/> : <Navigate to='/' />}
+          element={isAuthenticated ? <SelectGame
+            playMusic={playMusic}
+            musicPlayed={musicPlayed}
+            setMusicPlayed={setMusicPlayed}
+            volume={volume} user={user}
+            click13={click13} click6={click6}
+            playHeavyClickSFX={playHeavyClickSFX}
+
+            userInvites={userInvites}
+            userAcceptedInvs={userAcceptedInvs}
+            setUserAcceptedInvs={setUserAcceptedInvs}
+            setUserInvites={setUserInvites}
+            socket={socket}  
+            />
+            : 
+            <Navigate to='/' />}
+
         />
         <Route
           path="/leaderboard"
