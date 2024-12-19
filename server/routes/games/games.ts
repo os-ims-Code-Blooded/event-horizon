@@ -251,9 +251,15 @@ games.patch('/:id', async (req: AuthRequest, res) => {
 
     if (req.body.data.user_id) {
 
-      const findConnections = await database.public_connections.findMany({
+      let findConnections = await database.public_connections.findMany({
         where: { game_id: Number(req.params.id) }
       });
+
+      if (findConnections.length === 0) {
+        findConnections = await database.private_connections.findMany({
+          where: { game_id: Number(req.params.id) }
+        });
+      }
 
       const findOpponentID = findConnections.reduce((accum, curr) => {
         if (curr.user_id !== Number(req.body.data.user_id)) { return curr.user_id }
