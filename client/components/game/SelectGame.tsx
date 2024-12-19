@@ -30,14 +30,12 @@ export default function SelectGame({
   playHeavyClickSFX,
   musicPlayed,
   setMusicPlayed,
-  socket
-
+  socket,
   userInvites,
   setUserAcceptedInvs,
   setUserInvites,
   userAcceptedInvs,
   acceptedOutgoingInvs
-
 }){
 
   console.log(userInvites)

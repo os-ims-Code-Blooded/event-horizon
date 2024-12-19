@@ -24,6 +24,8 @@ import sClick from '../sfx/sclick.wav';
 import heavyclick from '../sfx/heavyclick.wav'
 import music from '../sfx/music-goblincave.wav'
 import bonk from '../sfx/bonk.wav';
+import SelectDeck from './cards/SelectDeckModal.tsx';
+
 interface User {
   id: number;
   name: String;
@@ -55,6 +57,8 @@ export default function App (){
   const [playHeavyClickSFX] = useSound(heavyclick, volume);
   const [isMuted, setIsMuted] = useState(false);
   const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : 0.2} );
+  const [showModal, toggleModal] = useState(false);
+  const [callbackParams, setCallbackParams] = useState<any>(null);
 
 
   ////////////////////////////
@@ -168,6 +172,7 @@ export default function App (){
       throw new Error('Error checking auth', error);
     }
   };
+
   //retrieves user's friends
   const getFriends = async () => {
     if(user) {
@@ -186,19 +191,29 @@ export default function App (){
       return [];
     }
   };
+
+  
+  
   // game inv handler?
   const handleInvite = async (friendId: number) => {
     // console.log(`Sending inv to friend ${friendId}`);
     // console.log('type id', typeof friendId);
     try {
-      const sentInv = await axios.post(`/games/private/create/${friendId}`);
-      console.log('Sent invite', sentInv.data.invite);
-      socket.emit('send_invite', sentInv.data.invite, friendId);
+      if (friendId) {
+        const sentInv = await axios.post(`/games/private/create/${friendId}`);
+        console.log('Sent invite', sentInv.data.invite);
+        socket.emit('send_invite', sentInv.data.invite, friendId);
+      }
     } catch (error) {
       console.error('Failed to send game invite to friend');
     }
-
   };
+  
+  const startInvite = (friendId) => {
+    setCallbackParams(friendId);
+    toggleModal(true);
+  }
+
   //add friend handler
   const handleAddFriend = async (friendId: string) => {
     try {
@@ -288,6 +303,15 @@ export default function App (){
         setUserInvites={setUserInvites}
         socket={socket}
       />
+      <div id='test'>
+        { showModal ?
+          <div className='modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle'>
+            <SelectDeck user={user} volume={volume} toggleModal={toggleModal} callback={handleInvite} callbackParams={callbackParams}/>
+          </div>
+          :
+          <></>
+        }
+      </div>
       <Routes>
         <Route
           path="/"
@@ -345,7 +369,7 @@ export default function App (){
               volume={volume}
               user={user}
               handleAddFriend={handleAddFriend}
-              handleInvite={handleInvite}
+              startInvite={startInvite}
               friends={friends}
               fetchUser={fetchUser}
               getFriends={getFriends}
