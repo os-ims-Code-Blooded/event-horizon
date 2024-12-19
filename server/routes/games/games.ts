@@ -340,10 +340,13 @@ games.delete('/:id', async (req: AuthRequest, res) => {
 
     const game = await database.games.findFirst({
       where: { id: Number(req.params.id)},
-      include: { public_connections: true }
+      include: { 
+        public_connections: true,
+        private_connections: true 
+      }
     })
 
-    if ( game.public_connections.length > 1) {
+    if ( game.public_connections.length > 1 || game.private_connections.length > 1) {
       console.error(`This route is for ending a game search, but two users were found.`);
       console.error(`If users do not want to play this game, they must surrender.`)
       res.sendStatus(203);
