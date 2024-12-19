@@ -35,7 +35,8 @@ export default function SelectGame({
   userInvites,
   setUserAcceptedInvs,
   setUserInvites,
-  userAcceptedInvs
+  userAcceptedInvs,
+  acceptedOutgoingInvs
 
 }){
 
@@ -358,6 +359,7 @@ return(
                   setUserAcceptedInvs={setUserAcceptedInvs}
                   setUserInvites={setUserInvites}
                   socket={socket}
+                  acceptedOutgoingInvs={acceptedOutgoingInvs}
 
                   setSession={setSession}
                   setRoundNum={setRoundNum}

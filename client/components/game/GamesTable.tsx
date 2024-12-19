@@ -7,6 +7,7 @@ export default function GameTable({
   playHeavyClickSFX,
   userInvites,
   userAcceptedInvs,
+  acceptedOutgoingInvs,
 
   setUserAcceptedInvs,
   setUserInvites,
@@ -28,10 +29,6 @@ export default function GameTable({
 
 }){
 
-
-  console.log("!!! USER INVITES !!!", userInvites)
-
-
   const joinPrivateGame = async (openGame) =>{
 
     console.log("join this game")
@@ -39,8 +36,6 @@ export default function GameTable({
     try {
 
       const game = await axios.post(`/games/private/join/${openGame.game_id}`, { "user_id": user.id });
-
-      console.log("GAME", game)
 
       setSession(openGame.game_id);               // we derive the game ID from the invite
       setRoundNum(game.data["Current Round"]);    // all of this data is made available from Axios request
@@ -158,6 +153,31 @@ export default function GameTable({
 
 
         {userAcceptedInvs.map((invite)=>{
+          console.log("ACCEPTED INVITES", invite)
+          return(
+            <tr className="bg-gray border-b dark:bg-slate-800 dark:border-slate-700">
+                <th scope="row" className="px-6 py-4 font-medium text-slate-900 whitespace-nowrap dark:text-white">
+                    {invite.invitee.name}
+                </th>
+                <td className="px-6 py-4">
+                    {invite.accepted? <p>accepted</p>: <p>pending</p>}
+                </td>
+                <td className="px-6 py-4">
+                <button onClick={()=>{
+                      playHeavyClickSFX()
+                      joinPrivateGame(invite)
+
+                    }}
+                    className='w-8 h-8 aspect-square bg-success hover:bg-green-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-success'>✓</button>
+                </td>
+                <td className="px-6 py-4">
+              </td>
+            </tr>
+          )
+        })}
+
+
+         {acceptedOutgoingInvs.map((invite)=>{
           console.log("ACCEPTED INVITES", invite)
           return(
             <tr className="bg-gray border-b dark:bg-slate-800 dark:border-slate-700">
