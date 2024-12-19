@@ -10,7 +10,7 @@ import database from './database/index.ts';
 import https from 'https';
 import http from 'http';
 import cors from 'cors'
-import { Server } from 'socket.io'
+import { Server, Socket } from 'socket.io'
 import profile from './routes/user/profile.ts';
 import friends from './routes/user/friends.ts';
 import games from './routes/games/games.ts';
@@ -222,7 +222,10 @@ server.listen(PORT, () => {
   }, fiveMinutes)
 
   //when the server establishes a connection, it shall do the following:
-
+  interface ConnectedUsers {
+    [userId: string]: string;
+  }
+const connectedUsers: ConnectedUsers = {};
 
 io.on('connection', (socket)=>{
 
@@ -303,11 +306,38 @@ io.on('connection', (socket)=>{
 
   })
 
+// USER GAME INVITE
+
+
+  socket.on('register_user', (userId) => {
+    connectedUsers[String(userId)] = socket.id;
+    socket.join(userId);
+    console.log(`User: ${userId} added to connectedUsers`, connectedUsers);
+  });
+
+  socket.on('send_invite', (data, invited) => {
+    const invitedSock = connectedUsers[String(invited)];
+    console.log('invitedSock Id', invitedSock)
+    if (invitedSock) {
+      io.to(invitedSock).emit('incoming_invite', data);
+      // console.log(`Invite sent to user: ${invited}`);
+    } else {
+      console.log(`User ${invited} is not connected.`);
+    }
+  });
+
   socket.on('disconnect', () => {
     users = users.filter(user=>user!==sockId)
     players = users.length;
+
+
+    for (const user in connectedUsers){
+      if(connectedUsers[user] === sockId){
+        delete connectedUsers[user];
+      }
+    };
   });
 
-})
+});
 
 

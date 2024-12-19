@@ -1,4 +1,4 @@
-import React, { FC, useState} from 'react';
+import React, { FC, useState, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import GameTable from './game/GamesTable';
@@ -20,9 +20,10 @@ type NavProps = {
   userInvites: any;
   setUserInvites: any;
   setUserAcceptedInvs: any;
+  socket: any;
 };
 
-const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, accept, decl, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, accept, decl, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -176,6 +177,10 @@ const NavigationBar: FC<NavProps> = ({setUserAcceptedInvs, setUserInvites, userI
       {label}
     </Link>
   );
+
+  useEffect(() =>{
+   
+  })
 
   return (
     <nav className="fixed z-50 top-0 w-full p-4 h-10 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text dark:text-darkText">

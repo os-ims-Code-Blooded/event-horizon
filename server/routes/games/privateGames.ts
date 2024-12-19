@@ -419,7 +419,7 @@ privateGames.post('/create/:id', async (req: AuthRequest, res) => {
 
     console.log(`Creating new game #${newGame.id} for user #${user.id}.`)
 
-    res.status(201).send(newGame);
+    res.status(201).send({game: newGame, invite: inviteToGame});
 
   } catch (error) {
     errorHandler(error);
