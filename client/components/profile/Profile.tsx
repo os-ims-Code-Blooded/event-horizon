@@ -23,8 +23,8 @@ const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
         <div className="text-text dark:text-darkText relative z-10" aria-label="User image placeholder" style={{scale: '2'}}>👤</div>
         <div className="text-yellow-600 text-bold relative z-10" aria-label={`User score: ${user.score || 0}`}>Score: {user.score || 0}</div>
         <div aria-label="User statistics" className='text-text dark:text-darkText relative z-10'> Wins: {user.wins} | Losses: {user.losses}</div>
-        <div className='flex flex-row gap-4 relative z-10'>
-        <div className="w-36 h-36 rounded-full bg-slate-700 z-10 relative">
+        <div className='flex sm:flex-row flex-col gap-4 relative z-10'>
+          <div className="w-36 h-36 rounded-full bg-slate-700 z-10 relative">
             <Link
               type="button"
               to="/settings"

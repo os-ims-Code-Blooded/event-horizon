@@ -110,7 +110,7 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
   };
 
   // navigation items for routes
-  const navItems: { [key: string]: { label: string; path: string; showWhenLoggedIn?: boolean; onClick?: () => void;  }[] } = {
+  const navItems: { [key: string]: { label: string; path: string; showWhenLoggedIn?: boolean; onClick?: () => void; isLogo?: boolean  }[] } = {
     '/': [
       { label: 'How To Play', path: '/instructions' },
       { label: 'Profile', path: 'user-profile', showWhenLoggedIn: true },
@@ -156,7 +156,7 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
   };
 
   const commonNavItems = [
-    { label: 'EVENT HORIZON', path: '/' },
+    { label: 'EVENT HORIZON', path: '/', isLogo: true},
     { label: 'Logout', path: '/', showWhenLoggedIn: true, onClick: handleLogout },
   ];
 
@@ -168,7 +168,8 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
     path: string;
     onClick?: () => void;
     className?: string;
-  }> = ({ label, path, onClick, className }) => (
+    isLogo?: boolean;
+  }> = ({ label, path, onClick, className, isLogo }) => (
     <Link
       to={path}
       onClick={onClick}
@@ -178,19 +179,22 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
     </Link>
   );
 
-  useEffect(() =>{
-   
-  })
 
   return (
     <nav className="fixed z-50 top-0 w-full p-4 h-10 shadow-lg bg-fifth dark:!bg-third cbMode:bg-darkCbBg flex items-center justify-between text-text dark:text-darkText">
       {/* Navigation Links */}
       <div className="hidden sm:flex items-center gap-x-8">
-        {displayedItems
-          .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
-          .map(({ label, path, onClick }, index) => (
+      {displayedItems
+        .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
+        .map(({ label, path, onClick, isLogo }, index) => (
+          isLogo ? (
+            <a key={index} href={path} onClick={onClick}>
+              <img src='https://i.imgur.com/lEkekco.png' alt="Logo" className="h-8 w-auto" />
+            </a>
+          ) : (
             <NavButton key={index} label={label} path={path} onClick={onClick} />
-          ))}
+          )
+        ))}
       </div>
 
       {/* Mobile Dropdown */}
@@ -202,10 +206,10 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
           ☰
         </button>
         {isDropdownOpen && (
-          <div className="absolute left-1/2 top-full transform mt-2 w-48 bg-fifth dark:bg-purple-950 rounded shadow-lg z-50">
+          <div className="absolute left-1/2 top-full transform mt-2 w-48 bg-fifth dark:bg-purple-950 rounded shadow-lg border-2 p-1 border-text dark:border-darkText z-50">
             {displayedItems
               .filter(item => (item.showWhenLoggedIn === undefined || user || !item.showWhenLoggedIn))
-              .map(({ label, path, onClick }, index) => (
+              .map(({ label, path, onClick, isLogo }, index) => (
                 <Link
                   key={index}
                   to={path}
@@ -232,7 +236,7 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
                   <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" stroke="currentColor"/>
               </svg>
               {userInvites.length > 0 && (
-                <span className="absolute top-0 right-0 items-center justify-center px-1 py-1 rounded-full bg-error text-xs font-medium text-white"> </span>
+                <span className="absolute top-0 right-0 items-center justify-center px-1 py-1 rounded-full bg-red-500 animate-pulse text-xs font-medium text-white"> </span>
               )}
           </button>
         )}
@@ -251,7 +255,7 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
                   </div>
                   <div className="flex space-x-2">
                     <button 
-                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-success rounded-md hover:bg-green-600"
+                      className="px-2 py-1 text-xs font-semibold text-text dark:text-darkText bg-green-500 rounded-md hover:bg-green-600"
                       onClick={() => acceptInv(invite.game_id)}
                       >
                       Accept
@@ -296,12 +300,12 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
               onChange={handleSliderChange}
               className="w-full h-2 bg-orange-300 dark:bg-purple-300 rounded-lg appearance-none cursor-pointer"
             />
-            <div className='flex flex-row gap-6 justify-between'>
-              <span className='font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
+            <div className='flex flex-row gap-6 justify-between' style={{width: "100%"}}>
+              <span className='pl-1 font-extrabold text-center text-text dark:text-darkText'>{`${tempVolume.volume * 100}%`}</span>
               {isMuted ?
-                <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🔇</button>
+                <button className='hover:bg-slate-500 pr-1 rounded-full text-xs text-text dark:text-darkText' aria-label='mute button'onClick={handleToggleMute}>🔇 Unmute</button>
                 :
-                <button className='hover:bg-slate-500 rounded-full' aria-label='mute button'onClick={handleToggleMute}>🎵</button>
+                <button className='hover:bg-slate-500 pr-1 rounded-full text-xs text-text dark:text-darkText' aria-label='mute button'onClick={handleToggleMute}>🎵 Mute</button>
               }
             </div>
             <div className="flex justify-between items-center mt-3">
@@ -315,7 +319,6 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
             </div>
           </div>
         )}
-        
         <button onClick={toggleDarkMode} className="hover:bg-orange-400 dark:hover:bg-purple-300 p-2 rounded-full">
           {isDarkMode ?
             <svg data-toggle-icon="moon" className="w-3.5 h-3.5 " xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
