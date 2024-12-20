@@ -13,7 +13,7 @@ type LandingProps = {
 const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode, isCbMode}) => {
 
   return (
-    <div className='pt-15 max-h-screen' aria-label="Landing Page">
+    <div className=' max-h-screen' aria-label="Landing Page">
       <div className='relative flex flex-col items-center justify-center min-h-screen text-text pt-5'
         aria-labelledby="landing-page-title"
         // style={{height: '50%'}}
@@ -21,9 +21,9 @@ const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode,
         <div className={`absolute inset-0 bg-starfield-light bg-contain filter dark:bg-starfield z-9`}
           aria-labelledby="landing-page-title"></div>
           {isDarkMode ? 
-          <img className='w-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
+          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
           :
-          <img className='w-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/oM3zj2J.png' alt="Game graphic image"/>
+          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/oM3zj2J.png' alt="Game graphic image"/>
 
           }
           {user && (
@@ -35,7 +35,7 @@ const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode,
                   className="absolute inset-0 m-auto w-24 h-24 bg-success dark:bg-darkGreen text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center font-semibold text-center dark:hover:bg-emerald-800 hover:bg-green-700"
                   aria-label="Go to Title Menu and start playing"
                 >
-                  Play!
+                  PLAY!
                 </Link>
                 </div>
                 )}
