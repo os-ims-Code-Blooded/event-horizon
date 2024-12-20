@@ -55,7 +55,7 @@ export default function App (){
   const [click6] = useSound(eclick6, volume);
   const [clickS] = useSound(sClick, volume);
   const [playHeavyClickSFX] = useSound(heavyclick, volume);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [playMusic, { stop }] = useSound(music, { volume: isMuted ? 0 : 0.2} );
   const [showModal, toggleModal] = useState(false);
   const [callbackParams, setCallbackParams] = useState<any>(null);
