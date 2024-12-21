@@ -106,7 +106,7 @@ export default function Animations({
 
           <div className='text-sm'>
           <div className='text-yellow-300 animate-ping'>LOAD</div>
-          <div className='text-yellow-300 animate-ping'> +{cardToPlay[0]}</div>
+          <div className='text-yellow-300 animate-ping'>+{myPrevRound[0].armor}</div>
           </div>
       :
         null
