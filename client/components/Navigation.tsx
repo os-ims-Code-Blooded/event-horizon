@@ -42,6 +42,9 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
     // this allows any user associated with an invite to join a game (and also accept an invite);
     //  the :id we pass in here is the game_id
     try{
+      
+      // window.location.href = "http://localhost:3000/game-board"
+
       const acceptedInv = await axios.post(`/games/private/join/${gameId}`);
       // console.log('accepted invite', acceptedInv.data);
       const retrievedInvites = await axios.get(`/games/private/invites`);

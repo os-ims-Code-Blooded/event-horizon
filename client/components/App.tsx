@@ -264,7 +264,7 @@ export default function App (){
       socket.emit('register_user', String(user.id));
       socket.on('incoming_invite', (data: any) => {
 
-        // console.log('received invite', data);
+        console.log('!!!!!!!!! received invite', data);
 
         axios.get(`/games/private/invites`)
           .then((userInvs) => {
