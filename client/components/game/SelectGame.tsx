@@ -360,8 +360,51 @@ export default function SelectGame({
 
 return(
 
+  <div className='max-h-screen min-h-screen min-w-screen max-w-screen'>
+    <div className=' bg-starfield-light dark:bg-starfield inset-0 z-9 absolute h-screen w-screen'></div>
+
+
+
+
+
+    {activeUserGame?
+    <div className='h-full z-10 relative'>
+      {gameOver?
+      <>
+        <GameOver volume={volume} gameWinner={gameWinner} user={user}/>
+      </>
+        :
+        <div className='h-full z-10 relative'>
+          <GameController
+           session={session}
+           socket={socket}
+           user={user}
+           setGameOver={setGameOver}
+           setGameWinner={setGameWinner}
+           userDecks={userDecks}
+           deckSelected={deckSelected}
+           handSize={handSize}
+           roundNum={roundNum}
+           setRoundNum={setRoundNum}
+           enemyId={enemyId}
+           roundInfo={roundInfo}
+           enemyName={enemyName}
+           setEnemyName={setEnemyName}
+           setEnemyId={setEnemyId}
+           handProvided = {handProvided}
+           enemyHand={enemyHand}
+           setEnemyHand={setEnemyHand}
+           roundActual={roundActual}
+           setRoundActual={setRoundActual}
+           volume={volume}
+           
+          />
+          </div>
+          }
+    </div>
+
   <div id="selectGame" className='max-h-screen min-h-screen min-w-screen max-w-screen'>
-  <div className=' bg-starfield-light dark:bg-starfield inset-0 z-9 absolute h-screen'></div>
+ 
 
 
 
@@ -371,8 +414,24 @@ return(
 
 
 
+
+
+        <div className='p-6 justify-items-center flex flex-col items-center gap-3 z-10 relative'>
+                <div className='pt-8 z-10 relative'>
+                  <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onClick={()=>{click13()}} onChange={(e)=>{
+                    handleDeckSelect(e)}}>
+                    <option className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-600 z-10 relative' value="">--select deck--</option>
+                    {userDecks.map((deck, index)=>{
+                      return(
+                        <option className='z-10 relative' key={deck.deck_name} value={index}>{deck.deck_name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+              <br></br>
 
 {!playClicked?
+
 
 
   <div className='pt-20 flex flex-col h-full items-center justify-center min-h-screen z-10 relative'>
