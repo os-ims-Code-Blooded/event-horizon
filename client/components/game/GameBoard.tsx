@@ -290,11 +290,13 @@ if (playerHand.length <= 0){
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
       <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-full pt-10">
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
-        <div className='w-full h-[1/2] flex-row flex col-span-1 justify-center gap-1 p-2'>
+        <div className='flex flex-shrink w-full h-full flex-row col-span-1 justify-center gap-1 p-2'>
           {enemyHand.map((card, index) => (
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
-              className="border-8 border-slate-600 rounded-lg shadow-md w-30 h-40 flex flex-col aspect-[3/4] items-center justify-between hover:scale-110"
+              className="border-8 border-slate-600 rounded-lg shadow-md flex flex-shrink-0 
+                md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem]"
               key={index}
             />
           ))}
@@ -308,7 +310,8 @@ if (playerHand.length <= 0){
             <div className='flex h-full w-full'>
               {!turnEnded?
                 (
-                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 w-36 h-48 flex flex-col hover:scale-110"
+                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col hover:scale-110"
                     onClick={() => {
                       if (playerAction === "LOAD" && !weaponArmed){
 
@@ -320,20 +323,20 @@ if (playerHand.length <= 0){
                       }
                     }}
                   >
-                    <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                    <h2 className="text-md sm:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                     <div className="text-center">
                       <div>`IMAGE`</div>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-sm sm:text-xs">
                         <strong>Attack:</strong> {cardToPlay[1]}
                       </p>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-sm sm:text-xs">
                         <strong>Defense:</strong> {cardToPlay[2]}
                       </p>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-smsm:text-xs ">
                         <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
                       </p>
                     </div>
-                    <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
+                    <p className="text-black text-sm text-center sm:text-xs">{cardToPlay[3]}</p>
                   </div>
                 )
 
@@ -341,7 +344,8 @@ if (playerHand.length <= 0){
 
                 (
 
-                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 w-36 h-48 aspect-[3/4] flex flex-col hover:scale-110">
+                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col hover:scale-110">
                     <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                     <div className="text-center">
                       <div>`IMAGE`</div>
@@ -363,8 +367,9 @@ if (playerHand.length <= 0){
             </div>
             :
             (
-              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 w-36 h-48 flex flex-col text-[1rem] text-success'>
-                <div className='pt-15'>MUNITION STATUS:</div>
+              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col text-[1rem] text-success'>
+                <div className='pt-15 text-wrap text-sm sm:text-xs'>MUNITION STATUS:</div>
               </div>
             )}
           </div>
@@ -374,7 +379,7 @@ if (playerHand.length <= 0){
 
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
 
-                <div id='card' className='flex max-h-48 max-w-36' >
+                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4]' >
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
                             className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
@@ -391,25 +396,27 @@ if (playerHand.length <= 0){
                              <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
                         </div>
                       :
-                        <div className="shrink border-4 border-error rounded-lg shadow-md p-1 m-2 max-w-36 max-h-48 flex flex-col justify-between hover:scale-110">
+                        <div className="shrink border-4 border-error rounded-lg shadow-md p-1 m-2 max-w-30 max-h-40 flex flex-col justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
-                            className="border-8 border-slate-600 rounded-lg shadow-md max-w-36 max-h-48 flex flex-col items-center justify-between hover:scale-110"
+                            className="border-8 border-slate-600 rounded-lg shadow-md md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col items-center justify-between hover:scale-110"
                             />
                          </div>
                     }
                 </div>
 
             :
-              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 w-36 h-48 flex flex-col text-[1rem] text-error' >
-                <div className='pt-15' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
+              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col text-[1rem] text-error' >
+                <div className='pt-15 text-sm sm:text-xs text-wrap' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
             }
           </div>
         </div>
 
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
-        <div className="flex flex-row justify-center gap-1 p-2 h-[275px] w-full col-span-1">
+        <div className="flex flex-row flex-shrink justify-center gap-1 p-2 h-full w-full col-span-1">
           {playerHand.map((card, index) => {
             return (
               <Card
@@ -437,7 +444,7 @@ if (playerHand.length <= 0){
 
 
       {/* 3RD COLUMN */}
-      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-[25vw] justify-between pt-5'>
+      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-[25vw] justify-between pt-10'>
         {/* 3RD COLUMN: 1ST SECTION */}
         <div className='flex flex-col items-center w-full h-[1/3]'>
           <div className='text-error font-bold underline text-sm sm:text-xs decoration-solid text-center'>{enemyName}</div>
@@ -515,7 +522,6 @@ if (playerHand.length <= 0){
              <div className="relative w-11 h-6 pb-1 bg-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
              <span className="ms-3 text-sm sm:text-xs whitespace-nowrap font-medium text-text dark:text-darkText ">ARM SELF DESTRUCT</span>
            </label>
-          <div></div>
           {selfDestruct?
             <button onClick={forfeit} className='p-1 pt-1 pb-1 flex shrink text-center text-sm sm:text-xs justify-items-center items-center justify-center animate-pulse bg-orange-500  hover:bg-orange-900 text-text dark:text-darkText font-bold rounded-md focus:ring-4 focus:ring-orange-600'
             >SELF DESTRUCT<img className='object-contain max-h-8' src='https://i.imgur.com/mBC4Uh5.png'/>

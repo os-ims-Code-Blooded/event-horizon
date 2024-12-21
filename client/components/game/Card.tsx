@@ -40,7 +40,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
   }
 
   return (
-    <div id='card' className='flex flex-shrink w-40 min-w-[120px] aspect-[3/4]' >
+    <div id='card' className='flex flex-wrap justify-center justify-items-center items-center gap-4' >
 
     {playerAction === 'LOAD' && !turnEnded?
       <div
@@ -48,40 +48,40 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
           cardSelect(card);
           setIsClicked(card.id);
         }}
-        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success z-20 scale-110' : 'border-yellow-300' } aspect-[3/4] rounded-lg h-auto w-auto shadow-md flex flex-col items-center justify-between hover:z-20 hover:scale-110`}
+        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success z-20 scale-110' : 'border-yellow-300' } rounded-lg flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] xs:max-h-20 xs:max-w-12 sm:max-h-24 sm:max-w-16 md:max-h-30 md:max-w-20 lg:max-h-56 lg:max-w-40 aspect-[3/4] shadow-md flex flex-col items-center justify-between hover:z-20 hover:scale-110`}
       >
         <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
         <div className="text-center text-sm">
           <div>`IMAGE`</div>
-          <p className="text-black mb-1 text-sm">
+          <p className="text-black mb-1 sm:text-xs text-sm">
             <strong>Attack:</strong> {card.damage}
           </p>
-          <p className="text-black mb-1 text-sm">
+          <p className="text-black mb-1 sm:text-xs text-sm">
             <strong>Defense:</strong> {card.armor}
           </p>
-          <p className="text-black mb-1 text-sm"> 
+          <p className="text-black mb-1 sm:text-xs text-sm"> 
             <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
-        <p className="text-black text-sm text-center">{card.description}</p>
+        <p className="text-black text-sm sm:text-xs text-center">{card.description}</p>
       </div>
       :
       <div
-      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center aspect-[3/4] justify-between hover:z-20 hover:scale-110 h-auto w-auto">
+      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex-col items-center flex flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] xs:max-h-20 xs:max-w-12 sm:max-h-24 sm:max-w-16 md:max-h-30 md:max-w-20 lg:max-h-56 lg:max-w-40 min-w-24 min-h-32 aspect-[3/4] justify-between hover:z-20 hover:scale-110 ">
         <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
         <div className="text-center">
           <div>`IMAGE`</div>
-          <p className="text-black mb-1 text-sm">
+          <p className="text-black mb-1 sm:text-xs text-sm">
             <strong>Attack:</strong> {card.damage}
           </p>
-          <p className="text-black mb-1 text-sm">
+          <p className="text-black mb-1 sm:text-xs text-sm">
             <strong>Defense:</strong> {card.armor}
           </p>
-          <p className="text-black mb-1 text-sm">
+          <p className="text-black mb-1 sm:text-xs text-sm">
             <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
-        <p className="text-black text-sm text-center">{card.description}</p>
+        <p className="text-black text-sm sm:text-xs text-center">{card.description}</p>
       </div>
     }
     </div>

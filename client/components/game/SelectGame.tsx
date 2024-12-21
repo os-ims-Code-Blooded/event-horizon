@@ -246,7 +246,7 @@ export default function SelectGame({
 return(
 
   <div className='max-h-screen min-h-screen min-w-screen max-w-screen'>
-    <div className=' bg-starfield-light dark:bg-starfield inset-0 z-9 absolute h-screen'></div>
+    <div className=' bg-starfield-light dark:bg-starfield inset-0 z-9 absolute h-screen w-screen'></div>
 
 
 
@@ -303,7 +303,6 @@ return(
 
 
 
-        <div className='bg-starfield-light dark:bg-starfield inset-0 z-9 absolute'> </div>
         <div className='p-6 justify-items-center flex flex-col items-center gap-3 z-10 relative'>
                 <div className='pt-8 z-10 relative'>
                   <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onClick={()=>{click13()}} onChange={(e)=>{

@@ -484,7 +484,7 @@ export default function GameController ({
 /////////////RENDER////////////////////////
   //renders an input a button, and a spot for messages
   return (
-    <div className='h-full w-full'>
+    <div className='flex flex-shrink h-full w-full'>
         <GameBoard
           session={session}
           socket={socket}

@@ -18,14 +18,14 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 
   return (
-    <div className="box-border flex pt-20 items-center justify-center min-h-screen h-screen max-h-screen text-text pb-1 dark:text-darkText flex-col" aria-label="Title Menu">
+    <div className=" flex pt-20 items-center justify-center min-h-screen h-screen text-text pb-1 dark:text-darkText flex-col" aria-label="Title Menu">
       <div className="flex flex-row text-center gap-2">
-        <div className='bg-starfield-light dark:bg-starfield absolute max-h-screen inset-0 z-9'></div>
+        <div className='flex bg-starfield-light dark:bg-starfield absolute max-h-screen inset-0 z-9'></div>
 
 
         {/* How To Play Button Container */}
 
-        <div className="w-28 h-28 rounded-full bg-slate-700 relative">
+        <div className="flex w-28 h-28 rounded-full bg-slate-700 relative">
           <Link
             to="/instructions"
             onClick={click13}
@@ -36,7 +36,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
           </Link>
         </div>
         {/* Profile Button Container */}
-        <div className="w-28 h-28 z-10 rounded-full bg-slate-700 relative">
+        <div className="flex w-28 h-28 z-10 rounded-full bg-slate-700 relative">
           <Link
             to="/user-profile"
             onClick={click13}
@@ -47,7 +47,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
           </Link>
         </div>
         {/* Play Button Container */}
-        <div className="w-28 h-28 rounded-full bg-slate-700 z-10 relative">
+        <div className="flex w-28 h-28 rounded-full bg-slate-700 z-10 relative">
           <Link
             to="/game-board"
             onClick={click6}
@@ -59,10 +59,10 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
           </Link>
         </div>
       </div>
-      <div className="relative z-10 pt-2 grid sm:grid grid-col-1">
+      <div className="flex relative z-10 pt-2 grid sm:grid grid-col-1">
         <LeaderBoard user={user} fullScreen={false} />
       </div>
-      <div className='p-4'></div>
+      <div className='flex p-4'></div>
         <div>
 
 
@@ -90,7 +90,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 {!showCreditsModal? 
 
-      <div className='relative px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:text-text hover:bg-slate-500 z-10'>
+      <div className='flex relative px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:text-text hover:bg-slate-500 z-10'>
           <button onClick={()=>{
             playHeavyClickSFX()
             setShowCreditsModal(!showCreditsModal)}}>credits
