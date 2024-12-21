@@ -195,7 +195,7 @@ if (reloaded && cardReplacement[0].user_id === user.id){
 
 
 if (playerHand.length < 3 && gameDeck.length > 0){
- 
+
   // let nextCard = [gameDeck.pop()]
   // console.log("NEXT CARD", nextCard)
   // setPlayerHand(playerHand.concat(nextCard))

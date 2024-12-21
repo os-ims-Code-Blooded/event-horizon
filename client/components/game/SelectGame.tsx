@@ -1,25 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import MakeGame from './MakeGame';
 import axios from 'axios'
 import { useEffect } from 'react';
+
 
 ////////////////////////////
 import GameController from './GameController';
 import GameOver from './GameOver.tsx';
-import GameTable from './GamesTable.tsx';
-import UserDecks from './../cards/UserDecks.tsx'
-import { use } from 'passport';
+import GamesTable from './GamesTable.tsx';
+import SelectDeck from '../cards/SelectDeckModal.tsx';
 ////////////////////////////
-
-
-const decks = [
-  {name: "basic deck"},
-  {name: "attack deck"},
-  {name: "defense deck"}
-]
-
-
 
 export default function SelectGame({
   user,
@@ -60,7 +50,6 @@ export default function SelectGame({
 
   const [userDecks, setUserDecks] = useState<any[]>([])
 
-  //create a state for the room (we'll probably want to make this a combination of both users' unique googleId or something plus an iterating game number?)
   const [session, setSession] = useState("")
 
   const [roundNum, setRoundNum] = useState(1)
@@ -77,6 +66,8 @@ export default function SelectGame({
 
   const [waiting, setWaiting] = useState(false)
 
+//////////////////////////////////////////////////////////////
+
   const opponentCards = [
     {
     },
@@ -89,6 +80,22 @@ export default function SelectGame({
   const [enemyHand, setEnemyHand] = useState(opponentCards)
 
 
+///////////////////////////////////////////////////////////////
+
+  const [showPublicModal, setShowPublicModal] = useState(false); // this enables the SelectGame page to show the modal when the Play Now button is clicked
+
+  const [showPrivateModal, setShowPrivateModal] = useState(false); // this enables the SelectGame page to show a modal when we click "Accept" for a pending game
+
+  const [privateGameID, setPrivateGameID] = useState<null | number>(null); // this will be a state that we can change for a callback param for joining a private game
+
+////////////////////////////////////////////////////////////////
+
+  const [openGames, setOpenGames] = useState(userAcceptedInvs.concat(
+    acceptedOutgoingInvs))
+
+    console.log(userAcceptedInvs)
+    console.log("OPEN GAMES", openGames)
+
   if (!musicPlayed){
     playMusic();
     // console.log('music played');
@@ -97,6 +104,22 @@ export default function SelectGame({
 
 
   useEffect( () => {
+
+
+
+
+    axios
+    .get(`/games/${user.id}`)
+    .then((response) => {
+      setActiveUserGame(true); // this state will be used to determine if we need to render a modal
+    })
+    .catch((error) => {
+      console.error(`No public games found for user.`);
+    });
+
+
+
+
 
     // on arrival to this page, attempt to get the decks available
     // this allows the user to select from their current card decks
@@ -107,10 +130,99 @@ export default function SelectGame({
       .catch((err) => {
         console.error(err)
       })
+
+
+
+      
+
   }, [])
 
 
+  const startSearchPublicGame = () => {
+    if (activeUserGame) {
+      onClickPlay();
+    } else {
+      setShowPublicModal(true); // this will open modal for user to select a deck, then it will conduct an onClickPlay
+    }
+  };
 
+
+  const startSearchPrivateGame = (privateGameID) => {
+    if (privateGameID.accepted) {
+      joinPrivateGame(privateGameID);
+    } else {
+      setShowPrivateModal(true); // this will open modal for user to select a deck, then it will conduct a joinPrivateSession
+    }
+  };
+
+
+  const joinPrivateGame = async (openGame) =>{
+
+    console.log("join this game")
+
+    try {
+
+      const game = await axios.post(`/games/private/join/${openGame}`, { "user_id": user.id });
+
+      setSession(openGame);               // we derive the game ID from the invite
+      setRoundNum(game.data["Current Round"]);    // all of this data is made available from Axios request
+      setDeckSelected(game.data["Current Deck"]);
+      setHandProvided(game.data["Current Hand"]);
+      setRoundActual(game.data["Current Round Actual"]);
+
+      // we changed the game_id emission here because it was referencing something that didn't exist
+      socket.emit("join_session", openGame, user, game.data["Current Round"]);
+
+      // I don't know if putting an event listener here is an issue
+      // this might need to be somewhere else?
+      socket.on('session_players', (data: any) => {
+
+        // when we receive emission, see if there is an enemy
+        const enemy = data.filter((player) => {
+          return (player.user_id !== user.id)
+        })
+
+        if (deckSelected){
+        }
+
+        // console.log("ON CLICK PLAY ENEMY", enemy)
+        // if the filtered array contains an enemy
+        if (enemy.length > 0) {
+          setEnemyName(enemy[0].name);  // set that enemy's name
+          setEnemyId(enemy[0].user_id); // set that enemy's user ID
+          setRoundInfo(data)            // set the current round information
+          setActiveUserGame(true)          // then trigger Game Board conditional render
+          setPlayClicked(true)
+        }
+      })
+
+    } catch (error) {
+      console.error(`Error on connecting to a game session.`)
+    }
+
+
+
+
+
+
+
+
+
+
+  }
+
+
+  const declineInv = async(gameId: number) => {
+    try{
+      await axios.delete(`/games/private/invites/${gameId}`);
+      const retrievedInvites = await axios.get(`/games/private/invites`);
+      decl();
+      setUserInvites(retrievedInvites.data.Incoming.Pending);
+      setUserAcceptedInvs(retrievedInvites.data.Incoming.Accepted);
+    } catch(error) {
+      console.error('Failed to decline Game Invite');
+    }
+  }
 
 
   /*===============================================================================
@@ -160,12 +272,15 @@ export default function SelectGame({
           setEnemyId(enemy[0].user_id); // set that enemy's user ID
           setRoundInfo(data)            // set the current round information
           setActiveUserGame(true)          // then trigger Game Board conditional render
+          setPlayClicked(true)
         }
       })
 
     } catch (error) {
       console.error(`Error on connecting to a game session.`)
     }
+
+
   }
   /*===============================================================================*/
   /*===============================================================================*/
@@ -288,16 +403,14 @@ return(
           }
     </div>
 
-    :
-    
-
-    
-    <div className='z-10 relative'>
+  <div id="selectGame" className='max-h-screen min-h-screen min-w-screen max-w-screen'>
+ 
 
 
 
-      {!playClicked?
-      <div className='pt-20 flex h-full items-center justify-center min-h-screen z-10 relative'>
+
+
+
 
 
 
@@ -317,104 +430,166 @@ return(
                 </div>
               <br></br>
 
-                {deckWasChosen?
-                <div className='z-10 relative'>
-                {waiting ?
-
-
-                  <div className='flex flex-row p-2'>
-                    <button onClick={()=>{
-                      playHeavyClickSFX()
-                      onClickStopSearch()}} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
-                    <div className='p-2'></div>
-                  <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
-                  </div>
-                  :
-
-                  <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
-                    <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={()=>{
-                      playHeavyClickSFX()
-                      onClickPlay()}}>PLAY NOW!</button>
-                  </div>
-                }
-
-                  <div className='flex flex-row z-10 relative'></div>
-                  <br></br>
-                </div>
-                :
-                  <div className="w-36 h-36 rounded-full bg-slate-700 z-10 relative">
-                    <button className='cursor-not-allowed bg-gray text-text dark:text-darkText shadow-sm shadow-white inset-0 m-auto h-32 w-32 z-10 rounded-full absolute' >PLAY NOW!</button>
-                    <br></br>
-                  </div>
-                }
-       
-
-
-                
-                  {/* INVITES LIST */}
-                  <GameTable 
-                  playHeavyClickSFX={playHeavyClickSFX}
-                  userInvites={userInvites}
-                  userAcceptedInvs={userAcceptedInvs}
-                  setUserAcceptedInvs={setUserAcceptedInvs}
-                  setUserInvites={setUserInvites}
-                  socket={socket}
-                  acceptedOutgoingInvs={acceptedOutgoingInvs}
-
-                  setSession={setSession}
-                  setRoundNum={setRoundNum}
-                  setDeckSelected={setDeckSelected}
-                  setHandProvided={setHandProvided}
-                  setRoundActual={setRoundActual}
-                  user={user}
-
-                  setEnemyName={setEnemyName}
-                  setEnemyId={setEnemyId}
-                  setActiveUserGame={setActiveUserGame}
-                  setRoundInfo={setRoundInfo}
-                  deckSelected={deckSelected}
-                  decl={decl}
-
-                  />
+{!playClicked?
 
 
 
-        </div>
-      </div>
-      :
-      <div className='z-10 relative'>
-        {gameOver ?
-          <GameOver gameWinner={gameWinner} volume={volume} user={user}/>
-        :
-        <div className='h-full z-10 relative'>
-          <GameController
-          session={session}
-          socket={socket}
+  <div className='pt-20 flex flex-col h-full items-center justify-center min-h-screen z-10 relative'>
+
+
+    <div id="Public-modal">
+    {showPublicModal ? (
+      <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle">
+        <SelectDeck
           user={user}
-          setGameOver={setGameOver}
-          setGameWinner={setGameWinner}
-          userDecks={userDecks}
-          deckSelected={deckSelected}
-          handSize={handSize}
-          roundNum={roundNum}
-          setRoundNum={setRoundNum}
-          enemyId={enemyId}
-          roundInfo={roundInfo}
-          enemyName={enemyName}
-          setEnemyName={setEnemyName}
-          setEnemyId={setEnemyId}
-          handProvided = {handProvided}
-          enemyHand={enemyHand}
-          setEnemyHand={setEnemyHand}
-          roundActual={roundActual}
-          setRoundActual={setRoundActual}
           volume={volume}
+          toggleModal={setShowPublicModal}
+          callback={onClickPlay}
+          callbackParams={null}
+        />
+      </div>
+    ) : (
+      null
+    )}
+  </div>
+
+
+
+  <div id="Private-modal">
+  {showPrivateModal ? (
+    <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle">
+      <SelectDeck
+        user={user}
+        volume={volume}
+        toggleModal={setShowPrivateModal} // this tells the SelectDeckModal to change this state when everything is complete, so the SelectGame will stop rendering modal
+        callback={joinPrivateGame} // as well as here, this is the callback that will be executed when modal is completed (not cancelled)
+        callbackParams={privateGameID} // and here, this will give the privateGameID to joinPrivateGame (executed when modal is closed with Accept button)
       />
-        </div>
+    </div>
+    ) : (
+      null
+    )}
+  </div>
+
+
+
+    {/* WAITING FOR GAME */}
+
+    {waiting ?
+    <div className='flex flex-row p-2'>
+      <button onClick={()=>{
+        playHeavyClickSFX()
+        onClickStopSearch()}} className='w-8 h-8 aspect-square bg-red-600 hover:bg-red-900 text-text dark:text-darkText border-slate-600 border-2 font-bold text-xs sm:text-sm md:text-base lg:text-lg rounded-full flex justify-center items-center overflow-hidden text-ellipsis focus:ring-4 focus:ring-red-600'>X</button>
+      <div className='p-2'></div>
+    <h1 className="text-text dark:text-darkText animate-pulse text-2xl z-10 relative">Waiting For Game...</h1>
+    </div>
+
+    :
+          <div>
+        {activeUserGame? 
+          
+          <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
+            <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={()=>{
+              playHeavyClickSFX()
+              onClickPlay()}}>REJOIN!</button>
+          </div>
+          
+          :
+
+          <div className="w-36 h-36 z-10 rounded-full bg-slate-700 relative">
+            <button className='bg-success dark:bg-darkGreen inset-0 m-auto z-10 h-32 w-32 rounded-full text-text dark:text-darkText absolute shadow-md shadow-white hover:bg-emerald-300 dark:hover:bg-green-600' onClick={()=>{
+              playHeavyClickSFX()
+              setShowPublicModal(true)}}>PLAY NOW!</button>
+          </div>
+
         }
+
+        </div>
+    }
+
+{/* ALL SENT/RECEIVED INVITES */}
+
+<div className='p-4'></div>
+    {openGames.length > 0 || userInvites.length > 0?  
+    <GamesTable
+      playHeavyClickSFX={playHeavyClickSFX}
+      userInvites={userInvites}
+      userAcceptedInvs={userAcceptedInvs}
+      setUserAcceptedInvs={setUserAcceptedInvs}
+      setUserInvites={setUserInvites}
+      socket={socket}
+      acceptedOutgoingInvs={acceptedOutgoingInvs}
+
+      setSession={setSession}
+      setRoundNum={setRoundNum}
+      setDeckSelected={setDeckSelected}
+      setHandProvided={setHandProvided}
+      setRoundActual={setRoundActual}
+      user={user}
+
+      setEnemyName={setEnemyName}
+      setEnemyId={setEnemyId}
+      setActiveUserGame={setActiveUserGame}
+      setRoundInfo={setRoundInfo}
+      deckSelected={deckSelected}
+      decl={decl}
+      declineInv={declineInv}
+      setShowPrivateModal={setShowPrivateModal}
+      setPrivateGameID={setPrivateGameID}
+      openGames={openGames}
+      setPlayClicked={setPlayClicked}
+      joinPrivateGame={joinPrivateGame}
+      />
+
+    :
+      null
+    }
+
+
+
+  </div>
+
+:
+<div>
+{gameOver?
+  <>
+    <GameOver volume={volume} gameWinner={gameWinner} user={user}/>
+  </>
+    :
+    <div className='h-full z-12 relative'>
+      <GameController
+       session={session}
+       socket={socket}
+       user={user}
+       setGameOver={setGameOver}
+       setGameWinner={setGameWinner}
+       userDecks={userDecks}
+       deckSelected={deckSelected}
+       handSize={handSize}
+       roundNum={roundNum}
+       setRoundNum={setRoundNum}
+       enemyId={enemyId}
+       roundInfo={roundInfo}
+       enemyName={enemyName}
+       setEnemyName={setEnemyName}
+       setEnemyId={setEnemyId}
+       handProvided = {handProvided}
+       enemyHand={enemyHand}
+       setEnemyHand={setEnemyHand}
+       roundActual={roundActual}
+       setRoundActual={setRoundActual}
+       volume={volume}
+       
+      />
       </div>
       }
-    </div>
-    }
-  </div>
+</div>
+}
+
+
+
+</div>
+
+
+
 )}

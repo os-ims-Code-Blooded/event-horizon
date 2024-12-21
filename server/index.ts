@@ -316,10 +316,11 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('send_invite', (data, invited) => {
+    const invitedBy = connectedUsers[String(data.from)];
     const invitedSock = connectedUsers[String(invited)];
     console.log('invitedSock Id', invitedSock)
     if (invitedSock) {
-      io.to(invitedSock).emit('incoming_invite', data);
+      io.to([invitedSock, invitedBy]).emit('incoming_invite', data);
       // console.log(`Invite sent to user: ${invited}`);
     } else {
       console.log(`User ${invited} is not connected.`);
