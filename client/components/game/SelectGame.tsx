@@ -448,12 +448,10 @@ return(
         </div>
     }
 
+{/* ALL SENT/RECEIVED INVITES */}
 
-
-    <div className='p-4'></div>
-
-
-    {/* ALL SENT/RECEIVED INVITES */}
+<div className='p-4'></div>
+    {openGames.length > 0 || userInvites.length > 0?  
     <GamesTable
       playHeavyClickSFX={playHeavyClickSFX}
       userInvites={userInvites}
@@ -483,6 +481,13 @@ return(
       setPlayClicked={setPlayClicked}
       joinPrivateGame={joinPrivateGame}
       />
+
+    :
+      null
+    }
+
+
+
   </div>
 
 :
