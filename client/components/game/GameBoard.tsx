@@ -2,7 +2,7 @@ import React, { FC, act, useState } from 'react';
 import Card from './Card';
 import ActionSelect from './ActionSelect';
 import FxText from './FxText';
-
+import Animations from './Animations';
 // import Gameplay from './Gameplay';
 
 
@@ -373,6 +373,24 @@ if (playerHand.length <= 0){
               </div>
             )}
           </div>
+
+            {/* ANIMATIONS??? */}
+            
+            <div id="hits" className='inset-0 flex z-45 w-1/2 h-1/ justify-center items-center place-items-center'>
+            {theirPrevRound.length && myPrevRound.length?
+            <Animations
+                enemyName={enemyName}
+                cardToPlay={cardToPlay}
+                user={user}
+                myPrevRound={myPrevRound}
+                theirPrevRound={theirPrevRound}
+                turnEnded={turnEnded}
+              />
+            :
+              null
+            }
+            </div>
+
 
           {/* ENEMY STATUS */}
           <div className='flex h-full w-full justify-center justify-items-center align-middle items-center'>
