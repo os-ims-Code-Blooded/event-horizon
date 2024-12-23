@@ -211,7 +211,7 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-    <div className='box-border grid grid-cols-[1fr_50%_1fr] xs:grid-cols-[1fr_70%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-contain' style={{backgroundRepeat: "no-repeat"}}>
+    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-contain' style={{backgroundRepeat: "no-repeat"}}>
       {/* FIRST COLUMN*/}
       <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full gap-10'>
         {/* FIRST COLUMN 1st SECTION */}
@@ -285,7 +285,7 @@ if (playerHand.length <= 0){
 
 
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
-      <div className="grid grid-rows-[1fr_1fr_50%] xs:grid-rows-[1fr_1fr_70%] grid-cols-1 max-h-screen h-full pt-10">
+      <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-full pt-10">
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
         <div className='flex flex-shrink w-auto h-auto flex-row col-span-1 justify-center gap-1 p-2'>
           {enemyHand.map((card, index) => (
