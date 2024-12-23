@@ -1,18 +1,33 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FxText from './FxText';
 import useSound from 'use-sound';
 
 import gameover from '../../sfx/gameover.wav'
 import youwin from '../../sfx/youwin.wav'
-
+import axios from 'axios';
+import { response } from 'express';
 
 
 export default function GameOver ({
   gameWinner,
   user,
-  volume
+  volume,
+  session
 }){
+
+  const [gameSummary, setGameSummary] = useState([])
+
+  useEffect(() => {
+
+    axios.get(`/games/end-game-summary/${session}`)
+      .then((response) => {
+        setGameSummary(response.data);
+      })
+      .catch((error) => {
+        console.error(`Error on GET request for game summary.`)
+      })
+
+  }, [])
 
   const [playGameOverSFX] = useSound(gameover, volume);
   const [playYouWinSFX] = useSound(youwin, volume);
@@ -58,37 +73,125 @@ export default function GameOver ({
 
             <button className='p-4 bg-indigo-700'>Return to Docking Bay</button> */}
 
+            <table id="summary" className='text-white z-30'>
+              <thead>
+                <tr>
+                  <th className={`pl-2 pr-2 text-center`}>Round</th>
+                  <th className={`pl-2 pr-2 text-center`}>Player</th>
+                  <th className={`pl-2 pr-2 text-center`}>Health</th>
+                  <th className={`pl-2 pr-2 text-center`}>Armor</th>
+                  <th className={`pl-2 pr-2 text-center`}>Action</th>
+                  <th className={`pl-2 pr-2 text-center`}>Card</th>
+                  <th className={`pl-2 pr-2 text-center`}>Player</th>
+                  <th className={`pl-2 pr-2 text-center`}>Health</th>
+                  <th className={`pl-2 pr-2 text-center`}>Armor</th>
+                  <th className={`pl-2 pr-2 text-center`}>Action</th>
+                  <th className={`pl-2 pr-2 text-center`}>Card</th>
+                </tr>
+              </thead>
+              <tbody>
+              { gameSummary ?
+                Object.keys(gameSummary).map((round) => {
+                  return (
+                    <tr className='text-white' key={round}>
+                      <td className={`pl-2 pr-2 text-center`}>{round}</td>
+                      { Object.keys(gameSummary[round]).map((player) => {
+                          return (
+                            <>
+                            <td className={`pl-4 pr-4 text-center ${ player === user.name ? 'text-green-600' : 'text-error' }`}>{player}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            </>
+                          )
+                        })
+                      }
+                    </tr>
+                  )
+                })
+                :
+                <tr>
+                  <td>No game summary available at this time, we apologize for the inconvenience.</td>
+                </tr>
+              }
+              </tbody>
+            </table>
+
           </div>
         </div>
 
     :
 
-<div className='mt-15 p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white h-full '>
-<div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
-  <br></br>
-  <br></br>
-  <h1 className='text-xl'>GAME OVER BRUV</h1>
-
-  <h1 className='test-lg'>All is lost  {playGameOverSFX()}</h1>
-  
-  {/* <br></br>
-  <br></br>
-
-      <button className='p-4 bg-orange-500'>Rematch</button>
-
+    <div className='mt-15 p-4 justify-items-center flex flex-col items-center bg-slate-900 text-white h-full '>
+      <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
       <br></br>
       <br></br>
+      <h1 className='text-xl'>Game Over</h1>
 
-      <button className='p-4 bg-green-700'>Play New Game</button>
-
+      <h1 className='test-lg'>All is lost  {playGameOverSFX()}</h1>
+    
+      {/* <br></br>
       <br></br>
-      <br></br>
 
-      <button className='p-4 bg-indigo-700'>Return to Docking Bay</button> */}
+          <button className='p-4 bg-orange-500'>Rematch</button>
 
-    </div>
+          <br></br>
+          <br></br>
+
+          <button className='p-4 bg-green-700'>Play New Game</button>
+
+          <br></br>
+          <br></br>
+
+          <button className='p-4 bg-indigo-700'>Return to Docking Bay</button> */}
+          <table id="summary" className='text-white z-30'>
+              <thead>
+                <tr>
+                  <th className={`pl-2 pr-2 text-center`}>Round</th>
+                  <th className={`pl-2 pr-2 text-center`}>Player</th>
+                  <th className={`pl-2 pr-2 text-center`}>Health</th>
+                  <th className={`pl-2 pr-2 text-center`}>Armor</th>
+                  <th className={`pl-2 pr-2 text-center`}>Action</th>
+                  <th className={`pl-2 pr-2 text-center`}>Card</th>
+                  <th className={`pl-2 pr-2 text-center`}>Player</th>
+                  <th className={`pl-2 pr-2 text-center`}>Health</th>
+                  <th className={`pl-2 pr-2 text-center`}>Armor</th>
+                  <th className={`pl-2 pr-2 text-center`}>Action</th>
+                  <th className={`pl-2 pr-2 text-center`}>Card</th>
+                </tr>
+              </thead>
+              <tbody>
+              { gameSummary ?
+                Object.keys(gameSummary).map((round) => {
+                  return (
+                    <tr className='text-white' key={round}>
+                      <td className={`pl-2 pr-2 text-center`}>{round}</td>
+                      { Object.keys(gameSummary[round]).map((player) => {
+                          return (
+                            <>
+                            <td className={`pl-4 pr-4 text-center ${ player === user.name ? 'text-green-600' : 'text-error' }`}>{player}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            </>
+                          )
+                        })
+                      }
+                    </tr>
+                  )
+                })
+                :
+                <tr>
+                  <td>No game summary available at this time, we apologize for the inconvenience.</td>
+                </tr>
+              }
+              </tbody>
+            </table>
+      </div>
     </div>
     }
-    </div>
+  </div>
   )
 }

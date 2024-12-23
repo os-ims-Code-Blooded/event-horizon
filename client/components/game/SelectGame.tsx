@@ -494,7 +494,7 @@ return(
 <div>
 {gameOver?
   <>
-    <GameOver volume={volume} gameWinner={gameWinner} user={user}/>
+    <GameOver volume={volume} gameWinner={gameWinner} user={user} session={session}/>
   </>
     :
     <div className='h-full z-12 relative'>
