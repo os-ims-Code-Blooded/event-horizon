@@ -43,7 +43,7 @@ export default function GameTable({
 
 ///////////////// RENDER RETURN //////////////////////////////
   return(
-<div className='bg-red-300 w-full'>
+<div className='bg-red-300 w-full flex'>
 
 
 
@@ -58,7 +58,7 @@ export default function GameTable({
 
 
 
-        <thead className="text-xs text-white uppercase bg-slate-50 dark:bg-slate-700 dark:text-gray-400">
+        <thead className="text-xs text-white dark:text-darkText uppercase bg-slate-500 dark:bg-slate-700 dark:text-gray-400">
             <tr className='justify-between p-2'>
                 <th scope="col" className="px-6 py-3">
                     player name
@@ -85,8 +85,8 @@ export default function GameTable({
                 <th scope="row" className="px-6 py-4 font-medium text-slate-900 whitespace-nowrap dark:text-white">
                     {invite.invitee.name}
                 </th>
-                <td className="px-6 py-4">
-                    {invite.accepted? <p>accepted</p>: <p>pending</p>}
+                <td className={`px-6 py-4 ${invite.accepted ? 'text-success' : 'text-fifth'}`}>
+                    {invite.accepted? <p>Accepted</p>: <p>Pending</p>}
                 </td>
                 <td className="px-6 py-4">
 

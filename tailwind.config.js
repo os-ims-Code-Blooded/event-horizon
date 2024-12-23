@@ -56,7 +56,7 @@ module.exports = {
         'starfield-light': 'url("https://i.imgur.com/DeaAAKn.gif")',
         'logo-light': 'url("https://i.imgur.com/oM3zj2J.png")',
         'logo-dark': 'url("https://i.imgur.com/e5Tmg4r.png")',
-        'logo-cb': 'url("")'
+        'starboard': 'url("https://i.imgur.com/9AZQe2Y.gif")'
       },
       animation:{
         'shake': 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',

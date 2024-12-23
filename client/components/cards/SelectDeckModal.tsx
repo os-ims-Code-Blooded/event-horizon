@@ -73,10 +73,12 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
   }, [])
 
   return (      
-    <div className='fixed h-48 w-48 bg-slate-700 text-white rounded-lg shadow justify-center justify-items-center self-center'>
+    <div className='fixed h-48 w-48 bg-slate-700 text-text dark:text-darkText rounded-lg shadow justify-center justify-items-center self-center'>
       
       <div className="flex self-end justify-end justify-items-end text-end w-full pr-2 pt-2">
-        <button onClick={ () => {
+        <button 
+          className='hover:scale-130 hover:bg-slate-400 hover:rounded-full'
+          onClick={ () => {
             setCancelled(true);
             toggleModal(false);
           } }>
@@ -86,9 +88,9 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
 
       {/* This section is the select drop-down, when an item is selected a patch request is sent and the Accept button becomes clickable */}
       <div className='pt-8 z-10 relative pb-16'>
-        <select className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-700 w-70 z-10 relative' id="deckSelect" onChange={(e)=>{
+        <select className='text-text dark:text-darkText bg-slate-300 dark:bg-slate-500 w-70 z-10 relative rounded-md' id="deckSelect" onChange={(e)=>{
           patchDeck(e)}}>
-          <option className='text-text dark:text-darkText bg-slate-200 dark:bg-slate-600 z-10 relative' value="">--select deck--</option>
+          <option className='text-text dark:text-darkText bg-slate-300 dark:bg-slate-500 z-10 relative' value="">--Select deck--</option>
           {userDecks.map((deck, index)=>{
             return(
               <option className='z-10 relative' key={`${deck.deck_name}-${deck.id}`} value={index}>{deck.deck_name}</option>
@@ -101,7 +103,7 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
       {/* If the user has selected a deck, we allow for the callback to execute */}
       { deckSelected ?
         (
-          <button className='bg-darkGreen rounded-lg w-20 h-8' onClick={
+          <button className='bg-darkGreen hover:bg-success dark:hover:text-text dark:hover:bg-success text-text dark:text-darkText rounded-lg w-20 h-8' onClick={
             ()=> {
               playHeavyClickSFX();
               execute();
@@ -110,7 +112,7 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
           Accept
           </button>
         ) : (
-          <button className='bg-slate-500 cursor-not-allowed rounded-lg w-20 h-8' disabled={deckSelected === false}>
+          <button className='bg-slate-500 pb-2 cursor-not-allowed rounded-lg w-20 h-8' disabled={deckSelected === false}>
           Accept
           </button>
         )

@@ -211,9 +211,9 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
+    <div className='box-border grid grid-cols-[1fr_50%_1fr] xs:grid-cols-[1fr_70%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-contain' style={{backgroundRepeat: "no-repeat"}}>
       {/* FIRST COLUMN*/}
-      <div className='pt-10 grid grid-cols-1 m-2 flex-col h-[1/3] max-h-screen max-w-full justify-between'>
+      <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full gap-10'>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
           <div className='text-text dark:text-darkText whitespace-nowrap text-sm sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
@@ -244,12 +244,12 @@ if (playerHand.length <= 0){
             }
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
-        <div className='flex h-[1/3]'>
+         <div className='flex'>
           {/* USERS SHIP*/}
-          <img src='https://i.imgur.com/V6LW3e4.png' className='h-full w-full aspect-square object-scale-down scale-x-[-.75] scale-y-[.75] rounded-full animate-outline-pulse'/>
-        </div>
+           {/* <img src='https://i.imgur.com/V6LW3e4.png' className='h-full w-full aspect-square object-scale-down scale-x-[-.75] scale-y-[.75] rounded-full animate-outline-pulse'/> */}
+         </div>
         {/* FIRST COLUMN 3rd SECTION */}
-        <div className='' style={{height: "33%"}}>
+        <div className='justify-items-center justify-end items-end sm:pt-10' style={{height: "33%"}}>
           <div className='text-green-600 font-bold underline decoration-solid text-center pb-2'>{user.name} <span className='text-slate-400 font-bold'>[{user.score}]</span></div>
           <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
             <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative ${ armor === 0 ? 'animate-pulse' : ''} ${shieldBarShake ? 'animate-shake transition-all' : ''}`}>
@@ -285,7 +285,7 @@ if (playerHand.length <= 0){
 
 
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
-      <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-full pt-10">
+      <div className="grid grid-rows-[1fr_1fr_50%] xs:grid-rows-[1fr_1fr_70%] grid-cols-1 max-h-screen h-full pt-10">
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
         <div className='flex flex-shrink w-auto h-auto flex-row col-span-1 justify-center gap-1 p-2'>
           {enemyHand.map((card, index) => (
@@ -394,10 +394,11 @@ if (playerHand.length <= 0){
 
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
 
-                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4]' >
+                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[6rem] 
+                xs:max-h-[6rem] xs:max-w-[4.5rem]' >
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
-                            className="cursor-not-allowed bg-white border rounded-lg shadow-md flex flex-col items-center justify-between w-full">
+                            className="cursor-not-allowed bg-white rounded-lg shadow-md border-4 border-error flex flex-col items-center justify-between w-full">
                             <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
                             <div className="text-center">
                                 <div>`IMAGE`</div>
@@ -411,11 +412,11 @@ if (playerHand.length <= 0){
                              <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
                         </div>
                       :
-                        <div className="shrink border-4 border-error rounded-lg shadow-md p-1 m-2 max-w-30 max-h-40 flex flex-col justify-between hover:scale-110">
+                        <div className="border-4 border-error rounded-lg shadow-md p-1 m-2 flex flex-col h-fit w-fit justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
                             className="border-8 border-slate-600 rounded-lg shadow-md md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col items-center justify-between hover:scale-110"
+                              xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col items-center justify-between hover:scale-110"
                             />
                          </div>
                     }
@@ -459,9 +460,9 @@ if (playerHand.length <= 0){
 
 
       {/* 3RD COLUMN */}
-      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-full justify-between pt-10'>
+      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-full pt-10'>
         {/* 3RD COLUMN: 1ST SECTION */}
-        <div className='flex flex-shrink flex-col items-center w-full h-auto max-h-[1/3]'>
+        <div className='flex flex-shrink flex-col pt-6 w-full h-full max-h-full justify-items-start justify-start'>
           <div className='text-error font-bold underline text-sm sm:text-xs decoration-solid text-center'>{enemyName}</div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
@@ -481,8 +482,8 @@ if (playerHand.length <= 0){
           </div>
         </div>
         {/* 3RD COLUMN : SECTION 2 SHIP */}
-        <div className='flex justify-items-center items-center justify-end max-h-[1/4] aspect-square h-fit w-fit'>
-              <img src='https://i.imgur.com/4paq921.png' className='aspect-square h-full w-full object-scale-down scale-x-[.75] scale-y-[.75] rounded-full animate-outline-pulse'/>
+        <div className='flex'>
+              {/* <img src='https://i.imgur.com/4paq921.png' className='aspect-square h-full w-full object-scale-down scale-x-[.75] scale-y-[.75] rounded-full animate-outline-pulse'/> */}
         </div>
         {/* 3RD COLUMN : SECTION 3 */}
         <div className='flex flex-shrink flex-col col-span-1 h-auto w-full items-center max-h-[1/3]'>
