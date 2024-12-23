@@ -211,9 +211,9 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
+    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between flex-row bg-starfield-light dark:bg-starfield bg-center bg-cover'>
       {/* FIRST COLUMN*/}
-      <div className='pt-10 grid grid-cols-1 m-2 flex-col h-[1/3] max-h-screen max-w-[25vw] justify-between'>
+      <div className='pt-10 grid grid-cols-1 m-2 flex-col h-[1/3] max-h-screen max-w-full justify-between'>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
           <div className='text-text dark:text-darkText whitespace-nowrap text-sm sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
@@ -277,10 +277,7 @@ if (playerHand.length <= 0){
               
             />
           </div>
-
-          <div className='h-4'></div>
-          <div className='text-sm'>cards remaining: {cardsRemain}</div>
-
+          <div className='text-md sm:text-sm xs:text-xs  text-text dark:text-darkText'>cards remaining: {cardsRemain}</div>
         </div>
       </div>
 
@@ -290,7 +287,7 @@ if (playerHand.length <= 0){
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
       <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-full pt-10">
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
-        <div className='flex flex-shrink w-full h-full flex-row col-span-1 justify-center gap-1 p-2'>
+        <div className='flex flex-shrink w-auto h-auto flex-row col-span-1 justify-center gap-1 p-2'>
           {enemyHand.map((card, index) => (
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
@@ -462,9 +459,9 @@ if (playerHand.length <= 0){
 
 
       {/* 3RD COLUMN */}
-      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-[25vw] justify-between pt-10'>
+      <div className='grid grid-cols-1 w-full h-full items-center max-h-screen max-w-full justify-between pt-10'>
         {/* 3RD COLUMN: 1ST SECTION */}
-        <div className='flex flex-col items-center w-full h-[1/3]'>
+        <div className='flex flex-shrink flex-col items-center w-full h-auto max-h-[1/3]'>
           <div className='text-error font-bold underline text-sm sm:text-xs decoration-solid text-center'>{enemyName}</div>
           <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
             <div className={`bg-slate-500 dark:bg-slate-600 h-5 rounded-full text-center relative justify-items-end text-white text-sm ${healthBarShake ? 'animate-shake transition-all' : ''}`}>
@@ -484,12 +481,12 @@ if (playerHand.length <= 0){
           </div>
         </div>
         {/* 3RD COLUMN : SECTION 2 SHIP */}
-        <div className='flex h-[1/3] justify-items-center items-center justify-end'>
+        <div className='flex justify-items-center items-center justify-end max-h-[1/4] aspect-square h-fit w-fit'>
               <img src='https://i.imgur.com/4paq921.png' className='aspect-square h-full w-full object-scale-down scale-x-[.75] scale-y-[.75] rounded-full animate-outline-pulse'/>
         </div>
         {/* 3RD COLUMN : SECTION 3 */}
-        <div className='flex flex-col col-span-1 h-[1/3] w-full items-center'>
-          <div className='flex shrink'>
+        <div className='flex flex-shrink flex-col col-span-1 h-auto w-full items-center max-h-[1/3]'>
+          <div className='flex shrink h-auto w-auto'>
                {
              // !turnEnded || playerAction !== '' ?
              ((playerAction === 'FIRE' || playerAction === 'BLOCK' || (playerAction === 'LOAD' && activeLoading)) && !turnEnded) || (turnEnded && enemyAction)?
@@ -510,7 +507,7 @@ if (playerHand.length <= 0){
                  }
                }}>COMMIT TURN</button>
              :
-             <button className='cursor-not-allowed p-3 flex bg-gray aspect-square border-8 border-slate-700 text-white font-bold rounded-full text-sm sm:text-xs justify-center items-center overflow-hidden text-ellipsis'
+             <button className='cursor-not-allowed p-3 flex md:h-30 md:w-30 sm:h-26 sm:w-26 xs:h-22 xs:w-22 lg:h-34 lg:w-34 bg-gray aspect-square border-8 border-slate-700 text-white font-bold rounded-full text-sm sm:text-xs justify-center items-center overflow-hidden text-ellipsis'
              >COMMIT TURN</button>
                }
            </div>
@@ -537,7 +534,7 @@ if (playerHand.length <= 0){
               playSwitchSFX()
               setSelfDestruct(!selfDestruct)
             }}/>
-             <div className="relative w-11 h-6 pb-1 bg-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+             <div className="relative w-11 h-6 pb-1 bg-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-orange-600"></div>
              <span className="ms-3 text-sm sm:text-xs whitespace-nowrap font-medium text-text dark:text-darkText ">ARM SELF DESTRUCT</span>
            </label>
           {selfDestruct?
