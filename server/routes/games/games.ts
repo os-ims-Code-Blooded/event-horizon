@@ -401,7 +401,7 @@ games.get('/end-game-summary/:id', async (req: AuthRequest, res) => {
           include: {
             game_player_information: true,
             actions: true
-          }
+          },
         }
       }
     })
@@ -427,29 +427,27 @@ games.get('/end-game-summary/:id', async (req: AuthRequest, res) => {
     game.rounds
         .forEach((round) => {
 
-          const playerNames: any = {};
+          const playerOneID = round.game_player_information[0].user_id;
+          const playerOneName = round.game_player_information[0].name;
+          const playerTwoID = round.game_player_information[1].user_id;
+          const playerTwoName = round.game_player_information[1].name;
 
-          response[round.actual]["Player Information"] = round.game_player_information.map((player) => {
-            
-            playerNames[player.user_id] = player.name;
+          console.log(round.game_player_information);
+          console.log(round.actions)
 
-            return {
-              username: player.name,
-              health: player.health,
-              armor: player.armor
+          const formatter: any = {
+            [playerOneName]: {
+              Information: round.game_player_information[0].user_id === playerOneID ? round.game_player_information[0] : round.game_player_information[1],
+              Actions: round.actions[0] ? (round.actions[0].user_id === playerOneID ? round.actions[0] : round.actions[1]) : null,
+            },
+            [playerTwoName]: {
+              Information: round.game_player_information[0].user_id === playerTwoID ? round.game_player_information[0] : round.game_player_information[1],
+              Actions: round.actions[0] ? (round.actions[0].user_id === playerTwoID ? round.actions[0] : round.actions[1]) : null,         
             }
-          })
+          };
 
-          response[round.actual]["Player Actions"] = round.actions.map((action) => {
-            return {
-              action_taken_by: playerNames[action.user_id],
-              action_type: action.action,
-              card_name: action.name.length > 0 ? action.name : "No Card Played",
-              damage: action.damage,
-              armor: action.armor,
-              duration: action.duration
-            }
-          })
+          response[round.actual] = formatter;
+
         })
 
     res.status(200).send(response);
@@ -458,7 +456,8 @@ games.get('/end-game-summary/:id', async (req: AuthRequest, res) => {
   } catch (error) {
   
     errorHandler(error);
-    console.error(`Error on fetching post-game overview for recently ended game.`)
+    console.error(`Error on fetching post-game overview for recently ended game.`, error)
+    res.sendStatus(500);
 
   }
 

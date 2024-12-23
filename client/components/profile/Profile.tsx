@@ -31,7 +31,10 @@ const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
               onClick={click13}
               replace={true}
               aria-label="Go to Settings"
-              className="absolute inset-0 m-auto w-32 h-32 z-10 bg-neutral dark:bg-slate-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:text-text dark:hover:bg-slate-500 hover:bg-slate-500"
+              className="absolute inset-0 m-auto w-32 h-32 z-10 bg-neutral dark:bg-slate-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 
+              flex items-center justify-center text-xl font-semibold dark:hover:text-text dark:hover:bg-slate-500 hover:bg-slate-500 dark:hover:opacity-100 dark:hover:shadow-slate-300
+               hover:shadow-slate-300 hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 
+               hover:opacity-100"
             >
               Settings
             </Link>
@@ -43,7 +46,9 @@ const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
               onClick={click13}
               replace={true}
               aria-label="Go to Leaderboard"
-              className="absolute inset-0 m-auto w-32 z-10 h-32 bg-fourth dark:bg-blue-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-blue-500 hover:bg-yellow-500"
+              className="absolute inset-0 m-auto w-32 z-10 h-32 bg-fourth dark:bg-blue-800 text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 
+              flex items-center justify-center text-xl font-semibold dark:hover:bg-blue-500 hover:bg-yellow-500 dark:hover:opacity-100 dark:hover:shadow-blue-300 hover:shadow-yellow-300
+              hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 hover:opacity-100"
             >
              Leaderboard
             </Link>
@@ -55,7 +60,10 @@ const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
               to="/friends"
               replace={true}
               aria-label="Go to Friends"
-              className="absolute inset-0 m-auto w-32 h-32 z-10 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-purple-900 hover:bg-orange-500"
+              className="absolute inset-0 m-auto w-32 h-32 z-10 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex 
+              items-center justify-center text-xl font-semibold dark:hover:bg-purple-900 hover:bg-orange-500 dark:hover:opacity-100 dark:hover:shadow-purple-700
+              hover:shadow-orange-300 hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 
+              hover:opacity-100"
             >
               Friends
             </Link>
@@ -67,7 +75,9 @@ const Profile: FC<ProfileProps> = ({user, fetchUser, click13, click6}) => {
               to="/cards"
               replace={true}
               aria-label="Go to Cards"
-              className="absolute inset-0 m-auto z-10 w-32 h-32 dark:bg-darkGreen bg-success text-text dark:text-darkText rounded-full shadow-md shadow-slate-200 flex items-center justify-center text-xl font-semibold dark:hover:bg-green-500 hover:bg-green-500"
+              className="absolute inset-0 m-auto z-10 w-32 h-32 dark:bg-darkGreen bg-success text-text dark:text-darkText rounded-full shadow-md shadow-slate-200
+               flex items-center justify-center text-xl font-semibold dark:hover:bg-green-500 hover:bg-green-500 dark:hover:opacity-100 dark:hover:shadow-green-300 hover:shadow-green-300 
+               hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 hover:opacity-100"
             >
               Cards
             </Link>
