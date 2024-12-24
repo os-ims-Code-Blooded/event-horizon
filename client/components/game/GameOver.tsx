@@ -44,34 +44,11 @@ export default function GameOver ({
           <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
             <br></br>
             <br></br>
-            <h1 className='text-xl'>GAME OVER</h1>
+            <div className='text-xl z-30'>GAME OVER</div>
 
-            {/* <FxText
-            enemyName={undefined}
-            cardToPlay={undefined}
-            user={undefined} 
-            myPrevRound={undefined} 
-            theirPrevRound={undefined} 
-            turnEnded={undefined}
-            volume={volume}
-            /> */}
 
-        <h1 className='test-lg'>Victory is yours {playYouWinSFX()}</h1>
-        
-        {/* <br></br>
-        <br></br>
+        <div className='test-lg z-30'>Escape velocity achieved. Victory is yours. {playYouWinSFX()}</div>
 
-            <button className='p-4 bg-orange-500'>Rematch</button>
-
-            <br></br>
-            <br></br>
-
-            <button className='p-4 bg-green-700'>Play New Game</button>
-
-            <br></br>
-            <br></br>
-
-            <button className='p-4 bg-indigo-700'>Return to Docking Bay</button> */}
 
             <table id="summary" className='text-white z-30'>
               <thead>
@@ -127,24 +104,10 @@ export default function GameOver ({
       <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
       <br></br>
       <br></br>
-      <h1 className='text-xl'>Game Over</h1>
+      <div className='text-xl z-30'>Game Over</div>
 
-      <h1 className='test-lg'>All is lost  {playGameOverSFX()}</h1>
-    
-      {/* <br></br>
-      <br></br>
+      <div className='test-lg z-30'>You Lose. The remnants of your ship are sucked into the void {playGameOverSFX()}</div>
 
-          <button className='p-4 bg-orange-500'>Rematch</button>
-
-          <br></br>
-          <br></br>
-
-          <button className='p-4 bg-green-700'>Play New Game</button>
-
-          <br></br>
-          <br></br>
-
-          <button className='p-4 bg-indigo-700'>Return to Docking Bay</button> */}
           <table id="summary" className='text-white z-30'>
               <thead>
                 <tr>

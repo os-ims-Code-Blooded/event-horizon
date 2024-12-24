@@ -213,7 +213,7 @@ if (playerHand.length <= 0){
   return (
     <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-contain' style={{backgroundRepeat: "no-repeat"}}>
       {/* FIRST COLUMN*/}
-      <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full gap-10'>
+      <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full'>
         {/* FIRST COLUMN 1st SECTION */}
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
           <div className='text-text dark:text-darkText whitespace-nowrap text-sm sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
@@ -285,15 +285,15 @@ if (playerHand.length <= 0){
 
 
       {/* 2ND COLUMN CARDS DISPLAY SECTION */}
-      <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-full pt-10">
+      <div className="grid grid-rows-[1fr_1fr_50%] grid-cols-1 max-h-screen h-auto pt-10">
         {/* 2ND COL: 1ST SECT : ENEMY CARDS */}
-        <div className='flex flex-shrink w-auto h-auto flex-row col-span-1 justify-center gap-1 p-2'>
+        <div className='flex flex-shrink w-auto h-auto flex-row col-span-1 justify-center gap-1 p-2 '>
           {enemyHand.map((card, index) => (
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
               className="border-8 border-slate-600 rounded-lg shadow-md flex flex-shrink-0 
-                md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem]"
+               aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem]"
               key={index}
             />
           ))}
@@ -307,8 +307,8 @@ if (playerHand.length <= 0){
             <div className='flex h-full w-full'>
               {!turnEnded?
                 (
-                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col hover:scale-110"
+                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110"
                     onClick={() => {
                       if (playerAction === "LOAD" && !weaponArmed){
 
@@ -341,8 +341,8 @@ if (playerHand.length <= 0){
 
                 (
 
-                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col hover:scale-110">
+                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110">
                     <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                     <div className="text-center">
                       <div>`IMAGE`</div>
@@ -364,8 +364,8 @@ if (playerHand.length <= 0){
             </div>
             :
             (
-              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col text-[1rem] text-success'>
+              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-success'>
                 <div className='pt-15 text-wrap text-sm sm:text-xs'>MUNITION STATUS:</div>
               </div>
             )}
@@ -394,8 +394,8 @@ if (playerHand.length <= 0){
 
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
 
-                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem]' >
+                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem]' >
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
                             className="cursor-not-allowed bg-white rounded-lg shadow-md border-4 border-error flex flex-col items-center justify-between w-full">
@@ -415,16 +415,16 @@ if (playerHand.length <= 0){
                         <div className="border-4 border-error rounded-lg shadow-md p-1 m-2 flex flex-col h-fit w-fit justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
-                            className="border-8 border-slate-600 rounded-lg shadow-md md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                              xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col items-center justify-between hover:scale-110"
+                            className="border-8 border-slate-600 rounded-lg shadow-md maspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col items-center justify-between hover:scale-110"
                             />
                          </div>
                     }
                 </div>
 
             :
-              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 md:max-h-[10rem] md:max-w-[7.5rem] aspect-[3/4] sm:max-h-[8rem] sm:max-w-[6rem] 
-                xs:max-h-[6rem] xs:max-w-[4.5rem] flex flex-col text-[1rem] text-error' >
+              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-error' >
                 <div className='pt-15 text-sm sm:text-xs text-wrap' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
             }
@@ -432,7 +432,7 @@ if (playerHand.length <= 0){
         </div>
 
        {/* 2ND COLUMN: 3RD SECT: USERS CARDS */}
-        <div className="flex flex-row flex-shrink justify-center gap-1 p-2 h-full w-full col-span-1">
+        <div className="flex flex-row flex-shrink justify-center gap-1 p-2 h-full col-span-1  ">
           {playerHand.map((card, index) => {
             return (
               <Card
