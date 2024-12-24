@@ -44,12 +44,12 @@ const LeaderBoard = ({user, fullScreen=true}) => {
             <tr
               key={boardUser.id}
               className={`even:bg-slate-800 ${index === 0 ? 'font-bold' : ''} ${
-                user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-black' : ''
+                user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-darkText' : ''
               }`}
             >
               <td className="border border-slate-600 px-4 py-2">{index + 1}</td>
               <td className="border border-slate-600 px-4 py-2">{boardUser.name}</td>
-              <td className={`${user.id === boardUser.id ? 'text-black' : 'text-yellow-600'}border border-slate-600 px-4 py-2`}>
+              <td className={`${user.id === boardUser.id ? 'text-yellow-600' : 'text-white'}border border-slate-600 px-4 py-2`}>
                 {boardUser.score}
               </td>
             </tr>

@@ -192,7 +192,7 @@ const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvite
         .map(({ label, path, onClick, isLogo }, index) => (
           isLogo ? (
             <a key={index} href={path} onClick={onClick}>
-              <img src='https://i.imgur.com/lEkekco.png' alt="Logo" className="h-8 w-auto" />
+              <img src='https://i.imgur.com/pR5k1pT.png' alt="Logo" className="h-8 w-auto" />
             </a>
           ) : (
             <NavButton key={index} label={label} path={path} onClick={onClick} />
