@@ -28,7 +28,7 @@ export default function Animations({
 
       {/* 1 PLAYER BLOCKS, ENEMY FIRES */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage?
-       <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+       <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
             <div className='text-blue-600 animate-pulse'>BLOCK</div>
@@ -52,7 +52,7 @@ export default function Animations({
 
       {/* 2 PLAYER BLOCKS, ENEMY DEFAULT FIRES */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id?
-      <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+      <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 <div className='flex flex-col h-full w-full p-2 text-white text-left'>
 
@@ -81,7 +81,7 @@ export default function Animations({
 
       {/* 3 PLAYER BLOCKS, ENEMY BLOCKS */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "BLOCK" ?
-          <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+          <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -103,7 +103,7 @@ export default function Animations({
 
       {/* 4 PLAYER BLOCKS, ENEMY LOADS */}
       {myPrevRound[0].action === "BLOCK"  && theirPrevRound[0].action === "LOAD" ?
-           <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+           <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
             <div className='text-blue-600 animate-pulse'>BLOCK</div>
@@ -123,7 +123,7 @@ export default function Animations({
 
       {/* 5 PLAYER FIRES WEAPON, ENEMY BLOCK */}
       {myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id  && theirPrevRound[0].action === "BLOCK" ?
-           <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+           <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
             <div className='text-error animate-ping'>FIRE</div>
@@ -146,7 +146,7 @@ export default function Animations({
     {/* 6 PLAYER FIRES WEAPON, ENEMY FIRES WEAPON */}
       {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id) && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage ?
         
-        <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+        <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -177,7 +177,7 @@ export default function Animations({
     {/* 7 PLAYER FIRES WEAPON, ENEMY FIRES DEFAULT */}
       {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id) && theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].damage ?
         
-        <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+        <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -206,7 +206,7 @@ export default function Animations({
     {/* 8 PLAYER FIRES WEAPON, ENEMY LOADS */}
       {(myPrevRound[0].action === "FIRE" && myPrevRound[0].damage && myPrevRound[0].card_id) && theirPrevRound[0].action === "LOAD" ?
         
-        <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+        <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -243,7 +243,7 @@ export default function Animations({
 
     {/* 9 PLAYER FIRES DEFAULT, ENEMY BLOCK */}
       {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && theirPrevRound[0].action === "BLOCK" ?
-          <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+          <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -276,7 +276,7 @@ export default function Animations({
 
     {/* 10 PLAYER FIRES DEFAULT, ENEMY FIRES WEAPON */}
       {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage ?
-         <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+         <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -301,7 +301,7 @@ export default function Animations({
 
     {/* 11 PLAYER FIRES DEFAULT, ENEMY FIRES DEFAULT */}
       {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && (theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].card_id) ?
-         <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+         <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
         <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -323,7 +323,7 @@ export default function Animations({
 
     {/* 12 PLAYER FIRES DEFAULT, ENEMY LOADS */}
       {(myPrevRound[0].action === "FIRE" && !myPrevRound[0].card_id) && (theirPrevRound[0].action === "LOAD") ?
-        <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+        <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -349,7 +349,7 @@ export default function Animations({
 
     {/* 13 PLAYER LOADS, ENEMY BLOCKS */}
       {(myPrevRound[0].action === "LOAD" && theirPrevRound[0].action === "BLOCK") ?
-         <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+         <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -372,7 +372,7 @@ export default function Animations({
 
     {/* 14 PLAYER LOADS, ENEMY LOADS */}
       {(myPrevRound[0].action === "LOAD" && theirPrevRound[0].action === "LOAD") ?
-         <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+         <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -394,7 +394,7 @@ export default function Animations({
 
     {/* 15 PLAYER LOADS, ENEMY FIRES WEAPON */}
       {(myPrevRound[0].action === "LOAD" && theirPrevRound[0].action === "FIRE" && theirPrevRound[0].damage ) ?
-         <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+         <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
@@ -419,7 +419,7 @@ export default function Animations({
 
     {/* 16 PLAYER LOADS, ENEMY FIRES DEFAULT */}
       {(myPrevRound[0].action === "LOAD" && theirPrevRound[0].action === "FIRE" && !theirPrevRound[0].damage ) ?
-        <div className='text-xs grid grid-cols-[50%_50%] gap-10'>
+        <div className='text-xs grid grid-cols-[50%_50%] gap-10 pr-8'>
 
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
