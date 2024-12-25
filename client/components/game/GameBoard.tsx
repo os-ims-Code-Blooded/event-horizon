@@ -218,7 +218,7 @@ if (playerHand.length <= 0){
         <div className='flex flex-col gap-3' style={{height: "33%"}}>
           <div className='text-text dark:text-darkText whitespace-nowrap text-sm sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
           <div className='text-text dark:text-darkText text-sm sm:text-xs'><span className='text-fifth'>ROUND</span>: <span className='text-success font-extrabold'>{roundActual}</span></div>
-          {theirPrevRound.length && myPrevRound.length?
+          {/* {theirPrevRound.length && myPrevRound.length?
             <div>STATUS REPORT:
             <FxText
                 enemyName={enemyName}
@@ -241,7 +241,7 @@ if (playerHand.length <= 0){
               <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>STATUS REPORT:</div>
 
             </div>
-            }
+            } */}
         </div>
         {/* FIRST COLUMN 2nd SECTION */}
          <div className='flex'>
@@ -304,7 +304,7 @@ if (playerHand.length <= 0){
           {/* USER'S SELECTED CARD */}
           <div className='flex h-full w-full justify-center justify-items-center align-middle items-center'>
             {cardToPlay ? 
-            <div className='flex h-full w-full'>
+            <div>
               {!turnEnded?
                 (
                   <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
