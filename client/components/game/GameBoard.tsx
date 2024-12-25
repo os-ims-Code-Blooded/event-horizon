@@ -215,11 +215,11 @@ if (playerHand.length <= 0){
       {/* FIRST COLUMN*/}
       <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full'>
         {/* FIRST COLUMN 1st SECTION */}
-        <div className='flex flex-col gap-3' style={{height: "33%"}}>
-          <div className='text-text dark:text-darkText whitespace-nowrap text-sm sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
-          <div className='text-text dark:text-darkText text-sm sm:text-xs'><span className='text-fifth'>ROUND</span>: <span className='text-success font-extrabold'>{roundActual}</span></div>
+        <div className='flex flex-col gap-3' style={{height: "15%"}}>
+          <div className='text-text dark:text-darkText whitespace-nowrap text-xs sm:text-xs'>Encounter {session} <span className='text-fifth font-extrabold'>VS</span> {enemyName}</div>
+          <div className='text-text dark:text-darkText text-xs sm:text-xs'><span className='text-fifth'>ROUND</span>: <span className='text-success font-extrabold'>{roundActual}</span></div>
           {/* {theirPrevRound.length && myPrevRound.length?
-            <div>STATUS REPORT:
+            <div className='text-xs'>STATUS REPORT:
             <FxText
                 enemyName={enemyName}
                 cardToPlay={cardToPlay}
@@ -238,7 +238,7 @@ if (playerHand.length <= 0){
             :
             // null
             <div>
-              <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3'>STATUS REPORT:</div>
+              <div className='bg-slate-400 flex flex-col p-1 gap-1 border-4 border-slate-600 rounded-lg shadow-md w-2/3 text-xs'>STATUS REPORT:</div>
 
             </div>
             } */}
@@ -382,6 +382,10 @@ if (playerHand.length <= 0){
                 myPrevRound={myPrevRound}
                 theirPrevRound={theirPrevRound}
                 turnEnded={turnEnded}
+                setRoundSoundsPlayed={setRoundSoundsPlayed}
+                roundSoundsPlayed={roundSoundsPlayed}
+                soundVolume={soundVolume}
+                volume={volume}
               />
             :
               null
