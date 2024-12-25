@@ -292,7 +292,7 @@ if (playerHand.length <= 0){
             <img
               src="https://i.imgur.com/Uvf7DCN.png"
               className="border-8 border-slate-600 rounded-lg shadow-md flex flex-shrink-0 
-               aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+               aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem]"
               key={index}
             />
@@ -307,8 +307,8 @@ if (playerHand.length <= 0){
             <div>
               {!turnEnded?
                 (
-                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
-                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110"
+                  <div className="bg-white border-4 border-success rounded-lg aspect-[3/4] shadow-md p-1 m-2 md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110 h-full w-full"
                     onClick={() => {
                       if (playerAction === "LOAD" && !weaponArmed){
 
@@ -320,16 +320,16 @@ if (playerHand.length <= 0){
                       }
                     }}
                   >
-                    <h2 className="text-md sm:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                    <h2 className="text-xs sm:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                     <div className="text-center">
                       <div>`IMAGE`</div>
-                      <p className="text-black mb-1 text-sm sm:text-xs">
+                      <p className="text-black mb-1 text-xs sm:text-xs">
                         <strong>Attack:</strong> {cardToPlay[1]}
                       </p>
-                      <p className="text-black mb-1 text-sm sm:text-xs">
+                      <p className="text-black mb-1 text-xs sm:text-xs">
                         <strong>Defense:</strong> {cardToPlay[2]}
                       </p>
-                      <p className="text-black mb-1 text-smsm:text-xs ">
+                      <p className="text-black mb-1 text-xs sm:text-xs ">
                         <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
                       </p>
                     </div>
@@ -341,18 +341,18 @@ if (playerHand.length <= 0){
 
                 (
 
-                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
-                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110">
-                    <h2 className="text-md text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                  <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110 h-full w-full">
+                    <h2 className="text-sm text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
                     <div className="text-center">
                       <div>`IMAGE`</div>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-xs">
                         <strong>Attack:</strong> {cardToPlay[1]}
                       </p>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-xs">
                         <strong>Defense:</strong> {cardToPlay[2]}
                       </p>
-                      <p className="text-black mb-1 text-sm">
+                      <p className="text-black mb-1 text-xs">
                         <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
                       </p>
                     </div>
@@ -364,14 +364,14 @@ if (playerHand.length <= 0){
             </div>
             :
             (
-              <div className='border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
-              xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-success' >
+              <div className='border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+              xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-success h-full w-full' >
               <div className='pt-15 text-sm sm:text-xs text-wrap' style={{maxWidth: "25%" }}> MUNITION STATUS:</div>
             </div>
             )}
           </div>
 
-            {/* ANIMATIONS??? */}
+            {/* ANIMATIONS */}
             
             <div id="hits" className='inset-0 flex z-45 w-1/2 h-1/ justify-center items-center place-items-center'>
             {theirPrevRound.length && myPrevRound.length?
@@ -394,28 +394,28 @@ if (playerHand.length <= 0){
 
             {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
 
-                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem]' >
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
                             className="cursor-not-allowed bg-white rounded-lg shadow-md border-4 border-error flex flex-col items-center justify-between w-full">
-                            <h2 className="text-md text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
+                            <h2 className="text-sm text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
                             <div className="text-center">
                                 <div>`IMAGE`</div>
-                                <p className="text-black mb-1 text-sm">
+                                <p className="text-black mb-1 text-xs">
                                   <strong>Damage:</strong> {theirPrevRound[0].damage}
                                 </p>
-                                <p className="text-black mb-1 text-sm">
+                                <p className="text-black mb-1 text-xs">
                                   <strong>Duration: {theirPrevRound[0].duration + 1 || 1}</strong>
                                 </p>
                              </div>
-                             <p className="text-black text-sm text-center">{theirPrevRound[0].description}</p>
+                             <p className="text-black text-xs text-center">{theirPrevRound[0].description}</p>
                         </div>
                       :
                         <div className="border-4 border-error rounded-lg shadow-md p-1 m-2 flex flex-col h-fit w-fit justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
-                            className="border-8 border-slate-600 rounded-lg shadow-md maspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                            className="border-8 border-slate-600 rounded-lg shadow-md maspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col items-center justify-between hover:scale-110"
                             />
                          </div>
@@ -423,7 +423,7 @@ if (playerHand.length <= 0){
                 </div>
 
             :
-              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+              <div className='border-4 border-error rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-error' >
                 <div className='pt-15 text-sm sm:text-xs text-wrap' style={{maxWidth: "25%" }}>ENEMY MUNITION STATUS:</div>
               </div>
