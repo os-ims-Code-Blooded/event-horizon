@@ -249,7 +249,8 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   
       setCurrDeckVal(cards.reduce((acc, curr)=>{
   
-        acc += ((curr.armor + curr.damage) * (curr.duration + 1))
+        acc += ((curr.armor + curr.damage) * (curr.armor? curr.duration: curr.duration + 1))
+
         return acc
   
       }, 0))
@@ -386,7 +387,7 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
 
           </div>
 
-          <div>Selected Deck Value: {currDeckVal}/200</div>
+          <div className='text-text dark:text-darkText text-base mb-4 text-center z-10 relative'>Selected Deck Value: {currDeckVal}/200</div>
 
 
           <div className='items-center justify-items-center justify-center gap-2 flex z-10 relative'>
