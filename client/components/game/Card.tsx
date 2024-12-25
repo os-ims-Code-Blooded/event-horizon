@@ -48,7 +48,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
           cardSelect(card);
           setIsClicked(card.id);
         }}
-        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success z-20 scale-110' : 'border-yellow-300' } rounded-lg flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] aspect-[3/4] md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[8rem] 
+        className={`bg-white border-8 ${isClicked === card.id && activeLoading ? 'border-success z-20 scale-110' : 'border-yellow-300' } rounded-lg flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[8rem] sm:max-w-[8rem] 
                 xs:max-h-[6rem] xs:max-w-[4.5rem] shadow-md flex flex-col items-center justify-between hover:z-20 hover:scale-110`}
       >
         <h2 className="text-md sm:text-sm xs:text-sm text-black font-bold mb-2 text-center">{card.name}</h2>
@@ -68,7 +68,7 @@ const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, car
       </div>
       :
       <div
-      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex-col items-center flex flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] aspect-[3/4] md:max-h-[10rem] md:max-w-[7.5rem] sm:max-h-[8rem] sm:max-w-[8rem] 
+      className="cursor-not-allowed bg-white border rounded-lg shadow-md flex-col items-center flex flex-shrink-0 h-[calc(100vw/3)] w-[calc(100vw/4)] aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[8rem] sm:max-w-[8rem] 
                 xs:max-h-[6rem] xs:max-w-[4.5rem] justify-between hover:z-20 hover:scale-110 ">
         <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
         <div className="text-center">

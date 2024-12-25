@@ -364,10 +364,10 @@ if (playerHand.length <= 0){
             </div>
             :
             (
-              <div className='border-4 rounded-lg border-success shadow-md p-4 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
-                xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-success'>
-                <div className='pt-15 text-wrap text-sm sm:text-xs'>MUNITION STATUS:</div>
-              </div>
+              <div className='border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[8rem] md:max-w-[6rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+              xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col text-[1rem] text-success' >
+              <div className='pt-15 text-sm sm:text-xs text-wrap' style={{maxWidth: "25%" }}> MUNITION STATUS:</div>
+            </div>
             )}
           </div>
 
