@@ -55,12 +55,12 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
             <div className='text-blue-600 animate-pulse'>BLOCK </div>
-            <div className='text-violet-700 animate-ping'>-{theirPrevRound[0].damage / 2}</div>
+            <div className='text-violet-600 animate-ping'>-{theirPrevRound[0].damage / 2}</div>
           </div>
 
 
           <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-          <div className='text-error animate-ping'>FIRE</div>
+          <div className='text-violet-600 animate-ping'>FIRED ORDINANCE</div>
         </div>
         <>{!roundSoundsPlayed? playBlockSFX():null}</>
         </div>
@@ -80,14 +80,14 @@ export default function Animations({
 
           <div className='text-blue-600 animate-pulse'>BLOCK</div>
           <div className='p-2'></div>
-          <div className='text-violet-700 animate-ping'> -{theirPrevRound[0].damage + 3}</div>
+          <div className='text-violet-600 animate-ping'> -{theirPrevRound[0].damage + 3}</div>
         </div>
 
        
 
        
         <div className='flex flex-col h-full w-full p-2 text-white text-center  '>
-          <div className='text-error animate-ping align-text-bottom'>FIRE</div>
+          <div className='text-violet-600 animate-ping align-text-bottom'>FIRE</div>
         </div>
         <>{!roundSoundsPlayed? playBlockSFX():null}</>
       </div>
@@ -173,7 +173,7 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
                   <div className='text-error animate-ping'>FIRE</div>
-                  <div className='text-error animate-ping'>-{theirPrevRound[0].damage}</div>
+                  <div className='text-violet-600 animate-ping'>-{theirPrevRound[0].damage}</div>
                               <>{!roundSoundsPlayed? playTakeHitSFX():null}</>
 
                 </div>
@@ -183,7 +183,7 @@ export default function Animations({
 
                
          <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-                  <div className='text-error animate-ping'>FIRE</div>
+                  <div className='text-violet-600 animate-ping'>FIRE</div>
                   <div className='text-error animate-ping'>  -{myPrevRound[0].damage} </div>
                 </div>
         <> {!roundSoundsPlayed? playLandHitSFX():null}</>
@@ -206,7 +206,7 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
                   <div className='text-error animate-ping'>FIRE</div>
-                  <div className='text-error animate-ping'>-{theirPrevRound[0].damage + 5}</div>
+                  <div className='text-violet-600 animate-ping'>-{theirPrevRound[0].damage + 5}</div>
                   <>{!roundSoundsPlayed? playTakeHitSFX():null}</>
 
                 </div>
@@ -216,7 +216,7 @@ export default function Animations({
 
                 
          <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-                  <div className='text-error animate-ping'>FIRE</div>
+                  <div className='text-violet-600  animate-ping'>FIRE</div>
                   <div className='text-error animate-ping'> -{myPrevRound[0].damage} </div>
                 </div>
         <> {!roundSoundsPlayed? playLandHitSFX():null}</>
@@ -308,14 +308,14 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
            <div className='text-error animate-ping'>FIRE</div>
-            <div className='text-error animate-ping'>-{theirPrevRound[0].damage}</div>
+            <div className='text-violet-600  animate-ping'>-{theirPrevRound[0].damage}</div>
                         <>{!roundSoundsPlayed? playTakeHitSFX():null}</>
 
         </div>
 
      
         <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-          <div className='text-error animate-ping'>FIRE</div>
+          <div className='text-violet-600  animate-ping'>FIRE</div>
             <div className='text-error animate-ping'>   -{myPrevRound[0].damage + 5} </div>
          </div>
      <>{!roundSoundsPlayed? playDefaultHitSFX():null}</>
@@ -335,12 +335,12 @@ export default function Animations({
 
         <div className='flex flex-col h-full w-full text-left p-2 text-white'>
            <div className='text-error animate-ping'>FIRE</div>
-            <div className='text-error animate-ping'>-{theirPrevRound[0].damage + 5}</div>
+            <div className='text-violet-600  animate-ping'>-{theirPrevRound[0].damage + 5}</div>
             <>{!roundSoundsPlayed? playTakeHitSFX():null}</>
         </div>
 
          <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-          <div className='text-error animate-ping'>FIRE</div>
+          <div className='text-violet-600  animate-ping'>FIRE</div>
             <div className='text-error animate-ping'>  -{myPrevRound[0].damage + 5} </div>
          </div>
          <>{!roundSoundsPlayed? playDefaultHitSFX():null}</>
@@ -432,13 +432,13 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
            <div className='text-yellow-300 animate-bounce'>LOAD {myPrevRound[0].armor ? <>{myPrevRound[0].armor} ARMOR</>: <>{cardToPlay[0]}</>}</div>
-           <div className='text-error animate-ping'>-{theirPrevRound[0].damage}</div>
+           <div className='text-violet-600 animate-ping'>-{theirPrevRound[0].damage}</div>
 
         </div>
 
        
         <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-         <div className='text-error animate-ping'>FIRE</div>
+         <div className='text-violet-600  animate-ping'>FIRE</div>
          </div>
          <>{!roundSoundsPlayed? playTakeHitSFX():null}</>
 
@@ -458,13 +458,13 @@ export default function Animations({
 
 <div className='flex flex-col h-full w-full text-left p-2 text-white'>
            <div className='text-yellow-300 animate-bounce'>LOAD {myPrevRound[0].armor ? <>{myPrevRound[0].armor} ARMOR</>: <>{cardToPlay[0]}</>}</div>
-           <div className='text-error animate-ping'>-{theirPrevRound[0].damage + 5}</div>
+           <div className='text-violet-600  animate-ping'>-{theirPrevRound[0].damage + 5}</div>
 
         </div>
 
       
         <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-         <div className='text-error animate-ping'>FIRE</div>
+         <div className='text-violet-600  animate-ping'>FIRE</div>
          </div>
          <>{!roundSoundsPlayed? playDefaultHitSFX():null}</>
 
