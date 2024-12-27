@@ -60,7 +60,7 @@ export default function Animations({
 
 
           <div className='flex flex-col h-full w-full text-end p-2 text-white'>
-          <div className='text-violet-600 animate-ping'>FIRED ORDINANCE</div>
+          <div className='text-violet-600 animate-ping'>FIRE</div>
         </div>
         <>{!roundSoundsPlayed? playBlockSFX():null}</>
         </div>
