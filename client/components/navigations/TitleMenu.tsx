@@ -31,11 +31,11 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             onClick={click13}
             replace={true}
             className="absolute inset-0 z-10 m-auto w-24 h-24 dark:bg-third bg-fifth text-text dark:text-darkText rounded-full shadow-sm shadow-slate-200 
-            flex items-center justify-center text-xl font-semibold dark:hover:bg-purple-800 hover:bg-orange-700  
+            flex items-center justify-center text-md font-semibold dark:hover:bg-purple-800 hover:bg-orange-700  
             dark:hover:opacity-100 dark:hover:shadow-purple-600 hover:shadow-orange-500 hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none 
             focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 hover:opacity-100"
           >
-            How To Play
+            HOW TO PLAY
           </Link>
         </div>
         {/* Profile Button Container */}
@@ -49,7 +49,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             dark:hover:opacity-100 dark:hover:shadow-slate-400 hover:shadow-slate-400 hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none 
             focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 hover:opacity-100"
           >
-            Profile
+            PROFILE
           </Link>
         </div>
         {/* Play Button Container */}
@@ -62,7 +62,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
             flex items-center justify-center text-xl font-semibold dark:hover:bg-emerald-800 hover:animate-pulse dark:hover:opacity-100 dark:hover:shadow-emerald-600 hover:shadow-emerald-600 
             hover:blur-[0.5px] dark:hover:blur-[0.5px] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 opacity-75 hover:opacity-100"
           >
-            Play!
+            PLAY
           </Link>
         </div>
       </div>
