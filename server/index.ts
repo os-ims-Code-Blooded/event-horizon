@@ -18,6 +18,8 @@ import gameHandler from './gameHandler.ts';
 import cards from './routes/cards/cards.ts';
 import errorHandler from './helpers/misc/error_logging/errorHandler.ts';
 import closeStagnantGames from './helpers/misc/closeStagnantGames.ts';
+import fs from 'fs';
+
 
 // const {connectedUsers, initializeChoices, userConnected, makeMove, moves, choices} = require('./../utils/players')
 // const { sessions, makeSession, joinSession, exitSession } = require('./../utils/sessions')
@@ -153,7 +155,18 @@ let server;
 const URL = process.env.TEST_URL ? process.env.TEST_URL : `${CLIENT_URL}:${PORT}`
 
 if (process.env.TEST_URL) {
-  server = https.createServer(app);
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/privkey.pem', 'utf8');
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/cert.pem', 'utf8');
+
+  if (privateKey && certificate) {
+    server = https.createServer({
+      key: fs.readFileSync(privateKey, 'utf8'),
+      cert: fs.readFileSync(certificate, 'utf8')
+    }, app);
+  } else {
+    errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
+    server = https.createServer(app);
+  }
 } else {
   server = http.createServer(app);
 }

@@ -70,7 +70,7 @@ export default function App (){
     }
   });
 
-  // const socket = io("https://eventhorizongame.live", {
+  // const socket = io("wss://eventhorizongame.live", {
   //   withCredentials: true,
   //   extraHeaders: {
   //     "my-custom-header": "abcd"
