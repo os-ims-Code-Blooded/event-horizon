@@ -11,20 +11,20 @@ module.exports = {
   darkMode: 'class',
   theme: {
     screens: {
-      'xs': '100px',
-      'sm': '640px',
+      'xs': '640px',
+      'sm': '800px',
       // => @media (min-width: 640px) { ... }
 
-      'md': '768px',
+      'md': '1000px',
       // => @media (min-width: 768px) { ... }
 
-      'lg': '1024px',
+      'lg': '1200px',
       // => @media (min-width: 1024px) { ... }
 
-      'xl': '1280px',
+      'xl': '15000px',
       // => @media (min-width: 1280px) { ... }
 
-      '2xl': '1536px',
+      '2xl': '1800px',
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
