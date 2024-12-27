@@ -52,12 +52,16 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
 
   const execute = async () => {
 
-    if (cancelled) {
-      toggleModal(false);
-      console.log(`Cancelled`)
-    } else if (deckSelected) {
-      callback(callbackParams);
-      toggleModal(false);
+    try {
+      if (cancelled) {
+        toggleModal(false);
+        console.log(`Cancelled`)
+      } else if (deckSelected) {
+        await callback(callbackParams);
+        toggleModal(false);
+      }
+    } catch (error) {
+      console.error(`Error within select deck modal.`)
     }
   }
 
