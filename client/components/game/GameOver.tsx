@@ -102,7 +102,7 @@ export default function GameOver ({
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
                             </>
                           )
                         })
@@ -174,7 +174,7 @@ export default function GameOver ({
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
                             <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
                             </>
                           )
                         })
