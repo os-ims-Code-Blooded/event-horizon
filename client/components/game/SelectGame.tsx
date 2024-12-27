@@ -30,7 +30,6 @@ export default function SelectGame({
   decl
 }){
 
-  console.log(userInvites)
 
   const [playClicked, setPlayClicked] = useState(false)
 
@@ -93,8 +92,6 @@ export default function SelectGame({
   const [openGames, setOpenGames] = useState(userAcceptedInvs.concat(
     acceptedOutgoingInvs))
 
-    console.log(userAcceptedInvs)
-    console.log("OPEN GAMES", openGames)
 
   if (!musicPlayed){
     playMusic();
