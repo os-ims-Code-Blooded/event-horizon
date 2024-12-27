@@ -211,7 +211,7 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 max-h-screen max-w-screen h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-contain' style={{backgroundRepeat: "no-repeat"}}>
+    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-cover overflow-hidden' style={{backgroundRepeat: "no-repeat"}}>
       {/* FIRST COLUMN*/}
       <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full'>
         {/* FIRST COLUMN 1st SECTION */}
@@ -396,10 +396,12 @@ if (playerHand.length <= 0){
           {/* ENEMY STATUS */}
           <div className='flex h-full w-full justify-center justify-items-center align-middle items-center'>
 
-            {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage) ?
+            {enemyArmed || (enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage)?
 
                 <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem]' >
+                    <>{console.log("theirPrevRound\n", theirPrevRound[0], "\n ENEMY ARMED \n", enemyArmed, "\nENEMY LAST ACTION\n", enemyLastAction, "\nTHEIR CURRENT ROUND\n" )}</>
+
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
                             className="cursor-not-allowed bg-white rounded-lg shadow-md border-4 border-error flex flex-col items-center justify-between w-full">
@@ -419,11 +421,14 @@ if (playerHand.length <= 0){
                         <div className="border-4 border-error rounded-lg shadow-md p-1 m-2 flex flex-col h-fit w-fit justify-between hover:scale-110">
                           <img
                             src="https://i.imgur.com/Uvf7DCN.png"
-                            className="border-8 border-slate-600 rounded-lg shadow-md maspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
+                            className="border-8 border-slate-600 rounded-lg shadow-md aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col items-center justify-between hover:scale-110"
                             />
                          </div>
                     }
+
+
+
                 </div>
 
             :
