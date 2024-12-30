@@ -102,9 +102,6 @@ export default function SelectGame({
 
   useEffect( () => {
 
-
-
-
     axios
     .get(`/games/${user.id}`)
     .then((response) => {
@@ -112,25 +109,7 @@ export default function SelectGame({
     })
     .catch((error) => {
       console.error(`No public games found for user.`);
-    });
-
-
-
-
-
-    // on arrival to this page, attempt to get the decks available
-    // this allows the user to select from their current card decks
-    axios.get(`/profile/decks/${user.id}`)
-      .then((response) => {
-        setUserDecks(response.data)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-
-
-
-      
+    });   
 
   }, [])
 
@@ -240,6 +219,8 @@ export default function SelectGame({
       setHandProvided(round.data["Current Hand"]);
       setWaiting(true)
       setRoundActual(round.data["Current Round Actual"])
+
+      console.log(game, round);
 
       // console.log(`******** Current ROUND DATA: `, round.data);
       // console.log(`Current Deck: `, round.data["Current Deck"]);

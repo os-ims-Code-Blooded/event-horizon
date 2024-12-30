@@ -18,9 +18,10 @@ type Card = {
   description: string;
   id: number;
   name: string;
+  volume: any;
 };
 
-const CardsPage = ({ user }: { user: { id: number } }) => {
+const CardsPage = ({ user }: { user: { id: number }, volume }) => {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
@@ -31,8 +32,6 @@ const CardsPage = ({ user }: { user: { id: number } }) => {
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [deckPoints, setDeckPoints] = useState(0)
   const [currDeckVal, setCurrDeckVal] = useState(0)
-
-
 
   const fetchDecks = async () => {
     try {

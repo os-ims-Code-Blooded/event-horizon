@@ -76,7 +76,7 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
           {showCreditsModal && (
           <div className="modal fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-40 modal-middle ">
-            <div className="bg-slate-600 rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40 ">
+            <div className="bg-fifth dark:!bg-third cbMode:bg-darkCbBg rounded-lg shadow-lg flex flex-col items-center justify-items-center w-2/3 gap-3 z-40 ">
               <h2 className="text-2xl pt-2 justify-center text-center font-bold text-text dark:text-darkText mb-4">Credits</h2>
               
              <Credits/>
@@ -84,9 +84,9 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
                 onClick={() => {
                   playHeavyClickSFX()
                   setShowCreditsModal(false)}}
-                className="px-4 py-2 bg-slate-700 text-darkText rounded-lg shadow hover:text-text hover:bg-slate-300"
+                className="px-4 py-2 !bg-third  dark:!bg-fifth cbMode:bg-darkCbBg text-darkText dark:text-text hover:font-bold rounded-lg shadow hover:bg-slate-300"
               >
-                close
+                Close
               </button>
               <div className='p-4'></div>
             </div>
@@ -97,10 +97,10 @@ const TitleMenu: FC<TitleProps> = ({user, click13, click6, playHeavyClickSFX}) =
 
 {!showCreditsModal? 
 
-      <div className='flex relative px-4 py-2 bg-slate-700 text-white rounded-lg shadow hover:text-text hover:bg-slate-500 z-10'>
+      <div className='flex relative px-4 py-2  !bg-third  dark:!bg-fifth cbMode:bg-darkCbBg text-darkText dark:text-text hover:font-bold rounded-lg shadow hover:bg-slate-500 z-10'>
           <button onClick={()=>{
             playHeavyClickSFX()
-            setShowCreditsModal(!showCreditsModal)}}>credits
+            setShowCreditsModal(!showCreditsModal)}}>Credits
           </button>
       </div>
 

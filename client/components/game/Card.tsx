@@ -25,9 +25,10 @@ interface CardProps {
   cardToPlay: any
   setIsClicked: any;
   isClicked: any;
+  volume: any;
 }
 
-const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, cardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded, playCardSFX }) => {
+const Card: FC<CardProps> = ({ isClicked, card, volume, setIsClicked, setCardToPlay, cardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded, playCardSFX }) => {
   const cardSelect = (card: CardType) =>{
 
     playCardSFX()
