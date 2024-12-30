@@ -17,7 +17,7 @@ export default function Credits ({
         <div className='p-4'></div>
 
         <div className='flex flex-col justify-center text-center'>
-          <div className='flex text-base text-center justify-center text-center'>
+          <div className='flex text-base justify-center text-center'>
             Audio sourced from freesound.org
           </div>
           <div className='flex text-center m-4'>
