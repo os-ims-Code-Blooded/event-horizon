@@ -158,15 +158,31 @@ if (process.env.TEST_URL) {
   const privateKey = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/privkey.pem', 'utf8');
   const certificate = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/cert.pem', 'utf8');
 
-  if (privateKey && certificate) {
-    server = https.createServer({
-      key: fs.readFileSync(privateKey, 'utf8'),
-      cert: fs.readFileSync(certificate, 'utf8')
-    }, app);
-  } else {
-    errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
+  /*
+
+  1. Configured NGINX
+  2. Verified that sockets are targeting HTTPS (changed socket.io connection to WSS)
+
+  https://localhost:3000
+  https://localhost:3000/auth/google/callback
+  https://localhost:3000/login
+  https://eventhorizongame.live
+  https://eventhorizongame.live/auth/google/callback
+  https://eventhorizongame.live/login
+  https://www.eventhorizongame.live
+  https://www.eventhorizongame.live/auth/google/callback
+  https://www.eventhorizongame.live/login  
+  */
+
+  // if (privateKey && certificate) {
+  //   server = https.createServer({
+  //     key: fs.readFileSync(privateKey, 'utf8'),
+  //     cert: fs.readFileSync(certificate, 'utf8'),
+  //   }, app);
+  // } else {
+    // errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
     server = https.createServer(app);
-  }
+  // }
 } else {
   server = http.createServer(app);
 }
@@ -216,23 +232,17 @@ server.listen(PORT, () => {
     }
   }, halfHour);
 
-  setInterval ( async () => {
-    try {
-      
-      const updates = await closeStagnantGames();
-
-      updates.forEach((update) => {
-        io.in(`${update.id}`).emit('game_over', { GameComplete: update })
-      })
-
-    } catch (error) {
-
-      errorHandler(error);
-      console.error(`Error on interval force closure of stagnant games: `, error);
-      
-    }
-
-  }, fiveMinutes)
+  // setInterval ( async () => {
+  //   try {
+  //     const updates = await closeStagnantGames();
+  //     updates.forEach((update) => {
+  //       io.in(`${update.id}`).emit('game_over', { GameComplete: update })
+  //     })
+  //   } catch (error) {
+  //     errorHandler(error);
+  //     console.error(`Error on interval force closure of stagnant games: `, error);
+  //   }
+  // }, fiveMinutes)
 
   //when the server establishes a connection, it shall do the following:
   interface ConnectedUsers {
