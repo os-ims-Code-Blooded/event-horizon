@@ -153,7 +153,7 @@ let server = http.createServer(app);
 //creates an io server using the http server made with the express server
 const URL = process.env.TRUE_URL ? process.env.TRUE_URL : `${CLIENT_URL}:${PORT}`;
 
-console.log(`Instancing websockets to use URL ${URL} for package transports.`)
+console.log(`Instancing websockets to use URL <<${URL}>> for package transports.`)
 
 const io = new Server(server, {
   cors: {
@@ -167,8 +167,8 @@ const io = new Server(server, {
 server.listen(PORT, () => {
     database.$connect()
         .then((connectionEstablished) => {
-          console.log(`Prisma has connected to the database...`);
-          console.log("Server listening on: ",CLIENT_URL + ':' + PORT);
+          console.log(`A connection has been successfully established to <<${process.env.DATABASE_AWS_URL}>>.`);
+          console.log(`Server listening on <<${CLIENT_URL}:${PORT}>>; application is now live.`);
         })
         .catch((error) => {
           errorHandler(error);
@@ -223,15 +223,13 @@ io.on('connection', (socket)=>{
 
 
 
-  // console.log(`user connected: ${socket.id}`)
-  // console.log("\n \n**********SOCKET:************ \n \n", socket)
+
   let sockId = socket.id
 
   users.push(sockId)
-  // console.log("USERS:", users)
+
 
   players = users.length;
-  // console.log("CURRENT PLAYERS CONNECTED:", players)
 
 
 
@@ -276,9 +274,6 @@ io.on('connection', (socket)=>{
   //PLAYER ENDS TURN
 
   socket.on('end_turn', async (data)=>{
-
-    // console.log(" ENDED TURN DATA ", data)
-
     try {
       const response = await gameHandler(data)
       io.in(data.session).emit('received_rounds_data', response)
@@ -293,14 +288,10 @@ io.on('connection', (socket)=>{
 
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-    console.log("data", data)
-      io.in(session).emit('game_over', data)
-
+    io.in(session).emit('game_over', data)
   })
 
 // USER GAME INVITE
-
-
   socket.on('register_user', (userId) => {
     connectedUsers[String(userId)] = socket.id;
     socket.join(userId);
@@ -310,10 +301,8 @@ io.on('connection', (socket)=>{
   socket.on('send_invite', (data, invited) => {
     const invitedBy = connectedUsers[String(data.from)];
     const invitedSock = connectedUsers[String(invited)];
-    console.log('invitedSock Id', invitedSock)
     if (invitedSock) {
       io.to([invitedSock, invitedBy]).emit('incoming_invite', data);
-      // console.log(`Invite sent to user: ${invited}`);
     } else {
       console.log(`User ${invited} is not connected.`);
     }

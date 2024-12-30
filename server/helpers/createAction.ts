@@ -30,7 +30,6 @@ export default async function createAction(req: any){
 
       // we create and store this action for later calculations
       if (actionExists) {
-        console.log(`Updating action #${actionExists.id} for user #${req.body.data.user_id}, action contains a card.`)
         newAction = await database.actions.update({
           where: { id: actionExists.id },
           data: {
@@ -43,8 +42,7 @@ export default async function createAction(req: any){
         })
         return newAction
       } else if (req.body.data.expedite){
-        
-        console.log(`Received an expedited request from client; card supplied by client was #${req.body.data.card_id} with no translation required.`)
+
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
@@ -57,7 +55,6 @@ export default async function createAction(req: any){
         return newAction;
 
       } else {
-        console.log(`Received a normal request from client; card supplied by client was #${req.body.data.card_id} => #${findCardCorrelation.card.id}`)
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
@@ -73,7 +70,6 @@ export default async function createAction(req: any){
     } else {
 
       if (actionExists) {
-        console.log(`Updating action #${actionExists.id} for user #${req.body.data.user_id}; action does not contain a card.`)
         newAction = await database.actions.update({
           where: { id: actionExists.id },
           data: {
@@ -85,7 +81,6 @@ export default async function createAction(req: any){
         return newAction;
 
       } else {
-        console.log(`Received a normal request from client; no card was supplied by the client.`)
         newAction = await database.actions.create({
           data: {
             round:  { connect: { id: req.body.data.round_id}},
