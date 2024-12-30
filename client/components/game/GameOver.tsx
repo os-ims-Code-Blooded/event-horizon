@@ -44,13 +44,13 @@ export default function GameOver ({
           <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
             <br></br>
             <br></br>
-            <div className='text-xl z-30'>GAME OVER</div>
+            <div className='text-xl z-30'>Game Over</div>
 
 
         <div className='test-lg z-30'>Escape velocity achieved. Victory is yours. {playYouWinSFX()}</div>
 
 
-            <table id="summary" className='text-white z-30'>
+            <table id="summary" className='text-text dark:text-darkText z-30'>
               <thead>
                 <tr>
                   <th className={`pl-2 pr-2 text-center`}>Round</th>
@@ -76,10 +76,10 @@ export default function GameOver ({
                           return (
                             <>
                             <td className={`pl-4 pr-4 text-center ${ player === user.name ? 'text-green-600' : 'text-error' }`}>{player}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Information"].health}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Information"].armor}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
                             </>
                           )
                         })
@@ -128,16 +128,16 @@ export default function GameOver ({
               { gameSummary ?
                 Object.keys(gameSummary).map((round) => {
                   return (
-                    <tr className='text-white' key={round}>
+                    <tr className='text-text dark:text-darkText' key={round}>
                       <td className={`pl-2 pr-2 text-center`}>{round}</td>
                       { Object.keys(gameSummary[round]).map((player) => {
                           return (
                             <>
                             <td className={`pl-4 pr-4 text-center ${ player === user.name ? 'text-green-600' : 'text-error' }`}>{player}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].health}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Information"].armor}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
-                            <td className={`pl-2 pr-2 text-center`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Information"].health}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Information"].armor}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Actions"] ? gameSummary[round][player]["Actions"].action : '-'}</td>
+                            <td className={`pl-2 pr-2 text-center text-text dark:text-darkText`}>{gameSummary[round][player]["Actions"] ? (gameSummary[round][player]["Actions"].name && gameSummary[round][player]["Actions"].name.length > 0 ? gameSummary[round][player]["Actions"].name : '-') : '-'}</td>
                             </>
                           )
                         })
