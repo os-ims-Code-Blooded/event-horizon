@@ -101,7 +101,7 @@ export default function GameOver ({
       <br></br>
       <div className='text-xl z-30 text-text dark:text-darkText'>Game Over</div>
 
-      <div className='test-lg z-30 text-text dark:text-darkText'>You Lose. The remnants of your ship are sucked into the void {playGameOverSFX()}</div>
+      <div className='test-lg z-30 text-text dark:text-darkText'>You Lose. The remnants of your ship are sucked into the void. {playGameOverSFX()}</div>
 
           <table id="summary" className='text-white z-30'>
               <thead>
