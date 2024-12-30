@@ -152,12 +152,11 @@ let server;
 
 //creates an io server using the http server made with the express server
 
-const URL = process.env.TEST_URL ? process.env.TEST_URL : `${CLIENT_URL}:${PORT}`
+const URL = process.env.TRUE_URL ? process.env.TRUE_URL : `${CLIENT_URL}:${PORT}`
 
-if (process.env.TEST_URL) {
-  const privateKey = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/privkey.pem', 'utf8');
-  const certificate = fs.readFileSync('/etc/letsencrypt/live/eventhorizongame.live/cert.pem', 'utf8');
-
+if (process.env.TRUE_URL) {
+  const privateKey = path.resolve(__dirname, '/live/eventhorizongame.live/privkey.pem');
+  const certificate = path.resolve(__dirname, '/live/eventhorizongame.live/cert.pem');
   /*
 
   1. Configured NGINX
@@ -174,15 +173,15 @@ if (process.env.TEST_URL) {
   https://www.eventhorizongame.live/login  
   */
 
-  // if (privateKey && certificate) {
-  //   server = https.createServer({
-  //     key: fs.readFileSync(privateKey, 'utf8'),
-  //     cert: fs.readFileSync(certificate, 'utf8'),
-  //   }, app);
-  // } else {
-    // errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
+  if (privateKey && certificate) {
+    server = https.createServer({
+      key: fs.readFileSync(privateKey, 'utf8'),
+      cert: fs.readFileSync(certificate, 'utf8'),
+    }, app);
+  } else {
+    errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
     server = https.createServer(app);
-  // }
+  }
 } else {
   server = http.createServer(app);
 }
