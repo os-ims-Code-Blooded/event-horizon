@@ -44,10 +44,10 @@ export default function GameOver ({
           <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
             <br></br>
             <br></br>
-            <div className='text-xl z-30'>Game Over</div>
+            <div className='text-xl z-30 text-text dark:text-darkText'>Game Over</div>
 
 
-        <div className='test-lg z-30'>Escape velocity achieved. Victory is yours. {playYouWinSFX()}</div>
+        <div className='test-lg z-30 text-text dark:text-darkText'>Escape velocity achieved. Victory is yours. {playYouWinSFX()}</div>
 
 
             <table id="summary" className='text-text dark:text-darkText z-30'>
@@ -104,9 +104,9 @@ export default function GameOver ({
       <div className='p-4 pt-8 justify-items-center flex flex-col items-center h-full'>
       <br></br>
       <br></br>
-      <div className='text-xl z-30'>Game Over</div>
+      <div className='text-xl z-30 text-text dark:text-darkText'>Game Over</div>
 
-      <div className='test-lg z-30'>You Lose. The remnants of your ship are sucked into the void {playGameOverSFX()}</div>
+      <div className='test-lg z-30 text-text dark:text-darkText'>You Lose. The remnants of your ship are sucked into the void {playGameOverSFX()}</div>
 
           <table id="summary" className='text-white z-30'>
               <thead>
