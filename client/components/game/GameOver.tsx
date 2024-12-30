@@ -32,11 +32,6 @@ export default function GameOver ({
   const [playGameOverSFX] = useSound(gameover, volume);
   const [playYouWinSFX] = useSound(youwin, volume);
 
-
-
-
-  console.log("USER ID", user.id, "GAME WINNER", gameWinner);
-
   return(
     <div className='mt-15 h-full'>
     {gameWinner === user.id?

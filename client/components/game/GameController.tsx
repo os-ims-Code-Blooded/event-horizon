@@ -56,15 +56,8 @@ export default function GameController ({
   // const [message, setMessage] = useState("")
   // const [messageReceipt, setMessageReceipt] = useState([])
 
-  // console.log("**************", roundInfo[0], "user ID", enemyId)
-
   let userRound = roundInfo.filter(round=>round.user_id === user.id)
-
-  // console.log("USER ROUND", userRound)
-
   let enemyRound = roundInfo.filter(round=>round.user_id !== user.id)
-
-  // console.log("ENEMY ROUND", enemyRound)
 
   //player selected action of BLOCK, LOAD or FIRE
   const [playerAction, setPlayerAction] = useState('')
@@ -141,7 +134,6 @@ export default function GameController ({
 
   const [cardsRemain, setCardsRemain] = useState(gameDeck.length)
 
-  // console.log("VOLUME!!!!!!!!!!", volume)
 
   ///////////////// SFX ////////////////////////////////////
   const [playFireSFX] = useSound(whooshpew, volume);
@@ -151,39 +143,20 @@ export default function GameController ({
   const [playCardSFX] = useSound(cardsnap, volume);
   const [playSwitchSFX] = useSound(toggleswitch, volume);
   const [playDestructSFX] = useSound(selfdestruct, volume);
- 
-
-
-
-  ////////////////////////////////////////////////////////
-  const getAllCards = async () => {
-    try {
-      const response = await axios.get(`/cards/`);
-      // console.log("ALL CARD DATA?", response)
-      // setAllCards(response.data)
-    } catch (error) {
-      console.error("Error fetching all cards:", error);
-    }
-  };
 
 ///////////CHOOSING actions/////////////////////////////////////
   const actionClick = (e) =>{
 
     setRoundSoundsPlayed(true)
 
-    // console.log("click value", e.target.value)
-
     if (e.target.value === "FIRE"){
-
       playFireSFX()
     }
 
     if (e.target.value === "BLOCK"){
-
       playBlockSFX()
     }
     if (e.target.value === "LOAD"){
-
       playLoadSFX()
     }
     
@@ -192,23 +165,19 @@ export default function GameController ({
     
 
     if (e.target.value === 'LOAD' && ( cardToPlay && cardToPlay[1])){
-      // console.log("***********CARD TO PLAY:\n", cardToPlay)
       setWeaponArmed(true)
     } else {
       setWeaponArmed(false)
     }
 
-    // console.log("CURRENT action", e.target.value, "LAST action", lastAction)
     if (e.target.value === "LOAD" && lastAction === "LOAD" && cardReplacement.length > 0){
       setReloaded(true)
-      // console.log("RELOADED?")
     }
   }
 
  //////////// FORFEIT GAME /////////////////
 
   const forfeit = async () =>{
-    // console.log("ENEMY ID", enemyId)
     try{
 
       if (selfDestruct){
@@ -222,7 +191,6 @@ export default function GameController ({
       }
     )
     setGameOver(true)
-    // console.log("GAME OVER EMISSION", gameOver)
     socket.emit('game_over', gameOver, session)
   }
    
@@ -243,8 +211,6 @@ export default function GameController ({
     // setRoundActual(roundActual + 1)
     
     setLastAction(playerAction)
-   
-    // console.log("*** CARD ID ***\n", cardId)
 
       socket.emit('end_turn', {
         "body":{
@@ -267,21 +233,16 @@ export default function GameController ({
 
   useEffect(()=>{
 
-    //  console.log("--------->>> VOLUME <<<---------", volume)
     
     if (playerHand.length === 0){
       setExpediteState(true);
     }
 
-    // console.log("SESSION #####", session)
-
     if (enemyRound[0]){
       setEnemyName(enemyRound[0].name)
-      // console.log("********** ENEMY ROUND", enemyRound[0])
     }
 
     socket.on('game_over', (data: any)=>{
-      console.log("********************GAME OVER DATA", data)
       setGameOver(true)
       setGameWinner(data.data.GameComplete.victor_id)
     })
@@ -289,9 +250,6 @@ export default function GameController ({
     socket.on('received_rounds_data', (data: any) => {
 
       setRoundSoundsPlayed(true)
-
-      // console.log("*** ROUND RESPONSE DATA ***\n", data)
-
 
       if (data.Current) {
 
@@ -354,7 +312,6 @@ export default function GameController ({
 
       let theirHand = data.Current.game_card_states.filter(cardState=>cardState.user_id === enemyId).map(enemyCardState=>enemyCardState.hand).flat();
 
-      // console.log("ENEMY'S HAND CARDS:", theirHand)
       setEnemyHand(theirHand)
       setPlayerHand(myHand)
 
@@ -364,8 +321,6 @@ export default function GameController ({
 
       if (data.Current){
 
-
-        // console.log("*************\n", data.Current.game_card_states.filter((deckState)=>deckState.user_id === user.id)[0])
         setCardsRemain(data.Current.game_card_states.filter((deckState)=>deckState.user_id === user.id)[0].deck.length)
         setRoundSoundsPlayed(false)
 
@@ -383,40 +338,18 @@ export default function GameController ({
         setTheirPrevRound(enemyPrevRound);
 
 
-        // if (enemyPrevRound.length > playerPrevRound.length){
-      //   setEnemyWaiting(true)
-      // }
-
-
       if (enemyPrevRound[enemyPrevRound.length - 1].damage){
-        // console.log("HELOOOOOOOO")
         setEnemyArmed(true)
       }
 
 
 
       if (enemyPrevRound[0].action === 'FIRE'){
-        // console.log("FIRED!!!")
         setEnemyArmed(false)
-        // if (enemyPrevRound[0]){
-        //   // console.log("ENEMY'S PREVIOUS ROUND INFO", enemyPrevRound[0])
-
-        //   // getAllCards();
-        //   // // console.log("ALL CARDS?", allCards)
-
-
-
-        // }
       }
 
 
-      // if (enemyPrevRound[0].action === 'FIRE'){
-      //     // console.log("FIRED!!!")
-      //     setEnemyArmed(false)
-      //   }
-
         //checks if both players have committed a turn for this round
-
         if (playerPrevRound.length === enemyPrevRound.length) {
           setArmor(playerCurrRound[0].armor)
           setHitPoints(playerCurrRound[0].health)
@@ -429,28 +362,13 @@ export default function GameController ({
           setTurnEnded(false)
           setPlayerAction('')
           setEnemyWaiting(false)
-          
-          // we need to set card deck and hand here, but I don't know how to make it work within what we already have
-          // this should become apparent when this round info is console.log()
         }
-        
-        //expend ordinance if fired
-        // if (playerAction === 'FIRE'){
-          //   setCardToPlay(null)
-          // }
-
-          //reset the actions
-
-
-
           
       setPlayerAction('')
       setEnemyWaiting(false)
       
     }
   }
-
-    // console.log("data", data)
 
       ////// VICTORY CONDITIONS /////////////
       if (data.GameComplete){

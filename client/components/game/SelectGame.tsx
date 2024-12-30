@@ -95,7 +95,6 @@ export default function SelectGame({
 
   if (!musicPlayed){
     playMusic();
-    // console.log('music played');
     setMusicPlayed(true)
   }
 
@@ -134,8 +133,6 @@ export default function SelectGame({
 
   const joinPrivateGame = async (openGame) =>{
 
-    console.log("join this game")
-
     try {
 
       const game = await axios.post(`/games/private/join/${openGame}`, { "user_id": user.id });
@@ -158,10 +155,6 @@ export default function SelectGame({
           return (player.user_id !== user.id)
         })
 
-        if (deckSelected){
-        }
-
-        // console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
         if (enemy.length > 0) {
           setEnemyName(enemy[0].name);  // set that enemy's name
@@ -220,13 +213,6 @@ export default function SelectGame({
       setWaiting(true)
       setRoundActual(round.data["Current Round Actual"])
 
-      console.log(game, round);
-
-      // console.log(`******** Current ROUND DATA: `, round.data);
-      // console.log(`Current Deck: `, round.data["Current Deck"]);
-      // console.log(`Current Hand: `, round.data["Current Hand"]);
-
-
       socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
@@ -243,7 +229,6 @@ export default function SelectGame({
 
         }
 
-        // console.log("ON CLICK PLAY ENEMY", enemy)
         // if the filtered array contains an enemy
         if (enemy.length > 0) {
           setEnemyName(enemy[0].name);  // set that enemy's name
@@ -296,45 +281,6 @@ export default function SelectGame({
   }
   /*===============================================================================*/
   /*===============================================================================*/
-
-
-
-  /*===============================================================================
-    Handles deck selection for entering a game
-  ===============================================================================*/
-  const handleDeckSelect = (e) =>{
-    click13()
-
-    /*
-    This should be unnecessary now given how we are managing the states on the
-    server side. When you select a deck in here, the server will use this when
-    you click play game to create the deck state entry for you on this game.
-
-    axios.get(`/profile/decks/specific/${userDecks[e.target.value].id}`)
-      .then((response) => {
-
-        console.log(`Fetching cards for selected deck:`, response);
-
-        const cards = response.data
-        setDeckWasChosen(true)
-        setDeckSelected(cards)
-      })
-    */
-
-    const sendSelectedDeck = {
-      selectedDeck: {
-        connect: {
-          id: userDecks[e.target.value].id
-          }
-        }
-    }
-
-    setDeckWasChosen(true);
-
-    axios.patch(`/profile/${user.id}`, sendSelectedDeck)
-  }
-/*===============================================================================*/
-/*===============================================================================*/
 
 return(
 

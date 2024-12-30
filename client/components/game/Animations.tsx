@@ -35,13 +35,6 @@ export default function Animations({
     const [playDefaultHitSFX] = useSound(defaulthit, volume);
     const [playFreeShieldSFX] = useSound(freeshield, volume);
 
-
-  useEffect(()=>{
-    // setTimeout(setRoundSoundsPlayed(true), 10000);
-  })
-  // console.log("USER PREV ROUND", myPrevRound)
-  // console.log("ENEMY PREV ROUND", theirPrevRound)
-
   return(
 
     <div className=''>

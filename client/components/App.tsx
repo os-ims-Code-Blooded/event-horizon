@@ -151,7 +151,7 @@ export default function App (){
           setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
           setAcceptedOutgoingInvs(userInvs.data.Outgoing.Accepted)
         }
-        // console.log('user invs', userInvs);
+
 
         // update cards if necessary
         await axios.post(`/profile/collections/${response.data.user.id}`)
@@ -192,16 +192,10 @@ export default function App (){
     }
   };
 
-  
-  
-  // game inv handler?
   const handleInvite = async (friendId: number) => {
-    // console.log(`Sending inv to friend ${friendId}`);
-    // console.log('type id', typeof friendId);
     try {
       if (friendId) {
         const sentInv = await axios.post(`/games/private/create/${friendId}`);
-        console.log('Sent invite', sentInv.data.invite);
         socket.emit('send_invite', sentInv.data.invite, friendId);
       }
     } catch (error) {
@@ -224,7 +218,6 @@ export default function App (){
           }
         });
         if(addedFriend) {
-          console.log('added friend', addedFriend);
           getFriends();
         } else {
           console.error('No user logged in');
@@ -260,17 +253,12 @@ export default function App (){
       getFriends();
     }
     if(user){
-      // console.log('user id', user.id);
       socket.emit('register_user', String(user.id));
       socket.on('incoming_invite', (data: any) => {
-
-        console.log('!!!!!!!!! received invite', data);
-
         axios.get(`/games/private/invites`)
           .then((userInvs) => {
             setUserInvites(userInvs.data.Incoming.Pending);
             setUserAcceptedInvs(userInvs.data.Incoming.Accepted);
-            console.log('New invites fetched')
           })
           .catch((err) => {
             console.error('failed to updated invites')

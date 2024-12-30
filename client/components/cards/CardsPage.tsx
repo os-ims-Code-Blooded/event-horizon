@@ -63,14 +63,9 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
         ? prevSelected.filter((id) => id !== cardId)
         : [...prevSelected, cardId]
     );
-    console.log(allSelectedCards);
 
-    // console.log("CARD ID", cardId)
-    // console.log("cards", allCards)
     let currCard = allCards.filter(card=> card.id === cardId)
 
-    // console.log("current card", currCard)
-    // console.log("SELECTED CARDS", allSelectedCards)
     !allSelectedCards.includes(cardId) ?
 
     setDeckPoints(deckPoints + ((currCard[0].armor + currCard[0].damage) * (currCard[0].armor? currCard[0].duration: currCard[0].duration + 1)))
@@ -140,7 +135,7 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
     if (!confirmRemoval) return;
 
     try {
-      console.log('ALL CARDS', cards);
+
       const actualCardIds = cards
       .filter((card) => selectedCardsInDeck.includes(card.id))
       .map((card) => card.card_id);
@@ -170,7 +165,7 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
 
 
   const createNewDeck = async () => {
-    console.log("ALL SELECTED CARDS", allSelectedCards)
+
     setDeckPoints(0)
     
     if (!newDeckName.trim() || allSelectedCards.length === 0) {
@@ -180,10 +175,6 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
     
     
     try {
-
-      // console.log("TRY BLOCK - ALL SELECTED CARDS", [allSelectedCards, 5].flat())
-      // let allCardsPlusPhaser = [allSelectedCards, 5].flat()
-      // setAllSelectedCards(allCardsPlusPhaser)
 
       await axios.post(`/profile/decks/${user.id}`, {
         data: {
@@ -244,7 +235,6 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
   useEffect(()=>{
 
     if (cards.length > 0){
-      console.log("hello");
   
       setCurrDeckVal(cards.reduce((acc, curr)=>{
   
@@ -272,17 +262,10 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
       }
     };
     fetchAllCards();
-    fetchDecks();
-
-    
-
-
-      // setCurrDeckVal(deckVal)
-    
+    fetchDecks(); 
 
   }, [user.id]);
 
-  // console.log("currDeckVal", currDeckVal)
 
   /////////////////////////////////// RENDER /////////////////////////////////////////////////
   return (
@@ -410,8 +393,6 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
 
 
       {/* Add Cards to Deck Button */}
-      {/* {console.log("SELECTED DECK's Cards TO ADD TO:  ", cards)} */}
-      {/* {console.log("DECK VALUE PLUS NEW POINTS", currDeckVal + deckPoints)} */}
       {selectedDeck && (
         <div className="text-center mt-4 pb-2 z-10 relative">
           <div>

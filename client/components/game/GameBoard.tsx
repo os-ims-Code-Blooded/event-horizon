@@ -174,40 +174,24 @@ const GameBoard: FC <GameBoardProp> = ({
 
 /////////// discard a card /////////////////////////////////////////
 const discard = (cardName: any) =>{
-
   setPlayerHand(playerHand.filter(card=>card.name!==cardName))
-
 }
-// console.log("PLAYER HAND LENGTH", playerHand.length)
-
-/////// check if out of cards //////////////////////////////////////////
-
-// console.log("CARD TO REPLACE IN GAME DECK", cardReplacement)
 
 if (reloaded && cardReplacement[0].user_id === user.id){
-  // console.log("RELOADED!")
   setGameDeck(gameDeck.concat(cardReplacement[0].card))
   setReloaded(false)
   setCardReplacement([])
 }
 
-// console.log("GAME DECK", gameDeck)
 
 
 if (playerHand.length < 3 && gameDeck.length > 0){
-
-  // let nextCard = [gameDeck.pop()]
-  // console.log("NEXT CARD", nextCard)
-  // setPlayerHand(playerHand.concat(nextCard))
   setPlayerHand(playerHand)
 }
 
 if (playerHand.length <= 0){
   setPlayerHand(playerHand.concat(phaserCharge))
 }
-
-// console.log("USER:::", user)
-// console.log("GAMEBOARD ENEMY HAND", enemyHand)
 
 ///////////////////////////////////////////////////////
   return (
@@ -400,7 +384,6 @@ if (playerHand.length <= 0){
 
                 <div id='card' className='flex max-w-30 max-h-40 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem]' >
-                    <>{console.log("theirPrevRound\n", theirPrevRound[0], "\n ENEMY ARMED \n", enemyArmed, "\nENEMY LAST ACTION\n", enemyLastAction, "\nTHEIR CURRENT ROUND\n" )}</>
 
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
