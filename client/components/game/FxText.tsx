@@ -34,8 +34,6 @@ export default function FxText({
   useEffect(()=>{
     // setTimeout(setRoundSoundsPlayed(true), 10000);
   })
-  // console.log("USER PREV ROUND", myPrevRound)
-  // console.log("ENEMY PREV ROUND", theirPrevRound)
 
   return(
 

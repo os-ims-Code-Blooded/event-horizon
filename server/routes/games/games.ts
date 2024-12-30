@@ -432,9 +432,6 @@ games.get('/end-game-summary/:id', async (req: AuthRequest, res) => {
           const playerTwoID = round.game_player_information[1].user_id;
           const playerTwoName = round.game_player_information[1].name;
 
-          console.log(round.game_player_information);
-          console.log(round.actions)
-
           const formatter: any = {
             [playerOneName]: {
               Information: round.game_player_information[0].user_id === playerOneID ? round.game_player_information[0] : round.game_player_information[1],

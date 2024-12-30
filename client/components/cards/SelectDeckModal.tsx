@@ -55,7 +55,6 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
     try {
       if (cancelled) {
         toggleModal(false);
-        console.log(`Cancelled`)
       } else if (deckSelected) {
         await callback(callbackParams);
         toggleModal(false);

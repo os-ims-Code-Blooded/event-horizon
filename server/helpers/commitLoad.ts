@@ -16,8 +16,6 @@ export default async function commitLoad(req: any, game: number, action: any){
 
     if (action.expedite && action.card.expedite) {
 
-      console.log(`Processing an expedited load request for user #${action.user_id} with card #${action.card_id}.`)
-
       await database.actions_loaded.deleteMany({
         where: { user_id: action.user_id }
       })

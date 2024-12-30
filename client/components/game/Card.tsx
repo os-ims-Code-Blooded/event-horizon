@@ -25,18 +25,16 @@ interface CardProps {
   cardToPlay: any
   setIsClicked: any;
   isClicked: any;
+  volume: any;
 }
 
-const Card: FC<CardProps> = ({ isClicked, card, setIsClicked, setCardToPlay, cardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded, playCardSFX }) => {
+const Card: FC<CardProps> = ({ isClicked, card, volume, setIsClicked, setCardToPlay, cardToPlay, playerAction, setActiveLoading, setCardId, playerHand, setPlayerHand, user, activeLoading, turnEnded, playCardSFX }) => {
   const cardSelect = (card: CardType) =>{
 
     playCardSFX()
-    // console.log("CARD CLICKED: ", card)
     setCardId(card.id)
     setCardToPlay([card.name, card.damage, card.armor, card.description, card.id, card.duration])
     setActiveLoading(true)
-    // console.log("PLAYER HAND", playerHand)
-    // setPlayerHand(playerHand.filter((handCard: { card_id: number; })=> handCard.card_id !== card.id))
   }
 
   return (

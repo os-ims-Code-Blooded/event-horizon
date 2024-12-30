@@ -6,7 +6,7 @@ type SettingsProps = {
   fetchUser: ()=> void;
   volume: any;
 };
-const Settings = ({user, fetchUser}) =>{
+const Settings = ({user, volume, fetchUser}) =>{
 
   const [darkMode, setDarkMode] = useState(false);
   const [colorBlindMode, setColorBlindMode] = useState(false);
@@ -105,9 +105,9 @@ const Settings = ({user, fetchUser}) =>{
       <div className='bg-starfield-light dark:bg-starfield absolute inset-0 z-9'></div>
       <h1 className="text-center text-3xl font-bold pt-10 z-10 relative">USER SETTINGS</h1>
       <div className="mt-8 w-full max-w-2xl justify-center justify-items-center items-center flex-col flex z-10 relative">
-        <table className="table-auto border-s-orange-100 w-full bg-slate-500 text-left text-text dark:text-darkText text-sm rounded-lg overflow-hidden shadow-md z-10 relative">
+        <table className="table-auto border-s-orange-100 w-full bg-fifth dark:!bg-third cbMode:bg-darkCbBg text-left text-text dark:text-darkText text-sm rounded-lg overflow-hidden shadow-md z-10 relative">
           <thead>
-            <tr className="bg-gray-700 text-gray-200 z-10 relative border-b border-s-slate-700">
+            <tr className="bg-gray-700 text-gray-200 z-10 relative border-b bg-fifth dark:!bg-third cbMode:bg-darkCbBg">
               <th className="px-4 py-2">Setting</th>
               <th className="px-4 py-2">Description</th>
               <th className="px-4 py-2">Action</th>
