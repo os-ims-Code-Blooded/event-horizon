@@ -77,7 +77,7 @@ const SelectDeck = ({user, volume, toggleModal, callback, callbackParams}) => {
   }, [])
 
   return (      
-    <div className='fixed h-48 w-48 bg-slate-700 text-text dark:text-darkText rounded-lg shadow justify-center justify-items-center self-center'>
+    <div className='fixed h-48 w-48 bg-fifth dark:!bg-third cbMode:bg-darkCbBg text-text dark:text-darkText rounded-lg shadow justify-center justify-items-center self-center'>
       
       <div className="flex self-end justify-end justify-items-end text-end w-full pr-2 pt-2">
         <button 
