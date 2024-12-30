@@ -148,51 +148,21 @@ app.post('/api/logout', (req: AuthRequest, res) => {
 //////// WEBSOCKET ///////////////////////////
 
 //makes an http server with the express server
-let server;
+let server = http.createServer(app);
 
 //creates an io server using the http server made with the express server
+const URL = process.env.TRUE_URL ? process.env.TRUE_URL : `${CLIENT_URL}:${PORT}`;
 
-const URL = process.env.TRUE_URL ? process.env.TRUE_URL : `${CLIENT_URL}:${PORT}`
-
-if (process.env.TRUE_URL) {
-  const privateKey = path.resolve(__dirname, '/live/eventhorizongame.live/privkey.pem');
-  const certificate = path.resolve(__dirname, '/live/eventhorizongame.live/cert.pem');
-  /*
-
-  1. Configured NGINX
-  2. Verified that sockets are targeting HTTPS (changed socket.io connection to WSS)
-
-  https://localhost:3000
-  https://localhost:3000/auth/google/callback
-  https://localhost:3000/login
-  https://eventhorizongame.live
-  https://eventhorizongame.live/auth/google/callback
-  https://eventhorizongame.live/login
-  https://www.eventhorizongame.live
-  https://www.eventhorizongame.live/auth/google/callback
-  https://www.eventhorizongame.live/login  
-  */
-
-  if (privateKey && certificate) {
-    server = https.createServer({
-      key: fs.readFileSync(privateKey, 'utf8'),
-      cert: fs.readFileSync(certificate, 'utf8'),
-    }, app);
-  } else {
-    errorHandler(new Error('Could not find privateKey or certificate. The paths are invalid or these have expired.'))
-    server = https.createServer(app);
-  }
-} else {
-  server = http.createServer(app);
-}
+console.log(`Instancing websockets to use URL ${URL} for package transports.`)
 
 const io = new Server(server, {
   cors: {
     origin: `${URL}`,
     methods: ["GET", "POST"],
     credentials: true,
-  }
-})
+  },
+});
+
 
 server.listen(PORT, () => {
     database.$connect()
