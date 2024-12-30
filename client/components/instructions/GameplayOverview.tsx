@@ -27,7 +27,7 @@ const GameplayOverview = () => {
       <div className='justify-center items-center justify-items-center pt-4 pb-4'>
         <div style={{height: "33%", width: "66%"}}>
           <div className='text-green-600 font-bold text-center pb-2'>Player One</div>
-            <div className="w-full bg-gray-200 flex flex-grow flex-col gap-4 justify-items-end">
+            <div className="w-full flex flex-grow flex-col gap-4 justify-items-end">
               
               <div className={`bg-slate-700 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 relative`}>
                 <div className={`shadow-lg shadow-black bg-blue-400 h-5 rounded-full text-center justify-items-center text-text dark:text-darkText text-sm pt-5 absolute inset-y-0`} style={{ width: `${(20/100) * 100}%`, minWidth: '40%' }}></div>
