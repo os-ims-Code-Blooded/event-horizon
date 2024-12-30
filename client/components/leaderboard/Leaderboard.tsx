@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
 
-const LeaderBoard = ({user, fullScreen=true}) => {
+const LeaderBoard = ({user, volume, fullScreen=true}) => {
   const [users, setUsers] = useState([]);
 
   // fetch top 10 users
@@ -31,29 +31,51 @@ const LeaderBoard = ({user, fullScreen=true}) => {
       } w-full bg-starfield text-white dark:text-slate-200 flex flex-col items-center rounded-lg`}
     >
       <h1 className={`${fullScreen ? 'pt-20' : ''} text-2xl font-bold mb-4`}>Leader Board</h1>
-      <table className="table-auto border-collapse border border-slate-500 rounded-lg">
+      <table className="table-auto">
         <thead className='rounded-t-md'>
           <tr className="bg-slate-700">
-            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Rank</th>
-            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Name</th>
-            <th className="border border-slate-600 px-4 py-2 rounded-t-md">Score</th>
+            <th className="px-4 py-2 rounded-tl-lg">Rank</th>
+            <th className="px-4 py-2">Name</th>
+            <th className="px-4 py-2 rounded-tr-lg">Score</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((boardUser: any, index) => (
-            <tr
-              key={boardUser.id}
-              className={`even:bg-slate-800 ${index === 0 ? 'font-bold' : ''} ${
-                user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-text' : ''
-              }`}
-            >
-              <td className="border border-slate-600 px-4 py-2">{index + 1}</td>
-              <td className="border border-slate-600 px-4 py-2">{boardUser.name}</td>
-              <td className={`${user.id === boardUser.id ? 'text-yellow-600' : 'text-white'}border border-slate-600 px-4 py-2`}>
-                {boardUser.score}
-              </td>
-            </tr>
-          ))}
+          {users.map((boardUser: any, index) => {
+
+            if (index !== users.length - 1){
+              return (
+
+              <tr
+                key={boardUser.id}
+                className={`${index === 0 ? 'font-bold' : ''} ${
+                  user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-yellow-800 font-bold' : 'even:bg-slate-800 odd:bg-slate-600 '
+                }`}
+              >
+                <td className="px-4 py-2">{index + 1}</td>
+                <td className="px-4 py-2">{boardUser.name}</td>
+                <td className={`${user.id === boardUser.id ? 'text-yellow-800 font-bold' : 'text-white'} px-4 py-2`}>
+                  {boardUser.score}
+                </td>
+              </tr>
+              )
+            } else {
+              return (
+                <tr
+                key={boardUser.id}
+                className={`${index === 0 ? 'font-bold' : ''} ${
+                  user.id === boardUser.id ? 'animate-pulse bg-yellow-300 text-yellow-800 font-bold' : 'even:bg-slate-800 odd:bg-slate-600'
+                }`}
+              >
+                <td className="px-4 py-2 rounded-bl-lg">{index + 1}</td>
+                <td className="px-4 py-2">{boardUser.name}</td>
+                <td className={`${user.id === boardUser.id ? 'text-yellow-800 font-bold' : 'text-white'} px-4 py-2 rounded-br-lg`}>
+                  {boardUser.score}
+                </td>
+              </tr>                
+              )
+            }
+
+          })}
         </tbody>
       </table>
     </div>
