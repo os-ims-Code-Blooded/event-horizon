@@ -201,17 +201,19 @@ server.listen(PORT, () => {
     }
   }, halfHour);
 
-  // setInterval ( async () => {
-  //   try {
-  //     const updates = await closeStagnantGames();
-  //     updates.forEach((update) => {
-  //       io.in(`${update.id}`).emit('game_over', { GameComplete: update })
-  //     })
-  //   } catch (error) {
-  //     errorHandler(error);
-  //     console.error(`Error on interval force closure of stagnant games: `, error);
-  //   }
-  // }, fiveMinutes)
+  setInterval ( async () => {
+    try {
+      const updates = await closeStagnantGames(5);
+      updates.forEach((update) => {
+        console.log(`Emitting to game session ${update.id} that the game is over by default.`)
+        console.log(`Type of game session ID is ${typeof update.id}.`);
+        io.in(String(update.id)).emit('game_over', { GameComplete: update })
+      })
+    } catch (error) {
+      errorHandler(error);
+      console.error(`Error on interval force closure of stagnant games: `, error);
+    }
+  }, fiveMinutes);
 
   //when the server establishes a connection, it shall do the following:
   interface ConnectedUsers {
@@ -242,8 +244,8 @@ io.on('connection', (socket)=>{
       console.log("SOCKET CONNECTION  |  ", sockId)
       console.log(data, user)
       console.log(`===================================================================\n`)
-  
-      socket.join(data)
+
+      socket.join(String(data));
 
       // finds player information for all players currently in-game
       const findPlayerInfo = await database.game_player_information.findMany({
@@ -276,7 +278,7 @@ io.on('connection', (socket)=>{
   socket.on('end_turn', async (data)=>{
     try {
       const response = await gameHandler(data)
-      io.in(data.session).emit('received_rounds_data', response)
+      io.in(String(data.session)).emit('received_rounds_data', response)
     }
     catch(error){
       errorHandler(error);
@@ -288,7 +290,7 @@ io.on('connection', (socket)=>{
 
 // PLAYER SELF-DESTRUCTS
   socket.on('game_over', (data, session)=>{
-    io.in(session).emit('game_over', data)
+    io.in(String(session)).emit('game_over', data)
   })
 
 // USER GAME INVITE
