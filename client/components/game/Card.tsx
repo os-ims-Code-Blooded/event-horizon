@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import renderCardImage from '../cards/CardImageRenderer.tsx';
 
 interface CardType {
   card_id(card_id: any): unknown;
@@ -50,38 +51,34 @@ const Card: FC<CardProps> = ({ isClicked, card, volume, setIsClicked, setCardToP
                 xs:max-h-[6rem] xs:max-w-[4.5rem] shadow-md flex flex-col items-center justify-between hover:z-20 hover:scale-110 h-full`}
       >
         <h2 className="text-xs sm:text-xs xs:text-xs text-black font-bold mb-2 text-center">{card.name}</h2>
-        <div className="text-center text-xs">
-          <div className='text-xs'>`IMAGE`</div>
+        <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>
+          {renderCardImage(card)}
+        </div>
+        <div className="text-center text-xs flex-shrink">
           <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
-            <strong>Attack:</strong> {card.damage}
+            { card.damage ? (<><strong>Attack:</strong> {card.damage}</>): (<><strong>Defense:</strong> {card.armor}</>) }
           </p>
           <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
-            <strong>Defense:</strong> {card.armor}
-          </p>
-          <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
-            <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
+            <strong>Duration:</strong> {card.damage ? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
-        <p className="text-black text-xs sm:text-xs xs:text-xs text-center text-wrap">{card.description}</p>
       </div>
       :
       <div
       className="cursor-not-allowed bg-white border rounded-lg shadow-md flex-col items-center flex flex-shrink-0  w-[calc(100vw/4)] aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[8rem] sm:max-w-[6rem] 
                 xs:max-h-[6rem] xs:max-w-[4.5rem] justify-between hover:z-20 hover:scale-110 h-full">
         <h2 className="text-xs text-black font-bold mb-2 text-center">{card.name}</h2>
-        <div className="text-center text-xs">
-          <div>`IMAGE`</div>
-          <p className="text-black mb-1 sm:text-xs text-xs">
-            <strong>Attack:</strong> {card.damage}
+        <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full'>
+          {renderCardImage(card)}
+        </div>
+        <div className="text-center text-xs flex-shrink">
+          <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+            { card.damage ? (<><strong>Attack:</strong> {card.damage}</>): (<><strong>Defense:</strong> {card.armor}</>) }
           </p>
-          <p className="text-black mb-1 sm:text-xs text-xs">
-            <strong>Defense:</strong> {card.armor}
-          </p>
-          <p className="text-black mb-1 sm:text-xs text-xs">
-            <strong>Duration:</strong> {card.damage? card.duration + 1 : null} {card.armor? card.duration : null}
+          <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+            <strong>Duration:</strong> {card.damage ? card.duration + 1 : null} {card.armor? card.duration : null}
           </p>
         </div>
-        <p className="text-black text-xs sm:text-xs text-center">{card.description}</p>
       </div>
     }
     </div>

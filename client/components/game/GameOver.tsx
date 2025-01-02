@@ -32,6 +32,11 @@ export default function GameOver ({
   const [playGameOverSFX] = useSound(gameover, volume);
   const [playYouWinSFX] = useSound(youwin, volume);
 
+  /** TODO:
+   * Review this screen, unnecessary scrollbars? Maybe resolve via overflow or setting a max-width
+   * Also, we should remove the background gradient that is extending beyond the screen, not sure what Z-level it is on but it is still there 
+   */
+
   return(
     <div className='mt-15 h-full'>
     {gameWinner === user.id?

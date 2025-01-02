@@ -30,6 +30,12 @@ const Instructions: FC<InstructionProps> = ({user }) => {
 
   const [currentTab, setCurrentTab] = useState(tabs[0].id)
 
+  /** TODO:
+   * Consider removing top rounding from main pages
+   * Consider mobile responsiveness
+   *  - width should adjust and correlate to main page render?
+   */
+
   return (
     <div id='main' className='pt-20 pb-5 justify-center items-center justify-items-center h-full w-full bg-starfield-light dark:bg-starfield' style={{display: "flex", flexDirection: "column",
       justifyContent: "center", justifyItems: "center", alignItems: "center"}}>
