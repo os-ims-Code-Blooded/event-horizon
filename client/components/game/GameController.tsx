@@ -243,6 +243,7 @@ export default function GameController ({
     }
 
     socket.on('game_over', (data: any)=>{
+      console.log(data);
       setGameOver(true)
       setGameWinner(data.data.GameComplete.victor_id)
     })

@@ -144,7 +144,7 @@ export default function SelectGame({
       setRoundActual(game.data["Current Round Actual"]);
 
       // we changed the game_id emission here because it was referencing something that didn't exist
-      socket.emit("join_session", openGame, user, game.data["Current Round"]);
+      socket.emit("join_session", String(openGame), user, game.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?
@@ -213,7 +213,7 @@ export default function SelectGame({
       setWaiting(true)
       setRoundActual(round.data["Current Round Actual"])
 
-      socket.emit("join_session", game.data.id, user, round.data["Current Round"]);
+      socket.emit("join_session", String(game.data.id), user, round.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?

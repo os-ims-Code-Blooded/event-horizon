@@ -1,12 +1,12 @@
 import database from "../../database";
 import errorHandler from "./error_logging/errorHandler";
 
-export default async function closeStagnantGames() {
+export default async function closeStagnantGames(mins: number) {
   
     try {
       
       let timestamp = new Date();
-      timestamp.setMinutes(timestamp.getMinutes() - 5);
+      timestamp.setMinutes(timestamp.getMinutes() - mins);
   
   
       // attempt to find all open rounds that are older than 5 minutes
@@ -15,6 +15,7 @@ export default async function closeStagnantGames() {
           AND: [
             { end_date: null },
             { start_date: { lte: timestamp} },
+            { private: false }
           ]
         },
         include: {
@@ -30,7 +31,10 @@ export default async function closeStagnantGames() {
       for (let i = 0; i < stagnantGames.length; i++) {
 
         await database.rounds.update({
-          where: { id: stagnantGames[i].id},
+          where: { 
+            id: stagnantGames[i].id,
+            end_date: null,
+          },
           data: { end_date: new Date()}
         })
   

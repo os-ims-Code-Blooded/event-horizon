@@ -3,6 +3,7 @@ import Card from './Card';
 import ActionSelect from './ActionSelect';
 import FxText from './FxText';
 import Animations from './Animations';
+import renderCardImage from '../cards/CardImageRenderer';
 // import Gameplay from './Gameplay';
 
 
@@ -304,20 +305,21 @@ if (playerHand.length <= 0){
                       }
                     }}
                   >
-                    <h2 className="text-xs sm:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
-                    <div className="text-center">
-                      <div>`IMAGE`</div>
-                      <p className="text-black mb-1 text-xs sm:text-xs">
-                        <strong>Attack:</strong> {cardToPlay[1]}
+                    <h2 className="text-xs sm:text-xs xs:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                    <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>
+                      {renderCardImage({
+                        damage: cardToPlay[1],
+                        armor: cardToPlay[2]
+                      })}
+                    </div>
+                    <div className="text-center text-xs flex-shrink">
+                      <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+                        { cardToPlay[1] ? (<><strong>Attack:</strong> {cardToPlay[1]}</>): (<><strong>Defense:</strong> {cardToPlay[2]}</>) }
                       </p>
-                      <p className="text-black mb-1 text-xs sm:text-xs">
-                        <strong>Defense:</strong> {cardToPlay[2]}
-                      </p>
-                      <p className="text-black mb-1 text-xs sm:text-xs ">
-                        <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
+                      <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+                        <strong>Duration:</strong> {cardToPlay[2] ? cardToPlay[5] : cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1}
                       </p>
                     </div>
-                    <p className="text-black text-sm text-center sm:text-xs">{cardToPlay[3]}</p>
                   </div>
                 )
 
@@ -327,20 +329,21 @@ if (playerHand.length <= 0){
 
                   <div className="bg-white border-4 border-success rounded-lg shadow-md p-1 m-2 aspect-[3/4] md:max-h-[12rem] md:max-w-[9rem] sm:max-h-[6rem] sm:max-w-[4.5rem] 
                 xs:max-h-[4rem] xs:max-w-[3rem] flex flex-col hover:scale-110 h-full w-full">
-                    <h2 className="text-sm text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
-                    <div className="text-center">
-                      <div>`IMAGE`</div>
-                      <p className="text-black mb-1 text-xs">
-                        <strong>Attack:</strong> {cardToPlay[1]}
+                    <h2 className="text-xs sm:text-xs xs:text-xs text-black font-bold mb-2 text-center">{cardToPlay[0]}</h2>
+                    <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>
+                      {renderCardImage({
+                        damage: cardToPlay[1],
+                        armor: cardToPlay[2]
+                      })}
+                    </div>
+                    <div className="text-center text-xs flex-shrink">
+                      <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+                        { cardToPlay[1] ? (<><strong>Attack:</strong> {cardToPlay[1]}</>): (<><strong>Defense:</strong> {cardToPlay[2]}</>) }
                       </p>
-                      <p className="text-black mb-1 text-xs">
-                        <strong>Defense:</strong> {cardToPlay[2]}
-                      </p>
-                      <p className="text-black mb-1 text-xs">
-                        <strong>Duration:</strong> {cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1} {cardToPlay[2] ? cardToPlay[2] : null}
+                      <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+                        <strong>Duration:</strong> {cardToPlay[2] ? cardToPlay[5] : cardToPlay[1] && cardToPlay[5] ? cardToPlay[5] + 1 : 1}
                       </p>
                     </div>
-                    <p className="text-black text-sm text-center">{cardToPlay[3]}</p>
                   </div>
                 )
 
@@ -388,17 +391,22 @@ if (playerHand.length <= 0){
                     {enemyLastAction === 'FIRE' && theirPrevRound[0].card_id  && theirPrevRound[0].damage?
                          <div
                             className="cursor-not-allowed bg-white rounded-lg shadow-md border-4 border-error flex flex-col items-center justify-between w-full">
-                            <h2 className="text-sm text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
-                            <div className="text-center">
-                                <div>`IMAGE`</div>
+                            
+                             <h2 className="text-xs sm:text-xs xs:text-xs text-black font-bold mb-2 text-center">{theirPrevRound[0].name}</h2>
+                              <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>
+                                {renderCardImage({
+                                  damage: theirPrevRound[0].damage,
+                                  armor: theirPrevRound[0].armor
+                                })}
+                              </div>
+                              <div className="text-center text-xs flex-shrink">
                                 <p className="text-black mb-1 text-xs">
                                   <strong>Damage:</strong> {theirPrevRound[0].damage}
                                 </p>
-                                <p className="text-black mb-1 text-xs">
-                                  <strong>Duration: {theirPrevRound[0].duration + 1 || 1}</strong>
+                                <p className="text-black mb-1 sm:text-xs text-xs xs:text-xs">
+                                  <strong>Duration:</strong> {theirPrevRound[0].duration + 1 || 1}
                                 </p>
-                             </div>
-                             <p className="text-black text-xs text-center">{theirPrevRound[0].description}</p>
+                              </div>
                         </div>
                       :
                         <div className="border-4 border-error rounded-lg shadow-md p-1 m-2 flex flex-col h-fit w-fit justify-between hover:scale-110">
