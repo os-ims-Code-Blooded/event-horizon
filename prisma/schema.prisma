@@ -21,7 +21,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_AWS_FULL")
+  url      = env("DATABASE_LOCAL_URL")
 }
 
 /// Contains bi-directional friendship with 'friends' and 'friendOf' property
@@ -87,6 +87,8 @@ model games {
   actions_loaded      actions_loaded[]
   round_effects       round_effects[]
   game_invites        game_invites[]
+
+  @@unique([id, private])
 }
 
 model game_invites {
@@ -132,13 +134,14 @@ model rounds {
   id         Int       @id @default(autoincrement())
   actual     Int       @default(1)
   game_id    Int
+  private    Boolean   @default(false)
   start_date DateTime  @default(now())
   end_date   DateTime?
 
   actions_loaded actions_loaded[]
   round_effects  round_effects[]
 
-  game                    games                     @relation(fields: [game_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  game                    games                     @relation(fields: [game_id, private], references: [id, private], onUpdate: Cascade, onDelete: Cascade)
   game_player_information game_player_information[]
   actions                 actions[]
 
