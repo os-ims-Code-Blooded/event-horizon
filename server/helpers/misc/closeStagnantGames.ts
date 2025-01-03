@@ -15,6 +15,7 @@ export default async function closeStagnantGames(mins: number) {
           AND: [
             { end_date: null },
             { start_date: { lte: timestamp} },
+            { private: false }
           ]
         },
         include: {
