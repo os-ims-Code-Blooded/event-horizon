@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import Card from '../game/Card.tsx';
+import renderCardImage from './CardImageRenderer.tsx';
 
 type Deck = {
   id: number;
@@ -345,7 +346,7 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
                 <h2 className="text-md text-black font-bold mb-2 text-center">{deckCard.name}</h2>
 
                 <div className="text-center">
-                  <div>`IMAGE`</div>
+                  <div>{renderCardImage(deckCard)}</div>
                   <p className="text-black mb-1 text-sm">
                     <strong>Attack:</strong> {deckCard.damage}
                   </p>
@@ -499,7 +500,7 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
                     <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
 
                     <div className="text-center">
-                      <div>`IMAGE`</div>
+                      <div>{renderCardImage(card)}</div>
                       <p className="text-black mb-1 text-sm">
                         <strong>Attack:</strong> {card.damage}
                       </p>
