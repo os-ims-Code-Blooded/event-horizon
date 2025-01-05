@@ -344,14 +344,14 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
               >
                 {/* Card Content */}
                 <h2 className="text-md text-black font-bold mb-2 text-center">{deckCard.name}</h2>
-
                 <div className="text-center">
-                  <div>{renderCardImage(deckCard)}</div>
+                <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>{renderCardImage(deckCard)}</div>
                   <p className="text-black mb-1 text-sm">
-                    <strong>Attack:</strong> {deckCard.damage}
-                  </p>
-                  <p className="text-black mb-1 text-sm">
-                    <strong>Defense:</strong> {deckCard.armor}
+                    {
+                      deckCard.damage > 0 
+                      ? <><strong>Attack:</strong> {deckCard.damage}</>
+                      : <><strong>Defense:</strong> {deckCard.armor}</>
+                    }
                   </p>
                   <p className="text-black mb-1 text-sm">
                 <strong>Duration:</strong> {deckCard.armor > 0 ? deckCard.duration : deckCard.duration + 1}
@@ -498,14 +498,14 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
                   >
 
                     <h2 className="text-md text-black font-bold mb-2 text-center">{card.name}</h2>
-
+                    <div className='justify-center justify-items-center align-middle items-center content-center w-full h-full fit'>{renderCardImage(card)}</div>
                     <div className="text-center">
-                      <div>{renderCardImage(card)}</div>
                       <p className="text-black mb-1 text-sm">
-                        <strong>Attack:</strong> {card.damage}
-                      </p>
-                      <p className="text-black mb-1 text-sm">
-                        <strong>Defense:</strong> {card.armor}
+                        {
+                        card.damage > 0 
+                          ? <><strong>Attack:</strong> {card.damage}</>
+                          : <><strong>Defense:</strong> {card.armor}</>
+                        }
                       </p>
                       <p className="text-black mb-1 text-sm">
                         <strong>Duration:</strong> {card.armor > 0 ? card.duration : card.duration + 1}
@@ -521,25 +521,11 @@ const CardsPage = ({ user }: { user: { id: number }, volume }) => {
         </div>
       </div>
       {/* deck creation points counter */}
-    <div>
-    
-    </div>
-
-
-
-
-
-
-
-    </div>
-    </div>
-
-
-
-    <div className="flex-col flex justify-end" style={{ width: "5%"}}></div>
-
-
-
+            <div>
+          </div>
+        </div>
+      </div>
+      <div className="flex-col flex justify-end" style={{ width: "5%"}}></div>
     </div>
   );
 };
