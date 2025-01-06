@@ -43,7 +43,7 @@ export default function GameTable({
 
 ///////////////// RENDER RETURN //////////////////////////////
   return(
-<div className='bg-red-300 w-full flex'>
+<div className='w-full flex'>
 
 
 
