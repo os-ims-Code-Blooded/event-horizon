@@ -23,7 +23,7 @@ const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode,
           {isDarkMode ? 
           <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
           :
-          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/oM3zj2J.png' alt="Game graphic image"/>
+          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/oyYPoNn.png' alt="Game graphic image"/>
 
           }
           {user && (
