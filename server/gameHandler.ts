@@ -67,7 +67,7 @@ export default async function gameHandler(req: any) {
       // create a new round for the game only after all calculations have succeeded
       const newRound = await database.rounds.create({
         data: { 
-          game_id: currentRound.game_id,
+          game: { connect: {id: currentRound.game_id } },
           actual: currentRound.actual + 1
         }
       })
