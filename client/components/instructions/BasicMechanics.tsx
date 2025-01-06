@@ -85,7 +85,7 @@ const BasicMechanics = () => {
 
       <div className='text-center justify-items-center items-center self-center pb-2 pt-2'>
         <span>
-          <h2 className='text-2xl'>actions</h2>
+          <h2 className='text-2xl'>Actions</h2>
         </span>
       </div>
 
