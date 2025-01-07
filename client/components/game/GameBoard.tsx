@@ -196,7 +196,7 @@ if (playerHand.length <= 0){
 
 ///////////////////////////////////////////////////////
   return (
-    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 h-screen w-screen justify-between gap-10 flex-row bg-starfield-light dark:bg-starboard bg-center bg-no-repeat bg-cover overflow-hidden' style={{backgroundRepeat: "no-repeat"}}>
+    <div className='box-border grid grid-cols-[1fr_50%_1fr] pb-5 pr-2 pl-2 h-screen w-screen justify-between gap-10 flex-row bg-starboard-light dark:bg-starboard bg-center bg-no-repeat bg-cover overflow-hidden' style={{backgroundRepeat: "no-repeat"}}>
       {/* FIRST COLUMN*/}
       <div className='pt-10 grid grid-cols-1 m-2 flex-col max-h-screen max-w-full'>
         {/* FIRST COLUMN 1st SECTION */}
