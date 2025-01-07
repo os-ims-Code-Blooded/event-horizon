@@ -53,11 +53,11 @@ module.exports = {
         'radial-dark': 'radial-gradient(125% 125% at 50% 10%, #000 40%, #63e 100%)',
         'black-hole': 'url("https://i.imgur.com/So8ytLh.png")',
         'starfield': 'url("https://i.imgur.com/76SAN8D.gif")',
-        'starfield-light': 'url("https://i.imgur.com/OpyaIUE.gif")',
+        'starfield-light': 'url("https://i.imgur.com/IfWZ2Ym.gif")',
         'logo-light': 'url("https://i.imgur.com/A457vgq.png")',
         'logo-dark': 'url("https://i.imgur.com/e5Tmg4r.png")',
         'starboard': 'url("https://i.imgur.com/9AZQe2Y.gif")',
-        'starboard-light': 'url("https://i.imgur.com/0luEXCT.gif")'
+        'starboard-light': 'url("https://i.imgur.com/mtVuY4B.gif")'
       },
       animation:{
         'shake': 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both',
