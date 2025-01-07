@@ -21,9 +21,9 @@ const LandingPage: FC<LandingProps> = ({ user, click13, handleLogin, isDarkMode,
         <div className={`absolute inset-0 bg-starfield-light bg-contain filter dark:bg-starfield z-9`}
           aria-labelledby="landing-page-title"></div>
           {isDarkMode ? 
-          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/e5Tmg4r.png' alt="Game graphic image"/>
+          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/Q9CjFRG.png' alt="Game graphic image"/>
           :
-          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/oyYPoNn.png' alt="Game graphic image"/>
+          <img className='w-2/3 h-2/3 transform scale-80 relative z-10' src='https://i.imgur.com/a0Gnf8b.png' alt="Game graphic image"/>
 
           }
           {user && (
