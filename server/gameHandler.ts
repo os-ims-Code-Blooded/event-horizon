@@ -68,14 +68,11 @@ export default async function gameHandler(req: any, skip: boolean = false) {
            * will be retriggered through this code block.
            */
           if (safetyNet.actions.length === 2 && Number(req.body.data.user_id) === safetyNet.actions[0].user_id && !safetyNet.end_date) {
-            console.log(`Success on safety check, processing request now...`)
+            errorHandler(new Error(`Error within gameHandler; safety net will now attempt to resolve.`))
             gameHandler(req, true);               // re-run the gameHandler
             clearInterval(safetyInterval);        // clear the interval
           } else if (safetyNet.end_date){
-            console.log(`Safety net does not need to occur at this time, round has ended...`);
             clearInterval(safetyInterval);
-          } else {
-            console.log(`Initiating a safety interval check...`)
           }
 
         } catch (error) {
