@@ -69,13 +69,14 @@ export default function App (){
       "my-custom-header": "abcd"
     }
   });
-
-  // const socket = io("wss://eventhorizongame.live", {
-  //   withCredentials: true,
-  //   extraHeaders: {
-  //     "my-custom-header": "abcd"
-  //   }
-  // });
+  /*
+  const socket = io("wss://eventhorizongame.live", {
+    withCredentials: true,
+    extraHeaders: {
+      "my-custom-header": "abcd"
+    }
+  });
+  */
 
 ////////////////////////////
   const handleToggleMute = () => {
