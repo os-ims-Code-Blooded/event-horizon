@@ -35,7 +35,7 @@ interface User {
 
 
 
-export default function App (){
+export default function App () {
   const [user, setUser] = useState<User | null>(null);
   const [friends, setFriends] = useState([]);
   const [userInvites, setUserInvites] = useState([]);
@@ -61,32 +61,54 @@ export default function App (){
   const [callbackParams, setCallbackParams] = useState<any>(null);
 
 
-  ////////////////////////////
   //creates front-end socket connection to the server
-  const socket = io("http://localhost:3000", {
-    withCredentials: true,
-    extraHeaders: {
-      "my-custom-header": "abcd"
-    }
-  });
+  const socketRef = useRef<any>(null); 
+
+  useEffect(() => {
+      socketRef.current = io("http://localhost:3000", {
+          transports: ['websocket'], 
+          withCredentials: true,    
+          extraHeaders: {           
+              "my-custom-header": "abcd",
+          },
+      });
+
+      return () => {
+          if (socketRef.current) {
+              socketRef.current.disconnect();
+          }
+      };
+  }, []);
+  
   /*
-  const socket = io("wss://eventhorizongame.live", {
-    withCredentials: true,
-    extraHeaders: {
-      "my-custom-header": "abcd"
-    }
-  });
+  const socketRef = useRef<any>(null); 
+
+  useEffect(() => {
+      socketRef.current = io("wss://eventhorizongame.live", {
+          transports: ['websocket'], 
+          withCredentials: true,    
+          extraHeaders: {           
+              "my-custom-header": "abcd",
+          },
+      });
+
+      return () => {
+          if (socketRef.current) {
+              socketRef.current.disconnect();
+          }
+      };
+  }, []);
   */
 
 ////////////////////////////
-  const handleToggleMute = () => {
+  function handleToggleMute() {
     setIsMuted((prev) => !prev);
     if (!isMuted) {
       stop();
     } else {
       playMusic();
     }
-  };
+  }
 
   const navigate = useNavigate();
   // dark mode toggle
@@ -197,7 +219,7 @@ export default function App (){
     try {
       if (friendId) {
         const sentInv = await axios.post(`/games/private/create/${friendId}`);
-        socket.emit('send_invite', sentInv.data.invite, friendId);
+        socketRef.current.emit('send_invite', sentInv.data.invite, friendId);
       }
     } catch (error) {
       console.error('Failed to send game invite to friend');
@@ -254,8 +276,8 @@ export default function App (){
       getFriends();
     }
     if(user){
-      socket.emit('register_user', String(user.id));
-      socket.on('incoming_invite', (data: any) => {
+      socketRef.current.emit('register_user', String(user.id));
+      socketRef.current.on('incoming_invite', (data: any) => {
         axios.get(`/games/private/invites`)
           .then((userInvs) => {
             setUserInvites(userInvs.data.Incoming.Pending);
@@ -290,7 +312,7 @@ export default function App (){
         userInvites={userInvites}
         setUserAcceptedInvs={setUserAcceptedInvs}
         setUserInvites={setUserInvites}
-        socket={socket}
+        socketRef={socketRef}
       />
       <div id='test'>
         { showModal ?
@@ -341,7 +363,7 @@ export default function App (){
             setUserAcceptedInvs={setUserAcceptedInvs}
             setUserInvites={setUserInvites}
             acceptedOutgoingInvs={acceptedOutgoingInvs}
-            socket={socket}  
+            socketRef={socketRef}  
             decl={decl}
             />
             : 
@@ -363,7 +385,7 @@ export default function App (){
               friends={friends}
               fetchUser={fetchUser}
               getFriends={getFriends}
-              socket={socket}
+              socketRef={socketRef}
               />
                :
              <Navigate to='/'/>}

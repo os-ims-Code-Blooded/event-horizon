@@ -15,18 +15,9 @@ import toggleswitch from '../../sfx/toggleswitch.wav'
 import selfdestruct from '../../sfx/selfdestruct.wav'
 
 
-//creates front-end socket connection to the server
-// const socket = io("http://localhost:8080", {
-//   withCredentials: true,
-//   extraHeaders: {
-//     "my-custom-header": "abcd"
-//   }
-// });
-
-
 export default function GameController ({ 
   session, 
-  socket, 
+  socketRef, 
   setGameOver, 
   setGameWinner, 
   user, 
@@ -191,7 +182,7 @@ export default function GameController ({
       }
     )
     setGameOver(true)
-    socket.emit('game_over', gameOver, session)
+    socketRef.current.emit('game_over', gameOver, session)
   }
    
     }
@@ -212,7 +203,7 @@ export default function GameController ({
     
     setLastAction(playerAction)
 
-      socket.emit('end_turn', {
+    socketRef.current.emit('end_turn', {
         "body":{
           "data": {
             "round_id": roundNum,
@@ -242,13 +233,13 @@ export default function GameController ({
       setEnemyName(enemyRound[0].name)
     }
 
-    socket.on('game_over', (data: any)=>{
+    socketRef.current.on('game_over', (data: any)=>{
       console.log(data);
       setGameOver(true)
       setGameWinner(data.data.GameComplete.victor_id)
     })
 
-    socket.on('received_rounds_data', (data: any) => {
+    socketRef.current.on('received_rounds_data', (data: any) => {
 
       setRoundSoundsPlayed(true)
 
@@ -395,7 +386,7 @@ export default function GameController ({
     //   setMessageReceipt(data)                //
     // })                                       //
     //////////////////////////////////////////////
-  }, [socket])
+  }, [socketRef])
 
 
 
@@ -406,7 +397,7 @@ export default function GameController ({
     <div className='flex flex-shrink h-full w-full max-h-screen max-w-screen'>
         <GameBoard
           session={session}
-          socket={socket}
+          socketRef={socketRef}
           roundActual={roundActual}
           user={user}
           userDecks={userDecks}

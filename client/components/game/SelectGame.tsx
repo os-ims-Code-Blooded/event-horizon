@@ -20,7 +20,7 @@ export default function SelectGame({
   playHeavyClickSFX,
   musicPlayed,
   setMusicPlayed,
-  socket,
+  socketRef,
 
   userInvites,
   setUserAcceptedInvs,
@@ -144,11 +144,11 @@ export default function SelectGame({
       setRoundActual(game.data["Current Round Actual"]);
 
       // we changed the game_id emission here because it was referencing something that didn't exist
-      socket.emit("join_session", String(openGame), user, game.data["Current Round"]);
+      socketRef.current.emit("join_session", String(openGame), user, game.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?
-      socket.on('session_players', (data: any) => {
+      socketRef.current.on('session_players', (data: any) => {
 
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
@@ -213,11 +213,11 @@ export default function SelectGame({
       setWaiting(true)
       setRoundActual(round.data["Current Round Actual"])
 
-      socket.emit("join_session", String(game.data.id), user, round.data["Current Round"]);
+      socketRef.current.emit("join_session", String(game.data.id), user, round.data["Current Round"]);
 
       // I don't know if putting an event listener here is an issue
       // this might need to be somewhere else?
-      socket.on('session_players', (data: any) => {
+      socketRef.current.on('session_players', (data: any) => {
 
         // when we receive emission, see if there is an enemy
         const enemy = data.filter((player) => {
@@ -382,7 +382,7 @@ return(
       userAcceptedInvs={userAcceptedInvs}
       setUserAcceptedInvs={setUserAcceptedInvs}
       setUserInvites={setUserInvites}
-      socket={socket}
+      socketRef={socketRef}
       acceptedOutgoingInvs={acceptedOutgoingInvs}
 
       setSession={setSession}
@@ -424,7 +424,7 @@ return(
     <div className='h-full z-12 relative'>
       <GameController
        session={session}
-       socket={socket}
+       socketRef={socketRef}
        user={user}
        setGameOver={setGameOver}
        setGameWinner={setGameWinner}

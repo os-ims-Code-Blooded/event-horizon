@@ -10,10 +10,10 @@ type FriendsProp = {
   fetchUser: Function;
   getFriends: Function;
   volume: any;
-  socket: any;
+  socketRef: any;
 };
 
-const Friends = ({ socket, user, getFriends, friends, startInvite, handleAddFriend, volume }: FriendsProp) => {
+const Friends = ({ socketRef, user, getFriends, friends, startInvite, handleAddFriend, volume }: FriendsProp) => {
   const [selectedFriendId, setSelectedFriendId] = useState<number | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

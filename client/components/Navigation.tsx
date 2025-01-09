@@ -20,10 +20,10 @@ type NavProps = {
   userInvites: any;
   setUserInvites: any;
   setUserAcceptedInvs: any;
-  socket: any;
+  socketRef: any;
 };
 
-const NavigationBar: FC<NavProps> = ({socket, setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, accept, decl, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
+const NavigationBar: FC<NavProps> = ({socketRef, setUserAcceptedInvs, setUserInvites, userInvites, isMuted, handleToggleMute, setVolume, accept, decl, clickS, fetchUser, volume, cbMode, isDarkMode, toggleDarkMode, user, handleLogin }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSliderOpen, setIsSliderOpen] = useState(false);

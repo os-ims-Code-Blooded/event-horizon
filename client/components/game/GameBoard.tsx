@@ -17,7 +17,7 @@ interface CardType {
 }
 type GameBoardProp = {
   session: string;
-  socket: any
+  socketRef: any
   roundActual: any
   user: any
   userDecks: any
@@ -88,7 +88,7 @@ type GameBoardProp = {
 
 const GameBoard: FC <GameBoardProp> = ({
   session,
-  socket,
+  socketRef,
   roundActual,
   user,
   userDecks,

@@ -11,7 +11,7 @@ export default function GameTable({
 
   setUserAcceptedInvs,
   setUserInvites,
-  socket,
+  socketRef,
 
   setSession,
   setRoundNum,
